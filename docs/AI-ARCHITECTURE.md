@@ -5,14 +5,14 @@ How the AI layer of the Local Host website is organised, what it costs, how to s
 The short version: every AI feature is an on-demand Astro API route under `src/pages/api/` (`export const prerender = false`, so each one is a Vercel serverless function). The route calls the shared core in `src/lib/ai/`. The core handles guards, rate limits, prompt layout, caching, Claude calls, the time budget, refusals, streaming and demo mode, so all features behave the same way.
 
 ```
- browser ──fetch──▶ /api/<feature>  (Astro API route, Vercel serverless function, maxDuration 60 s)
+ browser ──fetch──▶ /api/<feature>  (Astro API route, Vercel serverless function, maxDuration 300 s)
    ▲                   │ guard()            method · origin · per-IP limit · daily cap · body size · JSON
    │                   │ validate body      strict, per feature (400 bad_request)
    │                   │ demo? ───────────▶ demoTextResponse(fixture) / json(fixture, {mode:'demo'})
    │                   │ live:
    │                   │ streamClaude()     ─┐ messageParams(): model, effort, fallbacks, cached system blocks
    │                   │ runStructured()    ─┤ anthropic().beta.messages.stream(params, { signal })
-   │                   │ callClaude()       ─┘ signal = time budget (50 s) + the visitor's disconnect
+   │                   │ callClaude()       ─┘ signal = time budget (280 s) + the visitor's disconnect
    │                   ▼
    └── text/plain stream (+ [[markers]])  or  JSON {…, mode}  or  JSON {error:{code,message}}
 ```
@@ -60,8 +60,8 @@ There is no barrel `index.ts`, on purpose. Import from the specific file, so tha
 | `ANTHROPIC_API_KEY` | — | Missing or empty → the whole site runs in **demo mode** |
 | `ANTHROPIC_MODEL` | `claude-opus-5-5` | Model override |
 | `AI_RATE_LIMIT_PER_HOUR` | `20` | Rate units per IP in a rolling hour, all AI endpoints together (a proposal costs 2) |
-| `AI_DAILY_CAP` | `2000` | Live rate units per UTC day, site-wide (per serverless instance). Demo requests don't count |
-| `AI_TIME_LIMIT_SECONDS` | `50` | Time budget for one Claude call. Keep it about 10 s below `maxDuration` in `astro.config.mjs` (see [Timeouts](#timeouts-and-vercels-time-limit)) |
+| `AI_DAILY_CAP` | `300` | Live rate units per UTC day, site-wide (per serverless instance). Demo requests don't count |
+| `AI_TIME_LIMIT_SECONDS` | `280` | Time budget for one Claude call. Keep it about 20 s below `maxDuration` in `astro.config.mjs` (see [Timeouts](#timeouts-and-vercels-time-limit)) |
 | `STAFF_ACCESS_KEY` | — | Shared secret for the staff-only triage tool. **Set it in production** (see [Staff access key](#staff-access-key-triage)) |
 | `AI_FALLBACKS` | `default` | `off` drops the server-side refusal fallbacks, e.g. if `ANTHROPIC_MODEL` points at a model or platform that rejects them |
 | `ANTHROPIC_BASE_URL` | — | **Tests only** (mock server). Read from `process.env` at runtime only, so it is never baked into a build |
@@ -146,13 +146,13 @@ Messages are safe to show but English; the browser modules expose `error` codes 
 
 ## Timeouts and Vercel's time limit
 
-Vercel stops a function at `maxDuration` (**60 s**, set in `astro.config.mjs`) and the visitor then gets a bare 504 page or a stream that just stops. To fail politely instead, every Claude call has a time budget, `AI_TIME_LIMIT_SECONDS` (default **50 s**):
+Vercel stops a function at `maxDuration` (**300 s**, set in `astro.config.mjs` — the Hobby maximum with Fluid compute, which is on by default for new projects) and the visitor then gets a bare 504 page or a stream that just stops. To fail politely instead, every Claude call has a time budget, `AI_TIME_LIMIT_SECONDS` (default **280 s**):
 
 - **Stream (plan):** at the budget the stream ends with `[[truncated]]`, so the visitor keeps the days written so far, sees "This plan was cut short…" and can still send it to the team. Before any output it is a 504 `upstream_timeout`.
 - **JSON (photo, proposal, policy Q&A, triage):** a 504 `upstream_timeout` with a friendly message.
 - The log line says `[ai] <feature>: time limit … reached`.
 
-**Which requests are at risk?** Short answers (photo, policy Q&A, triage) finish well within 50 s. Long plans (two to three weeks, especially in Georgian) and proposals at effort `medium` can take longer than a minute. **Recommendation before going live:** Vercel's Fluid compute (on by default for projects created since April 2025) allows much longer functions — raise `maxDuration` in `astro.config.mjs` (e.g. `vercel({ maxDuration: 300 })`; check the maximum for your plan at <https://vercel.com/docs/functions/configuring-functions/duration>) and set `AI_TIME_LIMIT_SECONDS` about 10 s lower (e.g. `290`). The browser modules already show progress and allow cancelling.
+**Which requests are at risk?** With 280 s, practically none: long plans (two to three weeks, especially in Georgian) and proposals at effort `medium` can take over a minute, which fits. **If Fluid compute is turned off** for the Vercel project, Hobby functions are limited to 60 s — then set `maxDuration: 60` and `AI_TIME_LIMIT_SECONDS=50` (limits per plan: <https://vercel.com/docs/functions/configuring-functions/duration>). The browser modules show progress and allow cancelling.
 
 ## Security, abuse and cost controls
 
@@ -215,7 +215,7 @@ Claude Opus 5.5 list prices: **$4 / M input tokens, $20 / M output tokens** (thi
 
 - **Cold cache:** the first call of a feature after ~5 idle minutes writes its prefix once: about **+$0.06** (knowledge base) or +$0.07 (policy documents).
 - **Example:** 50 plans + 10 photo matches + 5 proposals + 20 policy questions a day ≈ $3.5–7 plus about $1 of cache writes, i.e. roughly **$4–8 per day, $120–250 per month**; a quiet site costs a few dollars a month.
-- **Worst case with the defaults:** `AI_DAILY_CAP=2000` units at the ceiling price is several hundred dollars a day per instance. Start with a lower cap (e.g. `AI_DAILY_CAP=300`) and a Console spend limit; raise both once real usage is known.
+- **Worst case with the defaults:** `AI_DAILY_CAP=300` units at the ceiling price is roughly $100 a day per instance (typical requests cost far less). Also set a monthly spend limit in the Anthropic Console; raise both once real usage is known.
 - Token counts are estimates (the knowledge base is ≈ 46k characters; Georgian and Cyrillic need far more tokens per word than English). Check real numbers in the `[ai] … in= cache_read= out=` log lines and in the Console's usage page.
 
 ## Knowledge base
@@ -281,7 +281,7 @@ Astro 7's `astro dev` may detach and print its PID; stop it with `kill <pid>` (`
 5. **Set a monthly spend limit in the Anthropic Console** (and usage alerts). This is the real cost ceiling.
 6. **Enable Vercel Firewall rate limiting** for `/api/plan`, `/api/photo-match`, `/api/proposal`, `/api/policy-qa` and `/api/triage` (e.g. a per-IP rule of a few requests per minute), because the in-app limits are per instance.
 7. **Tune the limits:** start with e.g. `AI_DAILY_CAP=300` and the default `AI_RATE_LIMIT_PER_HOUR=20`; raise them once real usage is known.
-8. **Time limit:** raise `maxDuration` in `astro.config.mjs` (e.g. 300, within your plan's maximum) and set `AI_TIME_LIMIT_SECONDS` about 10 s lower, so long plans and proposals can finish.
+8. **Time limit:** `maxDuration` is 300 s (Fluid compute must be on — the default for new projects). If it's off, use 60 s and `AI_TIME_LIMIT_SECONDS=50`.
 9. **Privacy policy:** say that AI features send the visitor's text, photo or pasted email to Anthropic for processing, and that voice input uses the browser's speech service.
 10. **Smoke test each feature live** (en and ka), and check the Vercel logs for `[ai] … cache_read=` (should be > 0 from the second request), the durations and any `time limit` warnings. Have native speakers review ka/pl/it/de answers.
 
@@ -301,7 +301,7 @@ Astro 7's `astro dev` may detach and print its PID; stop it with `kill <pid>` (`
 ## Known limitations
 
 - Rate limits and the daily cap are per instance and in memory (see above); units are taken before validation.
-- With the default 60 s `maxDuration`, very long plans and proposals may be cut short by the time budget (see [Timeouts](#timeouts-and-vercels-time-limit)).
+- If Fluid compute is disabled (60 s limit on Hobby), very long plans and proposals may be cut short by the time budget (see [Timeouts](#timeouts-and-vercels-time-limit)).
 - The model sometimes needs nudging to keep Georgian answers fully in Mkhedruli; `languageInstruction('ka')` asks for it explicitly, but native review of outputs is still recommended.
 - Research JSON and the knowledge base are read at **build time**; updating them requires a redeploy.
 - After a server-side fallback the answer comes from another model (without Opus 5.5's thinking); quality may differ slightly. `usage.iterations` and the logs show when it happened.

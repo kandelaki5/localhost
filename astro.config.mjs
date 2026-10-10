@@ -9,7 +9,9 @@ export default defineConfig({
   site: 'https://www.localhost.ge',
   trailingSlash: 'ignore',
   // Pages are prerendered (static); AI endpoints opt out with `export const prerender = false`.
-  adapter: vercel({ maxDuration: 60 }),
+  // 300 s is the Hobby maximum with Fluid compute (on by default for new Vercel projects);
+  // keep AI_TIME_LIMIT_SECONDS (default 280) about 20 s below it.
+  adapter: vercel({ maxDuration: 300 }),
   i18n: {
     defaultLocale: 'en',
     locales: LOCALES,

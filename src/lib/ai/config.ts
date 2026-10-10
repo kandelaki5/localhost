@@ -6,10 +6,10 @@
  *   ANTHROPIC_API_KEY        – Claude API key. Missing/empty → demo mode.
  *   ANTHROPIC_MODEL          – model override (default "claude-opus-5-5").
  *   AI_RATE_LIMIT_PER_HOUR   – requests per IP per rolling hour (default 20).
- *   AI_DAILY_CAP             – live Claude calls per UTC day, site-wide (default 2000).
+ *   AI_DAILY_CAP             – live Claude calls per UTC day, site-wide (default 300).
  *   AI_FALLBACKS             – "default" (server-side refusal fallbacks, default) or "off".
- *   AI_TIME_LIMIT_SECONDS    – time budget for one Claude call (default 50). Keep it about
- *                              10 s below the Vercel maxDuration in astro.config.mjs (60).
+ *   AI_TIME_LIMIT_SECONDS    – time budget for one Claude call (default 280). Keep it about
+ *                              20 s below the Vercel maxDuration in astro.config.mjs (300).
  *   STAFF_ACCESS_KEY         – optional shared secret for the staff-only /api/triage tool.
  *                              When set, triage requests must send it (header X-Staff-Key or
  *                              cookie lh_staff_key); see docs/AI-ARCHITECTURE.md.
@@ -25,14 +25,14 @@ import type { AiMode } from './types';
 
 export const DEFAULT_MODEL = 'claude-opus-5-5';
 export const DEFAULT_RATE_LIMIT_PER_HOUR = 20;
-export const DEFAULT_DAILY_CAP = 2000;
+export const DEFAULT_DAILY_CAP = 300;
 /**
  * Default time budget for one Claude call. Vercel stops the function at
  * `maxDuration` (60 s in astro.config.mjs) with a bare 504 page, so we stop
  * ~10 s earlier and answer with our own friendly error (JSON endpoints) or a
  * `[[truncated]]` marker (streams).
  */
-export const DEFAULT_TIME_LIMIT_SECONDS = 50;
+export const DEFAULT_TIME_LIMIT_SECONDS = 280;
 
 /** Beta header that enables `fallbacks: "default"` (scalar form). */
 export const FALLBACK_BETA = 'server-side-fallback-2026-07-01';
