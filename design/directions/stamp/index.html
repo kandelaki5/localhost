@@ -27,6 +27,7 @@
   --red-ink:#B3171E;    /* red for small text on paper */
   --green:#13783C;      /* brand dark green */
   --green-lt:#2BB34B;   /* brand light green (decor only) */
+  --green-ink:#0F6533;  /* green for small text on tinted paper */
   --green-deep:#0C3F22; /* passport cover */
   --foil:#D8B86E;       /* passport foil */
   --board:#121211;
@@ -163,11 +164,9 @@ p{margin:0}
 
 @keyframes drop{from{opacity:0;translate:0 -26px;scale:1.06}to{opacity:1;translate:0 0;scale:1}}
 @keyframes thunk{0%{opacity:0;scale:1.7}60%{opacity:.75;scale:.94}100%{opacity:.62;scale:1}}
-@keyframes inkin{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:.5;clip-path:inset(0 0 0 0)}}
 .cstamp{animation:drop .6s cubic-bezier(.2,.9,.25,1.15) both}
 .cstamp:nth-child(2){animation-delay:.12s}.cstamp:nth-child(3){animation-delay:.24s}
 .postmark--hero{animation:thunk .45s .75s cubic-bezier(.3,1.4,.5,1) both}
-.waves--hero{animation:inkin .5s 1.05s ease-out both}
 
 /* ───────────────────────── Experiences ───────────────────────── */
 .xp{padding:96px 0 104px;background:var(--paper-2);background-image:var(--linen);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);position:relative}
@@ -287,7 +286,7 @@ p{margin:0}
 .docs{list-style:none;margin:0;padding:0;display:grid;gap:0}
 .docs li+li{border-top:1px solid rgba(19,120,60,.22)}
 .docs a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 2px;text-decoration:none;font-weight:700;font-size:16px}
-.docs a span{font:600 11px/1 var(--mono);letter-spacing:.12em;color:var(--green);border:1.5px solid var(--green);border-radius:3px;padding:4px 6px}
+.docs a span{font:600 11px/1 var(--mono);letter-spacing:.12em;color:var(--green-ink);border:1.5px solid var(--green-ink);border-radius:3px;padding:4px 6px}
 .docs a:hover{color:var(--green)}
 
 /* ───────────────────────── Footer / passport cover ───────────────────────── */
@@ -296,7 +295,7 @@ p{margin:0}
   repeating-radial-gradient(circle at 12% 120%,transparent 0 13px,var(--foil) 13px 14px),
   repeating-radial-gradient(circle at 92% -30%,transparent 0 17px,var(--foil) 17px 18px)}
 .foot .wrap{position:relative}
-.emblem{position:absolute;right:calc(50% - 720px + 40px);top:-46px;width:300px;height:300px;color:var(--foil);opacity:.13;pointer-events:none}
+.emblem{position:absolute;right:calc(50% - 720px + 40px);top:-24px;width:300px;height:300px;color:var(--foil);opacity:.13;pointer-events:none}
 .foot__title{display:flex;align-items:baseline;gap:18px;margin-bottom:56px;padding-bottom:28px;border-bottom:1px solid rgba(216,184,110,.25)}
 .foot__title b{font:800 clamp(30px,3.6vw,52px)/1 var(--display);color:var(--foil);letter-spacing:.01em;font-variation-settings:"SOFT" 100}
 .foot__title span{font:600 12px/1 var(--mono);letter-spacing:.24em;color:#BDB49C;text-transform:uppercase}
@@ -409,6 +408,9 @@ p{margin:0}
   .visa b{font-size:19px}
   .foot{padding:60px 0 28px}
   .foot__grid{grid-template-columns:1fr;gap:44px}
+  .foot__title{flex-direction:column;gap:12px;margin-bottom:40px}
+  .emblem{right:-70px;top:-40px;width:210px;height:210px}
+  .fly__head{gap:20px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -719,7 +721,7 @@ p{margin:0}
   <div class="wrap eco__grid">
     <div class="visa" aria-hidden="true"><svg><use href="#leaf"/></svg><b>Travelife</b><small>Sustainability<br>framework</small></div>
     <div class="eco__text">
-      <span class="label" style="color:var(--green)"><b>No. 05</b> Sustainability</span>
+      <span class="label" style="color:var(--green-ink)"><b>No. 05</b> Sustainability</span>
       <h2 id="h-eco">Leave every village glad you came.</h2>
       <p>We work to the Travelife criteria for tour operators, prefer certified-sustainable stays and restaurants, and say no to any excursion that harms people, animals or nature.</p>
     </div>
