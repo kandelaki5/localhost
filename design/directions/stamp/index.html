@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local Host — Passport &amp; Postage</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 48 48%27%3E%3Cpath d=%27M24 35.5C22.2 32.6 12.2 23.6 12.2 14.4a11.8 11.8 0 0 1 23.6 0c0 9.2-10 18.2-11.8 21.1Z%27 fill=%27%23D02027%27/%3E%3Ccircle cx=%2724%27 cy=%2714.5%27 r=%274.9%27 fill=%27%23fff%27/%3E%3C/svg%3E">
+<meta name="description" content="Local Host — inbound tour operator for Georgia, Armenia and Azerbaijan since 2015.">
+<style>
+/* ───────────────────────── Fonts (self-hosted) ───────────────────────── */
+@font-face{font-family:"Fraunces";src:url(/node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Fraunces";src:url(/node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2) format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"DM Sans";src:url(/node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-opsz-normal.woff2) format("woff2");font-weight:100 1000;font-style:normal;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(/node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2) format("woff2");font-weight:100 800;font-display:swap}
+@font-face{font-family:"Noto Serif Georgian";src:url(/node_modules/@fontsource-variable/noto-serif-georgian/files/noto-serif-georgian-georgian-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+0589,U+10A0-10FF,U+1C90-1CBF,U+2D00-2D2F}
+@font-face{font-family:"Noto Sans Georgian";src:url(/node_modules/@fontsource-variable/noto-sans-georgian/files/noto-sans-georgian-georgian-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+0589,U+10A0-10FF,U+1C90-1CBF,U+2D00-2D2F}
+
+/* ───────────────────────── Tokens ───────────────────────── */
+:root{
+  --paper:#F4EDE0;      /* page */
+  --paper-2:#EBE1CE;    /* deeper band */
+  --card:#FFFBF3;       /* stamp / envelope paper */
+  --ink:#1F1A14;        /* text */
+  --ink-2:#51483B;      /* secondary text */
+  --rule:rgba(31,26,20,.16);
+  --red:#D02027;        /* brand red: pin, CTA, postmarks */
+  --red-ink:#B3171E;    /* red for small text on paper */
+  --green:#13783C;      /* brand dark green */
+  --green-lt:#2BB34B;   /* brand light green (decor only) */
+  --green-deep:#0C3F22; /* passport cover */
+  --foil:#D8B86E;       /* passport foil */
+  --board:#121211;
+  --flap-ink:#FFC629;   /* split-flap yellow */
+  --sage:#E3E8D6;
+
+  --display:"Fraunces","Noto Serif Georgian",Georgia,serif;
+  --sans:"DM Sans","Noto Sans Georgian",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --ka-serif:"Noto Serif Georgian",serif;
+  --ka-sans:"Noto Sans Georgian",sans-serif;
+
+  --wrap:1320px;
+  --gut:40px;
+  --linen:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .10 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    repeating-linear-gradient(0deg,rgba(110,80,40,.035) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(110,80,40,.03) 0 1px,transparent 1px 3px);
+  --airmail:repeating-linear-gradient(-45deg,var(--red) 0 14px,var(--card) 14px 22px,var(--green) 22px 36px,var(--card) 36px 44px);
+}
+
+/* ───────────────────────── Base ───────────────────────── */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);background-image:var(--linen);color:var(--ink);font:400 17px/1.6 var(--sans);font-optical-sizing:auto;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1.02;margin:0;letter-spacing:-.015em;font-variation-settings:"SOFT" 100,"WONK" 0}
+p{margin:0}
+.wrap{max-width:calc(var(--wrap) + 2*var(--gut));margin:0 auto;padding:0 var(--gut)}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:4px}
+.ka{font-family:var(--ka-sans)}
+
+/* section label: "No. 02 / Experiences" */
+.label{display:inline-flex;align-items:center;gap:10px;font:600 12.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--red-ink)}
+.label b{display:inline-grid;place-items:center;height:24px;padding:0 8px;border:1.5px solid currentColor;border-radius:3px;font-weight:700;letter-spacing:.06em}
+.h2{font-size:clamp(38px,4.6vw,66px);margin-top:18px}
+.h2 em{font-style:italic;font-weight:600;color:var(--green);font-variation-settings:"SOFT" 100,"WONK" 1}
+.lede{font-size:18.5px;line-height:1.6;color:var(--ink-2);max-width:46ch}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 24px;border-radius:999px;font:700 16px/1 var(--sans);text-decoration:none;border:2px solid var(--ink);transition:transform .2s,background .2s,color .2s}
+.btn--ink{background:var(--ink);color:var(--card)}
+.btn--ink:hover{background:var(--red);border-color:var(--red)}
+.btn--ghost{color:var(--ink)}
+.btn--ghost:hover{background:var(--ink);color:var(--card)}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* ───────────────────────── Perforated stamp ───────────────────────── */
+.stamp{
+  --r:6px;
+  position:relative;
+  padding:calc(var(--r)*2.2);
+  background:var(--stamp-bg,var(--card));
+  -webkit-mask:
+    radial-gradient(var(--r),#0000 97%,#000) round calc(-1.5*var(--r)) calc(-1.5*var(--r)) / calc(3*var(--r)) calc(3*var(--r)),
+    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+          mask:
+    radial-gradient(var(--r),#0000 97%,#000) round calc(-1.5*var(--r)) calc(-1.5*var(--r)) / calc(3*var(--r)) calc(3*var(--r)),
+    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+}
+.shadow{filter:drop-shadow(0 1px 1px rgba(60,40,15,.18)) drop-shadow(0 12px 18px rgba(60,40,15,.16))}
+
+/* ───────────────────────── Nav ───────────────────────── */
+.topstripe{height:6px;background:var(--airmail)}
+.nav{position:sticky;top:0;z-index:50;background:rgba(244,237,224,.92);backdrop-filter:saturate(1.2) blur(8px);-webkit-backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--rule)}
+.nav__in{display:flex;align-items:center;gap:28px;height:76px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
+.brand svg{width:40px;height:40px}
+.brand__word{display:flex;flex-direction:column;line-height:1}
+.brand__word b{font:900 19px/1 var(--display);letter-spacing:.07em;color:var(--green);font-variation-settings:"SOFT" 100,"opsz" 24}
+.brand__word small{font:600 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--red-ink);margin-top:5px;text-transform:uppercase}
+.menu{display:flex;gap:4px;margin:0 auto;padding:0;list-style:none}
+.menu a{display:block;padding:8px 11px;border-radius:6px;font:600 15px/1 var(--sans);text-decoration:none;color:var(--ink);white-space:nowrap}
+.menu a:hover{background:rgba(31,26,20,.06)}
+.menu a[aria-current]{box-shadow:inset 0 -2px 0 var(--red);border-radius:0}
+.langs{display:flex;align-items:center;gap:2px;font:600 12px/1 var(--mono);letter-spacing:.06em}
+.langs a{padding:6px 5px;text-decoration:none;color:var(--ink-2)}
+.langs a[aria-current]{color:var(--red-ink);box-shadow:inset 0 -2px 0 var(--red)}
+.langs span{color:var(--rule);color:#B5A994}
+.ai{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px 0 14px;border-radius:999px;background:var(--red);color:#fff;font:700 15px/1 var(--sans);text-decoration:none;flex:none;box-shadow:0 0 0 2px var(--paper),0 0 0 3.5px var(--red)}
+.ai svg{width:20px;height:20px}
+.ai:hover{background:var(--ink);box-shadow:0 0 0 2px var(--paper),0 0 0 3.5px var(--ink)}
+.burger{display:none}
+
+/* ───────────────────────── Hero / Caucasus ───────────────────────── */
+.hero{padding:56px 0 84px;position:relative}
+.hero__grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:52px;align-items:center}
+.hero h1{font-size:clamp(46px,5.2vw,78px);line-height:.98;margin:22px 0 26px;font-weight:850}
+.hero h1 .lh{display:inline-block;color:var(--red);font-style:italic;font-weight:700;font-variation-settings:"SOFT" 100,"WONK" 1;position:relative}
+.hero h1 .lh::after{content:"";position:absolute;left:2%;right:4%;bottom:-.08em;height:.16em;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 10' preserveAspectRatio='none'><path d='M2 6 Q 15 1 30 5 T 60 5 T 90 5 T 118 4' fill='none' stroke='%2313783C' stroke-width='3' stroke-linecap='round'/></svg>") no-repeat center/100% 100%}
+.hero__sub{font-size:19px;line-height:1.6;color:var(--ink-2);max-width:40ch}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.proverb{margin-top:38px;padding-top:24px;border-top:1.5px dashed rgba(31,26,20,.25);max-width:500px}
+.proverb .ka{display:block;font:700 32px/1.2 var(--ka-serif);color:var(--green)}
+.proverb p{margin-top:8px;font-size:15px;line-height:1.5;color:var(--ink-2)}
+.proverb q{font:italic 500 18px/1.3 var(--display);color:var(--ink);font-variation-settings:"SOFT" 100,"WONK" 1;quotes:"\201C" "\201D"}
+
+/* envelope */
+.envelope{position:relative;border:16px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,var(--airmail) border-box;border-radius:6px;padding:20px 24px 22px;transform:rotate(-1.4deg);box-shadow:0 2px 2px rgba(60,40,15,.08),0 30px 60px -20px rgba(60,40,15,.35)}
+.envelope::before{content:"";position:absolute;inset:0;background:var(--linen);opacity:.7;pointer-events:none}
+.env__top{display:flex;justify-content:space-between;align-items:flex-start;position:relative}
+.parAvion{display:inline-flex;flex-direction:column;align-items:center;padding:6px 12px 5px;border:2px solid var(--red);border-radius:3px;color:var(--red-ink);transform:rotate(-2deg)}
+.parAvion b{font:800 15px/1 var(--mono);letter-spacing:.16em}
+.parAvion span{font:600 9.5px/1.3 var(--mono);letter-spacing:.22em;color:var(--green)}
+.env__from{font:500 11.5px/1.45 var(--mono);color:var(--ink-2);text-align:right;letter-spacing:.02em}
+.env__from b{color:var(--ink);font-weight:700}
+.stamps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 0;position:relative}
+.cstamp{display:block;text-decoration:none;color:var(--ink);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.cstamp:nth-child(1){transform:rotate(-3deg) translateY(6px)}
+.cstamp:nth-child(2){transform:rotate(1.8deg) translateY(-8px)}
+.cstamp:nth-child(3){transform:rotate(-1deg) translateY(10px)}
+.cstamp:hover{transform:rotate(0) translateY(-6px) scale(1.03);z-index:3}
+.cstamp .stamp{--r:5.5px}
+.cstamp__frame{border:1.5px solid var(--c,var(--green));padding:6px}
+.cstamp__img{position:relative;aspect-ratio:4/4.5;overflow:hidden;background:#ddd}
+.cstamp__img img,.cstamp__img svg{width:100%;height:100%;object-fit:cover}
+.cstamp__code{position:absolute;bottom:8px;left:8px;font:800 12px/1 var(--mono);letter-spacing:.1em;background:var(--card);color:var(--c,var(--green));padding:5px 6px 4px;border-radius:2px}
+.cstamp__iata{position:absolute;right:8px;bottom:8px;font:700 10.5px/1 var(--mono);letter-spacing:.12em;color:#fff;background:rgba(20,16,12,.55);padding:4px 6px;border-radius:2px}
+.cstamp__meta{padding:10px 2px 2px;display:flex;flex-direction:column;gap:3px}
+.cstamp__name{font:850 28px/1 var(--display);font-variation-settings:"SOFT" 100,"opsz" 48;letter-spacing:-.01em}
+.cstamp__ka{font:600 14px/1.2 var(--ka-sans);color:var(--c,var(--green))}
+.cstamp__note{position:absolute;left:8px;top:8px;font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,251,243,.9)}
+.postmark{position:absolute;color:var(--ink);opacity:.62;mix-blend-mode:multiply;pointer-events:none}
+.postmark--hero{width:138px;height:138px;left:calc(33.3% - 76px);top:-34px;transform:rotate(-14deg)}
+.waves--hero{position:absolute;left:calc(33.3% + 54px);top:-6px;width:260px;height:64px;color:var(--ink);opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+.env__to{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-top:26px;position:relative}
+.env__addr{font:italic 500 22px/1.25 var(--display);font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--ink);flex:1}
+.env__addr span{display:block;border-bottom:1px solid var(--rule);padding:6px 0 4px}
+.env__addr span:first-child{font:600 11px/1 var(--mono);font-style:normal;letter-spacing:.18em;color:var(--ink-2);border:0;padding:0 0 4px}
+.env__seal{font:600 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--green);text-align:right}
+
+/* ───────────────────────── Experiences ───────────────────────── */
+.xp{padding:96px 0 104px;background:var(--paper-2);background-image:var(--linen);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);position:relative}
+.sechead{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+.sechead .lede{margin-top:18px}
+.ctrl{display:flex;align-items:center;gap:14px;flex:none}
+.ctrl__count{font:600 13px/1 var(--mono);letter-spacing:.1em;color:var(--ink-2);margin-right:8px}
+.ctrl__count b{color:var(--ink)}
+.arrow{width:56px;height:56px;border-radius:50%;border:2px solid var(--ink);background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--ink);transition:background .2s,color .2s}
+.arrow:hover{background:var(--ink);color:var(--card)}
+.arrow svg{width:22px;height:22px}
+.arrow[disabled]{opacity:.3;cursor:default;background:transparent;color:var(--ink)}
+.track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 2*36px)/3);gap:36px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-top:52px;padding:14px 4px 26px}
+.track::-webkit-scrollbar{display:none}
+.xcard{scroll-snap-align:start;position:relative}
+.xcard .stamp{--r:7px;--stamp-bg:var(--green);color:#FFF7EA;height:100%;display:flex;flex-direction:column}
+.xcard--red .stamp{--stamp-bg:var(--red)}
+.xcard--cream .stamp{--stamp-bg:var(--card);color:var(--ink)}
+.xcard__frame{position:relative;border:1.5px solid rgba(255,247,234,.75);padding:7px}
+.xcard--cream .xcard__frame{border-color:var(--green)}
+.xcard__img{aspect-ratio:4/3;overflow:hidden}
+.xcard__img img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.xcard:hover .xcard__img img{transform:scale(1.05)}
+.xcard__no{position:absolute;top:16px;right:16px;width:52px;height:52px;border-radius:50%;background:var(--card);color:var(--ink);display:grid;place-items:center;text-align:center;font:800 17px/1 var(--display);font-variation-settings:"SOFT" 100;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.xcard__no small{display:block;font:700 7.5px/1 var(--mono);letter-spacing:.14em;margin-bottom:1px}
+.xcard__body{padding:20px 8px 8px;display:flex;flex-direction:column;gap:8px;flex:1}
+.xcard__title{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.xcard h3{font-size:40px;font-weight:850;letter-spacing:-.02em}
+.xcard__ka{font:600 14px/1 var(--ka-sans);opacity:.85}
+.xcard p{font-size:16px;line-height:1.5;opacity:.92}
+.xcard__go{margin-top:auto;padding-top:12px;font:700 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px;text-decoration:none}
+.xcard__go svg{width:16px;height:16px;transition:transform .2s}
+.xcard:hover .xcard__go svg{transform:translateX(4px)}
+.xcard .cancel{position:absolute;right:-34px;bottom:-30px;width:118px;height:118px;color:var(--ink);opacity:.55;mix-blend-mode:multiply;transform:rotate(18deg);pointer-events:none;z-index:2}
+
+/* ───────────────────────── Departure board ───────────────────────── */
+.fly{padding:104px 0 96px}
+.fly__head{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:end}
+.board{--cw:38px;--ch:54px;margin-top:48px;position:relative;background:linear-gradient(#1b1b19,#0e0e0d);border-radius:14px;padding:22px 34px 30px;color:#EDE6D6;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),inset 0 2px 0 rgba(255,255,255,.05),0 0 0 6px #2a2925,0 0 0 7px #4a4740,0 40px 70px -30px rgba(30,20,5,.6)}
+.screw{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#8d877b,#3b3833 70%);box-shadow:0 1px 0 rgba(255,255,255,.08)}
+.screw::after{content:"";position:absolute;left:2px;right:2px;top:4.5px;height:1px;background:#1d1c19;transform:rotate(35deg)}
+.screw.tl{left:10px;top:10px}.screw.tr{right:10px;top:10px}.screw.bl{left:10px;bottom:10px}.screw.br{right:10px;bottom:10px}
+.board__top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:4px 0 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.board__title{display:flex;align-items:center;gap:14px}
+.board__title svg{width:34px;height:34px;color:var(--flap-ink)}
+.board__title b{display:block;font:800 22px/1 var(--mono);letter-spacing:.14em;color:#fff}
+.board__title small{display:block;font:500 12px/1 var(--mono);letter-spacing:.16em;color:#A49C8B;margin-top:7px}
+.board__right{display:flex;align-items:center;gap:22px}
+.tabs{display:flex;background:#050505;border-radius:8px;padding:4px;gap:4px;box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
+.tab{border:0;background:transparent;color:#9A9384;font:700 13px/1 var(--mono);letter-spacing:.14em;padding:9px 14px;border-radius:5px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--flap-ink);color:#141210}
+.clock{display:flex;align-items:center;gap:10px;font:500 11px/1.2 var(--mono);letter-spacing:.14em;color:#A49C8B;text-transform:uppercase}
+.clock .flaps{--cw:22px;--ch:32px}
+.cols,.brow{display:grid;grid-template-columns:calc(9*var(--cw) + 8*3px) calc(3*var(--cw) + 2*3px) calc(9*var(--cw) + 8*3px) 1fr;column-gap:30px;align-items:center}
+.cols{padding:16px 0 10px;font:600 11px/1 var(--mono);letter-spacing:.2em;color:#8A8374}
+.brow{padding:6px 0}
+.brow+.brow{border-top:1px solid rgba(255,255,255,.04)}
+.flaps{display:flex;gap:3px}
+.flap{position:relative;width:var(--cw);height:var(--ch);border-radius:3px;background:linear-gradient(180deg,#2a2a27 0%,#1f1f1d 49.4%,#0a0a09 49.5%,#0a0a09 50.5%,#232321 50.6%,#191917 100%);color:var(--flap-ink);font:800 calc(var(--ch)*.6)/var(--ch) var(--mono);text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 2px 2px rgba(0,0,0,.55);text-shadow:0 0 8px rgba(255,198,41,.18);overflow:hidden}
+.flap::before,.flap::after{content:"";position:absolute;top:calc(50% - 2px);width:2px;height:4px;background:#050505}
+.flap::before{left:0}.flap::after{right:0}
+.flap.tick{animation:tick .07s linear}
+@keyframes tick{0%{transform:scaleY(.82);filter:brightness(.7)}100%{transform:none}}
+.remark{display:flex;align-items:center;gap:14px}
+.led{width:12px;height:12px;border-radius:50%;background:#3df07a;box-shadow:0 0 0 2px rgba(61,240,122,.15),0 0 12px 2px rgba(61,240,122,.55);flex:none;animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.45}}
+.board__foot{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);font:500 12px/1.4 var(--mono);letter-spacing:.08em;color:#A49C8B}
+.board__foot a{color:var(--flap-ink);text-decoration:none;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.fly__note{display:flex;align-items:center;gap:12px;margin-top:26px;font-size:15px;color:var(--ink-2)}
+.fly__note svg{width:20px;height:20px;color:var(--red);flex:none}
+
+/* ───────────────────────── Hosts (postcards) ───────────────────────── */
+.hosts{padding:96px 0 112px;border-top:1px solid var(--rule)}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:56px}
+.postcard{position:relative;display:grid;grid-template-columns:1fr 1.05fr;background:var(--card);background-image:var(--linen);border-radius:4px;box-shadow:0 1px 2px rgba(60,40,15,.15),0 24px 44px -24px rgba(60,40,15,.45);min-height:420px}
+.postcard:nth-child(1){transform:rotate(-.8deg)}
+.postcard:nth-child(2){transform:rotate(.7deg) translateY(14px)}
+.postcard__photo{margin:0;padding:14px 0 14px 14px;position:relative}
+.postcard__photo img{width:100%;height:100%;object-fit:cover;border-radius:2px}
+.postcard__photo figcaption{position:absolute;left:24px;bottom:24px;font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(20,16,12,.5);padding:5px 7px;border-radius:2px}
+.postcard__back{position:relative;padding:26px 26px 26px 30px;display:flex;flex-direction:column}
+.postcard__back::before{content:"";position:absolute;left:0;top:28px;bottom:28px;border-left:1.5px solid var(--rule)}
+.pc__stamp{position:absolute;top:22px;right:22px;width:78px}
+.pc__stamp .stamp{--r:3.5px;--stamp-bg:var(--red);padding:9px}
+.pc__stamp .in{border:1px solid rgba(255,247,234,.7);height:82px;display:grid;place-items:center;color:#FFF7EA;text-align:center}
+.pc__stamp svg{width:34px;height:34px}
+.pc__stamp small{display:block;font:700 7px/1 var(--mono);letter-spacing:.16em;margin-top:4px}
+.pc__pm{position:absolute;top:58px;right:70px;width:96px;height:96px;transform:rotate(-12deg)}
+.pc__kicker{font:700 11.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--red-ink);margin-top:6px;max-width:15ch;line-height:1.5}
+.pc__kicker span{display:block;color:var(--ink-2);font-weight:500;letter-spacing:.08em;text-transform:none}
+.pc__name{font-size:36px;margin-top:62px}
+.pc__name span{display:block;font-style:italic;font-weight:600;color:var(--green);font-variation-settings:"SOFT" 100,"WONK" 1;font-size:.72em;margin-top:4px}
+.pc__quote{margin:22px 0 0;font:italic 450 19.5px/1.45 var(--display);font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--ink)}
+.pc__sig{margin-top:auto;padding-top:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;font:600 12px/1.3 var(--mono);letter-spacing:.08em;color:var(--ink-2)}
+.pc__sig a{color:var(--ink);font-weight:700;text-decoration:none;border-bottom:2px solid var(--red);padding-bottom:2px;text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}
+.hosts__more{margin-top:52px;display:flex;align-items:center;gap:18px;font-size:16px;color:var(--ink-2)}
+.hosts__more .chips{display:flex;flex-wrap:wrap;gap:8px}
+.hosts__more .chips span{border:1.5px dashed rgba(31,26,20,.35);border-radius:999px;padding:6px 12px;font-weight:600;font-size:14px;color:var(--ink)}
+
+/* ───────────────────────── Sustainability strip ───────────────────────── */
+.eco{position:relative;background:var(--sage);background-image:var(--linen);padding:64px 0}
+.eco::before,.eco::after{content:"";position:absolute;left:0;right:0;height:8px;background:var(--airmail)}
+.eco::before{top:0}.eco::after{bottom:0}
+.eco__grid{display:grid;grid-template-columns:auto 1.3fr .95fr 1fr;gap:52px;align-items:center}
+.visa{width:178px;height:178px;border:3px solid var(--green);border-radius:16px;color:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-7deg);position:relative;mix-blend-mode:multiply;outline:1.5px solid var(--green);outline-offset:-10px}
+.visa svg{width:46px;height:46px;margin-bottom:6px}
+.visa b{font:850 24px/1 var(--display);letter-spacing:.02em;font-variation-settings:"SOFT" 100}
+.visa small{font:700 9px/1.45 var(--mono);letter-spacing:.18em;margin-top:6px;text-transform:uppercase}
+.eco h2{font-size:clamp(30px,2.8vw,40px);margin-top:12px}
+.eco__text p{margin-top:12px;font-size:16px;color:var(--ink-2);line-height:1.55}
+.facts{display:grid;gap:18px}
+.fact{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.fact b{font:850 46px/1 var(--display);color:var(--green);font-variation-settings:"SOFT" 100,"opsz" 72;letter-spacing:-.02em}
+.fact span{font-size:14.5px;line-height:1.35;color:var(--ink)}
+.fact span{font-weight:700}
+.fact span small{display:block;color:var(--ink-2);font:500 11px/1.4 var(--mono);letter-spacing:.06em;margin-top:3px;white-space:nowrap}
+.docs{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.docs li+li{border-top:1px solid rgba(19,120,60,.22)}
+.docs a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 2px;text-decoration:none;font-weight:700;font-size:16px}
+.docs a span{font:600 11px/1 var(--mono);letter-spacing:.12em;color:var(--green);border:1.5px solid var(--green);border-radius:3px;padding:4px 6px}
+.docs a:hover{color:var(--green)}
+
+/* ───────────────────────── Footer / passport cover ───────────────────────── */
+.foot{position:relative;background:var(--green-deep);color:#EDE6D4;padding:84px 0 36px;overflow:hidden}
+.foot::before{content:"";position:absolute;inset:0;opacity:.06;pointer-events:none;background:
+  repeating-radial-gradient(circle at 12% 120%,transparent 0 13px,var(--foil) 13px 14px),
+  repeating-radial-gradient(circle at 92% -30%,transparent 0 17px,var(--foil) 17px 18px)}
+.foot .wrap{position:relative}
+.foot__grid{display:grid;grid-template-columns:1.3fr 1fr 1.25fr;gap:64px}
+.foot__brand .brand__word b{color:var(--foil);font-size:26px}
+.foot__brand .brand__word small{color:#C9C0A9}
+.foot__brand .brand svg{width:56px;height:56px}
+.foot__brand p{margin-top:22px;font-size:15.5px;line-height:1.6;color:#CFC8B4;max-width:38ch}
+.foot__ka{margin-top:20px;font:600 22px/1.2 var(--ka-serif);color:var(--foil)}
+.foot h4{margin:0 0 18px;font:700 11.5px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--foil)}
+.contact{font-style:normal;display:grid;gap:12px;font-size:16.5px}
+.contact a{text-decoration:none;border-bottom:1px solid rgba(216,184,110,.4)}
+.contact a:hover{border-color:var(--foil)}
+.contact .big{font:700 26px/1.15 var(--display);font-variation-settings:"SOFT" 100;border:0}
+.fairs{display:flex;flex-wrap:wrap;gap:10px 12px}
+.fair{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid currentColor;padding:8px 10px;font:800 13px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-align:center;min-width:96px;opacity:.92}
+.fair small{font:600 8.5px/1 var(--mono);letter-spacing:.2em;margin-top:5px;opacity:.85}
+.fair:nth-child(1){color:#F2C4A8;border-radius:50px;transform:rotate(-6deg)}
+.fair:nth-child(2){color:var(--foil);transform:rotate(3deg)}
+.fair:nth-child(3){color:#B9E0B4;border-style:double;border-width:4px;transform:rotate(-2deg)}
+.fair:nth-child(4){color:#EDE6D4;border-radius:10px;transform:rotate(5deg)}
+.fair:nth-child(5){color:#F2C4A8;transform:rotate(-4deg);border-style:dashed}
+.fair:nth-child(6){color:var(--foil);border-radius:50px;transform:rotate(2deg)}
+.foot__bar{margin-top:72px;padding-top:24px;border-top:1px solid rgba(216,184,110,.25);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font:500 12.5px/1.4 var(--mono);letter-spacing:.06em;color:#BDB49C}
+.foot__bar nav{display:flex;flex-wrap:wrap;gap:18px}
+.foot__bar a{text-decoration:none}
+.foot__bar a:hover{color:var(--foil)}
+
+/* ───────────────────────── Responsive ───────────────────────── */
+@media (max-width:1240px){
+  .langs{display:none}
+  .menu a{padding:8px 8px;font-size:14.5px}
+}
+@media (max-width:1060px){
+  .menu{display:none}
+  .burger{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:2px solid var(--ink);background:transparent;margin-left:auto}
+  .burger svg{width:20px;height:20px}
+  .hero__grid{grid-template-columns:1fr}
+  .fly__head{grid-template-columns:1fr}
+  .cards2{grid-template-columns:1fr}
+  .eco__grid{grid-template-columns:auto 1fr;}
+  .foot__grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:720px){
+  :root{--gut:16px}
+  body{font-size:16px}
+  .nav__in{height:64px;gap:12px}
+  .brand svg{width:34px;height:34px}
+  .brand__word b{font-size:16px}
+  .ai{height:40px;padding:0 14px 0 11px;font-size:14px}
+  .hero{padding:36px 0 56px}
+  .hero__grid{gap:40px}
+  .hero h1{font-size:44px}
+  .hero__sub{font-size:17px}
+  .btn{height:48px;padding:0 20px;font-size:15px}
+  .proverb{grid-template-columns:1fr;gap:6px}
+  .proverb .ka{grid-row:auto;border:0;padding:0;font-size:26px}
+  .envelope{border-width:10px;padding:16px 14px;transform:rotate(-1deg)}
+  .env__from{display:none}
+  .stamps{gap:8px;margin-top:16px}
+  .cstamp .stamp{--r:3.5px;padding:7px}
+  .cstamp__frame{padding:3px}
+  .cstamp__name{font-size:15px}
+  .cstamp__ka{font-size:10.5px}
+  .cstamp__code{font-size:9px;top:5px;left:5px;padding:3px 4px}
+  .cstamp__iata,.cstamp__note{display:none}
+  .postmark--hero{width:96px;height:96px;left:20%;top:-18px}
+  .waves--hero{display:none}
+  .env__addr{font-size:17px}
+  .env__seal{display:none}
+  .xp,.fly,.hosts{padding:64px 0 72px}
+  .sechead{flex-direction:column;align-items:flex-start;gap:24px}
+  .track{grid-auto-columns:84%;gap:18px;margin-top:28px}
+  .xcard h3{font-size:32px}
+  .board{--cw:19px;--ch:30px;padding:16px 14px 18px;border-radius:10px}
+  .screw{display:none}
+  .board__top{flex-direction:column;align-items:flex-start;gap:14px}
+  .board__title b{font-size:16px}
+  .board__title svg{width:26px;height:26px}
+  .board__right{width:100%;justify-content:space-between}
+  .clock .flaps{--cw:16px;--ch:24px}
+  .cols{display:none}
+  .brow{grid-template-columns:auto auto;grid-template-areas:"city code" "air rem";column-gap:10px;row-gap:5px;justify-content:start;padding:10px 0}
+  .brow>.c-city{grid-area:city}.brow>.c-code{grid-area:code}.brow>.c-air{grid-area:air}.brow>.c-rem{grid-area:rem}
+  .flaps{gap:2px}
+  .remark{gap:8px}
+  .led{width:9px;height:9px}
+  .board__foot{flex-direction:column;align-items:flex-start;gap:8px;font-size:11px}
+  .postcard{grid-template-columns:1fr;min-height:0}
+  .postcard__photo{padding:12px 12px 0;height:220px}
+  .postcard__back{padding:22px 20px 22px}
+  .postcard__back::before{display:none}
+  .pc__stamp{top:-28px;right:16px;width:66px}
+  .pc__stamp .in{height:68px}
+  .pc__pm{top:-6px;right:58px;width:84px;height:84px}
+  .pc__name{font-size:30px}
+  .pc__quote{font-size:18px}
+  .postcard:nth-child(2){transform:rotate(.7deg)}
+  .cards2{gap:36px;margin-top:36px}
+  .hosts__more{flex-direction:column;align-items:flex-start}
+  .eco{padding:52px 0}
+  .eco__grid{grid-template-columns:1fr;gap:30px}
+  .visa{width:140px;height:140px}
+  .visa b{font-size:19px}
+  .foot{padding:60px 0 28px}
+  .foot__grid{grid-template-columns:1fr;gap:44px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mark" viewBox="0 0 48 48">
+      <path d="M2.5 41.5 C 8 33.5 14.5 30 22.6 30.8 L 24.6 46 C 15 46.4 8 44.6 2.5 41.5 Z" fill="#13783C"/>
+      <path d="M45.5 39.2 C 40.5 31 34 28.4 26.4 29.6 L 24.9 46.2 C 33.5 45.6 40.6 43.2 45.5 39.2 Z" fill="#2BB34B"/>
+      <path d="M24 35.5 C 22.2 32.6 12.2 23.6 12.2 14.4 A 11.8 11.8 0 0 1 35.8 14.4 C 35.8 23.6 25.8 32.6 24 35.5 Z M 24 9.6 A 4.9 4.9 0 1 0 24 19.4 A 4.9 4.9 0 1 0 24 9.6 Z" fill="#D02027" fill-rule="evenodd" stroke="var(--mark-gap,#F4EDE0)" stroke-width="2" paint-order="stroke"/>
+    </symbol>
+    <symbol id="postmark" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="4.5"/>
+      <circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <path id="pmArc" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" fill="none"/>
+      <text font-family="JetBrains Mono, monospace" font-weight="800" font-size="16" fill="currentColor"><textPath href="#pmArc" textLength="486" lengthAdjust="spacing">TBILISI • LOCAL HOST • SOUTH CAUCASUS •</textPath></text>
+      <text x="100" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" letter-spacing="3" fill="currentColor">EST.</text>
+      <text x="100" y="122" text-anchor="middle" font-family="Fraunces, serif" font-weight="900" font-size="38" fill="currentColor">2015</text>
+    </symbol>
+    <symbol id="waves" viewBox="0 0 240 70">
+      <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round">
+        <path d="M2 10 q15 -9 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>
+        <path d="M2 26 q15 -9 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>
+        <path d="M2 42 q15 -9 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>
+        <path d="M2 58 q15 -9 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>
+      </g>
+    </symbol>
+    <symbol id="sparkle" viewBox="0 0 24 24">
+      <path d="M10 2.5c.5 4.6 2.9 7 7.5 7.5-4.6.5-7 2.9-7.5 7.5-.5-4.6-2.9-7-7.5-7.5 4.6-.5 7-2.9 7.5-7.5Z" fill="currentColor"/>
+      <path d="M18.5 13.5c.25 2.1 1.4 3.25 3.5 3.5-2.1.25-3.25 1.4-3.5 3.5-.25-2.1-1.4-3.25-3.5-3.5 2.1-.25 3.25-1.4 3.5-3.5Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="plane" viewBox="0 0 24 24"><path d="M21.5 15.5v-2l-8-5V3.3c0-.9-.7-1.8-1.5-1.8s-1.5.9-1.5 1.8v5.2l-8 5v2l8-2.5v5.4l-2 1.5v1.6l3.5-1 3.5 1v-1.6l-2-1.5V13l8 2.5Z" fill="currentColor"/></symbol>
+    <symbol id="leaf" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39C9 21 21 9 40 8c0 19-12 31-31 31Z"/><path d="M9 39 28 20"/></g></symbol>
+  </defs>
+</svg>
+
+<div class="topstripe" aria-hidden="true"></div>
+<header class="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top" aria-label="Local Host — home">
+      <svg aria-hidden="true"><use href="#mark"/></svg>
+      <span class="brand__word"><b>LOCAL HOST</b><small>South Caucasus DMC</small></span>
+    </a>
+    <nav aria-label="Main">
+      <ul class="menu">
+        <li><a href="#caucasus" aria-current="true">Caucasus</a></li>
+        <li><a href="#experiences">Experiences</a></li>
+        <li><a href="#hosts">Hosts</a></li>
+        <li><a href="#getting-here">Getting here</a></li>
+        <li><a href="#meet-us">Meet us</a></li>
+        <li><a href="#sustainability">Sustainability</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="langs" aria-label="Language">
+      <a href="/" aria-current="true" lang="en">EN</a><span>·</span><a href="/ka/" lang="ka">KA</a><span>·</span><a href="/pl/" lang="pl">PL</a><span>·</span><a href="/it/" lang="it">IT</a><span>·</span><a href="/de/" lang="de">DE</a>
+    </div>
+    <a class="ai" href="#planner"><svg aria-hidden="true"><use href="#sparkle"/></svg>Plan with AI</a>
+    <button class="burger" aria-label="Open menu"><svg viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+<!-- ═════════════ 1 · CAUCASUS (hero) ═════════════ -->
+<section class="hero" id="caucasus" aria-labelledby="h-hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="label"><b>No. 01</b> Inbound DMC · Tbilisi · since 2015</span>
+      <h1 id="h-hero">Three countries.<br>One <span class="lh">local host.</span></h1>
+      <p class="hero__sub">We design and run programmes across Georgia, Armenia and Azerbaijan for travel agencies and tour operators all over Europe — group tours and tailor-made trips, guided by our own team and welcomed by family hosts we know by name.</p>
+      <div class="hero__cta">
+        <a class="btn btn--ink" href="#contact">Request a programme <svg aria-hidden="true"><use href="#arrow"/></svg></a>
+        <a class="btn btn--ghost" href="#experiences">Browse experiences</a>
+      </div>
+      <div class="proverb">
+        <span class="ka" lang="ka">სტუმარი ღვთისაა</span>
+        <p><q>A guest is a gift from God.</q> An old Georgian saying — and, honestly, our whole business plan.</p>
+      </div>
+    </div>
+
+    <div class="envelope" role="group" aria-label="Georgia, Armenia and Azerbaijan">
+      <div class="env__top">
+        <span class="parAvion" aria-hidden="true"><b>PAR AVION</b><span>BY AIR MAIL</span></span>
+        <p class="env__from"><b>From: Local Host LLC</b><br>A. Bakradze 7, 0159 Tbilisi<br>Georgia</p>
+      </div>
+      <div class="stamps">
+        <a class="cstamp shadow" href="#georgia" style="--c:var(--red)">
+          <div class="stamp"><div class="cstamp__frame">
+            <div class="cstamp__img"><img src="/src/assets/photos/kazbegi-gergeti.jpg" alt="Gergeti Trinity Church below Mount Kazbek, Georgia"><span class="cstamp__code">GE</span><span class="cstamp__iata">TBS · KUT</span></div>
+            <div class="cstamp__meta"><span class="cstamp__name">Georgia</span><span class="cstamp__ka" lang="ka">საქართველო</span></div>
+          </div></div>
+        </a>
+        <a class="cstamp shadow" href="#armenia" style="--c:#B4541E">
+          <div class="stamp"><div class="cstamp__frame">
+            <div class="cstamp__img">
+              <svg viewBox="0 0 300 322" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: mountains of Armenia">
+                <defs><pattern id="hA" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 2.5h5" stroke="#8E2C17" stroke-width="1.3"/></pattern>
+                <pattern id="hA2" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><path d="M0 2h4" stroke="#8E2C17" stroke-width="1"/></pattern></defs>
+                <rect width="300" height="322" fill="#F5D8B4"/>
+                <g stroke="#E9B88A" stroke-width="1.2"><path d="M0 40h300M0 52h300M0 64h300M0 76h300M0 88h300M0 100h300"/></g>
+                <circle cx="226" cy="78" r="30" fill="#EEA867"/>
+                <path d="M-10 230 L60 170 L118 92 L140 70 L162 92 L210 150 L238 132 L268 150 L310 190 V322 H-10Z" fill="url(#hA)"/>
+                <path d="M118 92 L140 70 L162 92 L154 100 L146 92 L138 104 L130 94 Z M238 132 L248 138 L242 142 Z" fill="#FFF6EA" stroke="#8E2C17" stroke-width="1.2"/>
+                <path d="M-10 262 C 60 222 130 236 180 246 C 230 256 270 232 310 236 V322 H-10Z" fill="url(#hA2)"/>
+                <path d="M-10 290 C 80 262 190 284 310 270 V322 H-10Z" fill="#8E2C17"/>
+                <path d="M200 276 v-22 h8 v-8 l8 -14 l8 14 v8 h8 v22 Z" fill="#8E2C17"/>
+              </svg>
+              <span class="cstamp__code">AM</span><span class="cstamp__note">Illustration</span><span class="cstamp__iata">EVN</span></div>
+            <div class="cstamp__meta"><span class="cstamp__name">Armenia</span><span class="cstamp__ka" lang="ka">სომხეთი</span></div>
+          </div></div>
+        </a>
+        <a class="cstamp shadow" href="#azerbaijan" style="--c:#0F6A5C">
+          <div class="stamp"><div class="cstamp__frame">
+            <div class="cstamp__img">
+              <svg viewBox="0 0 300 322" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: Caspian coast of Azerbaijan">
+                <defs><pattern id="hZ" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 3 q1.5 -2 3 0 t3 0" fill="none" stroke="#0E5A4E" stroke-width="1.2"/></pattern>
+                <pattern id="hZ2" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 2h4" stroke="#0E5A4E" stroke-width="1"/></pattern></defs>
+                <rect width="300" height="322" fill="#D7E8DE"/>
+                <g stroke="#B9D6C8" stroke-width="1.2"><path d="M0 40h300M0 52h300M0 64h300M0 76h300M0 88h300"/></g>
+                <circle cx="84" cy="92" r="30" fill="#F2C57A"/>
+                <path d="M-10 182 C 40 150 90 160 130 170 C 180 150 240 140 310 162 V200 H-10Z" fill="url(#hZ2)"/>
+                <rect x="-10" y="196" width="320" height="130" fill="url(#hZ)"/>
+                <path d="M196 196 v-58 a18 6 0 0 1 36 0 v58 Z" fill="#0E5A4E"/>
+                <path d="M200 150 h28 M200 166 h28 M200 182 h28" stroke="#D7E8DE" stroke-width="2"/>
+                <path d="M150 196 v-20 h14 v20 M248 196 v-28 h12 v28" fill="#0E5A4E"/>
+                <path d="M-10 286 C 70 270 160 292 310 276 V322 H-10Z" fill="#0E5A4E"/>
+              </svg>
+              <span class="cstamp__code">AZ</span><span class="cstamp__note">Illustration</span><span class="cstamp__iata">GYD</span></div>
+            <div class="cstamp__meta"><span class="cstamp__name">Azerbaijan</span><span class="cstamp__ka" lang="ka">აზერბაიჯანი</span></div>
+          </div></div>
+        </a>
+        <svg class="postmark postmark--hero" aria-hidden="true"><use href="#postmark"/></svg>
+        <svg class="waves--hero" aria-hidden="true"><use href="#waves"/></svg>
+      </div>
+      <div class="env__to">
+        <p class="env__addr"><span>TO</span><span>Your travellers,</span><span>anywhere in Europe</span></p>
+        <p class="env__seal">Handled with care<br>since 2015</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ 2 · EXPERIENCES ═════════════ -->
+<section class="xp" id="experiences" aria-labelledby="h-xp">
+  <div class="wrap">
+    <div class="sechead">
+      <div>
+        <span class="label"><b>No. 02</b> Experiences</span>
+        <h2 class="h2" id="h-xp">Six ways into <em>the Caucasus</em></h2>
+        <p class="lede">Mix them freely — most of our programmes combine two or three, across one country or all of them.</p>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl__count" aria-live="polite"><b id="xpFrom">01–03</b> / 06</span>
+        <button class="arrow" id="xpPrev" aria-label="Previous experiences" disabled><svg style="transform:scaleX(-1)"><use href="#arrow"/></svg></button>
+        <button class="arrow" id="xpNext" aria-label="Next experiences"><svg><use href="#arrow"/></svg></button>
+      </div>
+    </div>
+
+    <div class="track" id="xpTrack" tabindex="0" aria-label="Experiences">
+      <article class="xcard shadow">
+        <div class="stamp">
+          <div class="xcard__frame"><div class="xcard__img"><img src="/src/assets/photos/tbilisi-1.jpg" alt="Old Tbilisi rooftops and Narikala fortress"></div><span class="xcard__no"><span><small>NO.</small>01</span></span></div>
+          <div class="xcard__body">
+            <div class="xcard__title"><h3>Culture</h3><span class="xcard__ka" lang="ka">კულტურა</span></div>
+            <p>Old Tbilisi, cave towns and frescoed monasteries — told by guides who grew up among them.</p>
+            <a class="xcard__go" href="#">See programmes <svg><use href="#arrow"/></svg></a>
+          </div>
+        </div>
+        <svg class="cancel" aria-hidden="true"><use href="#postmark"/></svg>
+      </article>
+      <article class="xcard xcard--red shadow">
+        <div class="stamp">
+          <div class="xcard__frame"><div class="xcard__img"><img src="/src/assets/photos/rtveli-harvest.jpg" alt="Grape harvest in a Georgian vineyard"></div><span class="xcard__no"><span><small>NO.</small>02</span></span></div>
+          <div class="xcard__body">
+            <div class="xcard__title"><h3>Wine</h3><span class="xcard__ka" lang="ka">ღვინო</span></div>
+            <p>Qvevri wine, eight thousand vintages in the making — poured by the families who still make it.</p>
+            <a class="xcard__go" href="#">See programmes <svg><use href="#arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="xcard xcard--cream shadow">
+        <div class="stamp">
+          <div class="xcard__frame"><div class="xcard__img"><img src="/src/assets/photos/chaukhi-valley.jpg" alt="Chaukhi massif above a mountain valley"></div><span class="xcard__no"><span><small>NO.</small>03</span></span></div>
+          <div class="xcard__body">
+            <div class="xcard__title"><h3>Trekking</h3><span class="xcard__ka" lang="ka" style="color:var(--green)">ლაშქრობა</span></div>
+            <p>Svaneti, Tusheti, Kazbegi: high trails with a guesthouse dinner waiting at the end.</p>
+            <a class="xcard__go" href="#" style="color:var(--green)">See programmes <svg><use href="#arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="xcard shadow">
+        <div class="stamp">
+          <div class="xcard__frame"><div class="xcard__img"><img src="/src/assets/photos/georgian-food.jpg" alt="Georgian feast with bread, grilled meat and wine jug"></div><span class="xcard__no"><span><small>NO.</small>04</span></span></div>
+          <div class="xcard__body">
+            <div class="xcard__title"><h3>Gastronomy</h3><span class="xcard__ka" lang="ka">გასტრონომია</span></div>
+            <p>Khinkali lessons, supra feasts and market mornings — the region makes most sense at the table.</p>
+            <a class="xcard__go" href="#">See programmes <svg><use href="#arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="xcard xcard--red shadow">
+        <div class="stamp">
+          <div class="xcard__frame"><div class="xcard__img"><img src="/src/assets/photos/david-gareja.jpg" alt="David Gareja monastery complex in semi-desert hills"></div><span class="xcard__no"><span><small>NO.</small>05</span></span></div>
+          <div class="xcard__body">
+            <div class="xcard__title"><h3>Pilgrim</h3><span class="xcard__ka" lang="ka">მომლოცველობა</span></div>
+            <p>Mtskheta, David Gareja and the old routes of faith that cross all three countries.</p>
+            <a class="xcard__go" href="#">See programmes <svg><use href="#arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="xcard xcard--cream shadow">
+        <div class="stamp">
+          <div class="xcard__frame"><div class="xcard__img"><img src="/src/assets/photos/adjara-1.jpg" alt="Green Adjara coastline on the Black Sea"></div><span class="xcard__no"><span><small>NO.</small>06</span></span></div>
+          <div class="xcard__body">
+            <div class="xcard__title"><h3>Leisure</h3><span class="xcard__ka" lang="ka" style="color:var(--green)">დასვენება</span></div>
+            <p>Black Sea coast, spa towns and slow lakeside days between the big sights.</p>
+            <a class="xcard__go" href="#" style="color:var(--green)">See programmes <svg><use href="#arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ 3 · GETTING HERE (departure board) ═════════════ -->
+<section class="fly" id="getting-here" aria-labelledby="h-fly">
+  <div class="wrap">
+    <div class="fly__head">
+      <div>
+        <span class="label"><b>No. 03</b> Getting here</span>
+        <h2 class="h2" id="h-fly">Closer than your <em>clients think</em></h2>
+      </div>
+      <p class="lede">Tbilisi and Kutaisi are a direct flight away from much of Europe, on full-service and low-cost carriers alike. Tell us where your group flies from — we'll be waiting at arrivals.</p>
+    </div>
+
+    <div class="board" id="board">
+      <i class="screw tl"></i><i class="screw tr"></i><i class="screw bl"></i><i class="screw br"></i>
+      <div class="board__top">
+        <div class="board__title"><svg aria-hidden="true"><use href="#plane"/></svg><div><b id="boardTitle">DIRECT TO TBILISI</b><small id="boardSub">TBS · TBILISI INTERNATIONAL</small></div></div>
+        <div class="board__right">
+          <div class="tabs" role="tablist" aria-label="Airport">
+            <button class="tab" role="tab" aria-selected="true" data-ap="TBS">TBS</button>
+            <button class="tab" role="tab" aria-selected="false" data-ap="KUT">KUT</button>
+          </div>
+          <div class="clock" aria-hidden="true"><span>Local<br>time</span><span class="flaps" id="clock"></span></div>
+        </div>
+      </div>
+      <div class="cols" aria-hidden="true"><span>FROM</span><span>CODE</span><span>AIRLINE</span><span>REMARK</span></div>
+      <div id="rows" aria-hidden="true"></div>
+      <div class="board__foot"><span>SHOWING 6 OF 20 CITIES · DIRECT CONNECTIONS VARY BY SEASON</span><a href="#getting-here">All 20 cities</a></div>
+      <table class="sr-only" id="boardTable"><caption>Direct flights to Tbilisi</caption><thead><tr><th>From</th><th>Code</th><th>Airline</th><th>Remark</th></tr></thead><tbody></tbody></table>
+    </div>
+    <p class="fly__note"><svg aria-hidden="true"><use href="#plane"/></svg>Direct connections vary by season — ask us for the current schedule.</p>
+  </div>
+</section>
+
+<!-- ═════════════ 4 · HOSTS WE LOVE ═════════════ -->
+<section class="hosts" id="hosts" aria-labelledby="h-hosts">
+  <div class="wrap">
+    <div class="sechead">
+      <div>
+        <span class="label"><b>No. 04</b> Hosts we love</span>
+        <h2 class="h2" id="h-hosts">The welcome <em>is the itinerary</em></h2>
+      </div>
+      <p class="lede">Our programmes run through the homes, cellars and kitchens of friends we trust. Two of the people your guests will be writing home about:</p>
+    </div>
+
+    <div class="cards2">
+      <article class="postcard">
+        <figure class="postcard__photo"><img src="/src/assets/photos/kvevri-1.jpg" alt="A qvevri wine vessel in a green garden with a wooden balcony behind"><figcaption>Landscape · illustrative</figcaption></figure>
+        <div class="postcard__back">
+          <div class="pc__stamp shadow"><div class="stamp"><div class="in"><div><svg style="--mark-gap:#D02027"><use href="#mark"/></svg><small>GE · 01</small></div></div></div></div>
+          <svg class="postmark pc__pm" aria-hidden="true"><use href="#postmark"/></svg>
+          <p class="pc__kicker">Postcard from<span>Host 01 of 06</span></p>
+          <h3 class="pc__name">Sisatura <span>Marika &amp; Enry</span></h3>
+          <blockquote class="pc__quote">“What is better than Marika and Enry meeting you at the gate of Sisatura with a shot of chacha and a big smile?”</blockquote>
+          <p class="pc__sig"><span>— The Local Host team</span><a href="#">Meet them</a></p>
+        </div>
+      </article>
+      <article class="postcard">
+        <figure class="postcard__photo"><img src="/src/assets/photos/truso-valley.jpg" alt="Truso valley with a river winding between mountains"><figcaption>Landscape · illustrative</figcaption></figure>
+        <div class="postcard__back">
+          <div class="pc__stamp shadow"><div class="stamp" style="--stamp-bg:var(--green)"><div class="in"><div><svg style="--mark-gap:#13783C"><use href="#mark"/></svg><small>GE · 02</small></div></div></div></div>
+          <svg class="postmark pc__pm" aria-hidden="true"><use href="#postmark"/></svg>
+          <p class="pc__kicker">Postcard from<span>Host 02 of 06</span></p>
+          <h3 class="pc__name">Leila <span>&amp; her kitchen</span></h3>
+          <blockquote class="pc__quote">“Leila prepares the best khinkali while telling you her life story — one that could easily be an Oscar-winning movie.”</blockquote>
+          <p class="pc__sig"><span>— The Local Host team</span><a href="#">Meet her</a></p>
+        </div>
+      </article>
+    </div>
+    <div class="hosts__more"><span>Also on the route:</span><div class="chips"><span>Vacheishvili Family</span><span>Samvel</span><span>Aluda</span><span>Maia</span></div></div>
+  </div>
+</section>
+
+<!-- ═════════════ 5 · SUSTAINABILITY ═════════════ -->
+<section class="eco" id="sustainability" aria-labelledby="h-eco">
+  <div class="wrap eco__grid">
+    <div class="visa" aria-hidden="true"><svg><use href="#leaf"/></svg><b>Travelife</b><small>Sustainability<br>framework</small></div>
+    <div class="eco__text">
+      <span class="label" style="color:var(--green)"><b>No. 05</b> Sustainability</span>
+      <h2 id="h-eco">Leave every village glad you came.</h2>
+      <p>We work to the Travelife criteria for tour operators, prefer certified-sustainable stays and restaurants, and say no to any excursion that harms people, animals or nature.</p>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>−36.3%</b><span>gas use<small>Jan–Oct 2025 vs 2024</small></span></div>
+      <div class="fact"><b>−10.1%</b><span>energy use<small>Jan–Oct 2025 vs 2024</small></span></div>
+    </div>
+    <ul class="docs">
+      <li><a href="/assets/policies/sustainability.pdf">Sustainability Policy <span>PDF</span></a></li>
+      <li><a href="/assets/policies/report.pdf">Sustainability Report <span>PDF</span></a></li>
+      <li><a href="/assets/policies/excursions.pdf">Excursions Policy <span>PDF</span></a></li>
+      <li><a href="/assets/policies/accomodations.pdf">Accommodations Policy <span>PDF</span></a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<!-- ═════════════ FOOTER · passport cover ═════════════ -->
+<footer class="foot" id="contact">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div class="foot__brand">
+        <a class="brand" href="#top"><svg aria-hidden="true" style="--mark-gap:#0C3F22"><use href="#mark"/></svg><span class="brand__word"><b>LOCAL HOST</b><small>Passport to the South Caucasus</small></span></a>
+        <p>Inbound tour operator for Georgia, Armenia and Azerbaijan. Programmes for travel agencies and tour operators since 2015.</p>
+        <p class="foot__ka" lang="ka">მოგესალმებით</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <address class="contact">
+          <a class="big" href="mailto:info@localhost.ge">info@localhost.ge</a>
+          <a class="big" href="tel:+995514374433">+995 514 37 44 33</a>
+          <span>A. Bakradze 7, 0159 Tbilisi, Georgia</span>
+          <a href="https://www.localhost.ge" style="justify-self:start">www.localhost.ge</a>
+        </address>
+      </div>
+      <div id="meet-us">
+        <h4>Meet us at</h4>
+        <div class="fairs">
+          <span class="fair">ITB<small>Berlin</small></span>
+          <span class="fair">BIT<small>Milano</small></span>
+          <span class="fair">TT<small>Warsaw</small></span>
+          <span class="fair">TTG<small>Rimini</small></span>
+          <span class="fair">BMT<small>Naples</small></span>
+          <span class="fair">Tour Salon<small>Poznań</small></span>
+        </div>
+      </div>
+    </div>
+    <div class="foot__bar">
+      <span>© 2026 Local Host LLC · Tbilisi</span>
+      <nav aria-label="Footer"><a href="/assets/policies/sustainability.pdf">Policies</a><a href="#credits">Photo credits</a><a href="/ka/" lang="ka">ქართული</a><a href="/pl/">Polski</a><a href="/it/">Italiano</a><a href="/de/">Deutsch</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Experiences carousel */
+(() => {
+  const t = document.getElementById('xpTrack'), prev = document.getElementById('xpPrev'), next = document.getElementById('xpNext'), cnt = document.getElementById('xpFrom');
+  const step = () => t.firstElementChild.getBoundingClientRect().width + parseFloat(getComputedStyle(t).columnGap || 36);
+  const upd = () => {
+    const i = Math.round(t.scrollLeft / step()), vis = Math.max(1, Math.round(t.clientWidth / step()));
+    const a = i + 1, b = Math.min(6, i + vis);
+    cnt.textContent = vis > 1 ? `0${a}–0${b}` : `0${a}`;
+    prev.disabled = t.scrollLeft < 4; next.disabled = t.scrollLeft + t.clientWidth >= t.scrollWidth - 4;
+  };
+  prev.onclick = () => t.scrollBy({left: -step(), behavior: 'smooth'});
+  next.onclick = () => t.scrollBy({left: step(), behavior: 'smooth'});
+  t.addEventListener('scroll', () => requestAnimationFrame(upd)); addEventListener('resize', upd); upd();
+})();
+
+/* Split-flap board */
+(() => {
+  const DATA = {
+    TBS: { title: 'DIRECT TO TBILISI', sub: 'TBS · TBILISI INTERNATIONAL', rows: [
+      ['ISTANBUL','IST','TURKISH'], ['WARSAW','WAW','LOT'], ['MUNICH','MUC','LUFTHANSA'],
+      ['RIGA','RIG','AIRBALTIC'], ['ATHENS','ATH','AEGEAN'], ['VIENNA','VIE','AUSTRIAN'] ] },
+    KUT: { title: 'DIRECT TO KUTAISI', sub: 'KUT · DAVID THE BUILDER INTL', rows: [
+      ['BUDAPEST','BUD','WIZZ AIR'], ['KATOWICE','KTW','WIZZ AIR'], ['MILAN','MXP','WIZZ AIR'],
+      ['DORTMUND','DTM','WIZZ AIR'], ['LARNACA','LCA','WIZZ AIR'], ['VILNIUS','VNO','WIZZ AIR'] ] }
+  };
+  const W = [9, 3, 9, 6], CLS = ['c-city','c-code','c-air','c-rem'];
+  const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rowsEl = document.getElementById('rows'), tbody = document.querySelector('#boardTable tbody');
+  const mk = (n) => { const s = document.createElement('span'); s.className = 'flaps'; for (let i = 0; i < n; i++) { const f = document.createElement('span'); f.className = 'flap'; f.textContent = ' '; s.appendChild(f); } return s; };
+  const rows = [];
+  for (let r = 0; r < 6; r++) {
+    const row = document.createElement('div'); row.className = 'brow'; const cells = [];
+    W.forEach((w, c) => {
+      const fl = mk(w);
+      if (c === 3) { const rem = document.createElement('span'); rem.className = 'remark ' + CLS[c]; const led = document.createElement('i'); led.className = 'led'; rem.append(led, fl); row.appendChild(rem); }
+      else { fl.classList.add(CLS[c]); row.appendChild(fl); }
+      cells.push([...fl.children]);
+    });
+    rowsEl.appendChild(row); rows.push(cells);
+  }
+  function flipTo(el, ch, delay, spins) {
+    if (reduce) { el.textContent = ch; return; }
+    let k = 0;
+    setTimeout(function step() {
+      if (k++ < spins) { el.textContent = ABC[(Math.random() * ABC.length) | 0]; el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); setTimeout(step, 55); }
+      else { el.textContent = ch; el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); }
+    }, delay);
+  }
+  function show(ap) {
+    const d = DATA[ap];
+    document.getElementById('boardTitle').textContent = d.title;
+    document.getElementById('boardSub').textContent = d.sub;
+    tbody.innerHTML = '';
+    d.rows.forEach((r, ri) => {
+      const vals = [...r, 'DIRECT'];
+      tbody.insertAdjacentHTML('beforeend', `<tr><td>${vals[0]}</td><td>${vals[1]}</td><td>${vals[2]}</td><td>Direct</td></tr>`);
+      vals.forEach((v, c) => {
+        const s = v.padEnd(W[c], ' ');
+        rows[ri][c].forEach((el, i) => flipTo(el, s[i], ri * 90 + c * 40 + i * 22, s[i] === ' ' ? 2 : 5 + ((Math.random() * 8) | 0)));
+      });
+    });
+  }
+  document.querySelectorAll('.tab').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === b));
+    show(b.dataset.ap);
+  });
+  /* Tbilisi clock (UTC+4) */
+  const clock = document.getElementById('clock'); const cf = [];
+  for (let i = 0; i < 5; i++) { const f = document.createElement('span'); f.className = 'flap'; clock.appendChild(f); cf.push(f); }
+  const tick = () => { const t = new Date(Date.now() + 4 * 3600e3); const s = String(t.getUTCHours()).padStart(2,'0') + ':' + String(t.getUTCMinutes()).padStart(2,'0'); [...s].forEach((ch, i) => { if (cf[i].textContent !== ch) cf[i].textContent = ch; }); };
+  tick(); setInterval(tick, 15000);
+  show('TBS');
+})();
+</script>
+</body>
+</html>
