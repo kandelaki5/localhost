@@ -182,7 +182,7 @@ export const EXPERIENCES: readonly Experience[] = [
     highlights: [
       'Georgia: khachapuri in its regional styles (Adjarian, Imeretian, Megrelian), khinkali dumplings, pkhali, aubergine with walnut, mtsvadi (grilled meat) and churchkhela.',
       'Megrelian cuisine (spicy, walnut-rich — e.g. elarji and gebzhalia) and the mountain cooking of Tusheti and Adjara.',
-      'Cooking with hosts — e.g. khinkali with Leila, or Megrelian dishes at Sisatura (see Hosts We Love).',
+      'Meals with hosts — e.g. Leila\'s khinkali, or Megrelian dishes at Sisatura (see Hosts We Love).',
       'Local markets and bakeries with traditional clay-oven bread (shoti / tonis puri).',
       'Armenia: lavash (its making is on UNESCO\'s intangible-heritage list), khorovats barbecue, dolma and famous apricots.',
       'Azerbaijan: saffron plov, dolma, qutab, the piti stew and halva of Sheki, and a strong tea culture.',
@@ -644,7 +644,7 @@ export function renderKnowledgeBase(): string {
   bullets(TRAVEL_TIMES);
 
   h('Hosts We Love');
-  out.push('Families and friends Local Host loves to introduce guests to (from the company\'s Sustainability Policy). Supporting them is part of the mission.');
+  out.push('Families and friends Local Host loves to introduce guests to (from the owner\'s list and the company\'s Sustainability Policy). Supporting them is part of the mission.');
   for (const host of HOSTS) {
     const label = host.inTemplate ? host.name : `${host.name} (also mentioned in the policy)`;
     out.push(
