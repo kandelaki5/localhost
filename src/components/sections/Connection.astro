@@ -8,13 +8,15 @@
 import SectionHead from '../ui/SectionHead.astro';
 import Placeholder from '../ui/Placeholder.astro';
 import NightSurface from '../ui/NightSurface.astro';
-import { getLang, useStrings } from '../../i18n';
+import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'connection');
+// English fallback text keeps English typography until this section is translated.
+const textLang = contentLang(lang, 'connection') === lang ? undefined : 'en';
 ---
 
-<NightSurface as="section" id="connection" labelledby="connection-title" ridge ridgeSeed={15}>
+<NightSurface as="section" lang={textLang} id="connection" labelledby="connection-title" ridge ridgeSeed={15}>
   <div class="container">
     <SectionHead number={5} id="connection-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
     <Placeholder shape="board" count={6} note="Split-flap departure boards TBS / KUT with tabs and the seasonal note" />

@@ -7,13 +7,15 @@
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Placeholder from '../ui/Placeholder.astro';
-import { getLang, useStrings } from '../../i18n';
+import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'sustainability');
+// English fallback text keeps English typography until this section is translated.
+const textLang = contentLang(lang, 'sustainability') === lang ? undefined : 'en';
 ---
 
-<section id="sustainability" class="section" aria-labelledby="sustainability-title">
+<section lang={textLang} id="sustainability" class="section" aria-labelledby="sustainability-title">
   <div class="container">
     <SectionHead number={9} id="sustainability-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
     <Placeholder shape="columns" count={4} note="Travelife Partner badge, the figures, and four policy PDFs" />

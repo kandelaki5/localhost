@@ -172,9 +172,29 @@ samp {
 /* Georgian. Mkhedruli has tall ascenders/descenders and no case: loosen the
    leading, never letter-space it, never fake capitals with text-transform
    (browsers would map it to Mtavruli), never fake an italic. Weights never
-   drop below 400 at small sizes. These overrides apply to whole Georgian
-   pages AND to any element marked lang="ka" inside a Latin page. */
-:lang(ka) {
+   drop below 400 at small sizes.
+
+   How it works: <html> keeps the Latin values (captured below as --latin-*),
+   every Georgian element under it switches to the Georgian values, and any
+   element explicitly marked with another language (e.g. an English fallback
+   section on /ka/) switches back. Works both for whole Georgian pages and for
+   lang="ka" snippets inside Latin pages. */
+html {
+  --latin-lh-display: var(--lh-display);
+  --latin-lh-heading: var(--lh-heading);
+  --latin-lh-body: var(--lh-body);
+  --latin-tracking-display: var(--tracking-display);
+  --latin-tracking-heading: var(--tracking-heading);
+  --latin-tracking-caps: var(--tracking-caps);
+  --latin-tracking-caps-wide: var(--tracking-caps-wide);
+  --latin-case-caps: var(--case-caps);
+  --latin-fw-display: var(--fw-display);
+  --latin-fw-display-m: var(--fw-display-m);
+  --latin-fw-display-sm: var(--fw-display-sm);
+  --latin-fw-accent: var(--fw-accent);
+}
+
+:lang(ka):not(html) {
   --lh-display: var(--lh-display-ka);
   --lh-heading: var(--lh-heading-ka);
   --lh-body: var(--lh-body-ka);
@@ -190,7 +210,23 @@ samp {
   --fw-accent: var(--fw-ka-display);
 }
 
-:lang(ka) :is(em, i) {
+[lang]:not(html):not(:lang(ka)) {
+  --lh-display: var(--latin-lh-display);
+  --lh-heading: var(--latin-lh-heading);
+  --lh-body: var(--latin-lh-body);
+  --tracking-display: var(--latin-tracking-display);
+  --tracking-heading: var(--latin-tracking-heading);
+  --tracking-caps: var(--latin-tracking-caps);
+  --tracking-caps-wide: var(--latin-tracking-caps-wide);
+  --case-caps: var(--latin-case-caps);
+  --fs-scale: 1;
+  --fw-display: var(--latin-fw-display);
+  --fw-display-m: var(--latin-fw-display-m);
+  --fw-display-sm: var(--latin-fw-display-sm);
+  --fw-accent: var(--latin-fw-accent);
+}
+
+:is(em, i):lang(ka) {
   font-style: normal;
 }
 
@@ -259,9 +295,10 @@ samp {
   border: 0;
 }
 
-/* Skip link: hidden until focused, then an ink pill at the top-left. */
+/* Skip link: hidden until focused, then an ink pill at the top-left of the
+   document (absolute, not fixed: it is the first thing you tab to). */
 .skip-link {
-  position: fixed;
+  position: absolute;
   left: var(--space-s);
   top: var(--space-s);
   z-index: var(--z-skip);

@@ -7,13 +7,15 @@
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Placeholder from '../ui/Placeholder.astro';
-import { getLang, useStrings } from '../../i18n';
+import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'experiences');
+// English fallback text keeps English typography until this section is translated.
+const textLang = contentLang(lang, 'experiences') === lang ? undefined : 'en';
 ---
 
-<section id="experiences" class="section" aria-labelledby="experiences-title">
+<section lang={textLang} id="experiences" class="section" aria-labelledby="experiences-title">
   <div class="container">
     <SectionHead number={2} id="experiences-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
     <Placeholder shape="stamps" count={6} note="Carousel of six perforated stamp cards — Culture, Wine, Trekking, Gastronomy, Pilgrim, Leisure" />

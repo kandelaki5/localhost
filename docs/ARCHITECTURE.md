@@ -109,6 +109,7 @@ const common = useStrings(lang, 'common');    // shared strings (nav, CTAs, cont
 | `localizePath(path, lang)` | `/credits/` → `/de/credits/`; keeps `?query` and `#hash`; leaves URLs, `mailto:`, `#anchors` and files (`/assets/*.pdf`) alone |
 | `alternateLinks(path)` | hreflang list incl. `x-default` (Base.astro already emits them) |
 | `localeInfo(lang).bcp47` | For `Intl.DateTimeFormat` / `NumberFormat` (dates, months, numbers) |
+| `contentLang(lang, key)` | `lang` if `src/i18n/<lang>/<key>.json` exists, else `'en'`. The stubs put `lang="en"` on the section root while a section is untranslated, so English fallback text keeps English typography on /ka/. Keep that line — it switches itself off once your translations exist. |
 | `fmt(template, vars)` (`lib/markup`) | `"© {year} Local Host"` placeholders |
 | `inline(text)` (`lib/markup`) | `*accent*` → `<em>`, `**bold**`, `\n` → `<br>`; HTML-escaped, safe for `set:html` |
 
@@ -199,7 +200,7 @@ node scripts/shoot.mjs "http://127.0.0.1:4512/" out/experiences-390.png 390 844 
 node scripts/shoot.mjs "http://127.0.0.1:4512/ka/" out/experiences-ka.png 1440 900 --selector=#experiences --wait=1500
 ```
 
-`--selector=#<id>` captures just your section. Check desktop (1440) and phone (390), and at least one other language (Georgian runs long and tall). Read every screenshot and fix what you see before reporting done. The Astro dev toolbar appears at the bottom centre in dev; it is not part of the site.
+`--selector=#<id>` captures just your section (the sticky header can overlap its top edge in that capture — expected). Check desktop (1440) and phone (390), and at least one other language (Georgian runs long and tall). Read every screenshot and fix what you see before reporting done. The Astro dev toolbar appears at the bottom centre in dev; it is not part of the site.
 
 ## 13. Ports
 

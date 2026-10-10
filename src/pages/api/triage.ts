@@ -7,7 +7,14 @@
  *          { mode, locale, triage: { language, market, senderType, intent, urgency, urgencyReason, routeTo,
  *            extracted: { travelDates?, groupSize?, countries?, interests?, budgetHints?, hotelCategory?, specialNeeds? },
  *            summary, missingInfo[], draftReply: { language, subject, body } }, sample }
- * Errors   shared JSON error shape ({ error: { code, message } }, see docs/AI-ARCHITECTURE.md).
+ * Errors   shared JSON error shape ({ error: { code, message } }, see docs/AI-ARCHITECTURE.md);
+ *          401 `unauthorized` when STAFF_ACCESS_KEY is set and the request lacks the key.
+ *
+ * STAFF ONLY. Pasted emails contain personal data and every live call costs
+ * money, so set STAFF_ACCESS_KEY in production: requests must then carry the
+ * key in the `X-Staff-Key` header (triageEmail(req, { staffKey })) or the
+ * `lh_staff_key` cookie. In demo mode the three sample emails stay open
+ * without a key, so the public AI Lab can still show the tool.
  *
  * The pasted email is untrusted DATA: it goes into the user message only,
  * between <email> delimiters that it cannot close, and the cached instructions
@@ -16,14 +23,14 @@
  * another valid desk — it can't change the output format or reach any tool.
  *
  * Live: structured output via runStructured() (knowledge base + feature
- * instructions cached), effort "low", max_tokens 4000. A safety net drops any
+ * instructions cached), effort "low", max_tokens 6000. A safety net drops any
  * sentence with a currency amount from the draft reply (we never quote prices
  * in a first reply). Demo: the prepared result of the posted sample email, or
  * the closest sample for other emails (labelled via `sample`).
  */
 import type { APIRoute } from 'astro';
 import { runStructured, strictSchema, structuredErrorResponse, type JsonSchema } from '../../lib/ai/claude';
-import { error, guard, json } from '../../lib/ai/http';
+import { error, guard, json, staffAccess } from '../../lib/ai/http';
 import { LOCALE_INFO } from '../../lib/ai/locales';
 import {
   SENDER_TYPES,
@@ -41,7 +48,12 @@ import { pickTriageSample } from '../../lib/ai/fixtures/triage';
 export const prerender = false;
 
 const FEATURE = 'triage';
-const MAX_TOKENS = 4000;
+/**
+ * Output budget incl. adaptive thinking (effort "low"): notes + a draft reply
+ * of ~150–250 words in the sender's language (Cyrillic or Georgian need many
+ * more tokens than English). Worst case output cost: 6,000 × $20/M ≈ $0.12.
+ */
+const MAX_TOKENS = 6000;
 /** 8000 characters of (e.g. Georgian) UTF-8 text + JSON overhead. */
 const MAX_BODY_BYTES = 48 * 1024;
 const DEMO_DELAY_MS = 1100;
@@ -252,6 +264,14 @@ function normaliseTriage(raw: TriageModelOutput): TriageResult {
 
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
+let warnedOpen = false;
+/** Once per instance: live triage without STAFF_ACCESS_KEY is open to anyone. */
+function warnOpenOnce(): void {
+  if (warnedOpen) return;
+  warnedOpen = true;
+  console.warn(`[ai] ${FEATURE}: STAFF_ACCESS_KEY is not set — the staff triage tool is open to anyone. Set it before going live.`);
+}
+
 export const POST: APIRoute = async (context) => {
   const g = await guard(context, { maxBytes: MAX_BODY_BYTES });
   if (!g.ok) return g.response;
@@ -260,9 +280,21 @@ export const POST: APIRoute = async (context) => {
   if (!check.ok) return error(400, 'bad_request', check.message, { mode: g.mode, headers: g.headers });
   const input = check.value;
 
+  // ---- Staff key (STAFF_ACCESS_KEY) -----------------------------------------
+  const access = staffAccess(context.request);
+  const demoPick = g.mode === 'demo' ? pickTriageSample(input.email, input.sampleId) : null;
+  // Demo mode: the unchanged sample emails stay open (nothing is analysed or paid for).
+  if (access === 'denied' && !demoPick?.exact) {
+    return error(401, 'unauthorized', 'This is a staff tool. Enter the staff access key to use it.', {
+      mode: g.mode,
+      headers: g.headers,
+    });
+  }
+  if (access === 'open' && g.mode === 'live') warnOpenOnce();
+
   // ---- Demo: prepared results of the three sample emails ------------------
-  if (g.mode === 'demo') {
-    const { sample, exact } = pickTriageSample(input.email, input.sampleId);
+  if (demoPick) {
+    const { sample, exact } = demoPick;
     const out: Omit<TriageResponse, 'mode'> = {
       locale: 'en', // the prepared notes are English
       triage: sample.result,
@@ -279,6 +311,7 @@ export const POST: APIRoute = async (context) => {
     messages: [{ role: 'user', content: triageMessage(input.email, LOCALE_INFO[input.locale].english) }],
     maxTokens: MAX_TOKENS,
     effort: 'low',
+    signal: context.request.signal,
     schema: TRIAGE_SCHEMA,
     validate: isTriageModelOutput,
   });

@@ -592,6 +592,8 @@ export function buildEmail(source: MailtoSource, options: MailtoOptions = {}): {
  */
 export function buildMailto(plan: MailtoSource, options: MailtoOptions = {}): string {
   const { subject, body } = buildEmail(plan, options);
+  // Everything is percent-encoded, so plan text cannot add mail headers (cc, bcc…).
   const encode = (s: string) => encodeURIComponent(s.replace(/\r?\n/g, '\r\n'));
-  return `mailto:${options.to ?? PLAN_EMAIL}?subject=${encode(subject)}&body=${encode(body)}`;
+  const to = options.to && /^[^\s@,;?&]+@[^\s@,;?&]+$/.test(options.to) ? options.to : PLAN_EMAIL;
+  return `mailto:${to}?subject=${encode(subject.replace(/[\r\n]+/g, ' '))}&body=${encode(body)}`;
 }

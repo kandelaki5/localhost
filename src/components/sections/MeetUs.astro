@@ -7,13 +7,15 @@
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Placeholder from '../ui/Placeholder.astro';
-import { getLang, useStrings } from '../../i18n';
+import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'meet-us');
+// English fallback text keeps English typography until this section is translated.
+const textLang = contentLang(lang, 'meet-us') === lang ? undefined : 'en';
 ---
 
-<section id="meet-us" class="section" aria-labelledby="meet-us-title">
+<section lang={textLang} id="meet-us" class="section" aria-labelledby="meet-us-title">
   <div class="container">
     <SectionHead number={6} id="meet-us-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
     <Placeholder shape="seals" count={6} note="Six trade fairs as visa stamps, with a calendar of the next editions" />

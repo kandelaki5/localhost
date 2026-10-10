@@ -7,13 +7,15 @@
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Placeholder from '../ui/Placeholder.astro';
-import { getLang, useStrings } from '../../i18n';
+import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'awards');
+// English fallback text keeps English typography until this section is translated.
+const textLang = contentLang(lang, 'awards') === lang ? undefined : 'en';
 ---
 
-<section id="awards" class="section" aria-labelledby="awards-title">
+<section lang={textLang} id="awards" class="section" aria-labelledby="awards-title">
   <div class="container">
     <SectionHead number={8} id="awards-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
     <Placeholder shape="seals" count={2} note="Welcome to Georgia! National Tourism Awards — round nominee seals" />

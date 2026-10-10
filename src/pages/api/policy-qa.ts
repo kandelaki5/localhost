@@ -13,9 +13,9 @@
  * citations enabled (sentence-level char_location citations). Citations are
  * incompatible with structured outputs, so this is a normal text answer whose
  * text blocks + citations are converted into `answer`. Non-streaming for the
- * browser (one JSON answer); the SDK call streams internally and uses
- * finalMessage(). effort "low", max_tokens 3000, no knowledge base (answers come
- * from the documents only).
+ * browser (one JSON answer); callClaude() streams internally, uses
+ * finalMessage() and applies the time budget. effort "low", max_tokens 3,000
+ * (4,500 for Georgian), no knowledge base (answers come from the documents only).
  *
  * Prompt caching: system = [feature instructions (cached)]; messages[0] starts
  * with the five documents, the last one carrying cache_control, so the ~13k
@@ -28,15 +28,9 @@
  * generic "demo" answer), with real verbatim citations.
  */
 import type { APIRoute } from 'astro';
-import type {
-  BetaContentBlockParam,
-  BetaMessage,
-  BetaMessageParam,
-  MessageCreateParamsBase,
-} from '@anthropic-ai/sdk/resources/beta/messages/messages';
-import { messageParams, sanitizeHistory } from '../../lib/ai/claude';
-import { anthropic } from '../../lib/ai/config';
-import { error, guard, json, logUsage, upstreamErrorResponse } from '../../lib/ai/http';
+import type { BetaContentBlockParam, BetaMessage, BetaMessageParam } from '@anthropic-ai/sdk/resources/beta/messages/messages';
+import { callClaude, sanitizeHistory, structuredErrorResponse } from '../../lib/ai/claude';
+import { error, guard, json } from '../../lib/ai/http';
 import { languageInstruction, pickLocale } from '../../lib/ai/locales';
 import { policyDocumentBlocks, policyForCitation } from '../../lib/ai/policies';
 import {
@@ -54,7 +48,8 @@ import { POLICY_QA_GENERIC_ANSWER, pickPolicyQaFixture } from '../../lib/ai/fixt
 export const prerender = false;
 
 const FEATURE = 'policy-qa';
-const MAX_TOKENS = 3000;
+/** Output budget incl. adaptive thinking (effort "low"): a 40–150 word answer; Georgian needs more tokens. */
+const MAX_TOKENS: Readonly<Record<Locale, number>> = { en: 3000, ka: 4500, pl: 3000, it: 3000, de: 3000 };
 const MAX_BODY_BYTES = 64 * 1024;
 const DEMO_DELAY_MS = 900;
 
@@ -179,38 +174,18 @@ export const POST: APIRoute = async (context) => {
   }
 
   // ---- Live: documents with citations (no structured output) ---------------
-  let params: MessageCreateParamsBase;
-  try {
-    params = messageParams({
-      feature: FEATURE,
-      instructions: INSTRUCTIONS,
-      knowledge: false,
-      messages: buildMessages(input.question, input.history, locale),
-      maxTokens: MAX_TOKENS,
-      effort: 'low',
-    });
-  } catch (err) {
-    console.error(err);
-    return error(500, 'internal', 'The AI assistant is misconfigured.', { mode: 'live', headers: g.headers });
-  }
-
-  let message: BetaMessage;
-  try {
-    message = await anthropic().beta.messages.stream(params).finalMessage();
-  } catch (err) {
-    return upstreamErrorResponse(FEATURE, err, g.headers);
-  }
-  logUsage(FEATURE, message);
-
-  if (message.stop_reason === 'refusal') {
-    return error(422, 'refusal', 'The assistant could not help with this question. Please rephrase it or email info@localhost.ge.', {
-      mode: 'live',
-      headers: g.headers,
-    });
-  }
-  if (message.stop_reason === 'max_tokens' || message.stop_reason === 'model_context_window_exceeded') {
-    return error(502, 'truncated', 'The answer was too long to finish. Please ask a shorter question.', { mode: 'live', headers: g.headers });
-  }
+  // callClaude() handles API errors, the time budget, refusal (422) and max_tokens (502 truncated).
+  const call = await callClaude({
+    feature: FEATURE,
+    instructions: INSTRUCTIONS,
+    knowledge: false,
+    messages: buildMessages(input.question, input.history, locale),
+    maxTokens: MAX_TOKENS[locale],
+    effort: 'low',
+    signal: context.request.signal,
+  });
+  if (!call.ok) return structuredErrorResponse(call, g.headers);
+  const message = call.message;
   const answer = toAnswerBlocks(message);
   if (answer.length === 0) {
     console.error(`[ai] ${FEATURE}: no text in the answer (stop=${message.stop_reason})`);

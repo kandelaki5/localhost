@@ -195,9 +195,15 @@ export function languageLabel(code: string, displayLocale: string = 'en'): strin
   }
 }
 
-/** A mailto: link that opens the draft reply in the staff member's mail client. */
+/**
+ * A mailto: link that opens the draft reply in the staff member's mail client.
+ * Every part is percent-encoded, so text in the reply cannot add headers
+ * (cc, bcc…); line breaks become CRLF as RFC 6068 asks.
+ */
 export function draftReplyMailto(reply: TriageDraftReply, to = ''): string {
-  return `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(reply.subject)}&body=${encodeURIComponent(reply.body)}`;
+  const encode = (s: string) => encodeURIComponent(s.replace(/\r?\n/g, '\r\n'));
+  const address = /^[^\s@,;?&]+@[^\s@,;?&]+$/.test(to.trim()) ? to.trim() : '';
+  return `mailto:${encodeURIComponent(address)}?subject=${encode(reply.subject.replace(/[\r\n]+/g, ' '))}&body=${encode(reply.body)}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -211,7 +217,10 @@ export type TriageOutcome =
       /** null when the request never reached the server (validation, network). */
       mode: AiMode | null;
       status: number;
-      /** "bad_request" (see `field`), "rate_limited", "daily_cap", "refusal", "truncated", "upstream_*", "network", "aborted", "invalid_response". */
+      /**
+       * "bad_request" (see `field`), "unauthorized" (staff key missing or wrong), "rate_limited", "daily_cap",
+       * "refusal", "truncated", "upstream_*", "network", "aborted", "invalid_response".
+       */
       error: string;
       field?: string;
       /** Server or validation message (English). */
@@ -220,16 +229,30 @@ export type TriageOutcome =
       aborted: boolean;
     };
 
-/** Validates and POSTs an email to /api/triage. Live triage takes ~10–30 s — show progress, allow cancel via `signal`. */
+/** Header that carries the staff access key (the server also accepts a `lh_staff_key` cookie). */
+export const STAFF_KEY_HEADER = 'X-Staff-Key';
+
+/**
+ * Validates and POSTs an email to /api/triage. Live triage takes ~10–30 s — show progress, allow cancel via `signal`.
+ *
+ * Staff key: when the server has STAFF_ACCESS_KEY set, pass it as `staffKey`. Without it the
+ * server answers `error: 'unauthorized'` (HTTP 401) — show a password field, then retry
+ * (keep the key in sessionStorage, never in the URL). In demo mode the unchanged sample
+ * emails work without a key.
+ */
 export async function triageEmail(
   request: TriageRequest,
-  options: { signal?: AbortSignal; endpoint?: string } = {},
+  options: { signal?: AbortSignal; endpoint?: string; staffKey?: string } = {},
 ): Promise<TriageOutcome> {
   const check = validateTriageRequest(request);
   if (!check.ok) {
     return { ok: false, mode: null, status: 0, error: 'bad_request', field: check.field, message: check.message, aborted: false };
   }
-  const r = await postAiJson<TriageResponse>(options.endpoint ?? TRIAGE_ENDPOINT, request, options.signal ? { signal: options.signal } : {});
+  const staffKey = options.staffKey?.trim();
+  const r = await postAiJson<TriageResponse>(options.endpoint ?? TRIAGE_ENDPOINT, request, {
+    ...(options.signal ? { signal: options.signal } : {}),
+    ...(staffKey ? { headers: { [STAFF_KEY_HEADER]: staffKey } } : {}),
+  });
   if (!r.ok) {
     return {
       ok: false,

@@ -2,7 +2,12 @@
  * Browser helpers for calling the AI endpoints (BROWSER-SAFE: no SDK, no
  * secrets — import this from <script> tags / client components).
  *
- *   const result = await postAiStream('/api/ai/planner', body, {
+ * RENDERING RULE: model output is untrusted text. Put it into the page with
+ * `textContent` / Astro `{expressions}` (auto-escaped) — never `innerHTML`,
+ * `set:html` or `insertAdjacentHTML` with model text unless every character
+ * is HTML-escaped first, and never use model text as a URL (href/src).
+ *
+ *   const result = await postAiStream('/api/plan', body, {
  *     onText: (visible) => (output.textContent = visible),
  *   });
  *   if (result.mode === 'demo') badge.hidden = false;      // "Demo — sample answer"
@@ -136,13 +141,17 @@ export type AiJsonResult<T> =
   | { ok: true; status: number; mode: AiMode; data: T }
   | { ok: false; status: number; mode: AiMode; error: string; message?: string; retryAfter?: number; aborted: boolean };
 
-/** POST JSON and parse a JSON answer (structured endpoints). */
-export async function postAiJson<T>(url: string, body: unknown, options: { signal?: AbortSignal } = {}): Promise<AiJsonResult<T>> {
+/** POST JSON and parse a JSON answer (structured endpoints). `headers` adds request headers (e.g. X-Staff-Key). */
+export async function postAiJson<T>(
+  url: string,
+  body: unknown,
+  options: { signal?: AbortSignal; headers?: Record<string, string> } = {},
+): Promise<AiJsonResult<T>> {
   let response: Response;
   try {
     response = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: { ...options.headers, 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(body),
       ...(options.signal ? { signal: options.signal } : {}),
     });

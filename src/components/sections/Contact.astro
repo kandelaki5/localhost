@@ -7,13 +7,15 @@
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Placeholder from '../ui/Placeholder.astro';
-import { getLang, useStrings } from '../../i18n';
+import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'contact');
+// English fallback text keeps English typography until this section is translated.
+const textLang = contentLang(lang, 'contact') === lang ? undefined : 'en';
 ---
 
-<section id="contact" class="section" aria-labelledby="contact-title">
+<section lang={textLang} id="contact" class="section" aria-labelledby="contact-title">
   <div class="container">
     <SectionHead number={12} id="contact-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
     <Placeholder shape="columns" count={4} note="Office, write & call, map at street level, the closing sign-off" />

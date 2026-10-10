@@ -362,6 +362,7 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
 
   .hero > :global(.hero__ridge) {
     margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    margin-bottom: calc(-0.45 * var(--space-section));
   }
 
   /* ── laptop (1024–1279) ── */
@@ -484,6 +485,13 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
 
     .hero__line--2 {
       padding-left: 14%;
+    }
+
+    /* Fitted (longer) translations can drop under 40px on small phones:
+       keep Fraunces at ≥ 360 there (DESIGN.md rule 4). */
+    .hero__title[style*='--hero-fit'],
+    .hero__title[style*='--hero-fit'] em {
+      font-weight: var(--fw-display-m);
     }
 
     .hero__proverb {

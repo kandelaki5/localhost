@@ -176,6 +176,17 @@ export function useStrings(lang: Lang, section: string): unknown {
   return result;
 }
 
+/**
+ * The language a section's strings are actually in: `lang` when
+ * src/i18n/<lang>/<key>.json exists, otherwise 'en' (the fallback).
+ * Put it on the section root as `lang` so English fallback text gets
+ * English typography on a Georgian page:
+ *   <section lang={contentLang(lang, 'hosts') !== lang ? 'en' : undefined}>
+ */
+export function contentLang(lang: Lang, section: string): Lang {
+  return lang === DEFAULT_LANG || FILES[`./${lang}/${section}.json`] ? lang : DEFAULT_LANG;
+}
+
 // ── Paths ──────────────────────────────────────────────────────────────────
 
 const SITE = (import.meta.env.SITE as string | undefined) ?? 'https://www.localhost.ge';

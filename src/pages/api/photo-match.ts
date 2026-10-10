@@ -38,7 +38,12 @@ import { PHOTO_DEMO_NOTICES, PHOTO_GENERIC_FIXTURE, PHOTO_SAMPLE_FIXTURES } from
 export const prerender = false;
 
 const FEATURE = 'photo-match';
-const MAX_TOKENS = 2000;
+/**
+ * Output budget incl. adaptive thinking (effort "low") — about 200 words of
+ * JSON. 2,000 cut Georgian answers off, so: 6,000 for `ka`, 4,000 otherwise.
+ * Worst case output cost: 6,000 × $20/M ≈ $0.12.
+ */
+const MAX_TOKENS: Readonly<Record<Locale, number>> = { en: 4000, ka: 6000, pl: 4000, it: 4000, de: 4000 };
 /** Base64 of a 1.5 MB image (4/3) plus room for the JSON envelope. Bigger bodies → 413 before parsing. */
 const MAX_BODY_BYTES = Math.ceil((PHOTO_MAX_BYTES * 4) / 3) + 16 * 1024;
 const DEMO_DELAY_MS = 700;
@@ -289,8 +294,9 @@ export const POST: APIRoute = async (context) => {
     instructions: INSTRUCTIONS,
     messages,
     locale,
-    maxTokens: MAX_TOKENS,
+    maxTokens: MAX_TOKENS[locale],
     effort: 'low',
+    signal: context.request.signal,
     schema: PHOTO_SCHEMA,
     validate: isPhotoModelOutput,
   });

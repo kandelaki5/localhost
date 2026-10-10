@@ -10,6 +10,8 @@
  *  - system[1] = feature prompt  stable per feature, cache_control
  *  - system[2] = volatile bits   answer language + per-request context (not cached)
  *  - last message must be user   no assistant prefill (400 on this model)
+ *  - time budget                 every call gets an AbortSignal (timeLimitMs(), default 50 s)
+ *                                so we answer before Vercel's maxDuration (60 s) kills the function
  */
 import type {
   BetaMessage,
@@ -17,9 +19,11 @@ import type {
   BetaTextBlockParam,
   MessageCreateParamsBase,
 } from '@anthropic-ai/sdk/resources/beta/messages/messages';
-import { FALLBACK_BETA, anthropic, fallbacksEnabled, model } from './config';
+import Anthropic from '@anthropic-ai/sdk';
+import { FALLBACK_BETA, anthropic, fallbacksEnabled, model, timeLimitMs } from './config';
 import {
   type AiErrorCode,
+  TIME_LIMIT_ERROR,
   describeUpstreamError,
   error,
   logUpstreamError,
@@ -49,6 +53,12 @@ export interface ClaudeRequest {
   effort: Effort;
   /** Include the knowledge base block (default true). */
   knowledge?: boolean;
+  /**
+   * The visitor's request signal (`context.request.signal`): when the browser
+   * disconnects, the upstream Claude call is cancelled too, so nobody pays
+   * for an answer that no one reads. The time budget is added automatically.
+   */
+  signal?: AbortSignal;
   /**
    * Escape hatch for extra params (tools, metadata, stop_sequences, betas...).
    * thinking / temperature / top_p / top_k / fallbacks are excluded on purpose.
@@ -113,10 +123,72 @@ export async function streamClaude(req: ClaudeRequest, options: { headers?: Head
     params = messageParams(req);
   } catch (err) {
     console.error(err);
-    return error(500, 'internal', 'The AI assistant is misconfigured.', { mode: 'live' });
+    return error(500, 'internal', 'The AI assistant is misconfigured.', { mode: 'live', ...(options.headers ? { headers: options.headers } : {}) });
   }
-  const stream = anthropic().beta.messages.stream(params);
-  return streamClaudeResponse(stream, { feature: req.feature, ...(options.headers ? { headers: options.headers } : {}) });
+  const { deadline, signal } = callSignals(req.signal);
+  const startedAt = Date.now();
+  const stream = anthropic().beta.messages.stream(params, { signal });
+  return streamClaudeResponse(stream, {
+    feature: req.feature,
+    deadline,
+    startedAt,
+    ...(options.headers ? { headers: options.headers } : {}),
+  });
+}
+
+/** The per-call time budget, combined with the visitor's request signal when given. */
+function callSignals(visitor?: AbortSignal): { deadline: AbortSignal; signal: AbortSignal } {
+  const deadline = AbortSignal.timeout(timeLimitMs());
+  return { deadline, signal: visitor ? AbortSignal.any([deadline, visitor]) : deadline };
+}
+
+export type CallResult =
+  | { ok: true; message: BetaMessage }
+  | { ok: false; status: number; code: AiErrorCode; message: string; retryAfter?: number };
+
+/**
+ * One non-streaming-for-the-browser Claude call: builds the params (house
+ * defaults + optional `transform`, e.g. output_config.format), streams under
+ * the hood and waits for finalMessage() (no HTTP timeout on long generations),
+ * within the time budget. Handles errors, refusal and max_tokens uniformly:
+ * an `ok` result has a complete message that is safe to read.
+ */
+export async function callClaude(
+  req: ClaudeRequest,
+  transform: (params: MessageCreateParamsBase) => MessageCreateParamsBase = (p) => p,
+): Promise<CallResult> {
+  let params: MessageCreateParamsBase;
+  try {
+    params = transform(messageParams(req));
+  } catch (err) {
+    console.error(err);
+    return { ok: false, status: 500, code: 'internal', message: 'The AI assistant is misconfigured.' };
+  }
+
+  const { deadline, signal } = callSignals(req.signal);
+  const startedAt = Date.now();
+  let message: BetaMessage;
+  try {
+    message = await anthropic().beta.messages.stream(params, { signal }).finalMessage();
+  } catch (err) {
+    if (err instanceof Anthropic.APIUserAbortError && deadline.aborted) {
+      console.warn(`[ai] ${req.feature}: time limit of ${timeLimitMs() / 1000}s reached, call cancelled`);
+      return { ok: false, ...TIME_LIMIT_ERROR };
+    }
+    logUpstreamError(req.feature, err);
+    const info = describeUpstreamError(err);
+    return { ok: false, status: info.status, code: info.code, message: info.message, ...(info.retryAfter ? { retryAfter: info.retryAfter } : {}) };
+  }
+  logUsage(req.feature, message, startedAt);
+
+  // Check the stop reason before reading content (a refusal may carry partial output).
+  if (message.stop_reason === 'refusal') {
+    return { ok: false, status: 422, code: 'refusal', message: 'The assistant could not help with this request. Please rephrase it or contact the Local Host team.' };
+  }
+  if (message.stop_reason === 'max_tokens' || message.stop_reason === 'model_context_window_exceeded') {
+    return { ok: false, status: 502, code: 'truncated', message: 'The answer was too long to finish. Please try a shorter request.' };
+  }
+  return { ok: true, message };
 }
 
 // ---------------------------------------------------------------------------
@@ -154,9 +226,9 @@ export type StructuredResult<T> =
 
 /**
  * Non-text endpoint: asks for JSON matching `schema` (output_config.format)
- * and returns the parsed object. Uses streaming under the hood (no HTTP
- * timeouts on long generations) and handles refusal / max_tokens / invalid
- * JSON / API errors uniformly.
+ * and returns the parsed object. Built on callClaude() (streaming under the
+ * hood, time budget, refusal / max_tokens / API errors) and adds JSON parsing
+ * + an optional shape check.
  *
  *   const r = await runStructured<Proposal>({ ...req, schema, validate: isProposal });
  *   if (!r.ok) return structuredErrorResponse(r);
@@ -165,34 +237,15 @@ export type StructuredResult<T> =
 export async function runStructured<T>(
   req: ClaudeRequest & { schema: JsonSchema; validate?: (value: unknown) => value is T },
 ): Promise<StructuredResult<T>> {
-  let params: MessageCreateParamsBase;
-  try {
-    const base = messageParams(req);
-    params = {
-      ...base,
-      output_config: { ...base.output_config, format: { type: 'json_schema', schema: strictSchema(req.schema) } },
-    };
-  } catch (err) {
-    console.error(err);
-    return { ok: false, status: 500, code: 'internal', message: 'The AI assistant is misconfigured.' };
-  }
-
-  let message: BetaMessage;
-  try {
-    message = await anthropic().beta.messages.stream(params).finalMessage();
-  } catch (err) {
-    logUpstreamError(req.feature, err);
-    const info = describeUpstreamError(err);
-    return { ok: false, status: info.status, code: info.code, message: info.message, ...(info.retryAfter ? { retryAfter: info.retryAfter } : {}) };
-  }
-  logUsage(req.feature, message);
-
-  if (message.stop_reason === 'refusal') {
-    return { ok: false, status: 422, code: 'refusal', message: 'The assistant could not help with this request. Please rephrase it or contact the Local Host team.' };
-  }
-  if (message.stop_reason === 'max_tokens' || message.stop_reason === 'model_context_window_exceeded') {
-    return { ok: false, status: 502, code: 'truncated', message: 'The answer was too long to finish. Please try a shorter request.' };
-  }
+  const schema = strictSchema(req.schema);
+  const call = await callClaude(req, (base) => ({
+    ...base,
+    output_config: { ...base.output_config, format: { type: 'json_schema', schema } },
+  }));
+  if (!call.ok) return call;
+  const { message } = call;
+  // All text blocks, joined: after a mid-stream server-side fallback the JSON
+  // continues in the text block that follows the `fallback` block.
   const text = message.content
     .filter((b): b is Extract<typeof b, { type: 'text' }> => b.type === 'text')
     .map((b) => b.text)

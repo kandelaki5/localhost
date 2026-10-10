@@ -16,6 +16,8 @@ interface Props {
   id?: string;
   /** id of the heading that names this region. */
   labelledby?: string;
+  /** Language of the content, when it differs from the page. */
+  lang?: string;
   /** Survey grid behind the content. */
   grid?: boolean;
   /** Where the green glow sits. */
@@ -32,6 +34,7 @@ const {
   as: Tag = 'div',
   id,
   labelledby,
+  lang,
   grid = true,
   glow = 'center',
   ridge = false,
@@ -44,6 +47,7 @@ const {
 <Tag
   id={id}
   aria-labelledby={labelledby}
+  lang={lang}
   data-surface="night"
   class:list={['night', padded && 'night--padded', grid && 'night--grid', `night--glow-${glow}`, className]}
 >

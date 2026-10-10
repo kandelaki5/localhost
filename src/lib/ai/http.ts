@@ -8,6 +8,7 @@
  *  - demoStream()                fixture text → AsyncIterable<string> in small timed chunks
  *  - streamClaudeResponse()      SDK MessageStream → streaming Response with [[markers]]
  *  - describeUpstreamError()     typed SDK error → {status, code, message}
+ *  - staffAccess()               optional STAFF_ACCESS_KEY check for staff-only tools
  *
  * RATE LIMITING IS BEST EFFORT: state lives in the memory of one serverless
  * instance. Vercel may run several instances and recycles them, so the real
@@ -18,7 +19,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { BetaMessage, BetaRawMessageStreamEvent } from '@anthropic-ai/sdk/resources/beta/messages/messages';
 import type { BetaMessageStream } from '@anthropic-ai/sdk/lib/BetaMessageStream';
-import { aiMode, dailyCap, isLive, rateLimitPerHour } from './config';
+import { aiMode, dailyCap, isLive, rateLimitPerHour, staffAccessKey } from './config';
 import { REFUSAL_MARKER, TRUNCATED_MARKER, errorMarker } from './markers';
 import type { AiMode } from './types';
 
@@ -34,6 +35,7 @@ export type AiErrorCode =
   | 'payload_too_large'
   | 'method_not_allowed'
   | 'forbidden_origin'
+  | 'unauthorized'
   | 'rate_limited'
   | 'daily_cap'
   | 'refusal'
@@ -280,6 +282,52 @@ export function isAllowedOrigin(request: Request): boolean {
 }
 
 // ---------------------------------------------------------------------------
+// Staff access (optional shared secret for staff-only tools such as /api/triage)
+// ---------------------------------------------------------------------------
+
+/** Request header that carries the staff key (sent by triageEmail({ staffKey })). */
+export const STAFF_KEY_HEADER = 'x-staff-key';
+/** Alternative: a cookie with this name (e.g. set once by the staff UI, path=/api/triage). */
+export const STAFF_KEY_COOKIE = 'lh_staff_key';
+
+/** Constant-time string comparison (no early exit on the first differing byte). */
+function safeEqual(a: string, b: string): boolean {
+  const x = new TextEncoder().encode(a);
+  const y = new TextEncoder().encode(b);
+  let diff = x.length ^ y.length;
+  for (let i = 0; i < Math.max(x.length, y.length); i++) diff |= (x[i] ?? 0) ^ (y[i] ?? 0);
+  return diff === 0;
+}
+
+function cookieValue(request: Request, name: string): string | undefined {
+  const header = request.headers.get('cookie');
+  if (!header) return undefined;
+  for (const part of header.split(';')) {
+    const eq = part.indexOf('=');
+    if (eq === -1 || part.slice(0, eq).trim() !== name) continue;
+    try {
+      return decodeURIComponent(part.slice(eq + 1).trim());
+    } catch {
+      return undefined;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Staff access for staff-only tools:
+ *  - "open"     STAFF_ACCESS_KEY is not set → anyone may use the tool (fine for a demo, not for production);
+ *  - "granted"  the request carries the key (header X-Staff-Key or cookie lh_staff_key);
+ *  - "denied"   the key is set and the request has no or a wrong key.
+ */
+export function staffAccess(request: Request): 'open' | 'granted' | 'denied' {
+  const key = staffAccessKey();
+  if (!key) return 'open';
+  const sent = request.headers.get(STAFF_KEY_HEADER)?.trim() || cookieValue(request, STAFF_KEY_COOKIE)?.trim();
+  return sent && safeEqual(sent, key) ? 'granted' : 'denied';
+}
+
+// ---------------------------------------------------------------------------
 // Body parsing
 // ---------------------------------------------------------------------------
 
@@ -498,6 +546,9 @@ export function streamText(
         // Loop until something is enqueued (empty chunks would otherwise stall the reader).
         for (;;) {
           const { done, value } = await iterator.next();
+          // The visitor went away while we were waiting: the stream is already
+          // cancelled, so touching the controller would throw.
+          if (finished) return;
           if (done) {
             finished = true;
             controller.close();
@@ -509,10 +560,15 @@ export function streamText(
           }
         }
       } catch (err) {
+        if (finished) return;
         console.error('[ai] stream source failed', err);
         finished = true;
-        controller.enqueue(encoder.encode(errorMarker('internal')));
-        controller.close();
+        try {
+          controller.enqueue(encoder.encode(errorMarker('internal')));
+          controller.close();
+        } catch {
+          /* stream already gone */
+        }
       }
     },
     async cancel() {
@@ -575,6 +631,13 @@ export interface UpstreamErrorInfo {
 
 const BUSY = 'The AI assistant is busy right now. Please try again in a minute.';
 const UNAVAILABLE = 'The AI assistant is temporarily unavailable. Please contact info@localhost.ge.';
+
+/** Our own time budget (timeLimitMs) ran out before Claude finished. */
+export const TIME_LIMIT_ERROR: UpstreamErrorInfo = {
+  status: 504,
+  code: 'upstream_timeout',
+  message: 'The AI assistant took too long to answer. Please try again, perhaps with a shorter request.',
+};
 
 /** Maps SDK errors (typed classes, most specific first) to an HTTP status + code. */
 export function describeUpstreamError(err: unknown): UpstreamErrorInfo {
@@ -645,14 +708,18 @@ export function upstreamErrorResponse(feature: string, err: unknown, headers?: H
   });
 }
 
-/** One compact usage line per call — lets you verify prompt caching in the logs. */
-export function logUsage(feature: string, message: BetaMessage): void {
+/**
+ * One compact usage line per call — lets you verify prompt caching, cost and
+ * latency (vs. the time budget) in the logs. Never logs prompt text or user data.
+ */
+export function logUsage(feature: string, message: BetaMessage, startedAt?: number): void {
   const u = message.usage;
   const fallback = (u.iterations ?? []).some((entry) => entry.type === 'fallback_message');
+  const took = startedAt !== undefined ? ` ${((Date.now() - startedAt) / 1000).toFixed(1)}s` : '';
   console.info(
     `[ai] ${feature} model=${message.model} stop=${message.stop_reason ?? '-'}` +
       ` in=${u.input_tokens} cache_read=${u.cache_read_input_tokens ?? 0} cache_write=${u.cache_creation_input_tokens ?? 0}` +
-      ` out=${u.output_tokens}${fallback ? ' fallback=yes' : ''}`,
+      ` out=${u.output_tokens}${fallback ? ' fallback=yes' : ''}${took}`,
   );
 }
 
@@ -663,6 +730,14 @@ export interface ClaudeStreamOptions {
   headers?: HeadersInit;
   /** Called with the final message after a successful stream (usage, stop_reason...). */
   onFinal?: (message: BetaMessage) => void;
+  /**
+   * The time-budget signal passed to the SDK call. When it fires, the stream
+   * ends with `[[truncated]]` (the text so far is usable) instead of running
+   * into the hard Vercel limit; before any output it becomes a 504 JSON error.
+   */
+  deadline?: AbortSignal;
+  /** Date.now() when the Claude call started (for the usage log line). */
+  startedAt?: number;
 }
 
 /**
@@ -674,6 +749,7 @@ export interface ClaudeStreamOptions {
  * body ends with a marker when needed:
  *   stop_reason "refusal"    → "\n\n[[refusal]]"   (client must discard the partial text)
  *   stop_reason "max_tokens" → "\n\n[[truncated]]"
+ *   time budget ran out      → "\n\n[[truncated]]"   (options.deadline)
  *   error mid-stream         → "\n\n[[error:<code>]]"
  * A client disconnect aborts the upstream request.
  */
@@ -689,6 +765,13 @@ export async function streamClaudeResponse(
     if (first.done) await stream.done();
   } catch (err) {
     stream.abort();
+    if (options.deadline?.aborted) {
+      console.warn(`[ai] ${options.feature}: time limit reached before any output`);
+      return error(TIME_LIMIT_ERROR.status, TIME_LIMIT_ERROR.code, TIME_LIMIT_ERROR.message, {
+        mode: 'live',
+        ...(options.headers ? { headers: options.headers } : {}),
+      });
+    }
     return upstreamErrorResponse(options.feature, err, options.headers);
   }
   return streamText(claudeTextDeltas(stream, iterator, first, options), {
@@ -716,7 +799,7 @@ async function* claudeTextDeltas(
       result = await iterator.next();
     }
     const message = await stream.finalMessage();
-    logUsage(options.feature, message);
+    logUsage(options.feature, message, options.startedAt);
     options.onFinal?.(message);
     if (message.stop_reason === 'refusal') {
       yield REFUSAL_MARKER;
@@ -724,7 +807,15 @@ async function* claudeTextDeltas(
       yield TRUNCATED_MARKER;
     }
   } catch (err) {
-    if (err instanceof Anthropic.APIUserAbortError) return; // client went away
+    if (err instanceof Anthropic.APIUserAbortError) {
+      // Our time budget ran out: keep what was written and mark it as cut short.
+      // Otherwise the visitor went away and nobody is reading any more.
+      if (options.deadline?.aborted) {
+        console.warn(`[ai] ${options.feature}: time limit reached mid-stream, answer cut short`);
+        yield TRUNCATED_MARKER;
+      }
+      return;
+    }
     logUpstreamError(options.feature, err);
     yield errorMarker(describeUpstreamError(err).code);
   } finally {

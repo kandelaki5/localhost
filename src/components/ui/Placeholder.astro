@@ -8,7 +8,7 @@
  */
 import Seal from './Seal.astro';
 import Stamp from './Stamp.astro';
-import { getLang, useStrings } from '../../i18n';
+import { getLang, localeInfo, useStrings } from '../../i18n';
 
 interface Props {
   shape?: 'triptych' | 'stamps' | 'pair' | 'type' | 'board' | 'seals' | 'permits' | 'columns' | 'form' | 'list';
@@ -19,11 +19,12 @@ interface Props {
 }
 
 const { shape = 'columns', count = 3, note, class: className } = Astro.props;
-const t = useStrings(getLang(Astro), 'common');
+const lang = getLang(Astro);
+const t = useStrings(lang, 'common');
 const items = Array.from({ length: count }, (_, i) => i);
 ---
 
-<div class:list={['ph', `ph--${shape}`, className]} role="note" aria-label={t.placeholder.label}>
+<div class:list={['ph', `ph--${shape}`, className]} role="note" aria-label={t.placeholder.label} lang={localeInfo(lang).bcp47}>
   <div class="ph__head">
     <Seal variant="permit" tone="green" top="Local Host" main={t.placeholder.label} rotate={-1.5} class="ph__seal" />
     <p class="ph__text">

@@ -13,7 +13,10 @@
  * answers 400 for: missing model / max_tokens, empty messages, thinking
  * "enabled"/"disabled"/budget_tokens, assistant prefill (last message from the
  * assistant), temperature ≠ 1, forced tool_choice, bad effort, > 4
- * cache_control breakpoints, `fallbacks` without the matching beta header.
+ * cache_control breakpoints, `fallbacks` without the matching beta header (or
+ * with the header of the other form), malformed image blocks (base64 source
+ * with an unsupported media_type or invalid data), and structured outputs
+ * combined with citations (the real API rejects that combination).
  * Warns (log only) when no cache_control is set or effort is omitted.
  *
  * Responses:
@@ -30,7 +33,9 @@
  * Canned text: env MOCK_TEXT (or a default). Scenarios — env MOCK_SCENARIO or
  * the token "[[mock:<scenario>]]" anywhere in the request's user messages:
  *   ok | refusal | refusal-midstream | max_tokens | fallback | midstream-error |
- *   error-400 | error-401 | error-429 | error-500 | error-529 | slow
+ *   error-400 | error-401 | error-429 | error-500 | error-529 | slow | slow-start
+ * (slow = 200 ms per chunk; slow-start = waits MOCK_SLOW_START_MS, default 5000,
+ * before sending any response — tests the time budget and early client aborts)
  */
 import http from 'node:http';
 import { createHash } from 'node:crypto';
@@ -65,10 +70,12 @@ const CANNED_TEXT = process.env.MOCK_TEXT ?? DEFAULT_TEXT;
 
 const SCENARIOS = new Set([
   'ok', 'refusal', 'refusal-midstream', 'max_tokens', 'fallback', 'midstream-error',
-  'error-400', 'error-401', 'error-429', 'error-500', 'error-529', 'slow',
+  'error-400', 'error-401', 'error-429', 'error-500', 'error-529', 'slow', 'slow-start',
 ]);
+const SLOW_START_MS = Number(process.env.MOCK_SLOW_START_MS ?? '5000');
 
 const VALID_EFFORT = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
+const IMAGE_MEDIA_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
 const FALLBACK_DEFAULT_BETA = 'server-side-fallback-2026-07-01';
 const FALLBACK_ARRAY_BETA = 'server-side-fallback-2026-06-01';
 
@@ -175,6 +182,18 @@ function validate(body, betas) {
       if (m?.content === undefined || m?.content === '' || (Array.isArray(m?.content) && m.content.length === 0)) {
         errors.push(`messages.${i}: content must be non-empty`);
       }
+      for (const [j, b] of blocksOf(m?.content).entries()) {
+        if (b?.type !== 'image') continue;
+        const src = b.source ?? {};
+        if (src.type === 'base64') {
+          if (!IMAGE_MEDIA_TYPES.has(src.media_type)) errors.push(`messages.${i}.content.${j}.source.media_type: Input should be 'image/jpeg', 'image/png', 'image/gif' or 'image/webp'`);
+          if (typeof src.data !== 'string' || !src.data || /^data:/.test(src.data) || !/^[A-Za-z0-9+/]+={0,2}$/.test(src.data)) {
+            errors.push(`messages.${i}.content.${j}.source.data: invalid base64 data (no data: prefix, no whitespace)`);
+          }
+        } else if (src.type !== 'url' && src.type !== 'file') {
+          errors.push(`messages.${i}.content.${j}.source.type: expected base64, url or file`);
+        }
+      }
     }
   }
   const thinking = body.thinking;
@@ -197,11 +216,14 @@ function validate(body, betas) {
   if (effort === undefined || effort === null) warnings.push('output_config.effort not set (defaults to "medium" on claude-opus-5-5) — set it explicitly');
   const format = body.output_config?.format;
   if (format && (format.type !== 'json_schema' || typeof format.schema !== 'object')) errors.push('output_config.format: expected {type:"json_schema", schema:{...}}');
+  if (format && citedDocuments(body).length) errors.push('Citations are not supported together with structured outputs (output_config.format).');
   if (body.fallbacks !== undefined && body.fallbacks !== null) {
     if (body.fallbacks === 'default') {
       if (!betas.includes(FALLBACK_DEFAULT_BETA)) errors.push(`fallbacks: "default" requires the anthropic-beta header ${FALLBACK_DEFAULT_BETA}`);
+      if (betas.includes(FALLBACK_ARRAY_BETA)) errors.push(`fallbacks: "default" cannot be combined with the ${FALLBACK_ARRAY_BETA} header (array form only)`);
     } else if (Array.isArray(body.fallbacks)) {
       if (!betas.includes(FALLBACK_ARRAY_BETA)) errors.push(`fallbacks: the array form requires the anthropic-beta header ${FALLBACK_ARRAY_BETA}`);
+      if (betas.includes(FALLBACK_DEFAULT_BETA)) errors.push(`fallbacks: the array form cannot be combined with the ${FALLBACK_DEFAULT_BETA} header ("default" only)`);
     } else {
       errors.push('fallbacks: expected "default" or an array');
     }
@@ -586,6 +608,15 @@ async function handleMessages(req, res, url) {
     case 'error-500': stats.rejected += 1; return apiError(res, 500, 'api_error', 'mock: internal error');
     case 'error-529': stats.rejected += 1; return apiError(res, 529, 'overloaded_error', 'mock: overloaded');
     default: break;
+  }
+  if (scenario === 'slow-start') {
+    let gone = false;
+    res.on('close', () => { gone = true; });
+    await sleep(SLOW_START_MS);
+    if (gone) {
+      log(`  ${id}: client disconnected before the response started`);
+      return;
+    }
   }
 
   const usage = body.stream ? await respondStream(res, body, scenario, id, req) : await respondJson(res, body, scenario, id);

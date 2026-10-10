@@ -7,13 +7,15 @@
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Placeholder from '../ui/Placeholder.astro';
-import { getLang, useStrings } from '../../i18n';
+import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'support');
+// English fallback text keeps English typography until this section is translated.
+const textLang = contentLang(lang, 'support') === lang ? undefined : 'en';
 ---
 
-<section id="support" class="section" aria-labelledby="support-title">
+<section lang={textLang} id="support" class="section" aria-labelledby="support-title">
   <div class="container">
     <SectionHead number={10} id="support-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
     <Placeholder shape="columns" count={5} note="What we stand behind — five commitments from the policy" />

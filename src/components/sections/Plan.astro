@@ -8,13 +8,15 @@
 import SectionHead from '../ui/SectionHead.astro';
 import Placeholder from '../ui/Placeholder.astro';
 import NightSurface from '../ui/NightSurface.astro';
-import { getLang, useStrings } from '../../i18n';
+import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'plan');
+// English fallback text keeps English typography until this section is translated.
+const textLang = contentLang(lang, 'plan') === lang ? undefined : 'en';
 ---
 
-<NightSurface as="section" id="plan" labelledby="plan-title" ridge ridgeSeed={33}>
+<NightSurface as="section" lang={textLang} id="plan" labelledby="plan-title" ridge ridgeSeed={33}>
   <div class="container">
     <SectionHead number={11} id="plan-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
     <Placeholder shape="form" count={2} note="AI trip designer: stamp choices, a letter to Local Host, streamed itinerary" />

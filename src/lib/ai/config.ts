@@ -8,6 +8,11 @@
  *   AI_RATE_LIMIT_PER_HOUR   – requests per IP per rolling hour (default 20).
  *   AI_DAILY_CAP             – live Claude calls per UTC day, site-wide (default 2000).
  *   AI_FALLBACKS             – "default" (server-side refusal fallbacks, default) or "off".
+ *   AI_TIME_LIMIT_SECONDS    – time budget for one Claude call (default 50). Keep it about
+ *                              10 s below the Vercel maxDuration in astro.config.mjs (60).
+ *   STAFF_ACCESS_KEY         – optional shared secret for the staff-only /api/triage tool.
+ *                              When set, triage requests must send it (header X-Staff-Key or
+ *                              cookie lh_staff_key); see docs/AI-ARCHITECTURE.md.
  *   ANTHROPIC_BASE_URL       – tests only (mock server). Read from process.env at
  *                              runtime only, so it is never baked into a build.
  *
@@ -21,6 +26,13 @@ import type { AiMode } from './types';
 export const DEFAULT_MODEL = 'claude-opus-5-5';
 export const DEFAULT_RATE_LIMIT_PER_HOUR = 20;
 export const DEFAULT_DAILY_CAP = 2000;
+/**
+ * Default time budget for one Claude call. Vercel stops the function at
+ * `maxDuration` (60 s in astro.config.mjs) with a bare 504 page, so we stop
+ * ~10 s earlier and answer with our own friendly error (JSON endpoints) or a
+ * `[[truncated]]` marker (streams).
+ */
+export const DEFAULT_TIME_LIMIT_SECONDS = 50;
 
 /** Beta header that enables `fallbacks: "default"` (scalar form). */
 export const FALLBACK_BETA = 'server-side-fallback-2026-07-01';
@@ -30,7 +42,9 @@ type EnvKey =
   | 'ANTHROPIC_MODEL'
   | 'AI_RATE_LIMIT_PER_HOUR'
   | 'AI_DAILY_CAP'
-  | 'AI_FALLBACKS';
+  | 'AI_FALLBACKS'
+  | 'AI_TIME_LIMIT_SECONDS'
+  | 'STAFF_ACCESS_KEY';
 
 function clean(value: unknown): string | undefined {
   if (typeof value !== 'string') return undefined;
@@ -60,6 +74,10 @@ function metaEnv(key: EnvKey): string | undefined {
       return clean(import.meta.env.AI_DAILY_CAP);
     case 'AI_FALLBACKS':
       return clean(import.meta.env.AI_FALLBACKS);
+    case 'AI_TIME_LIMIT_SECONDS':
+      return clean(import.meta.env.AI_TIME_LIMIT_SECONDS);
+    case 'STAFF_ACCESS_KEY':
+      return clean(import.meta.env.STAFF_ACCESS_KEY);
   }
 }
 
@@ -97,6 +115,21 @@ export function dailyCap(): number {
 }
 
 /**
+ * Time budget for one Claude call in ms (AI_TIME_LIMIT_SECONDS, default 50 s,
+ * clamped to 1–900 s). If you raise `maxDuration` in astro.config.mjs, raise
+ * this too (about 10 s below it).
+ */
+export function timeLimitMs(): number {
+  const seconds = positiveInt(readEnv('AI_TIME_LIMIT_SECONDS'), DEFAULT_TIME_LIMIT_SECONDS);
+  return Math.min(900, Math.max(1, seconds)) * 1000;
+}
+
+/** Shared secret for the staff-only triage tool (undefined = not configured). */
+export function staffAccessKey(): string | undefined {
+  return readEnv('STAFF_ACCESS_KEY');
+}
+
+/**
  * Server-side refusal fallbacks are on unless AI_FALLBACKS=off (e.g. when
  * ANTHROPIC_MODEL points at a model or platform that rejects `fallbacks`).
  */
@@ -129,6 +162,9 @@ export function anthropic(): Anthropic {
       apiKey,
       ...(url ? { baseURL: url } : {}),
       // Public endpoints on a 60 s serverless budget: one retry, bounded wait.
+      // NB: the SDK's `timeout` only covers the wait for response headers; a
+      // stream that has started is bounded by the per-call AbortSignal from
+      // timeLimitMs() (see claude.ts).
       maxRetries: 1,
       timeout: 55_000,
     });
