@@ -1,0 +1,276 @@
+{
+  "_meta": {
+    "researchedOn": "2026-10-10",
+    "doc": "docs/research/organisations-awards-hosts.md",
+    "confidenceKey": "high = confirmed on an official or primary source; medium = consistent sources but no independent primary confirmation; low = plausible guess / weak match. 'confidence' on members = how sure we are WHICH organisation the acronym means; 'membership*' fields = whether Local Host's membership is verified.",
+    "rule": "Only items with membershipVerified=true / confidence high may be shown on the site without owner confirmation."
+  },
+  "members": [
+    {
+      "id": "gta",
+      "acronym": "GTA",
+      "name": "Georgian Tourism Association",
+      "nativeName": "საქართველოს ტურიზმის ასოციაცია",
+      "url": "https://www.tourism-association.ge/",
+      "description": "Georgia's association of private tourism businesses (tour operators, hotels, wine and transport companies), founded in 2006 to promote private–public cooperation and sustainable tourism development.",
+      "confidence": "high",
+      "source": "https://www.tourism-association.ge/",
+      "membershipVerified": true,
+      "membershipConfidence": "high",
+      "membershipSource": "https://www.tourism-association.ge/eng/main/index/12",
+      "membershipNote": "Listed as 'LocalHost' under Members > Incoming and Outgoing Travel Companies, linking to www.localhost.ge. The profile text is old (2016-era wording)."
+    },
+    {
+      "id": "pit",
+      "acronym": "PIT",
+      "name": "Polish Chamber of Tourism",
+      "nativeName": "Polska Izba Turystyki",
+      "url": "https://pit.org.pl/",
+      "description": "Poland's largest nationwide business self-government body for the tourism industry (est. 1990, Warsaw), and a member of ECTAA.",
+      "confidence": "high",
+      "source": "https://pit.org.pl/the-polish-chamber-of-tourism/",
+      "membershipVerified": true,
+      "membershipConfidence": "high",
+      "membershipSource": "https://pit.org.pl/org_monday_members/local-host-ltd/",
+      "membershipNote": "Member profile 'Local Host Gruzja' (created Sept 2024, updated June 2026) describes LocalHost as a Tbilisi-based tour operator for Georgia, Armenia and Azerbaijan."
+    },
+    {
+      "id": "sit",
+      "acronym": "ŚIT",
+      "name": "Silesian Chamber of Tourism",
+      "nativeName": "Śląska Izba Turystyki",
+      "url": "https://sit.travel/",
+      "description": "Non-governmental chamber of tourism businesses based in Katowice, Poland, founded on 25 September 1991 (known until 2006 as Górnośląska Izba Turystyki).",
+      "confidence": "high",
+      "source": "https://sit.travel/kim-jestesmy/",
+      "membershipVerified": true,
+      "membershipConfidence": "high",
+      "membershipSource": "https://sit.travel/o-nas/czlonkowie-izby/",
+      "membershipNote": "Listed as 'LOCALHOST Ltd Tbilisi, Gruzja' — but with the OLD address (61 Aghmashenebeli Ave) and old phone; owner should ask ŚIT to update. The chamber's own acronym is ŚIT (with Ś); the template's 'SIT' is fine as a label. Do NOT link to sit.org.pl — that is an unrelated telecoms association."
+    },
+    {
+      "id": "gnta",
+      "acronym": "GNTA",
+      "name": "Georgian National Tourism Administration",
+      "nativeName": "სსიპ საქართველოს ტურიზმის ეროვნული ადმინისტრაცია",
+      "url": "https://gnta.ge/",
+      "description": "Government agency (legal entity of public law under the Ministry of Economy and Sustainable Development of Georgia) that shapes and implements state tourism policy and promotes Georgia abroad.",
+      "confidence": "high",
+      "source": "https://gnta.ge/",
+      "membershipVerified": false,
+      "membershipConfidence": "low",
+      "membershipSource": null,
+      "membershipNote": "GNTA is a government body, not a membership organisation; no public registry/partner listing for Local Host was found (not on places.georgia.travel). 'Proud member of GNTA' is not accurate wording. Ask the owner what the relationship is (e.g. registered tourism business, fam-trip/fair partner) and whether they have permission to use the GNTA / 'Georgia' logo."
+    },
+    {
+      "id": "cebg",
+      "acronym": "CEBG",
+      "name": "Convention and Exhibition Bureau of Georgia (most likely match — unconfirmed)",
+      "nativeName": null,
+      "url": "https://gceb.ge/en",
+      "description": "GNTA's MICE (meetings, incentives, conferences, exhibitions) unit, which promotes Georgia as a business-events destination and works with member hotels, venues and DMCs/PCOs.",
+      "confidence": "medium",
+      "source": "https://gceb.ge/en",
+      "membershipVerified": false,
+      "membershipConfidence": "low",
+      "membershipSource": null,
+      "membershipNote": "Acronym match: the bureau's own site title is 'Convention and Exhibition Bureau of Georgia' (C-E-B-G), though it is usually abbreviated GCEB. Fits Local Host's MICE profile, but Local Host is NOT in the bureau's current DMC & PCO directory (checked all 6 pages, 33 companies, 2026-10-10). No other organisation called CEBG was found. Owner must confirm what CEBG stands for and whether membership is current."
+    }
+  ],
+  "awardProgramme": {
+    "name": "Welcome to Georgia! National Tourism Awards",
+    "url": "https://wtgawards.com/",
+    "since": 2015,
+    "organiser": "Welcome to Georgia! National Tourism Awards project (private), co-organised by GNTA on behalf of the Ministry of Economy and Sustainable Development; professional jury + online vote, independent auditor BDO Georgia (2016 edition).",
+    "editions": [
+      { "n": 1, "date": "2015-11-20", "venue": "Funicular Restaurant Complex, Tbilisi", "source": "https://www.dmo.ge/en//company/awards-tourism.com" },
+      { "n": 2, "date": "2016-12-02", "venue": "The Biltmore Hotel Tbilisi", "source": "https://www.dmo.ge/en//company/awards-tourism.com" },
+      { "n": 3, "date": "2017-12-06", "venue": "Rustaveli Theatre, Tbilisi", "source": "https://businessgeorgia.ge/the-third-official-ceremony-of-the-welcome-to-georgia-national-tourism-awards/" }
+    ],
+    "categoryExamples": ["Best Incoming Tour Operator", "Best Outbound Tour Operator", "Best MICE Tourism", "Best Adventure Tourism", "The Fastest Growing Company of the Year in the SME Segment (2017 edition)"],
+    "confidence": "high",
+    "sources": [
+      "https://wtgawards.com/about-us/",
+      "https://businessgeorgia.ge/the-nominees-registration-of-the-welcome-to-georgia-national-tourism-award-is-open/",
+      "https://businessgeorgia.ge/the-third-official-ceremony-of-the-welcome-to-georgia-national-tourism-awards/"
+    ]
+  },
+  "awards": [
+    {
+      "year": 2016,
+      "title": "Welcome to Georgia! National Tourism Awards 2016",
+      "category": "The fastest growing company of the year in segment (wording as on Local Host's badge; the official category in 2017 was 'The Fastest Growing Company of the Year in the SME Segment')",
+      "result": "Nominee",
+      "organiser": "Welcome to Georgia! National Tourism Awards, co-organised by the Georgian National Tourism Administration (GNTA)",
+      "confidence": "medium",
+      "source": "docs/reference/old-site-footer-members-contact.png (Local Host's own badge); corroborated by Local Host's GTA member profile https://www.tourism-association.ge/eng/main/index/12 . No independent 2016 nominee list found online.",
+      "displayOk": true,
+      "displayNote": "Show exactly as 'Nominee' — never 'Winner'. Ask owner for the nomination certificate/diploma to raise confidence and confirm the exact category name."
+    }
+  ],
+  "travelife": {
+    "status": "Travelife Partner",
+    "firstApproval": "2025-11-26",
+    "validUntil": "2027-11-26",
+    "wording": "Local Host is a Travelife Partner — independently assessed against the Travelife Partner criteria for tour operators and travel agents (recognised since November 2025).",
+    "doNotSay": ["Travelife Certified", "certified sustainable", "sustainable holidays/tours (unqualified)", "carbon-neutral trips"],
+    "badge": "Travelife PARTNER logo only (from the Travelife toolkit / Communication Guidelines supplied to the company), linked to the public register. Never the 'Travelife Certified' logo.",
+    "registerUrl": "https://consumers.travelife.info/?lang=en#register",
+    "confidence": "high",
+    "source": "https://consumers.travelife.info/api/consumer-public-register?name=Local%20Host",
+    "notes": "Public Travelife register lists 'Local Host LLC', Georgia, level Partner (level_id 3), first approval 2025-11-26, valid until 2027-11-26. Travelife has two recognition levels: Partner (entry level, ~60 mandatory criteria, independent assessment every 2 years) and Certified (highest, 200+ criteria + on-site audit). 'Engaged' is the preparatory phase and gives no right to use a recognition logo. The company's Nov 2025 Sustainability Report (Travelife format) still shows many Certified-level criteria with target dates in 2026–2027, consistent with Partner status. EU Directive 2024/825 (EmpCo) applies from 27 Sept 2026 and tightens green claims/labels for EU consumers — keep claims specific and tied to the Travelife assessment. Georgian peers on the register: VisitGeorgia and Georgian DMC (Certified), Promethea Voyages (Partner)."
+  },
+  "hosts": [
+    {
+      "id": "sisatura",
+      "name": "Sisatura — Marika & Enry",
+      "place": "Sisatura (Sisa Tura) ethno-village, Chkhoria village, Zugdidi municipality",
+      "region": "Samegrelo-Zemo Svaneti",
+      "facts": [
+        "Family-hosted Megrelian ethnographic village in Chkhoria, about 11 km from Zugdidi on the road to Mestia.",
+        "Covers about 3 hectares: traditional Megrelian houses and household artefacts, an artificial lake, an old water mill and a small farm with animals.",
+        "Offers Megrelian cooking classes and tastings (e.g. ghomi, elarji, gebzhalia), folklore and a traditional supra with a tamada.",
+        "Guests are welcomed at the entrance gate (Local Host's policy: 'with a shot of Chacha and a big smile').",
+        "Welcoming guests since 2019; visits by booking (GNTA listing)."
+      ],
+      "confidence": "high",
+      "sources": [
+        "https://places.georgia.travel/en/establishments/sisatura",
+        "https://georgia.travel/sisa-tura-ethno-village",
+        "https://georgia.to/places-to-go/samegrelo-zemo-svaneti/sisatura-ethno-village/",
+        "https://www.advantour.com/georgia/zugdidi/sisatura.htm"
+      ],
+      "businessSocial": "https://www.facebook.com/SisaturaethnoVillage",
+      "note": "The GNTA listing names the hosting family as the Chitanava family. Second host's name is spelled 'Ermine'/'Henry' in the policy and 'Enry' in the template — owner to confirm spelling."
+    },
+    {
+      "id": "leila",
+      "name": "Leila",
+      "place": null,
+      "region": null,
+      "facts": [
+        "Per Local Host's Sustainability Policy: prepares 'the best Khinkali' while telling her life story."
+      ],
+      "confidence": "low",
+      "sources": ["http://localhost.ge/sustainabilitypolicy"],
+      "note": "No public business found — village/region unknown. Ask owner."
+    },
+    {
+      "id": "vacheishvili",
+      "name": "Vacheishvili Family",
+      "place": null,
+      "region": null,
+      "facts": [],
+      "confidence": "low",
+      "sources": [],
+      "candidate": {
+        "name": "Ateni, Nika Vacheishvili's Marani and Wine Guest House",
+        "place": "Didi Ateni village, Gori municipality",
+        "region": "Shida Kartli",
+        "url": "https://atenuri.ge/?lang=2",
+        "facts": [
+          "Family wine cellar (marani) and guesthouse ~10 minutes' walk from Ateni Sioni church.",
+          "Makes natural 'Atenuri' wines from local grapes; over 4,000 bottles a year (2022).",
+          "Grew from a 6-room guesthouse to a 13-room hotel in 2018 with EU4Business support."
+        ],
+        "sources": [
+          "https://atenuri.ge/?lang=2",
+          "https://eu4georgia.eu/georgian-hotel-and-winery-grows-by-leaps-and-bounds/"
+        ],
+        "confidence": "low",
+        "note": "UNCONFIRMED match — only the surname links them. Do not publish until the owner confirms."
+      }
+    },
+    {
+      "id": "samvel",
+      "name": "Samvel & family",
+      "place": null,
+      "region": null,
+      "facts": [
+        "Per Local Host's Sustainability Policy: super-warm hospitality, lots of laughter, home-grown food."
+      ],
+      "confidence": "low",
+      "sources": ["http://localhost.ge/sustainabilitypolicy"],
+      "note": "No public business found. 'Samvel' is an Armenian name — could be in Armenia or an Armenian-populated area of Georgia; do not guess. Ask owner."
+    },
+    {
+      "id": "aluda",
+      "name": "Aluda",
+      "place": null,
+      "region": null,
+      "facts": [],
+      "confidence": "low",
+      "sources": [],
+      "candidate": {
+        "name": "Guest House Aluda",
+        "place": "Omalo",
+        "region": "Tusheti (Kakheti)",
+        "url": "https://www.bedandbreakfast.eu/en/a/aKxlDIJSF6mb/guest-house-aluda",
+        "facts": [],
+        "sources": ["https://www.bedandbreakfast.eu/en/a/aKxlDIJSF6mb/guest-house-aluda"],
+        "confidence": "low",
+        "note": "Name-only match from a booking aggregator; 'Aluda' is a common mountain (Tush/Khevsur) first name. Do not publish until confirmed."
+      }
+    },
+    {
+      "id": "maia",
+      "name": "Maia",
+      "place": null,
+      "region": null,
+      "facts": [],
+      "confidence": "low",
+      "sources": [],
+      "note": "Not mentioned in the policy; no public info. Ask owner."
+    }
+  ],
+  "hostsNotInTemplate": [
+    {
+      "id": "anzor",
+      "name": "Anzor",
+      "place": "Jokolo village, Pankisi Gorge, Akhmeta municipality",
+      "region": "Kakheti",
+      "facts": ["Per Local Host's policy: guides guests through his village of Jokolo, telling stories 'you can never find in any book or guidebook'."],
+      "confidence": "medium",
+      "sources": ["http://localhost.ge/sustainabilitypolicy", "https://en.wikipedia.org/wiki/Pankisi"]
+    }
+  ],
+  "social": [],
+  "socialNote": "No official Facebook / Instagram / LinkedIn / TripAdvisor account for Local Host could be verified (searches and URL checks on 2026-10-10 found nothing tied to localhost.ge; Facebook/Instagram block unauthenticated checks). The old site has no social links. Ask owner for the handles.",
+  "profiles": [
+    { "name": "Travelife public register", "url": "https://consumers.travelife.info/?lang=en#register", "confidence": "high" },
+    { "name": "Polish Chamber of Tourism member profile", "url": "https://pit.org.pl/org_monday_members/local-host-ltd/", "confidence": "high" },
+    { "name": "Georgian Tourism Association member list", "url": "https://www.tourism-association.ge/eng/main/index/12", "confidence": "high" },
+    { "name": "Silesian Chamber of Tourism member list", "url": "https://sit.travel/o-nas/czlonkowie-izby/", "confidence": "high" }
+  ],
+  "support": {
+    "verified": [],
+    "verifiedNote": "No public evidence of charities/NGOs supported by Local Host. Its Nov 2025 Travelife report lists criterion 1.6 'Donations' (support to nature protection / community development) with a target date, i.e. not yet in place. The 'We Support' section should stay hidden or show suggestions only after the owner commits.",
+    "suggestions": [
+      {
+        "name": "Caucasus Nature Fund (CNF)",
+        "url": "https://www.caucasus-naturefund.org/",
+        "why": "Funds protected areas in Armenia, Azerbaijan and Georgia — the same three countries Local Host sells — and has a corporate-support programme."
+      },
+      {
+        "name": "Transcaucasian Trail",
+        "url": "https://transcaucasiantrail.org/",
+        "why": "Long-distance hiking trail being built across Georgia, Armenia and Azerbaijan; fits the Trekking experience and benefits mountain villages along the route (donations, volunteer trail-building)."
+      },
+      {
+        "name": "NACRES — Centre for Biodiversity Conservation & Research",
+        "url": "https://www.nacres.org/",
+        "why": "Georgian conservation NGO working on species, habitats and protected areas; directly matches Travelife criteria 1.6/7.12 (support for nature protection)."
+      },
+      {
+        "name": "Biological Farming Association Elkana",
+        "url": "https://elkana.org.ge/",
+        "why": "Georgian NGO (since 1994) for organic farming and rural tourism — close to the family hosts, home-grown food and village experiences Local Host promotes. (Website returned a server error on 2026-10-10; re-check.)"
+      },
+      {
+        "name": "SOS Children's Villages Georgia",
+        "url": "https://www.sos-childrensvillages.org/where-we-help/asia/georgia",
+        "why": "Child-welfare charity working in Georgia; consistent with Local Host's zero-tolerance child-protection policy."
+      }
+    ]
+  }
+}

@@ -39,6 +39,12 @@ The nav lists "Connection" twice — treat the first as the flights board ("Gett
 3. Modern fundamentals: mobile-first, fast (static, optimized images, minimal JS), accessible (WCAG AA), SEO (per-language meta, hreflang, JSON-LD `TravelAgency`, sitemap, OG image), HTTPS-ready.
 4. Keep old URLs working: PDFs stay at `/assets/policies/*.pdf`; `/sustainabilitypolicy` redirects to `/assets/policies/sustainability.pdf`.
 
+### Designer handoff (important)
+The owner has hired a designer who delivers the final visual design in ~2 weeks. Our build is a surprise that shows what's possible — and it must be **trivially re-skinnable** with her design:
+- every colour, font, size, radius, shadow, spacing and motion value comes from design tokens (`src/styles/tokens.css`, mirrored to `design/tokens/tokens.json` in Tokens Studio / W3C design-token format for Figma);
+- components are small and presentational; all copy lives in `src/i18n/<lang>/*.json`, all data in `src/data/*`;
+- a `/styleguide` page (noindex) shows tokens, type scale and every component.
+
 ## 4. Brand
 
 - Existing logo: `docs/reference/old-logo.png` — red map pin above two green hills, wordmark **LOCAL HOST**, small Georgian "საქართველო" (Georgia).

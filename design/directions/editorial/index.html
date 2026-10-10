@@ -59,12 +59,12 @@ button{font:inherit;color:inherit}
 .serif{font-family:var(--serif);font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 0}
 .ka{font-family:var(--ka-serif)}
 em{font-style:italic}
-.display{font-family:var(--serif);font-weight:330;font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 0;letter-spacing:-.022em;line-height:.94;margin:0}
+.display{text-wrap:balance;font-family:var(--serif);font-weight:330;font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 0;letter-spacing:-.022em;line-height:.94;margin:0}
 .display em{font-weight:300;font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 1;letter-spacing:-.03em}
 .smallcaps{font:600 11.5px/1.2 var(--sans);letter-spacing:.17em;text-transform:uppercase}
 
 /* section head — magazine running head */
-.runhead{display:flex;align-items:center;gap:16px;padding:14px 0 0;border-top:1px solid var(--ink);margin-bottom:clamp(28px,4vw,52px)}
+.runhead{display:flex;align-items:center;gap:16px;padding:14px 0 0;border-top:1px solid var(--ink);margin-bottom:clamp(26px,3.4vw,46px)}
 .runhead .no{font:italic 400 22px/1 var(--serif);font-variation-settings:"opsz" 30,"WONK" 1;letter-spacing:-.01em}
 .runhead .kn{font:400 20px/1 var(--ka-serif);color:var(--muted)}
 .runhead .t{font:600 11.5px/1 var(--sans);letter-spacing:.17em;text-transform:uppercase}
@@ -105,11 +105,11 @@ em{font-style:italic}
 .burger span{transform:translateY(-2.5px)}
 
 /* ───────────── 01 Hero / Caucasus ───────────── */
-.hero{position:relative;padding:44px 0 clamp(64px,8vw,120px);overflow:hidden}
+.hero{position:relative;padding:36px 0 clamp(40px,4vw,64px);overflow:hidden}
 .orn{position:absolute;pointer-events:none;user-select:none;z-index:0;font-family:var(--ka-serif);font-weight:300;line-height:.8;color:rgba(20,35,27,.05)}
-.hero .orn{right:calc(50% - 700px);top:150px;font-size:620px}
+.hero .orn{right:calc(50% - 690px);top:40px;font-size:520px}
 .hero .wrap{position:relative;z-index:1}
-.h1{font-size:clamp(54px,9.1vw,138px)}
+.h1{font-size:clamp(54px,8.6vw,130px)}
 .h1 .l1{grid-column:1/-1}
 .h1 .l2{grid-column:5/-1}
 .hero-head{row-gap:0;align-items:end}
@@ -117,18 +117,18 @@ em{font-style:italic}
 .proverb .ka{display:block;font-size:28px;line-height:1.28;font-weight:350;color:var(--ink)}
 .proverb p{margin:12px 0 0;font:italic 400 15px/1.45 var(--serif);font-variation-settings:"opsz" 14;color:var(--muted)}
 .proverb p::before{content:"";display:block;width:28px;height:1px;background:var(--red);margin-bottom:12px}
-.hero-sub{grid-column:5/10;margin-top:34px;font-size:18px;line-height:1.62;color:var(--ink-2);max-width:560px}
+.hero-sub{grid-column:5/10;margin-top:28px;font-size:17.5px;line-height:1.62;color:var(--ink-2);max-width:560px}
 .hero-sub p{margin:0}
 .hero-sub p::first-line{color:var(--ink)}
-.hero-cta{grid-column:10/13;margin-top:38px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.hero-cta{grid-column:10/13;margin-top:32px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
 .hero-cta .btn{width:100%;justify-content:space-between}
-.facts{grid-column:1/-1;display:flex;flex-wrap:wrap;margin-top:44px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.facts{grid-column:1/-1;display:flex;flex-wrap:wrap;margin-top:clamp(40px,4vw,56px);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
 .facts li{list-style:none;padding:13px 26px 13px 0;margin-right:26px;border-right:1px solid var(--rule);font:500 13.5px/1.3 var(--sans);color:var(--ink-2)}
 .facts li:last-child{border-right:0}
 .facts b{font:italic 400 15px/1 var(--serif);color:var(--ink);margin-right:6px}
 .facts{padding:0}
 
-.countries{margin-top:clamp(40px,5vw,72px);align-items:start}
+.countries{margin-top:clamp(36px,3.6vw,52px);align-items:start}
 .country{margin:0;position:relative}
 .country .ph{position:relative;overflow:hidden;background:var(--paper-2)}
 .country img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
@@ -143,9 +143,9 @@ em{font-style:italic}
 .country .cap a{font:600 11.5px/1.4 var(--sans);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none;white-space:nowrap}
 .country .cap a:hover{text-decoration:underline}
 .c-ge{grid-column:1/7}
-.c-ge .ph{aspect-ratio:1/1.02}
+.c-ge .ph{aspect-ratio:1/1.22}
 .side{grid-column:7/13;display:grid;grid-template-columns:1fr 1fr;column-gap:var(--gap);align-items:start}
-.c-am{margin-top:84px}
+.c-am{margin-top:72px}
 .c-am .ph{aspect-ratio:3/3.9}
 .c-az{margin-top:0}
 .c-az .ph{aspect-ratio:3/4.3}
@@ -158,7 +158,7 @@ em{font-style:italic}
 .map .ml{font:600 9.5px/1 var(--sans);letter-spacing:.16em;fill:var(--ink)}
 .map .mt{font:800 11px/1 var(--sans);letter-spacing:.18em;fill:var(--ink)}
 .map .mc{font:italic 330 19px/1 var(--serif);fill:var(--ink-2);opacity:.55}
-.map .cap{margin-top:8px}
+.map .cap{margin-top:8px;font:italic 400 13.5px/1.4 var(--serif);color:var(--muted)}
 /* placeholder plates for Armenia / Azerbaijan (until licensed photos land) */
 .plate{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;color:var(--paper)}
 .plate svg{position:absolute;inset:0;width:100%;height:100%}
@@ -171,16 +171,16 @@ em{font-style:italic}
   -webkit-mask:radial-gradient(var(--r) at var(--r) var(--r),#0000 97%,#000) calc(-1*var(--r)) calc(-1*var(--r))/calc(3*var(--r)) calc(3*var(--r)) round,linear-gradient(#000 0 0) content-box;
   mask:radial-gradient(var(--r) at var(--r) var(--r),#0000 97%,#000) calc(-1*var(--r)) calc(-1*var(--r))/calc(3*var(--r)) calc(3*var(--r)) round,linear-gradient(#000 0 0) content-box}
 .phw{position:relative}
-.seal{position:absolute;z-index:3;right:24px;top:24px;width:112px;transform:rotate(4deg)}
+.seal{position:absolute;z-index:3;right:24px;top:24px;width:124px;transform:rotate(4deg)}
 .seal .in{border:1px solid var(--rule-2);padding:10px 8px 9px;text-align:center;background:var(--paper-3)}
 .seal svg{width:44px;height:44px;margin:0 auto}
-.seal b{display:block;font:800 9.5px/1 var(--sans);letter-spacing:.2em;margin-top:6px}
+.seal b{display:block;font:800 9px/1 var(--sans);letter-spacing:.16em;margin-top:6px;white-space:nowrap}
 .seal i{display:block;font:italic 400 22px/1 var(--serif);margin-top:6px}
 .seal small{display:block;font:400 10px/1 var(--ka-sans);color:var(--muted);margin-top:6px}
 
 /* ───────────── 02 Experiences ───────────── */
-.exp{padding:clamp(56px,7vw,104px) 0 clamp(64px,8vw,120px);position:relative;overflow:hidden}
-.exp .orn{right:calc(50% - 690px);top:150px;font-size:440px}
+.exp{padding:clamp(48px,6vw,88px) 0 clamp(64px,8vw,120px);position:relative;overflow:hidden}
+.exp .orn{right:calc(50% - 690px);top:150px;font-size:440px;color:rgba(20,35,27,.04)}
 .exp-head{align-items:end;position:relative}
 .h2{font-size:clamp(42px,5.6vw,84px)}
 .exp-head h2{grid-column:1/8}
@@ -259,7 +259,7 @@ em{font-style:italic}
 
 /* ───────────── 04 Hosts ───────────── */
 .hosts{padding:clamp(64px,8vw,120px) 0 clamp(64px,8vw,120px);position:relative;overflow:hidden}
-.hosts .orn{left:calc(50% - 760px);top:760px;font-size:520px}
+.hosts .orn{right:calc(50% - 700px);bottom:-40px;font-size:460px}
 .hosts-head{align-items:end;position:relative}
 .hosts-head h2{grid-column:1/9}
 .hosts-head .intro{grid-column:9/13;font-size:16.5px;color:var(--ink-2);margin:0 0 6px}
@@ -297,7 +297,7 @@ em{font-style:italic}
 .sus-t{grid-column:1/4;padding-right:10px}
 .sus-t .k{display:flex;gap:10px;align-items:baseline;color:var(--muted)}
 .sus-t .k i{font:italic 400 18px/1 var(--serif);color:var(--ink);text-transform:none;letter-spacing:0}
-.sus-t h2{margin:16px 0 0;font:330 34px/1.04 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.02em}
+.sus-t h2{text-wrap:balance;margin:16px 0 0;font:330 34px/1.04 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.02em}
 .sus-t h2 em{font-variation-settings:"opsz" 144,"WONK" 1}
 .sus-t p{margin:12px 0 0;font-size:14.5px;line-height:1.55;color:var(--ink-2)}
 .tl{grid-column:4/6;border-left:1px solid var(--rule-2);padding-left:24px;display:flex;flex-direction:column;justify-content:space-between}
@@ -514,12 +514,6 @@ em{font-style:italic}
         <a class="btn btn-ink" href="#contact">Start a group request <svg aria-hidden="true"><use href="#arrow-r"/></svg></a>
         <a class="btn btn-line" href="#planner">Draft a trip with AI <svg aria-hidden="true"><use href="#sparkle"/></svg></a>
       </div>
-      <ul class="facts">
-        <li><b>Est.</b> 2015, Tbilisi</li>
-        <li><b>3</b> countries, one team</li>
-        <li><b>B2B</b> agencies &amp; tour operators</li>
-        <li><b>Travelife</b> sustainability framework</li>
-      </ul>
     </div>
 
     <div class="g12 countries">
@@ -568,22 +562,30 @@ em{font-style:italic}
           <title id="map-t">Schematic map: Tbilisi between the Black Sea and the Caspian Sea, with Batumi, Kutaisi, Kazbegi, Yerevan, Sheki and Baku</title>
           <g fill="none" stroke="currentColor" stroke-width=".8" opacity=".38"><path d="M0 70q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 82q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 94q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 106q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 118q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 130q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 142q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 154q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 166q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 178q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 190q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 202q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M0 214q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0"/><path d="M566 110q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 122q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 134q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 146q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 158q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 170q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 182q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 194q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 206q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 218q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 230q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 242q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0M566 254q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0q3.0 -2.2 6.0 0t6.0 0"/></g>
           <path d="M65.0 17.0l5-7 5 7M82.0 19.7l5-7 5 7M99.0 22.3l5-7 5 7M116.0 25.0l5-7 5 7M130.8 28.5l5-7 5 7M145.5 32.0l5-7 5 7M160.2 35.5l5-7 5 7M175.0 39.0l5-7 5 7M190.5 42.5l5-7 5 7M206.0 46.0l5-7 5 7M221.5 49.5l5-7 5 7M237.0 53.0l5-7 5 7M251.5 58.5l5-7 5 7M266.0 64.0l5-7 5 7M280.5 69.5l5-7 5 7M295.0 75.0l5-7 5 7M311.0 82.6l5-7 5 7M327.0 90.2l5-7 5 7M343.0 97.8l5-7 5 7M359.0 105.4l5-7 5 7M375.0 113.0l5-7 5 7M389.0 118.6l5-7 5 7M403.0 124.2l5-7 5 7M417.0 129.8l5-7 5 7M431.0 135.4l5-7 5 7M445.0 141.0l5-7 5 7M460.5 148.0l5-7 5 7M476.0 155.0l5-7 5 7M491.5 162.0l5-7 5 7M507.0 169.0l5-7 5 7" fill="none" stroke="currentColor" stroke-width=".9" stroke-linejoin="round" opacity=".55"/>
-          <text x="282" y="58" class="mi" transform="rotate(20 282 58)">Greater Caucasus</text>
-          <text x="2" y="58" class="mi">Black Sea</text>
+          <text x="300" y="62" class="mi" transform="rotate(21 300 62)">Greater Caucasus</text>
+          <text x="0" y="234" class="mi">Black Sea</text>
           <text x="618" y="98" class="mi" text-anchor="end">Caspian Sea</text>
           <g fill="none" stroke="currentColor" stroke-width="1.3"><path d="M60 117 121 71 242 110 380 147 537 201"/><path d="M242 110 226 217"/></g>
           <path d="M242 110 234 44" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/>
           <g fill="#F4EEE3" stroke="currentColor" stroke-width="1.3"><circle cx="60" cy="117" r="4"/><circle cx="121" cy="71" r="4"/><circle cx="380" cy="147" r="4"/><circle cx="537" cy="201" r="4"/><circle cx="226" cy="217" r="4"/><circle cx="234" cy="44" r="3"/></g>
-          <g class="ml"><text x="68" y="134">BATUMI</text><text x="106" y="62" text-anchor="end">KUTAISI</text><text x="388" y="166">SHEKI</text><text x="528" y="222" text-anchor="end">BAKU</text><text x="236" y="236" >YEREVAN</text></g>
+          <g class="ml"><text x="68" y="134">BATUMI</text><text x="106" y="62" text-anchor="end">KUTAISI</text><text x="372" y="168" text-anchor="end">SHEKI</text><text x="528" y="222" text-anchor="end">BAKU</text><text x="236" y="236" >YEREVAN</text></g>
           <text x="244" y="33" class="mi" text-anchor="middle" style="font-size:12px">Kazbegi</text>
           <circle cx="242" cy="110" r="5.5" fill="#14231B"/>
           <use href="#pin" x="233" y="80" width="18" height="22"/>
           <text x="256" y="104" class="mt">TBILISI</text>
-          <g class="mc"><text x="140" y="168">Georgia</text><text x="300" y="250">Armenia</text><text x="420" y="214">Azerbaijan</text></g>
+          <g class="mc"><text x="140" y="168">Georgia</text><text x="300" y="250">Armenia</text><text x="384" y="206">Azerbaijan</text></g>
         </svg>
         <figcaption class="cap"><span>Fig. 4 — Tbilisi, between two seas. Schematic map.</span></figcaption>
       </figure>
       </div>
+    </div>
+    <div class="g12">
+      <ul class="facts">
+        <li><b>Est.</b> 2015, Tbilisi</li>
+        <li><b>3</b> countries, one team</li>
+        <li><b>B2B</b> agencies &amp; tour operators</li>
+        <li><b>Travelife</b> sustainability framework</li>
+      </ul>
     </div>
   </div>
 </section>
