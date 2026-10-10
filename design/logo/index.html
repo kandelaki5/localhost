@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local Host Logo Concepts</title>
+<meta name="description" content="Four logo directions for Local Host, inbound tour operator for the South Caucasus, plus a clean redraw of the current mark.">
+<link rel="icon" href="current-redraw/icon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:"Fraunces";src:url(assets/fonts/fraunces-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Manrope";src:url(assets/fonts/manrope-latin-wght-normal.woff2) format("woff2");font-weight:200 800;font-display:block}
+@font-face{font-family:"Jakarta";src:url(assets/fonts/plus-jakarta-sans-latin-wght-normal.woff2) format("woff2");font-weight:200 800;font-display:block}
+@font-face{font-family:"Outfit";src:url(assets/fonts/outfit-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Unbounded";src:url(assets/fonts/unbounded-latin-wght-normal.woff2) format("woff2");font-weight:200 900;font-display:block}
+@font-face{font-family:"Noto Sans Georgian";src:url(assets/fonts/noto-sans-georgian-georgian-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:block}
+
+:root{
+  --cream:#F7F3EA; --paper:#FCFAF5; --sand:#EEE8DA; --stone:#E4DDCD;
+  --forest:#0D3A24; --forest-2:#124A2E; --ink:#0B1F14; --muted:#5E6E63; --line:rgba(11,31,20,.12);
+  --red:#D02027; --dg:#13783C; --lg:#2BB34B;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 16px/1.55 "Manrope",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+.wrap{max-width:1280px;margin:0 auto;padding:0 40px}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:560;letter-spacing:-.01em;margin:0}
+.eyebrow{font:700 12px/1 "Manrope";letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- cover ---------- */
+.cover{padding:72px 0 56px;border-bottom:1px solid var(--line)}
+.cover-top{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.cover-top img{height:46px;width:auto}
+.cover h1{font-size:76px;line-height:1.02;margin:56px 0 22px;max-width:900px}
+.cover h1 em{font-style:normal;color:var(--red)}
+.lede{font-size:20px;line-height:1.55;max-width:760px;color:#28382E;margin:0}
+.palette{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:44px}
+.chip{border-radius:14px;overflow:hidden;background:var(--paper);border:1px solid var(--line)}
+.chip i{display:block;height:84px}
+.chip div{padding:10px 12px 12px;font-size:12px;line-height:1.45;color:var(--muted)}
+.chip b{display:block;color:var(--ink);font-size:13px;margin-bottom:2px}
+.overview{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+.ov{display:flex;flex-direction:column;gap:14px;text-decoration:none;color:inherit;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.ov .art{height:150px;display:grid;place-items:center;background:var(--cream);border-radius:12px}
+.ov .art img{height:104px;width:auto}
+.ov .art.wide img{height:auto;width:80%}
+.ov b{font:600 22px/1.15 "Fraunces"}
+.ov span{font-size:14px;color:var(--muted);line-height:1.45}
+.ov small{font:700 11px/1 "Manrope";letter-spacing:.2em;color:var(--red)}
+
+/* ---------- sections ---------- */
+section{padding:72px 0 80px;border-bottom:1px solid var(--line)}
+.c-head{display:grid;grid-template-columns:110px 1fr 340px;gap:28px;align-items:start;margin-bottom:32px}
+.c-num{font:400 84px/0.86 "Fraunces";color:var(--red)}
+.c-head h2{font-size:52px;line-height:1.02}
+.c-line{font-size:19px;line-height:1.5;color:#28382E;margin:14px 0 0;max-width:640px}
+.c-meta{margin:6px 0 0;display:grid;grid-template-columns:86px 1fr;gap:8px 14px;font-size:13.5px;line-height:1.45;border-left:1px solid var(--line);padding-left:20px}
+.c-meta dt{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:10.5px;color:var(--muted);padding-top:2px}
+.c-meta dd{margin:0}
+
+.g{display:grid;gap:16px;margin-top:16px}
+.g.hero{grid-template-columns:2fr 1fr}
+.g.three{grid-template-columns:repeat(3,1fr)}
+.g.four{grid-template-columns:1.25fr 1.25fr 1fr 1fr}
+.g.mock{grid-template-columns:2fr 1fr 1fr}
+.tile{position:relative;margin:0;border-radius:var(--radius);display:grid;place-items:center;overflow:hidden;min-height:300px;padding:40px}
+.tile.big{min-height:400px}
+.tile figcaption{position:absolute;left:20px;bottom:16px;font:700 10.5px/1 "Manrope";letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.tile.dark figcaption{color:rgba(247,243,234,.55)}
+.t-paper{background:var(--paper);border:1px solid var(--line)}
+.t-white{background:#fff;border:1px solid var(--line)}
+.t-cream{background:var(--cream);border:1px solid var(--line)}
+.t-sand{background:var(--sand)}
+.t-forest{background:var(--forest)}
+.t-red{background:var(--red)}
+.t-red figcaption{color:rgba(255,255,255,.7)!important}
+
+.sizes{display:grid;grid-template-columns:1fr 1fr 1.1fr;gap:16px;margin-top:16px}
+.sz{border-radius:var(--radius);padding:22px 24px 18px;display:flex;flex-direction:column;gap:14px}
+.sz .row{display:flex;align-items:flex-end;gap:28px}
+.sz .row div{display:flex;flex-direction:column;align-items:center;gap:8px}
+.sz .row span{font:600 10.5px/1 "Manrope";letter-spacing:.08em;color:var(--muted)}
+.sz.dark .row span,.sz.dark .lab{color:rgba(247,243,234,.6)}
+.sz .lab{font:700 10.5px/1 "Manrope";letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.px16{height:16px;width:auto}.px32{height:32px;width:auto}.px64{height:64px;width:auto}.px24{height:24px;width:auto}.px48{height:48px;width:auto}
+.sq16{width:16px;height:16px;object-fit:contain}.sq32{width:32px;height:32px;object-fit:contain}.sq64{width:64px;height:64px;object-fit:contain}.sq24{width:24px;height:24px;object-fit:contain}.sq48{width:48px;height:48px;object-fit:contain}
+
+/* browser tabs (favicon test) */
+.tabs{background:#DEE1E6;border-radius:var(--radius);padding:18px 18px 0;display:flex;flex-direction:column;justify-content:flex-end;gap:0}
+.tabs .tlab{margin-bottom:auto;padding:4px 6px;font:700 10.5px/1 "Manrope";letter-spacing:.18em;text-transform:uppercase;color:#5f6368}
+.tabbar{display:flex;gap:2px;align-items:flex-end}
+.tab{display:flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:9px 9px 0 0;font:500 12.5px/1 system-ui,"Manrope",sans-serif;color:#3c4043;white-space:nowrap;overflow:hidden;min-width:0}
+.tab.on{background:#fff;color:#202124}
+.tab img{width:16px;height:16px;object-fit:contain;flex:none}
+.tab.off img{opacity:.9}
+.addr{background:#fff;height:40px;display:flex;align-items:center;padding:0 14px;gap:10px;font:13px system-ui,sans-serif;color:#5f6368;border-top:1px solid #eee;margin:0 -18px}
+.addr i{flex:1;height:26px;border-radius:13px;background:#F1F3F4;display:flex;align-items:center;padding:0 12px;font-style:normal;color:#202124}
+
+/* ---------- mockups (shared) ---------- */
+.mk{position:relative;border-radius:var(--radius);overflow:hidden;min-height:380px;background:var(--sand)}
+.mk-cap{position:absolute;left:20px;bottom:16px;font:700 10.5px/1 "Manrope";letter-spacing:.18em;text-transform:uppercase;color:var(--muted);z-index:5}
+.mk-cap.light{color:rgba(255,255,255,.75)}
+
+/* business cards */
+.cards{display:grid;place-items:center;background:linear-gradient(160deg,#E8E1D2,#D9D0BD)}
+.bc{position:absolute;width:250px;height:146px;border-radius:7px;box-shadow:0 18px 30px -14px rgba(20,25,15,.45),0 2px 4px rgba(20,25,15,.12)}
+.bc.front{background:var(--forest);transform:translate(-30px,-58px) rotate(-7deg);display:grid;place-items:center}
+.bc.back{background:var(--paper);transform:translate(26px,54px) rotate(4deg);padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between}
+.bc .who{font:700 12.5px/1.2 "Jakarta";color:var(--ink)}
+.bc .who small{display:block;font:500 10px/1.4 "Jakarta";color:var(--muted);margin-top:2px}
+.bc .contact{font:500 8.6px/1.6 "Jakarta";color:#3a4a40}
+
+/* luggage tag */
+.tagscene{background:linear-gradient(150deg,#2E3A33,#1C2620)}
+.ltag{position:absolute;left:50%;top:55%;width:150px;height:236px;transform:translate(-50%,-50%) rotate(-8deg);border-radius:16px 16px 18px 18px;box-shadow:0 26px 40px -18px rgba(0,0,0,.6)}
+.ltag::before{content:"";position:absolute;left:50%;top:16px;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:#1C2620;box-shadow:inset 0 0 0 4px rgba(255,255,255,.18)}
+.ltag .strap{position:absolute;left:50%;top:-120px;width:14px;height:150px;margin-left:-7px;border-radius:7px;background:linear-gradient(90deg,#8E6B48,#B08A62 45%,#7D5C3C)}
+.ltag .body{position:absolute;inset:50px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.ltag .field{width:100%;height:1px;background:currentColor;opacity:.35;margin-top:14px;position:relative}
+.ltag .field span{position:absolute;left:0;top:-13px;font:700 7px/1 "Manrope";letter-spacing:.2em;text-transform:uppercase;opacity:.9}
+
+/* ---------- concept 1: open door ---------- */
+.booth{background:linear-gradient(#E9E5DD 0 74%,#CFC8BA 74%)}
+.booth .wall{position:absolute;left:5%;right:5%;top:8%;height:62%;display:grid;grid-template-columns:1fr 1.15fr;border-radius:4px;overflow:hidden;box-shadow:0 20px 30px -20px rgba(0,0,0,.4)}
+.booth .wall .l{background:var(--forest);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 30px 26px;gap:16px}
+.booth .wall .l img{width:76%}
+.booth .wall .l p{margin:0;font:600 12px/1.45 "Jakarta";color:rgba(247,243,234,.8);max-width:260px}
+.booth .wall .r{background:url(assets/chaukhi-valley.jpg) center/cover}
+.booth .desk{position:absolute;left:31%;width:38%;top:56%;height:33%;background:var(--paper);border-radius:3px;box-shadow:0 22px 30px -18px rgba(0,0,0,.45);display:grid;place-items:center}
+.booth .desk img{height:84px;width:auto;margin-top:6px}
+.booth .desk::after{content:"";position:absolute;left:0;right:0;top:0;height:9px;background:var(--red)}
+.booth .floor-shadow{position:absolute;left:28%;right:28%;bottom:7%;height:14px;border-radius:50%;background:rgba(0,0,0,.18);filter:blur(6px)}
+
+.mapcard{background:#EAF0E6}
+.mapcard svg.map{position:absolute;inset:0;width:100%;height:100%}
+.mapcard .pin{position:absolute;width:54px;left:calc(46% - 27px);top:calc(35.8% - 70px);filter:drop-shadow(0 8px 8px rgba(0,0,0,.25))}
+.mapcard .label{position:absolute;left:20px;top:18px;background:#fff;border-radius:10px;padding:10px 14px;font:700 12px/1.3 "Jakarta";box-shadow:0 6px 18px -8px rgba(0,0,0,.3)}
+.mapcard .label small{display:block;font-weight:500;color:var(--muted);font-size:10.5px}
+
+/* ---------- concept 2: summit monogram ---------- */
+.profile{background:var(--paper);border:1px solid var(--line)}
+.profile .banner{height:150px;background:url(assets/truso-valley.jpg) center 40%/cover}
+.profile .av{position:absolute;left:32px;top:96px;width:112px;height:112px;border-radius:50%;background:var(--forest);border:5px solid var(--paper);display:grid;place-items:center}
+.profile .av img{width:56%}
+.profile .meta{padding:66px 32px 0 32px}
+.profile .meta b{font:700 20px/1.2 "Unbounded";letter-spacing:.02em}
+.profile .meta p{margin:6px 0 0;font-size:13.5px;color:var(--muted)}
+.profile .btns{position:absolute;right:28px;top:168px;display:flex;gap:8px}
+.profile .btns span{font:700 12px/1 "Manrope";padding:10px 16px;border-radius:999px;background:var(--forest);color:#fff}
+.profile .btns span+span{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.profile .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:18px 32px 0}
+.profile .grid3 i{aspect-ratio:1.6;background:center/cover;border-radius:6px}
+
+.phone{background:linear-gradient(160deg,#D9E7DD,#B8CDBF)}
+.phone .dev{position:absolute;left:50%;top:44px;width:200px;height:420px;margin-left:-100px;border-radius:36px;background:#111;padding:8px;box-shadow:0 30px 50px -24px rgba(0,0,0,.55)}
+.phone .scr{width:100%;height:100%;border-radius:29px;background:linear-gradient(170deg,#1E5A3B,#0D3A24 60%,#0A2C1B);padding:44px 12px 0;display:grid;grid-template-columns:repeat(4,32px);justify-content:space-between;grid-auto-rows:min-content;gap:16px 0}
+.phone .app{display:flex;flex-direction:column;align-items:center;gap:5px}
+.phone .app i{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.16)}
+.phone .app span{font:500 7px/1.1 system-ui,sans-serif;color:rgba(255,255,255,.75);white-space:nowrap}
+.phone .app.lh i{background:var(--cream);display:grid;place-items:center}
+.phone .app.lh img{width:22px}
+.phone .app.lh span{color:#fff}
+
+.badge-scene{background:linear-gradient(150deg,#DCE3DA,#C5D0C6)}
+.lanyard{position:absolute;left:50%;top:-10px;width:16px;height:120px;margin-left:-8px;background:repeating-linear-gradient(90deg,var(--dg) 0 4px,var(--forest-2) 4px 8px);border-radius:3px}
+.idcard{position:absolute;left:50%;top:104px;width:176px;height:244px;margin-left:-88px;border-radius:14px;background:var(--paper);box-shadow:0 26px 40px -20px rgba(0,0,0,.45);overflow:hidden;display:flex;flex-direction:column;align-items:center}
+.idcard .top{width:100%;height:92px;background:var(--forest);display:grid;place-items:center}
+.idcard .top img{height:52px}
+.idcard .clip{position:absolute;left:50%;top:-4px;width:40px;height:16px;margin-left:-20px;border-radius:0 0 8px 8px;background:#9aa49c}
+.idcard b{font:700 13px/1.2 "Unbounded";margin-top:18px;letter-spacing:.02em}
+.idcard em{font:700 8.5px/1 "Manrope";letter-spacing:.24em;text-transform:uppercase;font-style:normal;color:var(--red);margin-top:8px}
+.idcard .bars{width:70%;margin-top:18px;display:flex;flex-direction:column;gap:7px}
+.idcard .bars i{height:5px;border-radius:3px;background:var(--stone)}
+.idcard .bars i:nth-child(2){width:70%}
+
+/* ---------- concept 3: stamp ---------- */
+.envelope{background:linear-gradient(150deg,#D7CDB8,#C6BAA0)}
+.env{position:absolute;left:50%;top:47%;width:500px;height:262px;transform:translate(-50%,-50%) rotate(-2deg);background:linear-gradient(170deg,#FBF7EE,#F2EBDC);box-shadow:0 26px 40px -22px rgba(40,30,10,.5);border-radius:4px}
+.env::before{content:"";position:absolute;inset:0;border:9px solid transparent;border-image:repeating-linear-gradient(-45deg,var(--red) 0 14px,transparent 14px 22px,var(--dg) 22px 36px,transparent 36px 44px) 9;border-radius:4px}
+.env .stamp{position:absolute;right:28px;top:22px;width:96px;transform:rotate(6deg)}
+.env .cancel{position:absolute;right:84px;top:40px;width:160px;height:54px;opacity:.5}
+.env .from{position:absolute;left:34px;top:30px;font:600 11px/1.55 "Outfit";color:#4a4a40;letter-spacing:.02em}
+.env .from b{font-weight:700;color:var(--ink);letter-spacing:.1em}
+.env .to{position:absolute;left:210px;top:150px;display:flex;flex-direction:column;gap:13px;width:220px}
+.env .to i{height:2px;background:rgba(11,31,20,.18)}
+.env .to i:first-child{width:60%}
+
+.laptop{background:linear-gradient(150deg,#ECE7DD,#DDD5C5)}
+.lid::after{content:"";position:absolute;left:-26px;right:-26px;bottom:-14px;height:14px;border-radius:2px 2px 12px 12px;background:linear-gradient(#C9CDD1,#9CA2A8);box-shadow:0 16px 20px -12px rgba(0,0,0,.5)}
+.lid{position:absolute;left:50%;top:46%;width:236px;height:164px;transform:translate(-50%,-50%);border-radius:14px;background:linear-gradient(150deg,#3A3F44,#24282C);box-shadow:0 30px 40px -24px rgba(0,0,0,.6)}
+.lid .s1{position:absolute;width:98px;left:24px;top:22px;transform:rotate(-9deg);filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+.lid .s2{position:absolute;width:52px;right:30px;top:20px;transform:rotate(11deg);filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+.lid .s3{position:absolute;right:18px;bottom:20px;width:112px;padding:8px 10px;background:var(--red);border-radius:8px;transform:rotate(-4deg);font:700 8.5px/1.3 "Outfit";letter-spacing:.14em;color:#fff;text-transform:uppercase;box-shadow:0 3px 6px rgba(0,0,0,.3)}
+
+/* ---------- concept 4: pin wordmark ---------- */
+.site{background:var(--paper);border:1px solid var(--line)}
+.site .chrome{height:34px;background:#ECE8DF;display:flex;align-items:center;gap:7px;padding:0 14px}
+.site .chrome i{width:9px;height:9px;border-radius:50%;background:#CFC7B6}
+.site .chrome span{margin-left:18px;height:20px;flex:0 1 260px;border-radius:10px;background:#fff;font:11px/20px system-ui,sans-serif;color:#6b6b6b;padding:0 10px}
+.site nav{display:flex;align-items:center;gap:18px;padding:16px 24px;border-bottom:1px solid var(--line);white-space:nowrap}
+.site nav img{height:30px;width:auto}
+.site nav ul{display:flex;gap:16px;list-style:none;margin:0 0 0 auto;padding:0;font:600 12px/1 "Manrope";color:#33433A}
+.site nav a{font:700 12px/1 "Manrope";background:var(--red);color:#fff;padding:10px 15px;border-radius:999px;text-decoration:none}
+.site .hero{display:grid;grid-template-columns:1fr 1.05fr;height:262px}
+.site .hero .copy{padding:30px 28px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.site .hero h3{font:560 34px/1.05 "Fraunces";color:var(--forest)}
+.site .hero p{margin:0;font-size:13px;color:var(--muted);max-width:280px}
+.site .hero .ph{background:url(assets/svaneti-1.jpg) center/cover}
+
+.tent{background:linear-gradient(160deg,#E7DFCF,#D6CAB2)}
+.tent .card{position:absolute;left:50%;top:47%;width:220px;height:170px;transform:translate(-50%,-50%);background:var(--paper);border-radius:3px;box-shadow:0 30px 34px -22px rgba(30,20,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px}
+.tent .card img{width:78%}
+.tent .card p{margin:0;font:560 15px/1.2 "Fraunces";color:var(--forest);text-align:center}
+.tent .card small{font:700 7.5px/1 "Manrope";letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+
+.tote{background:linear-gradient(160deg,#C9D6CC,#AFC2B4)}
+.bag{position:absolute;left:50%;top:56%;width:220px;height:240px;transform:translate(-50%,-50%);background:linear-gradient(180deg,#EFE7D6,#E6DCC6);clip-path:polygon(4% 0,96% 0,100% 100%,0 100%);display:grid;place-items:center;box-shadow:0 26px 40px -20px rgba(0,0,0,.4)}
+.bag img{width:68%}
+.handle{position:absolute;left:50%;top:calc(56% - 120px - 74px);width:120px;height:120px;margin-left:-60px;border:9px solid #E3D8C1;border-bottom:none;border-radius:60px 60px 0 0}
+.bag-shadow{position:absolute;left:50%;top:56%;width:220px;height:240px;transform:translate(-50%,-50%);box-shadow:0 30px 40px -18px rgba(0,0,0,.35)}
+
+/* ---------- current mark ---------- */
+.cur{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:16px}
+.cur .tile img.old{width:150px;image-rendering:pixelated}
+
+/* ---------- recommendation ---------- */
+.reco{background:var(--forest);color:var(--cream);border-bottom:none}
+.reco h2{font-size:54px;line-height:1.06;color:var(--cream)}
+.reco .eyebrow{color:rgba(247,243,234,.6)}
+.reco-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;margin-top:30px;align-items:start}
+.reco p{font-size:17.5px;line-height:1.6;color:rgba(247,243,234,.88);margin:0 0 14px}
+.reco ol{margin:0;padding-left:20px;font-size:15px;line-height:1.6;color:rgba(247,243,234,.82)}
+.reco ol li{margin-bottom:8px}
+.reco .lineup{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.reco .lineup>div{background:rgba(247,243,234,.06);border:1px solid rgba(247,243,234,.12);border-radius:14px;padding:16px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.reco .lineup>div.pick{background:var(--cream);border-color:var(--cream)}
+.reco .lineup>div.pick span{color:var(--forest)}
+.reco .lineup span{font:700 10px/1.2 "Manrope";letter-spacing:.16em;text-transform:uppercase;color:rgba(247,243,234,.7);text-align:center}
+.reco .lineup .ic{height:64px;display:grid;place-items:center}
+.reco .lineup .ic img{height:58px;width:auto;max-width:84px}
+.reco .note{margin-top:28px;font-size:13px;color:rgba(247,243,234,.6);line-height:1.6}
+footer{background:var(--forest);color:rgba(247,243,234,.5);font-size:12px;padding:0 0 40px}
+/* ---------- narrow screens ---------- */
+@media (max-width:1000px){
+  .wrap{padding:0 16px}
+  .cover{padding:40px 0}
+  .cover h1{font-size:44px;margin-top:32px}
+  .lede{font-size:17px}
+  .palette{grid-template-columns:repeat(3,1fr)}
+  .overview{grid-template-columns:1fr 1fr}
+  .c-head{grid-template-columns:1fr;gap:12px}
+  .c-num{font-size:56px}
+  .c-head h2{font-size:38px}
+  .c-meta{border-left:none;padding-left:0}
+  .g.hero,.g.three,.g.four,.g.mock,.sizes,.cur,.reco-grid{grid-template-columns:1fr}
+  .tile img{max-width:88%!important;height:auto!important}
+  .tile.big{min-height:280px}
+  .sz .row{gap:16px;flex-wrap:wrap}
+  .reco h2{font-size:36px}
+  .reco .lineup{grid-template-columns:1fr 1fr}
+  .env{transform:translate(-50%,-50%) rotate(-2deg) scale(.62)}
+}
+
+</style>
+</head>
+<body>
+
+<!-- =============================== COVER =============================== -->
+<header class="cover">
+  <div class="wrap">
+    <div class="cover-top">
+      <span class="eyebrow">Local Host LLC · Tbilisi · Logo exploration · October 2026</span>
+      <span class="eyebrow" style="color:var(--red)">For discussion</span>
+    </div>
+    <h1>Local Host, ready for the whole <em>South&nbsp;Caucasus</em>.</h1>
+    <p class="lede">Four directions that keep what people already know from Local Host, the red pin, the green hills and the red-and-green palette, and grow the brand from Georgia to the whole South Caucasus: Georgia, Armenia and Azerbaijan. Every file is clean vector with text converted to outlines.</p>
+    <div class="palette">
+      <div class="chip"><i style="background:#D02027"></i><div><b>Pin Red</b>#D02027 · RGB 208 32 39<br>CMYK 0 95 90 5</div></div>
+      <div class="chip"><i style="background:#13783C"></i><div><b>Highland Green</b>#13783C · RGB 19 120 60<br>CMYK 85 15 90 25</div></div>
+      <div class="chip"><i style="background:#2BB34B"></i><div><b>Meadow Green</b>#2BB34B · RGB 43 179 75<br>CMYK 75 0 95 0</div></div>
+      <div class="chip"><i style="background:#0D3A24"></i><div><b>Forest</b> (support)<br>#0D3A24 · RGB 13 58 36<br>CMYK 85 35 80 65</div></div>
+      <div class="chip"><i style="background:#F7F3EA"></i><div><b>Cream</b> (support)<br>#F7F3EA · RGB 247 243 234<br>CMYK 2 3 7 0</div></div>
+      <div class="chip"><i style="background:#0B1F14"></i><div><b>Ink</b> (one-colour)<br>#0B1F14 · RGB 11 31 20<br>CMYK 75 45 70 85</div></div>
+    </div>
+    <div class="overview">
+      <a class="ov" href="#c-open-door"><div class="art"><img src="open-door/icon.svg" alt=""></div><small>01</small><b>Open Door</b><span>The pin’s counter is an arched doorway with the Caucasus inside.</span></a>
+      <a class="ov" href="#c-summit-monogram"><div class="art"><img src="summit-monogram/icon.svg" alt=""></div><small>02</small><b>Summit Monogram</b><span>An L+H ligature whose crossbar is a three-peak ridge, with the pin on top.</span></a>
+      <a class="ov" href="#c-caucasus-stamp"><div class="art"><img src="caucasus-stamp/badge.svg" alt=""></div><small>03</small><b>Caucasus Stamp</b><span>A perforated postage roundel that carries on the old stamp tiles.</span></a>
+      <a class="ov" href="#c-pin-wordmark"><div class="art wide"><img src="pin-wordmark/wordmark.svg" alt=""></div><small>04</small><b>Pin Wordmark</b><span>A warm serif wordmark whose “o” drops into a map pin.</span></a>
+    </div>
+  </div>
+</header>
+
+<!-- =============================== 00 CURRENT =============================== -->
+<section id="c-current-redraw">
+  <div class="wrap">
+    <div class="c-head">
+      <div class="c-num">00</div>
+      <div>
+        <h2>The current mark, redrawn</h2>
+        <p class="c-line">A faithful vector redraw of the 2015 logo, built on the original geometry: the hills’ base is an arc centred on the pin. The new site uses it until a direction is chosen.</p>
+      </div>
+      <dl class="c-meta"><dt>Use</dt><dd>Temporary site logo and favicon</dd><dt>Files</dt><dd>current-redraw/*.svg · public/favicon.svg</dd><dt>Type</dt><dd>Outfit Black (Latin) · Noto Sans Georgian Bold, Mtavruli capitals</dd></dl>
+    </div>
+    <div class="cur">
+      <figure class="tile t-white"><img class="old" src="assets/old-logo.png" alt="Original raster logo"><figcaption>Original · 140 px raster</figcaption></figure>
+      <figure class="tile t-cream"><img src="current-redraw/stacked.svg" alt="Redrawn stacked logo" style="width:250px"><figcaption>Vector redraw · stacked</figcaption></figure>
+      <figure class="tile t-forest dark"><img src="current-redraw/horizontal-reverse.svg" alt="Redrawn horizontal logo on dark" style="width:400px"><figcaption>Horizontal · reverse</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- =============================== 01 OPEN DOOR =============================== -->
+<section class="concept" id="c-open-door">
+  <div class="wrap">
+    <div class="c-head">
+      <div class="c-num">01</div>
+      <div>
+        <h2>Open Door</h2>
+        <p class="c-line">The pin’s round counter becomes an arched doorway, and through it you see the Caucasus. A local opens the door for you.</p>
+      </div>
+      <dl class="c-meta"><dt>Keeps</dt><dd>Red pin, the two hills in dark and light green</dd><dt>Adds</dt><dd>Doorway arch (hospitality), Caucasus peaks</dd><dt>Type</dt><dd>Plus Jakarta Sans ExtraBold</dd><dt>Taglines</dt><dd>Horizontal: Inbound Tour Operator · South Caucasus<br>Stacked: Georgia · Armenia · Azerbaijan</dd></dl>
+    </div>
+    <div class="g hero">
+      <figure class="tile t-cream big"><img src="open-door/horizontal.svg" alt="Open Door horizontal logo" style="width:600px"><figcaption>Horizontal · primary</figcaption></figure>
+      <figure class="tile t-forest dark big"><img src="open-door/icon-reverse.svg" alt="Open Door icon on dark" style="height:210px;width:auto"><figcaption>Icon · on Forest</figcaption></figure>
+    </div>
+    <div class="g four">
+      <figure class="tile t-paper"><img src="open-door/stacked.svg" alt="" style="width:270px"><figcaption>Stacked</figcaption></figure>
+      <figure class="tile t-forest dark"><img src="open-door/stacked-reverse.svg" alt="" style="width:270px"><figcaption>Stacked · reverse</figcaption></figure>
+      <figure class="tile t-white"><img src="open-door/icon-mono.svg" alt="" style="height:150px;width:auto"><figcaption>One colour</figcaption></figure>
+      <figure class="tile t-red dark"><img src="open-door/mono-stacked-white.svg" alt="" style="width:200px"><figcaption>One colour · white</figcaption></figure>
+    </div>
+    <div class="sizes">
+      <div class="sz t-cream"><span class="lab">Small sizes · cream</span><div class="row"><div><img class="sq16" src="open-door/icon.svg" alt=""><span>16</span></div><div><img class="sq24" src="open-door/icon.svg" alt=""><span>24</span></div><div><img class="sq32" src="open-door/icon.svg" alt=""><span>32</span></div><div><img class="sq48" src="open-door/icon.svg" alt=""><span>48</span></div><div><img class="sq64" src="open-door/icon.svg" alt=""><span>64</span></div></div></div>
+      <div class="sz t-forest dark"><span class="lab">Small sizes · forest</span><div class="row"><div><img class="sq16" src="open-door/icon-reverse.svg" alt=""><span>16</span></div><div><img class="sq24" src="open-door/icon-reverse.svg" alt=""><span>24</span></div><div><img class="sq32" src="open-door/icon-reverse.svg" alt=""><span>32</span></div><div><img class="sq48" src="open-door/icon-reverse.svg" alt=""><span>48</span></div><div><img class="sq64" src="open-door/icon-reverse.svg" alt=""><span>64</span></div></div></div>
+      <div class="tabs"><span class="tlab">Favicon · 16 px</span><div class="tabbar"><div class="tab on"><img src="open-door/icon.svg" alt="">Local Host · South Caucasus</div><div class="tab off"><img src="current-redraw/icon.svg" alt="">Old logo</div></div><div class="addr"><i>localhost.ge</i></div></div>
+    </div>
+    <div class="g mock">
+      <div class="mk booth">
+        <div class="wall"><div class="l"><img src="open-door/stacked-reverse.svg" alt=""></div><div class="r"></div></div>
+        <div class="floor-shadow"></div>
+        <div class="desk"><img src="open-door/icon.svg" alt=""></div>
+        <span class="mk-cap">Trade-fair stand</span>
+      </div>
+      <div class="mk cards">
+        <div class="bc front"><img src="open-door/icon-reverse.svg" alt="" style="height:76px;width:auto"></div>
+        <div class="bc back"><img src="open-door/horizontal.svg" alt="" style="width:150px"><div><div class="who">Name Surname<small>Partner relations</small></div><div class="contact">+995 514 37 44 33 · info@localhost.ge<br>A. Bakradze 7, 0159 Tbilisi · localhost.ge</div></div></div>
+        <span class="mk-cap">Business card</span>
+      </div>
+      <div class="mk mapcard">
+        <svg class="map" viewBox="0 0 300 380" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <path d="M0 0 H40 C 20 30, 4 60, 6 71 C 24 88, 46 104, 57 121 C 60 128, 58 134, 56 139 C 40 150, 20 158, 5 161 L0 162 Z" fill="#CFE0E3"/>
+          <path d="M300 0 V380 H246 C 240 330, 238 290, 244 239 C 248 222, 254 206, 266 196 C 274 190, 284 186, 286 178 C 278 170, 266 166, 258 160 C 246 150, 236 138, 229 124 C 222 110, 214 100, 209 92 C 205 60, 214 30, 220 0 Z" fill="#CFE0E3"/>
+          <path d="M13 78 L40 74 L77 80 L104 92 L131 102 L162 114 L196 130 L235 151 L261 164" fill="none" stroke="#BCD0B8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M78 147 L104 154 L130 165 L156 186 L183 210" fill="none" stroke="#CBDAC6" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M138 136 C 136 152, 133 170, 131 189" fill="none" stroke="#fff" stroke-width="1.8" stroke-dasharray="3 4"/>
+          <path d="M138 136 C 180 140, 232 160, 270 181" fill="none" stroke="#fff" stroke-width="1.8" stroke-dasharray="3 4"/>
+          <circle cx="138" cy="136" r="4.5" fill="#0D3A24"/><circle cx="131" cy="189" r="4" fill="#0D3A24"/><circle cx="270.5" cy="181.5" r="4" fill="#0D3A24"/>
+          <text x="146" y="134" font-family="Jakarta" font-weight="700" font-size="10.5" fill="#0D3A24">Tbilisi</text>
+          <text x="139" y="202" font-family="Jakarta" font-weight="700" font-size="10.5" fill="#0D3A24">Yerevan</text>
+          <text x="247" y="200" font-family="Jakarta" font-weight="700" font-size="10.5" fill="#0D3A24">Baku</text>
+          <text x="14" y="112" font-family="Jakarta" font-weight="600" font-size="8" letter-spacing="1.5" fill="#7FA3AA">BLACK SEA</text>
+          <text x="232" y="262" font-family="Jakarta" font-weight="600" font-size="8" letter-spacing="1.5" fill="#7FA3AA" transform="rotate(-80 252 262)">CASPIAN</text>
+        </svg>
+        <img class="pin" src="open-door/icon.svg" alt="">
+        <div class="label">Start at our door<small>Tbilisi · Yerevan · Baku</small></div>
+        <span class="mk-cap">Map marker</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================== 02 SUMMIT MONOGRAM =============================== -->
+<section class="concept" id="c-summit-monogram">
+  <div class="wrap">
+    <div class="c-head">
+      <div class="c-num">02</div>
+      <div>
+        <h2>Summit Monogram</h2>
+        <p class="c-line">L and H share one stem. The crossbar becomes a ridge with three summits, one for each country, and the red pin stands on the highest.</p>
+      </div>
+      <dl class="c-meta"><dt>Keeps</dt><dd>Red pin over green, the mountain story</dd><dt>Adds</dt><dd>An ownable letter-mark that works as an app icon or avatar</dd><dt>Type</dt><dd>Unbounded SemiBold · Manrope</dd><dt>Taglines</dt><dd>Horizontal: Inbound Tour Operator · South Caucasus<br>Stacked: Georgia · Armenia · Azerbaijan</dd></dl>
+    </div>
+    <div class="g hero">
+      <figure class="tile t-cream big"><img src="summit-monogram/horizontal.svg" alt="Summit Monogram horizontal logo" style="width:620px"><figcaption>Horizontal · primary</figcaption></figure>
+      <figure class="tile t-forest dark big"><img src="summit-monogram/icon-reverse.svg" alt="" style="height:190px;width:auto"><figcaption>Icon · on Forest</figcaption></figure>
+    </div>
+    <div class="g four">
+      <figure class="tile t-paper"><img src="summit-monogram/stacked.svg" alt="" style="width:280px"><figcaption>Stacked</figcaption></figure>
+      <figure class="tile t-forest dark"><img src="summit-monogram/stacked-reverse.svg" alt="" style="width:280px"><figcaption>Stacked · reverse</figcaption></figure>
+      <figure class="tile t-white"><img src="summit-monogram/icon-mono.svg" alt="" style="height:140px;width:auto"><figcaption>One colour</figcaption></figure>
+      <figure class="tile t-red dark"><img src="summit-monogram/mono-stacked-white.svg" alt="" style="width:210px"><figcaption>One colour · white</figcaption></figure>
+    </div>
+    <div class="sizes">
+      <div class="sz t-cream"><span class="lab">Small sizes · cream</span><div class="row"><div><img class="sq16" src="summit-monogram/icon.svg" alt=""><span>16</span></div><div><img class="sq24" src="summit-monogram/icon.svg" alt=""><span>24</span></div><div><img class="sq32" src="summit-monogram/icon.svg" alt=""><span>32</span></div><div><img class="sq48" src="summit-monogram/icon.svg" alt=""><span>48</span></div><div><img class="sq64" src="summit-monogram/icon.svg" alt=""><span>64</span></div></div></div>
+      <div class="sz t-forest dark"><span class="lab">Small sizes · forest</span><div class="row"><div><img class="sq16" src="summit-monogram/icon-reverse.svg" alt=""><span>16</span></div><div><img class="sq24" src="summit-monogram/icon-reverse.svg" alt=""><span>24</span></div><div><img class="sq32" src="summit-monogram/icon-reverse.svg" alt=""><span>32</span></div><div><img class="sq48" src="summit-monogram/icon-reverse.svg" alt=""><span>48</span></div><div><img class="sq64" src="summit-monogram/icon-reverse.svg" alt=""><span>64</span></div></div></div>
+      <div class="tabs"><span class="tlab">Favicon · 16 px</span><div class="tabbar"><div class="tab on"><img src="summit-monogram/icon.svg" alt="">Local Host · South Caucasus</div><div class="tab off"><img src="current-redraw/icon.svg" alt="">Old logo</div></div><div class="addr"><i>localhost.ge</i></div></div>
+    </div>
+    <div class="g mock">
+      <div class="mk profile">
+        <div class="banner"></div>
+        <div class="av"><img src="summit-monogram/icon-reverse.svg" alt=""></div>
+        <div class="btns"><span>Follow</span><span>Message</span></div>
+        <div class="meta"><b>LOCAL HOST</b><p>Inbound tour operator · Georgia, Armenia, Azerbaijan · since 2015</p></div>
+        <div class="grid3"><i style="background-image:url(assets/kazbegi-gergeti.jpg)"></i><i style="background-image:url(assets/tbilisi-1.jpg)"></i><i style="background-image:url(assets/ananuri.jpg)"></i></div>
+        <span class="mk-cap light" style="top:16px;bottom:auto;background:rgba(11,31,20,.45);padding:7px 10px;border-radius:999px;left:16px">Social profile</span>
+      </div>
+      <div class="mk phone">
+        <div class="dev"><div class="scr">
+          <div class="app"><i></i><span>Maps</span></div><div class="app"><i></i><span>Photos</span></div><div class="app"><i></i><span>Mail</span></div><div class="app"><i></i><span>Wallet</span></div>
+          <div class="app"><i></i><span>Weather</span></div><div class="app lh"><i><img src="summit-monogram/icon.svg" alt=""></i><span>Local Host</span></div><div class="app"><i></i><span>Camera</span></div><div class="app"><i></i><span>Notes</span></div>
+          <div class="app"><i></i><span>Clock</span></div><div class="app"><i></i><span>Music</span></div><div class="app"><i></i><span>Files</span></div><div class="app"><i></i><span>Settings</span></div>
+        </div></div>
+        <span class="mk-cap" style="top:18px;bottom:auto">App icon</span>
+      </div>
+      <div class="mk badge-scene">
+        <div class="lanyard"></div>
+        <div class="idcard"><span class="clip"></span><div class="top"><img src="summit-monogram/icon-reverse.svg" alt=""></div><b>LOCAL HOST</b><em>Tour guide</em><div class="bars"><i></i><i></i></div></div>
+        <span class="mk-cap">Guide badge</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================== 03 CAUCASUS STAMP =============================== -->
+<section class="concept" id="c-caucasus-stamp">
+  <div class="wrap">
+    <div class="c-head">
+      <div class="c-num">03</div>
+      <div>
+        <h2>Caucasus Stamp</h2>
+        <p class="c-line">A perforated postage roundel that carries on the stamp tiles of the old site: three ranges, the pin on the summit, and a postmark ring you can collect.</p>
+      </div>
+      <dl class="c-meta"><dt>Keeps</dt><dd>Stamp tiles, pin, both greens</dd><dt>Adds</dt><dd>A badge for stickers, luggage tags and round avatars</dd><dt>Type</dt><dd>Outfit Bold</dd><dt>Taglines</dt><dd>Georgia · Armenia · Azerbaijan; the ring carries “South Caucasus”</dd></dl>
+    </div>
+    <div class="g hero">
+      <figure class="tile t-cream big"><img src="caucasus-stamp/horizontal.svg" alt="Caucasus Stamp horizontal logo" style="width:560px"><figcaption>Horizontal · primary</figcaption></figure>
+      <figure class="tile t-forest dark big"><img src="caucasus-stamp/badge.svg" alt="" style="height:250px;width:auto"><figcaption>Emblem · full badge</figcaption></figure>
+    </div>
+    <div class="g four">
+      <figure class="tile t-paper"><img src="caucasus-stamp/stacked.svg" alt="" style="width:260px"><figcaption>Stacked</figcaption></figure>
+      <figure class="tile t-forest dark"><img src="caucasus-stamp/stacked-reverse.svg" alt="" style="width:260px"><figcaption>Stacked · reverse</figcaption></figure>
+      <figure class="tile t-white"><img src="caucasus-stamp/icon-mono.svg" alt="" style="height:150px;width:auto"><figcaption>One colour</figcaption></figure>
+      <figure class="tile t-red dark"><img src="caucasus-stamp/mono-stacked-white.svg" alt="" style="width:200px"><figcaption>One colour · white</figcaption></figure>
+    </div>
+    <div class="sizes">
+      <div class="sz t-cream"><span class="lab">Small sizes · cream</span><div class="row"><div><img class="sq16" src="caucasus-stamp/icon.svg" alt=""><span>16</span></div><div><img class="sq24" src="caucasus-stamp/icon.svg" alt=""><span>24</span></div><div><img class="sq32" src="caucasus-stamp/icon.svg" alt=""><span>32</span></div><div><img class="sq48" src="caucasus-stamp/icon.svg" alt=""><span>48</span></div><div><img class="sq64" src="caucasus-stamp/icon.svg" alt=""><span>64</span></div></div></div>
+      <div class="sz t-forest dark"><span class="lab">Small sizes · forest</span><div class="row"><div><img class="sq16" src="caucasus-stamp/icon-reverse.svg" alt=""><span>16</span></div><div><img class="sq24" src="caucasus-stamp/icon-reverse.svg" alt=""><span>24</span></div><div><img class="sq32" src="caucasus-stamp/icon-reverse.svg" alt=""><span>32</span></div><div><img class="sq48" src="caucasus-stamp/icon-reverse.svg" alt=""><span>48</span></div><div><img class="sq64" src="caucasus-stamp/icon-reverse.svg" alt=""><span>64</span></div></div></div>
+      <div class="tabs"><span class="tlab">Favicon · 16 px</span><div class="tabbar"><div class="tab on"><img src="caucasus-stamp/icon.svg" alt="">Local Host · South Caucasus</div><div class="tab off"><img src="current-redraw/icon.svg" alt="">Old logo</div></div><div class="addr"><i>localhost.ge</i></div></div>
+    </div>
+    <div class="g mock">
+      <div class="mk envelope">
+        <div class="env">
+          <div class="from"><b>LOCAL HOST LLC</b><br>A. Bakradze 7<br>0159 Tbilisi, Georgia</div>
+          <img class="stamp" src="caucasus-stamp/badge.svg" alt="">
+          <svg class="cancel" viewBox="0 0 180 60" aria-hidden="true"><g fill="none" stroke="#0B1F14" stroke-width="2.2"><path d="M0 12 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/><path d="M0 26 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/><path d="M0 40 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/><path d="M0 54 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/></g></svg>
+          <div class="to"><i></i><i></i><i></i></div>
+        </div>
+        <span class="mk-cap">Postage &amp; stationery</span>
+      </div>
+      <div class="mk laptop">
+        <div class="lid"><img class="s1" src="caucasus-stamp/badge.svg" alt=""><img class="s2" src="caucasus-stamp/icon-reverse.svg" alt=""><div class="s3">Georgia · Armenia · Azerbaijan</div></div>
+        <span class="mk-cap">Stickers</span>
+      </div>
+      <div class="mk tagscene">
+        <div class="ltag" style="background:var(--dg);color:var(--cream)"><span class="strap"></span><div class="body"><img src="caucasus-stamp/icon.svg" alt="" style="width:80px"><div style="font:700 13px/1 Outfit;letter-spacing:.14em">LOCAL HOST</div><div class="field"><span>Guest</span></div><div class="field"><span>Hotel</span></div><div class="field"><span>Tour</span></div></div></div>
+        <span class="mk-cap light">Luggage tag</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================== 04 PIN WORDMARK =============================== -->
+<section class="concept" id="c-pin-wordmark">
+  <div class="wrap">
+    <div class="c-head">
+      <div class="c-num">04</div>
+      <div>
+        <h2>Pin Wordmark</h2>
+        <p class="c-line">A warm, refined serif with one small surprise: the “o” of Local drops into a map pin. The name is the logo. It feels like a boutique host, not a booking engine.</p>
+      </div>
+      <dl class="c-meta"><dt>Keeps</dt><dd>The red pin, green as the house colour</dd><dt>Adds</dt><dd>Editorial, premium typography</dd><dt>Type</dt><dd>Fraunces SemiBold · Manrope</dd><dt>Taglines</dt><dd>Horizontal: Inbound Tour Operator · South Caucasus<br>Stacked: Georgia · Armenia · Azerbaijan</dd></dl>
+    </div>
+    <div class="g hero">
+      <figure class="tile t-cream big"><img src="pin-wordmark/horizontal.svg" alt="Pin Wordmark horizontal logo" style="width:640px"><figcaption>Horizontal · primary</figcaption></figure>
+      <figure class="tile t-forest dark big"><img src="pin-wordmark/icon-reverse.svg" alt="" style="height:170px;width:auto"><figcaption>Icon · on Forest</figcaption></figure>
+    </div>
+    <div class="g four">
+      <figure class="tile t-paper"><img src="pin-wordmark/stacked.svg" alt="" style="width:240px"><figcaption>Stacked</figcaption></figure>
+      <figure class="tile t-forest dark"><img src="pin-wordmark/stacked-reverse.svg" alt="" style="width:240px"><figcaption>Stacked · reverse</figcaption></figure>
+      <figure class="tile t-white"><img src="pin-wordmark/icon-mono.svg" alt="" style="height:120px;width:auto"><figcaption>One colour</figcaption></figure>
+      <figure class="tile t-red dark"><img src="pin-wordmark/mono-stacked-white.svg" alt="" style="width:190px"><figcaption>One colour · white</figcaption></figure>
+    </div>
+    <div class="sizes">
+      <div class="sz t-cream"><span class="lab">Small sizes · cream</span><div class="row"><div><img class="sq16" src="pin-wordmark/icon.svg" alt=""><span>16</span></div><div><img class="sq24" src="pin-wordmark/icon.svg" alt=""><span>24</span></div><div><img class="sq32" src="pin-wordmark/icon.svg" alt=""><span>32</span></div><div><img class="sq48" src="pin-wordmark/icon.svg" alt=""><span>48</span></div><div><img class="sq64" src="pin-wordmark/icon.svg" alt=""><span>64</span></div></div></div>
+      <div class="sz t-forest dark"><span class="lab">Small sizes · forest</span><div class="row"><div><img class="sq16" src="pin-wordmark/icon-reverse.svg" alt=""><span>16</span></div><div><img class="sq24" src="pin-wordmark/icon-reverse.svg" alt=""><span>24</span></div><div><img class="sq32" src="pin-wordmark/icon-reverse.svg" alt=""><span>32</span></div><div><img class="sq48" src="pin-wordmark/icon-reverse.svg" alt=""><span>48</span></div><div><img class="sq64" src="pin-wordmark/icon-reverse.svg" alt=""><span>64</span></div></div></div>
+      <div class="tabs"><span class="tlab">Favicon · 16 px</span><div class="tabbar"><div class="tab on"><img src="pin-wordmark/icon.svg" alt="">Local Host · South Caucasus</div><div class="tab off"><img src="current-redraw/icon.svg" alt="">Old logo</div></div><div class="addr"><i>localhost.ge</i></div></div>
+    </div>
+    <div class="g mock">
+      <div class="mk site">
+        <div class="chrome"><i></i><i></i><i></i><span>localhost.ge</span></div>
+        <nav><img src="pin-wordmark/wordmark.svg" alt=""><ul><li>Caucasus</li><li>Experiences</li><li>Hosts</li><li>Meet us</li></ul><a>Plan a trip</a></nav>
+        <div class="hero"><div class="copy"><h3>Stay with people who call it home.</h3><p>Culture, wine, trekking and food across Georgia, Armenia and Azerbaijan.</p></div><div class="ph"></div></div>
+        <span class="mk-cap" style="left:auto;right:20px;top:12px;bottom:auto">Website header</span>
+      </div>
+      <div class="mk tent">
+        <div class="card"><img src="pin-wordmark/wordmark.svg" alt=""><p>Gamarjoba! Welcome to the Caucasus.</p><small>Your host is one call away</small></div>
+        <span class="mk-cap">Welcome card</span>
+      </div>
+      <div class="mk tote">
+        <div class="handle"></div>
+        <div class="bag"><img src="pin-wordmark/stacked.svg" alt=""></div>
+        <span class="mk-cap">Canvas tote</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================== RECOMMENDATION =============================== -->
+<section class="reco" id="recommendation">
+  <div class="wrap">
+    <span class="eyebrow">Recommendation</span>
+    <div class="reco-grid">
+      <div>
+        <h2>Go with Open Door, and keep the Stamp for merch.</h2>
+        <p style="margin-top:22px"><b>Open Door</b> keeps most of what people already recognise: the red pin over green, read at a glance. It adds a clear, ownable idea, a local opening the door onto the mountains. It reads cleanly at 16 px, its one-colour version is strong, and the arch-and-peaks shape works across all three countries without leaning on any single national symbol.</p>
+        <p>The <b>Caucasus Stamp</b> works well alongside it as a secondary emblem for stickers, luggage tags and partner gifts, continuing the stamp tiles of the old site.</p>
+        <p>If you prefer a more premium, typographic look, <b>Pin Wordmark</b> is the alternative. Its serif wordmark could also be paired with the Open Door icon.</p>
+      </div>
+      <div>
+        <div class="lineup">
+          <div class="pick"><div class="ic"><img src="open-door/icon.svg" alt=""></div><span>01 Open Door<br>recommended</span></div>
+          <div><div class="ic"><img src="summit-monogram/icon-reverse.svg" alt=""></div><span>02 Summit<br>Monogram</span></div>
+          <div><div class="ic"><img src="caucasus-stamp/icon-reverse.svg" alt=""></div><span>03 Caucasus<br>Stamp</span></div>
+          <div><div class="ic"><img src="pin-wordmark/icon-reverse.svg" alt=""></div><span>04 Pin<br>Wordmark</span></div>
+        </div>
+        <ol style="margin-top:26px">
+          <li>Choose a direction, then refine it with a professional designer: optical corrections, final kerning and a proper type licence check.</li>
+          <li>Before adoption, check for trademark conflicts (Sakpatenti in Georgia, plus EUIPO/WIPO for the EU markets) and register the final mark.</li>
+          <li>Then roll out: website, favicon and social avatars first, followed by print and fair materials.</li>
+        </ol>
+        <p class="note">All lockups are vector with text in outlines. Fonts are open-licence (SIL OFL): Plus Jakarta Sans, Unbounded, Manrope, Outfit, Fraunces, Noto Sans Georgian. Files: design/logo/&lt;concept&gt;/{horizontal, stacked, icon, mono}.svg, plus reverse and white variants.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">Local Host LLC · A. Bakradze 7, 0159 Tbilisi, Georgia · info@localhost.ge · Concepts for discussion, not final artwork.</div></footer>
+</body>
+</html>
