@@ -50,7 +50,7 @@ The owner has hired a designer who delivers the final visual design in ~2 weeks.
 - Existing logo: `docs/reference/old-logo.png` — red map pin above two green hills, wordmark **LOCAL HOST**, small Georgian "საქართველო" (Georgia).
 - Brand colours sampled from the logo: **red `#D02027`**, **dark green `#13783C`**, **light green `#2BB34B`**.
 - Old site used **postage-stamp shaped tiles** for tour types (`docs/reference/old-site-tour-types.png`) — a nice heritage motif.
-- A new logo is wanted; concepts are being designed in `design/logo/`. Until one is chosen, the site uses a clean SVG redraw of the current mark.
+- **Site logo: "Open Door"** (chosen by the client from the concepts in `design/logo/`): the red pin's counter is an arched doorway with green Caucasus peaks inside. Use the SVGs in `src/assets/brand/` — `logo-horizontal.svg` (light backgrounds), `logo-horizontal-reverse.svg` (dark), `logo-stacked*.svg`, `logo-icon*.svg`, `logo-mono*.svg`. Inline them (so they can be recoloured/animated) or import them; never redraw. Favicon: `public/favicon.svg` (Open Door icon). Rationale + clear-space rules: `design/logo/README.md`.
 
 ## 5. Content facts we can rely on
 
