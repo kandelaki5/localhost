@@ -1,0 +1,218 @@
+---
+/**
+ * Dev harness for POST /api/triage (staff tool; noindex, deliberately unstyled).
+ * Paste an email (or load one of the three samples), triage it, and see the
+ * classification, extracted facts, missing info, draft reply and raw JSON.
+ * Autorun for screenshots: ?sample=<sample id>&submit=1
+ */
+import { LOCALES, LOCALE_INFO } from '../../../lib/ai/locales';
+import { TRIAGE_EMAIL_MAX } from '../../../lib/ai/client/triage';
+import { TRIAGE_SAMPLE_EMAILS } from '../../../lib/ai/fixtures/triage';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Inbox triage harness</title>
+    <style is:global>
+      body { font: 15px/1.45 system-ui, sans-serif; margin: 16px; max-width: 1100px; color: #1b1b1b; background: #fff; }
+      form { display: grid; gap: 8px; border: 1px solid #ccc; padding: 12px; }
+      label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+      textarea { font: 13px/1.4 ui-monospace, monospace; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .badge { display: inline-block; padding: 2px 8px; border: 1px solid #333; font-size: 12px; font-weight: 600; }
+      .badge.demo { background: #fff4c2; }
+      .badge.live { background: #d9f7d9; }
+      .badge.high { background: #ffd6d6; }
+      .badge.normal { background: #e8eefc; }
+      .badge.low { background: #eee; }
+      .error { color: #a40000; font-weight: 600; }
+      .meta { font-size: 12px; color: #555; }
+      .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 0 20px; }
+      table { border-collapse: collapse; width: 100%; font-size: 13px; }
+      th, td { border: 1px solid #bbb; padding: 5px 6px; vertical-align: top; text-align: left; }
+      th { width: 34%; background: #fafafa; }
+      .reply { white-space: pre-wrap; border: 1px solid #bbb; padding: 10px; background: #fcfcf7; font-size: 13px; }
+      astro-dev-toolbar { display: none !important; } /* keeps harness screenshots clean (dev only) */
+      pre { background: #f4f4f4; padding: 8px; overflow: auto; max-height: 360px; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>Inbox triage — dev harness</h1>
+    <p class="meta">POST /api/triage · staff tool · noindex · demo mode without ANTHROPIC_API_KEY</p>
+
+    <div class="row">
+      {TRIAGE_SAMPLE_EMAILS.map((s) => <button type="button" data-sample={s.id}>Try: {s.label}</button>)}
+    </div>
+
+    <form id="triage">
+      <label><span>Email (<span id="count">0</span>/{TRIAGE_EMAIL_MAX})</span>
+        <textarea name="email" rows="10" maxlength={TRIAGE_EMAIL_MAX} required placeholder="Paste the email (subject, body, signature)…"></textarea>
+      </label>
+      <div class="row">
+        <label>Staff notes language
+          <select name="locale">{LOCALES.map((l) => <option value={l}>{l} — {LOCALE_INFO[l].native}</option>)}</select>
+        </label>
+        <button type="submit">Triage</button>
+        <button id="cancel" type="button" disabled>Cancel</button>
+        <span id="status" class="meta"></span>
+      </div>
+    </form>
+
+    <div id="result"></div>
+    <details>
+      <summary>Raw JSON</summary>
+      <pre id="raw"></pre>
+    </details>
+
+    <script is:inline id="sample-emails" type="application/json" set:html={JSON.stringify(TRIAGE_SAMPLE_EMAILS)} />
+
+    <script>
+      import { draftReplyMailto, languageLabel, triageEmail, type TriageOutcome, type TriageSampleId } from '../../../lib/ai/client/triage';
+      import type { Locale } from '../../../lib/ai/types';
+
+      const form = document.getElementById('triage') as HTMLFormElement;
+      const textarea = form.elements.namedItem('email') as HTMLTextAreaElement;
+      const localeSelect = form.elements.namedItem('locale') as HTMLSelectElement;
+      const statusEl = document.getElementById('status') as HTMLSpanElement;
+      const resultEl = document.getElementById('result') as HTMLDivElement;
+      const rawEl = document.getElementById('raw') as HTMLPreElement;
+      const cancelButton = document.getElementById('cancel') as HTMLButtonElement;
+      const counter = document.getElementById('count') as HTMLSpanElement;
+      const samples = JSON.parse(document.getElementById('sample-emails')?.textContent ?? '[]') as { id: TriageSampleId; label: string; email: string }[];
+      let loadedSample: TriageSampleId | null = null;
+      let controller: AbortController | null = null;
+
+      const el = (tag: string, text?: string, className?: string) => {
+        const node = document.createElement(tag);
+        if (text !== undefined) node.textContent = text;
+        if (className) node.className = className;
+        return node;
+      };
+      const table = (rows: [string, string | Node][]) => {
+        const t = el('table');
+        for (const [k, v] of rows) {
+          const tr = el('tr');
+          const td = el('td');
+          td.append(v);
+          tr.append(el('th', k), td);
+          t.append(tr);
+        }
+        return t;
+      };
+
+      function render(r: TriageOutcome) {
+        resultEl.textContent = '';
+        rawEl.textContent = JSON.stringify(r.ok ? r.data : r, null, 2);
+        if (!r.ok) {
+          resultEl.append(el('p', `Error ${r.status} ${r.error}${r.field ? ` (${r.field})` : ''}: ${r.message ?? ''}${r.retryAfter ? ` — retry in ${r.retryAfter}s` : ''}`, 'error'));
+          return;
+        }
+        const { triage: t, sample, mode } = r.data;
+        const head = el('p', undefined, 'row');
+        head.append(
+          el('span', mode === 'demo' ? 'DEMO — prepared result' : 'LIVE', `badge ${mode}`),
+          el('span', `urgency: ${t.urgency}`, `badge ${t.urgency}`),
+          el('span', `→ ${t.routeTo}`, 'badge'),
+        );
+        if (sample) head.append(el('span', sample.exact ? `sample “${sample.label}”` : `not a sample email → showing the result of “${sample.label}”`, 'meta'));
+        resultEl.append(head, el('p', t.summary));
+
+        const x = t.extracted;
+        const missing = el('ul');
+        for (const m of t.missingInfo) missing.append(el('li', m));
+        const cols = el('div', undefined, 'cols');
+        const left = el('div');
+        left.append(
+          el('h3', 'Classification'),
+          table([
+            ['Language', `${languageLabel(t.language)} (${t.language})`],
+            ['Market', t.market],
+            ['Sender', t.senderType],
+            ['Intent', t.intent],
+            ['Urgency', `${t.urgency} — ${t.urgencyReason}`],
+            ['Route to', t.routeTo],
+          ]),
+          el('h3', 'Extracted'),
+          table([
+            ['Travel dates', x.travelDates ?? '—'],
+            ['Group size', x.groupSize ?? '—'],
+            ['Countries', x.countries?.join(', ') ?? '—'],
+            ['Interests', x.interests?.join('; ') ?? '—'],
+            ['Budget hints', x.budgetHints ?? '—'],
+            ['Hotel category', x.hotelCategory ?? '—'],
+            ['Special needs', x.specialNeeds ?? '—'],
+          ]),
+          el('h3', `Missing info (${t.missingInfo.length})`),
+          t.missingInfo.length ? missing : el('p', 'Nothing missing.', 'meta'),
+        );
+        const right = el('div');
+        const mailto = el('a', 'Open in mail client') as HTMLAnchorElement;
+        mailto.href = draftReplyMailto(t.draftReply);
+        const copy = el('button', 'Copy reply') as HTMLButtonElement;
+        copy.type = 'button';
+        copy.addEventListener('click', () => void navigator.clipboard?.writeText(`${t.draftReply.subject}\n\n${t.draftReply.body}`));
+        const tools = el('p', undefined, 'row');
+        tools.append(copy, mailto);
+        right.append(
+          el('h3', `Draft reply (${languageLabel(t.draftReply.language)})`),
+          el('p', `Subject: ${t.draftReply.subject}`),
+          el('div', t.draftReply.body, 'reply'),
+          tools,
+        );
+        cols.append(left, right);
+        resultEl.append(cols);
+      }
+
+      async function run() {
+        const email = textarea.value;
+        controller?.abort();
+        controller = new AbortController();
+        cancelButton.disabled = false;
+        statusEl.textContent = 'Triaging…';
+        const started = performance.now();
+        const r = await triageEmail(
+          { email, locale: localeSelect.value as Locale, ...(loadedSample ? { sampleId: loadedSample } : {}) },
+          { signal: controller.signal },
+        );
+        cancelButton.disabled = true;
+        statusEl.textContent = `${r.ok ? 'Done' : 'Failed'} in ${((performance.now() - started) / 1000).toFixed(1)} s`;
+        render(r);
+      }
+
+      function load(id: string) {
+        const s = samples.find((x) => x.id === id);
+        if (!s) return;
+        textarea.value = s.email;
+        loadedSample = s.id;
+        counter.textContent = String(textarea.value.length);
+      }
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        void run();
+      });
+      cancelButton.addEventListener('click', () => controller?.abort());
+      textarea.addEventListener('input', () => {
+        counter.textContent = String(textarea.value.length);
+      });
+      document.querySelectorAll<HTMLButtonElement>('[data-sample]').forEach((button) =>
+        button.addEventListener('click', () => {
+          load(button.dataset.sample ?? '');
+          void run();
+        }),
+      );
+
+      const params = new URLSearchParams(location.search);
+      const sampleParam = params.get('sample');
+      if (sampleParam) {
+        load(sampleParam);
+        if (params.get('submit') === '1') void run();
+      }
+    </script>
+  </body>
+</html>

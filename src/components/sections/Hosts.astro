@@ -1,0 +1,21 @@
+---
+/**
+ * 03 · Hosts (#hosts) — STUB from the foundation.
+ * Owned by the Hosts section agent: replace the <Placeholder> with the real
+ * section. Strings: src/i18n/<lang>/hosts.json (English is canonical).
+ * See docs/ARCHITECTURE.md.
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Placeholder from '../ui/Placeholder.astro';
+import { getLang, useStrings } from '../../i18n';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'hosts');
+---
+
+<section id="hosts" class="section" aria-labelledby="hosts-title">
+  <div class="container">
+    <SectionHead number={3} id="hosts-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
+    <Placeholder shape="pair" count={2} note="Six hosts: landscape photos, monogram seals, pull-quotes from the policy" />
+  </div>
+</section>

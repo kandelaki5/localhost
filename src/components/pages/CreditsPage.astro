@@ -1,0 +1,299 @@
+---
+/**
+ * /credits/ — photo credits. Reads src/data/photo-credits.json and
+ * src/assets/inspiration/credits.json through import.meta.glob, so a missing
+ * file (or a different shape: array, {photos: []}, {credits: []} or an
+ * id → record map) never breaks the build.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { getPhoto, hasPhoto } from '../../lib/photos';
+import { getLang, localizePath, useStrings } from '../../i18n';
+import { inline } from '../../lib/markup';
+
+interface CreditRecord {
+  id?: string;
+  file?: string;
+  title?: string;
+  creator?: string | null;
+  author?: string | null;
+  creatorUrl?: string | null;
+  license?: string | null;
+  licence?: string | null;
+  licenseUrl?: string | null;
+  source?: string | null;
+  sourceUrl?: string | null;
+  attribution?: string | null;
+  modifications?: string | null;
+  owner?: string | null;
+  usage?: string | null;
+}
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'credits');
+
+function toList(data: unknown): CreditRecord[] {
+  if (Array.isArray(data)) return data as CreditRecord[];
+  if (data && typeof data === 'object') {
+    const obj = data as Record<string, unknown>;
+    for (const key of ['photos', 'credits', 'items', 'images']) {
+      if (Array.isArray(obj[key])) return obj[key] as CreditRecord[];
+    }
+    return Object.entries(obj)
+      .filter(([, v]) => v && typeof v === 'object' && !Array.isArray(v))
+      .map(([id, v]) => ({ id, ...(v as CreditRecord) }));
+  }
+  return [];
+}
+
+const siteFiles = import.meta.glob<{ default: unknown }>('/src/data/photo-credits.json', { eager: true });
+const aiFiles = import.meta.glob<{ default: unknown }>('/src/assets/inspiration/credits.json', { eager: true });
+const inspiration = import.meta.glob<{ default: ImageMetadata }>('/src/assets/inspiration/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+});
+
+const siteCredits = toList(Object.values(siteFiles)[0]?.default);
+const aiCredits = toList(Object.values(aiFiles)[0]?.default);
+
+const stem = (file?: string, id?: string) => (file ?? id ?? '').split('/').pop()!.replace(/\.[^.]+$/, '');
+function thumbFor(record: CreditRecord, pool: 'site' | 'ai'): ImageMetadata | undefined {
+  const name = stem(record.file, record.id);
+  if (!name) return undefined;
+  if (pool === 'site') return hasPhoto(name) ? getPhoto(name) : undefined;
+  const hit = Object.entries(inspiration).find(([path]) => stem(path) === name);
+  return hit?.[1].default;
+}
+
+function view(record: CreditRecord, pool: 'site' | 'ai') {
+  return {
+    title: record.title ?? stem(record.file, record.id),
+    author: record.creator ?? record.author ?? record.owner ?? null,
+    authorUrl: record.creatorUrl ?? null,
+    licence: record.license ?? record.licence ?? null,
+    licenceUrl: record.licenseUrl ?? null,
+    source: record.sourceUrl ?? record.source ?? null,
+    changes: record.modifications ?? null,
+    thumb: thumbFor(record, pool),
+  };
+}
+
+const groups = [
+  { id: 'site', heading: t.siteHeading, note: null as string | null, items: siteCredits.map((r) => view(r, 'site')) },
+  { id: 'ai', heading: t.aiHeading, note: t.aiNote, items: aiCredits.map((r) => view(r, 'ai')) },
+];
+const host = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+};
+---
+
+<Base title={t.meta.title} description={t.meta.description}>
+  <div class="container credits">
+    <SectionHead level={1} size="xl" id="credits-title" kicker={t.kicker} title={t.title} layout="stack" />
+    <p class="credits__lead" set:html={inline(t.lead)} />
+
+    {
+      groups.map((group) => (
+        <section class="credits__group" aria-labelledby={`credits-${group.id}`}>
+          <h2 id={`credits-${group.id}`} class="credits__heading kicker">
+            {group.heading}
+          </h2>
+          {group.note && <p class="credits__note fig-caption">{group.note}</p>}
+          {group.items.length ? (
+            <ol class="credits__list" role="list">
+              {group.items.map((c, i) => (
+                <li class="credit">
+                  <span class="credit__no">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="credit__thumb">
+                    {c.thumb ? (
+                      <Image src={c.thumb} alt="" width={240} height={180} format="webp" loading="lazy" />
+                    ) : (
+                      <Icon name="image" size={22} />
+                    )}
+                  </span>
+                  <div class="credit__body">
+                    <p class="credit__title">{c.title}</p>
+                    <dl class="credit__meta">
+                      {c.author && (
+                        <div>
+                          <dt>{t.labels.author}</dt>
+                          <dd>{c.authorUrl ? <a href={c.authorUrl}>{c.author}</a> : c.author}</dd>
+                        </div>
+                      )}
+                      {c.licence && (
+                        <div>
+                          <dt>{t.labels.licence}</dt>
+                          <dd>{c.licenceUrl ? <a href={c.licenceUrl}>{c.licence}</a> : c.licence}</dd>
+                        </div>
+                      )}
+                      {c.source && (
+                        <div>
+                          <dt>{t.labels.source}</dt>
+                          <dd>
+                            {/^https?:/.test(c.source) ? <a href={c.source}>{host(c.source)}</a> : c.source}
+                          </dd>
+                        </div>
+                      )}
+                      {c.changes && (
+                        <div class="credit__changes">
+                          <dt>{t.labels.changes}</dt>
+                          <dd>{c.changes}</dd>
+                        </div>
+                      )}
+                    </dl>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="credits__pending">
+              <span class="fig-caption">{t.pending}</span>
+              <span class="credits__owned">{t.owned}</span>
+            </p>
+          )}
+        </section>
+      ))
+    }
+
+    <p class="credits__back">
+      <Button href={localizePath('/', lang)} variant="secondary" iconStart="arrow-left">{t.back}</Button>
+    </p>
+  </div>
+</Base>
+
+<style>
+  .credits {
+    padding-block: var(--space-section-sm) var(--space-section);
+  }
+
+  .credits__lead {
+    max-width: 60ch;
+    font-size: var(--fs-md);
+    color: var(--color-text-body);
+    margin-top: calc(-1 * var(--space-s));
+  }
+
+  .credits__group {
+    margin-top: var(--space-2xl);
+  }
+
+  .credits__heading {
+    padding-top: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-rule-section);
+  }
+
+  .credits__note {
+    margin-top: var(--space-2xs);
+    max-width: 60ch;
+  }
+
+  .credits__list {
+    margin: var(--space-m) 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+    column-gap: var(--space-xl);
+  }
+
+  .credit {
+    display: grid;
+    grid-template-columns: 2ch 6.5rem minmax(0, 1fr);
+    gap: var(--space-s);
+    align-items: start;
+    padding-block: var(--space-m);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .credit__no {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .credit__thumb {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-bg-sunken);
+    color: var(--color-text-muted);
+  }
+
+  .credit__thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .credit__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-heading);
+  }
+
+  .credit__meta {
+    display: grid;
+    gap: 0.2rem;
+    margin-top: var(--space-2xs);
+    font-size: var(--fs-xs);
+    color: var(--color-text-body);
+  }
+
+  .credit__meta div {
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  .credit__meta dt {
+    flex: none;
+    min-width: 6.5rem;
+    color: var(--color-text-muted);
+  }
+
+  .credit__meta dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .credits__pending {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-top: var(--space-m);
+    padding: var(--space-m);
+    border: var(--border-hair) dashed var(--color-rule-strong);
+  }
+
+  .credits__owned {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+  }
+
+  .credits__back {
+    margin-top: var(--space-2xl);
+  }
+
+  @media (max-width: 39.99em) {
+    .credit {
+      grid-template-columns: 5rem minmax(0, 1fr);
+    }
+
+    .credit__no {
+      display: none;
+    }
+
+    .credit__meta div {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+</style>

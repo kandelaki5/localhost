@@ -1,0 +1,21 @@
+---
+/**
+ * 06 · MeetUs (#meet-us) — STUB from the foundation.
+ * Owned by the MeetUs section agent: replace the <Placeholder> with the real
+ * section. Strings: src/i18n/<lang>/meet-us.json (English is canonical).
+ * See docs/ARCHITECTURE.md.
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Placeholder from '../ui/Placeholder.astro';
+import { getLang, useStrings } from '../../i18n';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'meet-us');
+---
+
+<section id="meet-us" class="section" aria-labelledby="meet-us-title">
+  <div class="container">
+    <SectionHead number={6} id="meet-us-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
+    <Placeholder shape="seals" count={6} note="Six trade fairs as visa stamps, with a calendar of the next editions" />
+  </div>
+</section>

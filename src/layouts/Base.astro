@@ -55,7 +55,6 @@ const ogImageUrl = absoluteUrl(ogImage);
 const themeColor = token(surface === 'night' ? '--palette-night-900' : '--palette-paper-200');
 
 const organization = {
-  '@context': 'https://schema.org',
   '@type': 'TravelAgency',
   '@id': 'https://www.localhost.ge/#organization',
   name: 'Local Host',
@@ -81,7 +80,9 @@ const organization = {
   ],
   knowsLanguage: LOCALES.map((l) => l.bcp47),
 };
-const ld = [organization, ...jsonLd];
+const ld = jsonLd.length
+  ? { '@context': 'https://schema.org', '@graph': [organization, ...jsonLd] }
+  : { '@context': 'https://schema.org', ...organization };
 ---
 
 <!doctype html>
@@ -137,7 +138,7 @@ const ld = [organization, ...jsonLd];
     <script is:inline>
       document.documentElement.classList.replace('no-js', 'js');
     </script>
-    <script type="application/ld+json" set:html={JSON.stringify(ld.length === 1 ? ld[0] : ld)} />
+    <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
     <slot name="head" />
   </head>
   <body data-surface={surface === 'night' ? 'night' : undefined}>
@@ -159,8 +160,9 @@ const ld = [organization, ...jsonLd];
     outline: none;
   }
 
+  /* Night pages: solid night (the [data-surface] rule sets the colour);
+     no paper grain. Sections add their own glow/gradient. */
   body[data-surface='night'] {
-    background: var(--gradient-night);
-    background-attachment: fixed;
+    background-image: none;
   }
 </style>

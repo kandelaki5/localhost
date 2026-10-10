@@ -1,0 +1,21 @@
+---
+/**
+ * 08 · Awards (#awards) — STUB from the foundation.
+ * Owned by the Awards section agent: replace the <Placeholder> with the real
+ * section. Strings: src/i18n/<lang>/awards.json (English is canonical).
+ * See docs/ARCHITECTURE.md.
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Placeholder from '../ui/Placeholder.astro';
+import { getLang, useStrings } from '../../i18n';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'awards');
+---
+
+<section id="awards" class="section" aria-labelledby="awards-title">
+  <div class="container">
+    <SectionHead number={8} id="awards-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
+    <Placeholder shape="seals" count={2} note="Welcome to Georgia! National Tourism Awards — round nominee seals" />
+  </div>
+</section>

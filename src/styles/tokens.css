@@ -18,8 +18,8 @@
                                    and "forest" (passport-cover footer).
 
    Conventions (the export script relies on them)
-     - one declaration per line: `--name: value; /* description */`
-     - the comment becomes the token's description in Figma
+     - one declaration per line, then an optional trailing comment
+     - that trailing comment becomes the token's description in Figma
      - references use var(--other-token) and are kept as references
 
    Mirrored to Figma: `node scripts/export-tokens.mjs` writes
@@ -112,6 +112,7 @@
 
   --gradient-sun: linear-gradient(135deg, var(--brand-sun-light) 0%, var(--brand-sun) 50%, var(--brand-sun-dark) 100%); /* the logo sun */
   --gradient-night: linear-gradient(180deg, var(--palette-night-900) 0%, var(--palette-forest) 100%); /* night surface */
+  --gradient-night-fade: linear-gradient(180deg, var(--palette-forest) 0%, var(--palette-night-900) 100%); /* night surface, continuing below a night gradient */
   --gradient-scrim: linear-gradient(180deg, rgb(6 20 13 / 0) 40%, rgb(6 20 13 / 0.6) 100%); /* photo scrim, bottom */
   --texture-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); /* faint paper grain */
   --texture-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='i'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2 2.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23i)'/%3E%3C/svg%3E"); /* rubber-stamp ink mask (used as mask-image) */
@@ -137,7 +138,7 @@
   --fs-3xl: clamp(2rem, 1.5rem + 2.2222vw, 3.5rem); /* 32 → 56px: feature titles */
   --fs-4xl: clamp(2.5rem, 1.5833rem + 4.0741vw, 5.25rem); /* 40 → 84px: section titles */
   --fs-5xl: clamp(2.875rem, 1.0833rem + 7.963vw, 8.25rem); /* 46 → 132px: hero */
-  --fs-scale-ka: 0.84; /* Georgian display is optically larger — display sizes are multiplied by this */
+  --fs-scale-ka: 0.76; /* Georgian display is optically larger — display sizes are multiplied by this */
 
   --lh-display: 0.94; /* hero and section titles */
   --lh-heading: 1.06; /* h3–h4 */
@@ -155,7 +156,7 @@
   --fw-medium: 500; /* UI labels, nav */
   --fw-semibold: 600; /* small caps, buttons */
   --fw-bold: 700; /* mono board characters */
-  --fw-ka-display: 380; /* Noto Serif Georgian, large sizes */
+  --fw-ka-display: 340; /* Noto Serif Georgian at display sizes (40px and up) */
   --fw-ka-text: 420; /* Noto Serif/Sans Georgian below 24px (never lighter than 400) */
 
   --tracking-display: -0.022em; /* display headlines */
@@ -182,7 +183,7 @@
   --space-2xl: 4rem; /* 64px */
   --space-3xl: 6rem; /* 96px */
   --space-4xl: 8rem; /* 128px */
-  --space-section: clamp(4rem, 2.6667rem + 5.9259vw, 8rem); /* 64 → 128px: vertical padding of a section */
+  --space-section: clamp(3.5rem, 2.5rem + 4.4444vw, 6.5rem); /* 56 → 104px: vertical padding of a section */
   --space-section-sm: clamp(2.75rem, 2rem + 3.3333vw, 5rem); /* 44 → 80px: compact sections, bands */
   --space-block: clamp(1.75rem, 1.25rem + 2.2222vw, 3.25rem); /* 28 → 52px: section head → body */
 

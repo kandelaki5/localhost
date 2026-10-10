@@ -1,0 +1,10 @@
+---
+import AiLabPage from '../../../components/pages/AiLabPage.astro';
+import { langStaticPaths } from '../../../i18n';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+---
+
+<AiLabPage />

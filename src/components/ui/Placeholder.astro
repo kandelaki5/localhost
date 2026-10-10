@@ -125,7 +125,7 @@ const items = Array.from({ length: count }, (_, i) => i);
 
   .ph__body {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(45%, 14rem), 1fr));
     gap: var(--layout-gap);
     align-items: start;
   }
@@ -135,7 +135,23 @@ const items = Array.from({ length: count }, (_, i) => i);
   }
 
   .ph--stamps .ph__body {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(30%, 11rem), 1fr));
+  }
+
+  @media (max-width: 39.99em) {
+    .ph__head {
+      align-items: flex-start;
+      margin-bottom: var(--space-m);
+    }
+
+    .ph--pair .ph__body,
+    .ph--form .ph__body {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .ph__line:last-child {
+      display: none;
+    }
   }
 
   .ph--seals .ph__body,
@@ -167,6 +183,14 @@ const items = Array.from({ length: count }, (_, i) => i);
 
   .ph__block--hero {
     aspect-ratio: 4 / 3.4;
+  }
+
+  .ph--pair .ph__block {
+    aspect-ratio: 16 / 9;
+  }
+
+  .ph--form .ph__block {
+    aspect-ratio: 16 / 7;
   }
 
   .ph__line {

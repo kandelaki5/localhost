@@ -1,0 +1,81 @@
+<!doctype html>
+<!--
+  Open Graph card for localhost.ge (1200 × 630).
+  Rendered to public/og/og-default.png:
+    python3 -m http.server 4591 --directory .   (from the repo root)
+    node scripts/shoot.mjs http://127.0.0.1:4591/design/build/og/ public/og/og-default.png 1200 630 --wait=1200
+  Uses the site's tokens, fonts, logo file and photo, so a re-skin carries over.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Local Host — OG card</title>
+<link rel="stylesheet" href="../../../src/styles/tokens.css">
+<style>
+@font-face{font-family:"Fraunces Variable";src:url(../../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2) format("woff2-variations");font-weight:100 900;font-style:normal}
+@font-face{font-family:"Fraunces Variable";src:url(../../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2) format("woff2-variations");font-weight:100 900;font-style:italic}
+@font-face{font-family:"DM Sans Variable";src:url(../../../node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-opsz-normal.woff2) format("woff2-variations");font-weight:100 1000}
+@font-face{font-family:"Noto Serif Georgian Variable";src:url(../../../node_modules/@fontsource-variable/noto-serif-georgian/files/noto-serif-georgian-georgian-wght-normal.woff2) format("woff2-variations");font-weight:100 900}
+@font-face{font-family:"JetBrains Mono Variable";src:url(../../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2) format("woff2-variations");font-weight:100 800}
+*{box-sizing:border-box;margin:0}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{background:var(--palette-paper-200) var(--texture-paper);color:var(--palette-ink-900);font-family:var(--font-text);-webkit-font-smoothing:antialiased}
+.card{position:relative;display:grid;grid-template-columns:1fr 440px;height:630px}
+.text{position:relative;padding:52px 56px 44px 64px;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:space-between;padding-bottom:22px;border-bottom:1px solid var(--palette-ink-900)}
+.top img{height:46px;width:auto;display:block}
+.kicker{font:600 12.5px/1 var(--font-text);letter-spacing:.17em;text-transform:uppercase;color:var(--palette-ink-500)}
+h1{margin-top:40px;font-family:var(--font-display);font-weight:330;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 0;font-size:100px;line-height:.92;letter-spacing:-.025em}
+h1 span{display:block}
+h1 em{display:block;padding-left:108px;font-style:italic;font-weight:300;font-variation-settings:'opsz' 144,'WONK' 1;color:var(--palette-green-ink);letter-spacing:-.03em}
+.ka{margin-top:30px;font-family:var(--font-ka-display);font-weight:400;font-size:29px;line-height:1.2}
+.gloss{margin-top:8px;font:italic 400 16px/1.4 var(--font-display);font-variation-settings:'opsz' 14;color:var(--palette-ink-500)}
+.gloss::before{content:"";display:inline-block;width:26px;height:1px;background:var(--brand-sun);vertical-align:middle;margin-right:12px}
+.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;padding-top:16px;border-top:1px solid rgb(20 35 27 / .16)}
+.url{font:500 14px/1 var(--font-mono);letter-spacing:.04em;color:var(--palette-ink-900)}
+.photo{position:relative;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:46% 62%;display:block}
+.photo::after{content:"";position:absolute;inset:0;box-shadow:inset 1px 0 0 rgb(20 35 27 / .2)}
+.stamp{position:absolute;left:-46px;top:318px;width:132px;transform:rotate(-2deg);filter:var(--filter-stamp);z-index:2}
+.edge{--r:5px;display:block;padding:6px;background:var(--palette-paper-50);
+  -webkit-mask:radial-gradient(var(--r),#0000 97%,#000) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),linear-gradient(#000 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+  mask:radial-gradient(var(--r),#0000 97%,#000) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),linear-gradient(#000 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r))}
+.face{display:grid;justify-items:center;gap:6px;padding:12px 6px 10px;border:1px solid rgb(20 35 27 / .42);text-align:center;background:var(--palette-paper-50)}
+.face img{height:46px;width:auto}
+.face b{font:700 9.5px/1 var(--font-text);letter-spacing:.16em}
+.face i{font:italic 400 22px/1 var(--font-display);font-variation-settings:'opsz' 30,'WONK' 1}
+.caption{position:absolute;left:18px;right:18px;bottom:16px;display:flex;justify-content:space-between;font:500 11px/1 var(--font-mono);letter-spacing:.06em;color:#fff;text-shadow:0 1px 8px rgb(0 0 0 / .6);z-index:2}
+.scrim{position:absolute;inset:auto 0 0 0;height:120px;background:linear-gradient(180deg,transparent,rgb(6 20 13 / .55))}
+.ridge{position:absolute;left:64px;width:640px;bottom:92px;height:56px;pointer-events:none}
+.pin{position:absolute;transform:translateX(-50%);margin-bottom:1px}
+.ridge path{fill:none;stroke:rgb(20 35 27 / .35);stroke-width:1}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="text">
+    <div class="top">
+      <img src="../../../src/assets/brand/logo-horizontal.svg" alt="Local Host">
+      <span class="kicker">Inbound tour operator · DMC</span>
+    </div>
+    <h1><span>Where every guest</span><em>is a gift.</em></h1>
+    <p class="ka" lang="ka">სტუმარი ღვთის საჩუქარია</p>
+    <p class="gloss">“A guest is a gift from God.” — a Georgian saying, our house rule since 2015.</p>
+    <svg class="ridge" viewBox="0 0 640 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,45.3 L8,44.6 L16,46.6 L24,44.3 L32,46.1 L40,45.4 L48,43.2 L56,43.9 L64,40.6 L72,40.7 L80,37.6 L88,36.0 L96,35.6 L104,35.3 L112,30.6 L120,29.0 L128,28.5 L136,31.9 L144,32.4 L152,33.6 L160,37.8 L168,35.8 L176,40.8 L184,40.1 L192,41.0 L200,42.3 L208,44.2 L216,47.2 L224,44.7 L232,46.3 L240,46.6 L248,45.5 L256,46.2 L264,44.3 L272,44.2 L280,44.8 L288,46.7 L296,45.7 L304,45.3 L312,46.3 L320,45.8 L328,42.9 L336,41.5 L344,37.1 L352,30.9 L360,27.5 L368,22.2 L376,18.3 L384,12.2 L392,4.7 L400,6.3 L408,8.6 L416,15.4 L424,22.1 L432,24.8 L440,30.9 L448,33.6 L456,40.2 L464,44.1 L472,46.0 L480,47.5 L488,45.3 L496,46.8 L504,46.4 L512,46.3 L520,45.0 L528,45.4 L536,44.4 L544,41.0 L552,40.1 L560,36.0 L568,36.7 L576,34.6 L584,37.9 L592,39.0 L600,38.6 L608,40.7 L616,43.3 L624,42.1 L632,45.0 L640,44.7"/></svg>
+    <svg class="pin" style="left:456px;bottom:143px" viewBox="0 0 24 30" width="16" height="20" aria-hidden="true"><path fill="#DC341F" d="M12 1C6.2 1 1.6 5.6 1.6 11.3c0 3 1.2 5.3 3.1 7.4L12 28.5l7.3-9.8c1.9-2.1 3.1-4.4 3.1-7.4C22.4 5.6 17.8 1 12 1Zm0 14.2a3.9 3.9 0 1 1 0-7.8 3.9 3.9 0 0 1 0 7.8Z"/></svg>
+    <div class="foot">
+      <span class="kicker">Georgia · Armenia · Azerbaijan</span>
+      <span class="url">www.localhost.ge</span>
+    </div>
+  </div>
+  <div class="photo">
+    <img src="../../../src/assets/photos/kazbegi-gergeti.jpg" alt="">
+    <div class="scrim"></div>
+    <div class="caption"><span>GERGETI · KAZBEGI</span><span>42°39′N 44°37′E</span></div>
+  </div>
+  <div class="stamp" style="left:calc(100% - 440px - 66px)">
+    <span class="edge"><span class="face"><img src="../../../src/assets/brand/logo-icon.svg" alt=""><b>LOCAL HOST</b><i>2015</i></span></span>
+  </div>
+</div>
+</body>
+</html>

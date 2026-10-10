@@ -1,0 +1,597 @@
+---
+/**
+ * 00 · Hero (#top) — the magazine cover.
+ * Headline, the Georgian proverb, the offer line, two CTAs, the Gergeti
+ * plate with the "Local Host · 2015" stamp and postmark, and the B2B fact
+ * strip. Staggered entrance in CSS only; nothing moves under reduced motion.
+ */
+import Button from '../ui/Button.astro';
+import Figure from '../ui/Figure.astro';
+import Stamp from '../ui/Stamp.astro';
+import Seal from '../ui/Seal.astro';
+import Logo from '../ui/Logo.astro';
+import Icon from '../ui/Icon.astro';
+import RidgeDivider from '../ui/RidgeDivider.astro';
+import { getLang, useStrings } from '../../i18n';
+import { formatCoords } from '../../lib/geo';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'hero');
+
+const GERGETI: [number, number] = [42.6622, 44.6203];
+const TBILISI: [number, number] = [41.7225, 44.7925];
+---
+
+<section id="top" class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    <div class="hero__masthead">
+      <span class="kicker hero__mast-left">{t.masthead.left}</span>
+      <span class="hero__mast-coords" aria-hidden="true">
+        <Icon name="pin" size={12} strokeWidth={1.75} class="hero__mast-pin" />
+        {formatCoords(TBILISI, 'dm')}
+      </span>
+      <span class="kicker hero__mast-right">{t.masthead.right}</span>
+    </div>
+
+    <div class="hero__grid">
+      <h1 id="hero-title" class="hero__title display">
+        <span class="hero__line hero__line--1">{t.title.line1}</span>
+        <span class="hero__line hero__line--2"><em>{t.title.line2}</em></span>
+      </h1>
+
+      <div class="hero__proverb">
+        <p class="hero__ka" lang="ka">{t.proverb.text}</p>
+        <p class="hero__gloss">{t.proverb.gloss}</p>
+      </div>
+
+      <div class="hero__copy">
+        <p class="hero__lead">{t.lead}</p>
+        <div class="hero__ctas">
+          <Button href="#contact" icon="arrow-right" size="lg">{t.ctaPrimary}</Button>
+          <Button href="#plan" variant="secondary" iconStart="sparkle" size="lg">{t.ctaAi}</Button>
+        </div>
+      </div>
+
+      <div class="hero__plate">
+        <Figure
+          photo="kazbegi-gergeti"
+          alt={t.photo.alt}
+          ratio="4/5"
+          focal="44% 62%"
+          sizes="(min-width: 64em) 32vw, (min-width: 40em) 50vw, 100vw"
+          priority
+          fig={1}
+          caption={t.photo.caption}
+          coords={GERGETI}
+          class="hero__figure"
+        />
+        <div class="hero__vignette" aria-hidden="true">
+          <Stamp class="hero__stamp" rotate={-2}>
+            <span class="hero__stamp-face">
+              <Logo variant="icon" decorative class="hero__stamp-logo" />
+              <span class="hero__stamp-name">{t.seal.name}</span>
+              <span class="hero__stamp-city" lang="ka">{t.seal.city}</span>
+            </span>
+          </Stamp>
+          <Seal class="hero__postmark" tone="ink" ring={t.seal.ring} top="Est." main={t.seal.year} rotate={1.5} size="6.75rem" />
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__foot">
+      <ul class="hero__facts" aria-label={t.factsLabel}>
+        {
+          t.facts.map((f, i) => (
+            <li class="hero__fact" style={`--i:${i}`}>
+              <b class="hero__fact-lead">{f.lead}</b> {f.text}
+            </li>
+          ))
+        }
+      </ul>
+      <a class="hero__next" href="#caucasus">
+        {t.scroll}
+        <Icon name="arrow-down" size={16} />
+      </a>
+    </div>
+  </div>
+
+  <RidgeDivider seed={4} class="hero__ridge" />
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  /* ── masthead ── */
+  .hero__masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-text);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .hero__mast-right {
+    color: var(--color-text-muted);
+    text-align: end;
+  }
+
+  .hero__mast-coords {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .hero :global(.hero__mast-pin) {
+    color: var(--color-accent);
+  }
+
+  /* ── cover grid ── */
+  .hero__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    grid-template-areas:
+      'title title title title title title title title plate plate plate plate'
+      'prov prov prov copy copy copy copy copy plate plate plate plate';
+    grid-template-rows: auto 1fr;
+    column-gap: var(--layout-gap);
+    padding-top: clamp(1.75rem, 3.5vw, 3.25rem);
+  }
+
+  .hero__title {
+    grid-area: title;
+    font-size: calc(var(--fs-5xl) * var(--fs-scale, 1));
+    margin: 0;
+    align-self: start;
+  }
+
+  .hero__line {
+    display: block;
+  }
+
+  .hero__line--2 {
+    padding-left: calc((100% + var(--layout-gap)) * 0.25);
+  }
+
+  .hero__proverb {
+    grid-area: prov;
+    align-self: start;
+    padding-top: clamp(2rem, 3.5vw, 3.25rem);
+    padding-right: var(--space-s);
+  }
+
+  .hero__ka {
+    font-family: var(--font-ka-display);
+    font-size: clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem);
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-text);
+    text-wrap: balance;
+  }
+
+  .hero__gloss {
+    margin-top: var(--space-s);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+    max-width: 30ch;
+  }
+
+  .hero__gloss:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+  }
+
+  .hero__gloss::before {
+    content: '';
+    display: block;
+    width: 1.75rem;
+    height: 1px;
+    margin-bottom: var(--space-s);
+    background: var(--color-accent);
+  }
+
+  .hero__copy {
+    grid-area: copy;
+    align-self: start;
+    padding-top: clamp(2rem, 3.5vw, 3.25rem);
+  }
+
+  .hero__lead {
+    font-size: var(--fs-md);
+    line-height: 1.62;
+    color: var(--color-text-body);
+    max-width: 52ch;
+  }
+
+  .hero__lead::first-line {
+    color: var(--color-text);
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-l);
+  }
+
+  /* ── plate ── */
+  .hero__plate {
+    grid-area: plate;
+    position: relative;
+    align-self: start;
+    margin-top: clamp(0.5rem, 1vw, 0.75rem);
+  }
+
+  .hero__vignette {
+    position: absolute;
+    top: clamp(1rem, 2vw, 1.75rem);
+    left: clamp(0.75rem, 1.4vw, 1.5rem);
+    z-index: var(--z-seal);
+    width: clamp(6.25rem, 8.6vw, 7.75rem);
+  }
+
+  .hero__vignette :global(.hero__stamp) {
+    --stamp-perf: 4px;
+    --stamp-pad: 8px;
+  }
+
+  .hero__stamp-face {
+    display: grid;
+    justify-items: center;
+    gap: 0.3rem;
+    padding: 0.55rem 0.25rem 0.5rem;
+    border: var(--border-hair) solid var(--color-rule-strong);
+    text-align: center;
+  }
+
+  .hero__vignette :global(.hero__stamp-logo) {
+    --logo-h: clamp(2.25rem, 3.2vw, 2.75rem);
+  }
+
+  .hero__stamp-name {
+    font-family: var(--font-text);
+    font-size: 0.5625rem;
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .hero__stamp-city {
+    font-family: var(--font-ka-text);
+    font-size: 0.625rem;
+    font-weight: var(--fw-ka-text);
+    color: var(--color-text-muted);
+  }
+
+  .hero__vignette :global(.hero__postmark) {
+    position: absolute;
+    left: 64%;
+    top: 55%;
+  }
+
+  /* ── facts ── */
+  .hero__foot {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin-top: clamp(2.25rem, 4vw, 3.5rem);
+    border-top: var(--border-hair) solid var(--color-rule);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+
+  .hero__fact {
+    padding: 0.85rem clamp(1rem, 2vw, 1.75rem) 0.85rem 0;
+    margin-right: clamp(1rem, 2vw, 1.75rem);
+    border-right: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-text-body);
+  }
+
+  .hero__fact:last-child {
+    border-right: 0;
+    margin-right: 0;
+  }
+
+  .hero__fact-lead {
+    margin-right: 0.2rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.08em;
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text);
+  }
+
+  .hero__fact-lead:lang(ka) {
+    font-style: normal;
+  }
+
+  .hero__next {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    flex: none;
+    padding-block: 0.85rem;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .hero__next:hover :global(.icon) {
+    transform: translateY(2px);
+  }
+
+  .hero__next :global(.icon) {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .hero > :global(.hero__ridge) {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  /* ── tablet ── */
+  @media (max-width: 63.99em) {
+    .hero__grid {
+      grid-template-areas:
+        'title title title title title title title title title title title title'
+        'prov prov prov prov prov prov plate plate plate plate plate plate'
+        'copy copy copy copy copy copy plate plate plate plate plate plate';
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .hero__plate {
+      margin-top: clamp(2rem, 4vw, 3rem);
+    }
+
+    .hero__proverb,
+    .hero__copy {
+      padding-right: var(--space-s);
+    }
+
+    .hero__copy {
+      padding-top: var(--space-l);
+    }
+
+    .hero__vignette {
+      left: auto;
+      right: var(--space-s);
+      top: calc(-1 * var(--space-l));
+    }
+
+    .hero__vignette :global(.hero__postmark) {
+      left: auto;
+      right: 62%;
+      top: 48%;
+    }
+
+    .hero__mast-coords {
+      display: none;
+    }
+  }
+
+  /* ── phone ── */
+  @media (max-width: 39.99em) {
+    .hero__masthead .hero__mast-right {
+      display: none;
+    }
+
+    .hero__grid {
+      grid-template-areas:
+        'title title title title title title title title title title title title'
+        'prov prov prov prov prov prov prov prov prov prov prov prov'
+        'plate plate plate plate plate plate plate plate plate plate plate plate'
+        'copy copy copy copy copy copy copy copy copy copy copy copy';
+      grid-template-rows: auto;
+    }
+
+    .hero__title {
+      font-size: calc(clamp(3rem, 15.5vw, 4.5rem) * var(--fs-scale, 1));
+    }
+
+    .hero__line--2 {
+      padding-left: 14%;
+    }
+
+    .hero__proverb {
+      padding-top: var(--space-l);
+      padding-right: 0;
+    }
+
+    .hero__plate {
+      margin-top: var(--space-xl);
+    }
+
+    .hero__vignette {
+      top: calc(-1 * var(--space-l));
+      right: var(--space-xs);
+      width: 6rem;
+    }
+
+    .hero__vignette :global(.hero__postmark) {
+      --seal-size: 5.75rem;
+      left: auto;
+      right: 62%;
+      top: 48%;
+    }
+
+    .hero__ctas {
+      flex-direction: column;
+    }
+
+    .hero__ctas :global(.btn__label) {
+      flex: 1;
+      text-align: start;
+    }
+
+    .hero__foot {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .hero__facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hero__fact {
+      margin: 0;
+      padding: var(--space-xs) var(--space-xs) var(--space-xs) 0;
+      border-right: 0;
+      border-bottom: var(--border-hair) solid var(--color-rule);
+    }
+
+    .hero__fact:nth-child(odd) {
+      border-right: var(--border-hair) solid var(--color-rule);
+    }
+
+    .hero__fact:nth-child(even) {
+      padding-left: var(--space-xs);
+    }
+
+    .hero__fact:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .hero__next {
+      border-top: var(--border-hair) solid var(--color-rule);
+    }
+  }
+
+  /* ── entrance (motion allowed only) ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__masthead {
+      animation: hero-fade var(--dur-slower) var(--ease-out) both;
+    }
+
+    .hero__line {
+      animation: hero-rise var(--dur-slower) var(--ease-out) both;
+    }
+
+    .hero__line--1 {
+      animation-delay: 120ms;
+    }
+
+    .hero__line--2 {
+      animation-delay: 260ms;
+    }
+
+    .hero__proverb {
+      animation: hero-rise-sm var(--dur-slower) var(--ease-out) 480ms both;
+    }
+
+    .hero__lead {
+      animation: hero-rise-sm var(--dur-slower) var(--ease-out) 580ms both;
+    }
+
+    .hero__ctas {
+      animation: hero-rise-sm var(--dur-slower) var(--ease-out) 700ms both;
+    }
+
+    .hero__plate :global(.figure__media) {
+      animation: hero-curtain var(--dur-reveal) var(--ease-film) 200ms both;
+    }
+
+    .hero__plate :global(.figure__img) {
+      animation: hero-settle 2400ms var(--ease-out) 200ms both;
+    }
+
+    .hero__plate :global(.figure__caption) {
+      animation: hero-fade var(--dur-slower) var(--ease-out) 1100ms both;
+    }
+
+    .hero__vignette :global(.hero__stamp) {
+      animation: hero-stamp var(--dur-slow) var(--ease-overshoot) 1150ms both;
+    }
+
+    .hero__vignette :global(.hero__postmark) {
+      animation: hero-postmark 420ms var(--ease-out) 1500ms both;
+    }
+
+    .hero__fact,
+    .hero__next {
+      animation: hero-rise-sm var(--dur-slow) var(--ease-out) both;
+      animation-delay: calc(900ms + var(--i, 4) * var(--dur-stagger));
+    }
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.32em);
+    }
+  }
+
+  @keyframes hero-rise-sm {
+    from {
+      opacity: 0;
+      transform: translateY(0.9rem);
+    }
+  }
+
+  @keyframes hero-curtain {
+    from {
+      clip-path: inset(100% 0 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes hero-settle {
+    from {
+      transform: scale(1.14);
+    }
+  }
+
+  @keyframes hero-stamp {
+    from {
+      opacity: 0;
+      transform: rotate(-9deg) scale(1.3);
+    }
+  }
+
+  @keyframes hero-postmark {
+    0% {
+      opacity: 0;
+      transform: rotate(1.5deg) scale(1.45);
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(1.5deg) scale(1);
+    }
+  }
+</style>

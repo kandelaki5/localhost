@@ -1,0 +1,925 @@
+---
+/**
+ * /styleguide/ (noindex) — the design system on one page, for the owner's
+ * designer. Every swatch, size and contrast ratio is read from
+ * src/styles/tokens.css at build time, so this page can never drift.
+ */
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import { ICON_NAMES } from '../components/ui/icons';
+import Logo from '../components/ui/Logo.astro';
+import Stamp from '../components/ui/Stamp.astro';
+import Seal from '../components/ui/Seal.astro';
+import Figure from '../components/ui/Figure.astro';
+import RidgeDivider from '../components/ui/RidgeDivider.astro';
+import NightSurface from '../components/ui/NightSurface.astro';
+import LangSwitch from '../components/ui/LangSwitch.astro';
+import Placeholder from '../components/ui/Placeholder.astro';
+import { rootTokens, token, tokenContrast, type Surface } from '../lib/tokens';
+import { georgianNumeral } from '../lib/sections';
+
+const all = rootTokens();
+const byPrefix = (prefix: string) => all.filter((t) => t.name.startsWith(prefix));
+
+const brand = byPrefix('--brand-');
+const palette = byPrefix('--palette-');
+const typeScale = byPrefix('--fs-').filter((t) => t.name !== '--fs-scale-ka');
+const spaces = byPrefix('--space-');
+const radii = byPrefix('--radius-');
+const borders = byPrefix('--border-');
+const shadows = byPrefix('--shadow-');
+const durations = byPrefix('--dur-');
+const easings = byPrefix('--ease-');
+const layers = byPrefix('--z-');
+const fonts = byPrefix('--font-');
+const weights = byPrefix('--fw-');
+
+function range(value: string): string {
+  const m = value.match(/clamp\(\s*([\d.]+)rem.*?([\d.]+)rem\s*\)$/);
+  if (!m) return value.endsWith('rem') ? `${parseFloat(value) * 16}px` : value;
+  const f = (n: string) => +(parseFloat(n) * 16).toFixed(1);
+  return `${f(m[1])} → ${f(m[2])}px`;
+}
+
+interface Pair {
+  fg: string;
+  bg: string;
+  use: string;
+  /** large = 3:1 is enough (≥ 24px / 19px bold, or non-text UI) */
+  large?: boolean;
+}
+const pairs: Record<Surface, Pair[]> = {
+  paper: [
+    { fg: '--color-text', bg: '--color-bg', use: 'Headlines, primary text' },
+    { fg: '--color-text-body', bg: '--color-bg', use: 'Body copy' },
+    { fg: '--color-text-muted', bg: '--color-bg', use: 'Captions, running heads' },
+    { fg: '--color-text-muted', bg: '--color-bg-sunken', use: 'Captions on bands' },
+    { fg: '--color-emphasis', bg: '--color-bg', use: 'Accent italics, links' },
+    { fg: '--color-red-ink', bg: '--color-bg', use: 'Small red text' },
+    { fg: '--color-green-ink', bg: '--color-bg-raised', use: 'Stamps and seals' },
+    { fg: '--color-brand-green', bg: '--color-bg', use: 'Big green figures', large: true },
+    { fg: '--color-accent', bg: '--color-bg', use: 'Sun / pin, focus ring (non-text)', large: true },
+    { fg: '--color-text-inverse', bg: '--color-bg-inverse', use: 'Primary button' },
+  ],
+  night: [
+    { fg: '--color-text', bg: '--color-bg', use: 'Headlines on night' },
+    { fg: '--color-text-body', bg: '--color-bg', use: 'Body on night' },
+    { fg: '--color-text-muted', bg: '--color-bg', use: 'Meta on night' },
+    { fg: '--color-emphasis', bg: '--color-bg', use: 'Mint accents, links' },
+    { fg: '--color-amber', bg: '--color-bg-sunken', use: 'Split-flap characters' },
+    { fg: '--color-red-ink', bg: '--color-bg', use: 'Warm small text' },
+    { fg: '--color-text-inverse', bg: '--color-bg-inverse', use: 'Primary button' },
+  ],
+  forest: [
+    { fg: '--color-text', bg: '--color-bg', use: 'Text on the passport cover' },
+    { fg: '--color-text-muted', bg: '--color-bg', use: 'Meta on Forest' },
+    { fg: '--color-foil', bg: '--color-bg', use: 'Foil labels' },
+    { fg: '--color-red-ink', bg: '--color-bg', use: 'Warm small text' },
+    { fg: '--color-green-ink', bg: '--color-bg', use: 'Mint small text' },
+  ],
+};
+
+function grade(ratio: number | null, large = false) {
+  if (ratio === null) return { label: '—', ok: false };
+  if (ratio >= 7) return { label: 'AAA', ok: true };
+  if (ratio >= 4.5) return { label: 'AA', ok: true };
+  if (ratio >= 3) return { label: large ? 'AA large' : 'Large only', ok: large };
+  return { label: 'Fail', ok: false };
+}
+
+const surfaces: Surface[] = ['paper', 'night', 'forest'];
+const contrastRows = surfaces.map((surface) => ({
+  surface,
+  rows: pairs[surface].map((p) => {
+    const ratio = tokenContrast(p.fg, p.bg, surface);
+    return { ...p, ratio, grade: grade(ratio, p.large), fgValue: token(p.fg, surface), bgValue: token(p.bg, surface) };
+  }),
+}));
+
+const KA_SAMPLE = 'სტუმარი ღვთის საჩუქარია';
+---
+
+<Base title="Styleguide" description="The Local Host design system: tokens, type, colour, motion and components." noindex>
+  <div class="container sg">
+    <SectionHead
+      level={1}
+      size="xl"
+      kicker="Local Host design system"
+      title="The *styleguide.*"
+      intro="Every value on this page is read from src/styles/tokens.css at build time. Change a token there — or import design/tokens/tokens.json into Figma with Tokens Studio — and the site follows."
+      running="Noindex · for the designer"
+    />
+
+    <nav class="sg-toc" aria-label="Styleguide sections">
+      {
+        ['Brand', 'Palette', 'Contrast', 'Type', 'Space', 'Shape', 'Elevation', 'Motion', 'Layers', 'Components'].map((s, i) => (
+          <a href={`#sg-${s.toLowerCase()}`}>
+            <span class="sg-toc__no">{String(i + 1).padStart(2, '0')}</span> {s}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- Brand -->
+    <section id="sg-brand" class="sg-sec">
+      <SectionHead number={1} kicker="Brand" title="The chosen logo, *Option 2.*" intro="Sun over two hills. Always loaded from src/assets/brand — never redrawn. Flat colours from design/logo/README.md." level={2} size="m" />
+      <div class="sg-logos">
+        <div class="sg-logo-tile"><Logo height={48} /><code>horizontal · light</code></div>
+        <div class="sg-logo-tile sg-logo-tile--forest" data-surface="forest"><Logo tone="reverse" height={48} /><code>horizontal · reverse</code></div>
+        <div class="sg-logo-tile"><Logo tone="mono" height={48} /><code>horizontal · mono (ink)</code></div>
+        <div class="sg-logo-tile sg-logo-tile--forest sg-foil" data-surface="forest"><Logo tone="mono" height={48} /><code>horizontal · mono (foil)</code></div>
+        <div class="sg-logo-tile"><Logo variant="stacked" height={110} /><code>stacked · light</code></div>
+        <div class="sg-logo-tile sg-logo-tile--forest" data-surface="forest"><Logo variant="stacked" tone="reverse" height={110} /><code>stacked · reverse</code></div>
+        <div class="sg-logo-tile"><Logo variant="icon" height={72} /><code>icon · light</code></div>
+        <div class="sg-logo-tile sg-logo-tile--night" data-surface="night"><Logo variant="icon" tone="reverse" height={72} /><code>icon · reverse</code></div>
+      </div>
+      <ul class="sg-swatches" role="list">
+        {
+          brand.map((t) => (
+            <li class="sg-swatch">
+              <span class="sg-swatch__chip" style={`background:var(${t.name})`} />
+              <code>{t.name}</code>
+              <span class="sg-swatch__val">{token(t.name)}</span>
+              <span class="sg-swatch__desc">{t.description}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Palette -->
+    <section id="sg-palette" class="sg-sec">
+      <SectionHead number={2} kicker="Palette" title="Paper, ink, *Forest and night.*" intro="Raw colours. Components never use these directly — they use the role tokens (--color-*), which surfaces remap." level={2} size="m" />
+      <ul class="sg-swatches" role="list">
+        {
+          palette.map((t) => (
+            <li class="sg-swatch">
+              <span class="sg-swatch__chip" style={`background:var(${t.name})`} />
+              <code>{t.name}</code>
+              <span class="sg-swatch__val">{token(t.name)}</span>
+              <span class="sg-swatch__desc">{t.description}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Contrast -->
+    <section id="sg-contrast" class="sg-sec">
+      <SectionHead number={3} kicker="Contrast" title="Roles on *every surface.*" intro="WCAG 2.x ratios computed from the tokens (translucent colours composited first). Night and Forest re-map the same role names." level={2} size="m" />
+      <div class="sg-contrast">
+        {
+          contrastRows.map((group) => (
+            <div class="sg-contrast__group" data-surface={group.surface === 'paper' ? undefined : group.surface}>
+              <h3 class="kicker sg-contrast__title">{group.surface}</h3>
+              <table class="sg-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Sample</th>
+                    <th scope="col">Foreground / background</th>
+                    <th scope="col">Ratio</th>
+                    <th scope="col">Use</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {group.rows.map((r) => (
+                    <tr>
+                      <td>
+                        <span class="sg-sample" style={`color:var(${r.fg});background:var(${r.bg})`}>
+                          Aa ქა
+                        </span>
+                      </td>
+                      <td>
+                        <code>{r.fg.replace('--color-', '')}</code> / <code>{r.bg.replace('--color-', '')}</code>
+                        <span class="sg-hex">
+                          {r.fgValue} on {r.bgValue}
+                        </span>
+                      </td>
+                      <td>
+                        <b>{r.ratio ? r.ratio.toFixed(2) : '—'}</b>
+                        <span class:list={['sg-badge', !r.grade.ok && 'sg-badge--bad']}>{r.grade.label}</span>
+                      </td>
+                      <td class="sg-use">{r.use}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Type -->
+    <section id="sg-type" class="sg-sec">
+      <SectionHead number={4} kicker="Type" title="Fraunces, DM Sans *& Noto Georgian.*" intro="Fluid sizes from a 360px to a 1440px viewport. Georgian display sizes are scaled by --fs-scale-ka and get looser leading; Fraunces never goes below weight 360 under 40px." level={2} size="m" />
+      <ul class="sg-fonts" role="list">
+        {
+          fonts.map((t) => (
+            <li class="sg-font" style={`font-family:var(${t.name})`}>
+              <span class="sg-font__sample">{t.name.includes('-ka-') ? KA_SAMPLE : 'Where every guest is a gift'}</span>
+              <code>{t.name}</code>
+              <span class="sg-swatch__desc">{t.description}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="sg-scroll">
+      <table class="sg-table sg-scale">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Size</th>
+            <th scope="col">Latin</th>
+            <th scope="col">ქართული</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            [...typeScale].reverse().map((t) => {
+              const big = /fs-(3|4|5)xl/.test(t.name);
+              return (
+                <tr>
+                  <td><code>{t.name}</code></td>
+                  <td class="sg-hex">{range(t.value)}</td>
+                  <td>
+                    <span class:list={['sg-type', big && 'display']} style={`font-size:var(${t.name})`}>
+                      {big ? <>Six ways <em>into</em></> : 'The Caucasus, slowly'}
+                    </span>
+                  </td>
+                  <td lang="ka">
+                    <span class:list={['sg-type', big && 'display']} style={`font-size:calc(var(${t.name}) * ${big ? 'var(--fs-scale-ka)' : '1'})`}>
+                      {big ? 'კავკასია' : 'კავკასია, ნელა'}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+      </div>
+      <ul class="sg-weights" role="list">
+        {weights.map((t) => <li><code>{t.name}</code> <b>{t.value}</b> <span class="sg-swatch__desc">{t.description}</span></li>)}
+      </ul>
+      <div class="sg-utils">
+        <p class="kicker">.kicker — small-caps label</p>
+        <p class="fig-caption">.fig-caption — Fig. 4 — Tbilisi, between two seas. Schematic map.</p>
+        <p class="lead">.lead — Local Host is an inbound tour operator based in Tbilisi.</p>
+        <p class="display display--m">.display--m with an <em>accent</em></p>
+        <p class="sg-numerals">
+          {Array.from({ length: 12 }, (_, i) => <span><b>{String(i + 1).padStart(2, '0')}</b> <span lang="ka">{georgianNumeral(i + 1)}</span></span>)}
+        </p>
+      </div>
+    </section>
+
+    <!-- Space -->
+    <section id="sg-space" class="sg-sec">
+      <SectionHead number={5} kicker="Space & layout" title="Room *to breathe.*" level={2} size="m" />
+      <ul class="sg-space" role="list">
+        {
+          spaces.map((t) => (
+            <li>
+              <code>{t.name}</code>
+              <span class="sg-space__bar" style={`width:var(${t.name})`} />
+              <span class="sg-hex">{range(t.value)}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="sg-note">
+        Layout: <code>--layout-max</code> {token('--layout-max')} · gutter <code>--layout-gutter</code> {range(token('--layout-gutter'))} ·
+        gap <code>--layout-gap</code> {range(token('--layout-gap'))} · 12 columns (<code>.grid-12</code>).
+      </p>
+      <div class="grid-12 sg-grid-demo" aria-hidden="true">
+        {Array.from({ length: 12 }, (_, i) => <span>{i + 1}</span>)}
+      </div>
+    </section>
+
+    <!-- Shape -->
+    <section id="sg-shape" class="sg-sec">
+      <SectionHead number={6} kicker="Shape" title="Radii *& rules.*" level={2} size="m" />
+      <ul class="sg-shapes" role="list">
+        {
+          radii.map((t) => (
+            <li>
+              <span class="sg-shape" style={`border-radius:var(${t.name})`} />
+              <code>{t.name}</code>
+              <span class="sg-hex">{t.value}</span>
+            </li>
+          ))
+        }
+        {
+          borders.map((t) => (
+            <li>
+              <span class="sg-shape sg-shape--line" style={`border-top-width:var(${t.name})`} />
+              <code>{t.name}</code>
+              <span class="sg-hex">{t.value}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Elevation -->
+    <section id="sg-elevation" class="sg-sec">
+      <SectionHead number={7} kicker="Elevation" title="Shadows, *lightly.*" level={2} size="m" />
+      <ul class="sg-shadows" role="list">
+        {
+          shadows.map((t) => (
+            <li>
+              <span class="sg-shadow" style={`box-shadow:var(${t.name})`} />
+              <code>{t.name}</code>
+              <span class="sg-swatch__desc">{t.description}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Motion -->
+    <section id="sg-motion" class="sg-sec">
+      <SectionHead number={8} kicker="Motion" title="Slow, *then still.*" intro="Hover a row to play it. Under prefers-reduced-motion every duration becomes 0 and the ridge line, entrance and split-flap animations are skipped." level={2} size="m" />
+      <ul class="sg-motion" role="list">
+        {
+          durations.map((t) => (
+            <li style={`--d:var(${t.name});--e:var(--ease-out)`}>
+              <code>{t.name}</code>
+              <span class="sg-hex">{t.value}</span>
+              <span class="sg-motion__track"><span class="sg-motion__dot" /></span>
+            </li>
+          ))
+        }
+        {
+          easings.map((t) => (
+            <li style={`--d:1200ms;--e:var(${t.name})`}>
+              <code>{t.name}</code>
+              <span class="sg-hex">{t.value.replace('cubic-bezier', '')}</span>
+              <span class="sg-motion__track"><span class="sg-motion__dot" /></span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Layers -->
+    <section id="sg-layers" class="sg-sec">
+      <SectionHead number={9} kicker="Layers" title="What sits *on top.*" level={2} size="m" />
+      <ul class="sg-weights" role="list">
+        {layers.map((t) => <li><code>{t.name}</code> <b>{t.value}</b> <span class="sg-swatch__desc">{t.description}</span></li>)}
+      </ul>
+    </section>
+
+    <!-- Components -->
+    <section id="sg-components" class="sg-sec">
+      <SectionHead number={10} kicker="Components" title="The *kit.*" intro="src/components/ui — small, presentational, token-driven. The same markup works on paper, night and Forest." level={2} size="m" />
+
+      <h3 class="sg-h3">Button <code>ui/Button.astro</code></h3>
+      <div class="sg-row">
+        <Button href="#sg-components" icon="arrow-right">Start a group request</Button>
+        <Button href="#sg-components" variant="secondary" iconStart="sparkle">Draft a trip with AI</Button>
+        <Button href="#sg-components" variant="ai">Plan with AI</Button>
+        <Button variant="secondary" size="sm" icon="arrow-up-right">Small</Button>
+        <Button variant="primary" size="lg" icon="arrow-right">Large</Button>
+      </div>
+
+      <h3 class="sg-h3">Icon <code>ui/Icon.astro</code></h3>
+      <ul class="sg-icons" role="list">
+        {
+          ICON_NAMES.map((name) => (
+            <li>
+              <Icon name={name} size={24} tone={name === 'sparkle' ? 'sun' : 'current'} />
+              <code>{name}</code>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h3 class="sg-h3">Stamp <code>ui/Stamp.astro</code></h3>
+      <div class="sg-row sg-row--top">
+        <Stamp class="sg-stamp" rotate={-1}>
+          <Figure photo="tbilisi-1" alt="" ratio="4/4.6" focal="45% 40%" widths={[400, 640]} sizes="14rem" />
+        </Stamp>
+        <Stamp class="sg-stamp" tint="green" rotate={1}>
+          <Figure photo="rtveli-harvest" alt="" ratio="4/4.6" focal="60% 45%" widths={[400, 640]} sizes="14rem" />
+        </Stamp>
+        <Stamp class="sg-stamp" tint="red" rotate={-1.5}>
+          <Figure photo="truso-valley" alt="" ratio="4/4.6" focal="50% 55%" widths={[400, 640]} sizes="14rem" />
+        </Stamp>
+      </div>
+
+      <h3 class="sg-h3">Seal <code>ui/Seal.astro</code></h3>
+      <div class="sg-row">
+        <Seal ring="WELCOME TO GEORGIA! • NATIONAL TOURISM AWARDS •" top="Nominee" main="2016" bottom="Fastest growing" />
+        <Seal tone="green" ring="TBILISI • LOCAL HOST • SOUTH CAUCASUS •" rotate={1.5}>
+          <Logo variant="icon" tone="mono" decorative />
+        </Seal>
+        <Seal tone="red" ring="SAMPLE ITINERARY • DEMO • SAMPLE ITINERARY • DEMO •" top="Sample" main="Demo" rotate={-2} />
+        <Seal variant="permit" top="Member" main="GTA" bottom="Georgian Tourism Association" serial="Nº 02" rotate={-1} />
+        <Seal variant="permit" tone="green" top="Member" main="PIT" bottom="Polska Izba Turystyki" serial="Nº 04" rotate={1.5} />
+        <Seal variant="permit" tone="red" top="Sample itinerary" main="DEMO" rotate={-2} />
+      </div>
+      <div class="sg-row sg-forest" data-surface="forest">
+        <Seal tone="foil" ring="GEORGIA • ARMENIA • AZERBAIJAN • LOCAL HOST •" rotate={0} inked={false}>
+          <Logo variant="icon" tone="mono" decorative />
+        </Seal>
+        <Seal variant="permit" tone="foil" top="Passport" main="Local Host" bottom="South Caucasus" rotate={1} />
+      </div>
+
+      <h3 class="sg-h3">Figure <code>ui/Figure.astro</code></h3>
+      <div class="sg-figures">
+        <Figure
+          photo="kazbegi-gergeti"
+          alt="Gergeti Trinity Church below the Kazbegi massif"
+          ratio="16/9"
+          focal="44% 62%"
+          fig={1}
+          caption="Gergeti Trinity Church, Kazbegi, 2,170 m"
+          coords={[42.6622, 44.6203]}
+          zoom
+          sizes="(min-width: 64em) 50vw, 100vw"
+        />
+        <Figure photo="svaneti-1" alt="Svan towers below snowy peaks" ratio="4/5" focal="55% 65%" fig={2} caption="Ushguli, Upper Svaneti" sizes="(min-width: 64em) 25vw, 100vw" />
+      </div>
+
+      <h3 class="sg-h3">SectionHead <code>ui/SectionHead.astro</code></h3>
+      <SectionHead number={4} kicker="Airlines" title="Twelve airlines, *one short hop.*" intro="Full-service and low-cost carriers link Georgia with the rest of Europe." running="Getting here" level={3} />
+
+      <h3 class="sg-h3">RidgeDivider <code>ui/RidgeDivider.astro</code></h3>
+      <RidgeDivider seed={9} label="Kazbegi" />
+
+      <h3 class="sg-h3">NightSurface <code>ui/NightSurface.astro</code></h3>
+      <NightSurface class="sg-night" ridge ridgeSeed={2}>
+        <div class="sg-night__inner">
+          <SectionHead number={5} kicker="Connection" title="Europe is only *a few hours* away." intro="The same components, re-mapped by the night surface." running="TBS · KUT" level={3} size="m" />
+          <div class="sg-row">
+            <Button href="#sg-components" icon="arrow-right">Primary on night</Button>
+            <Button href="#sg-components" variant="secondary">Secondary</Button>
+            <Button href="#sg-components" variant="ai">Plan with AI</Button>
+            <Stamp tint="green" class="sg-mini-stamp"><span class="sg-mini">TBS</span></Stamp>
+            <Stamp tint="red" class="sg-mini-stamp"><span class="sg-mini">KUT</span></Stamp>
+          </div>
+        </div>
+      </NightSurface>
+
+      <h3 class="sg-h3">LangSwitch <code>ui/LangSwitch.astro</code></h3>
+      <div class="sg-row">
+        <LangSwitch />
+        <LangSwitch variant="list" />
+      </div>
+
+      <h3 class="sg-h3">Placeholder <code>ui/Placeholder.astro</code> (stubs only)</h3>
+      <Placeholder shape="stamps" count={4} note="Shown until a section ships" />
+    </section>
+  </div>
+</Base>
+
+<style>
+  .sg {
+    padding-block: var(--space-section-sm) var(--space-section);
+  }
+
+  .sg-toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+    padding-block: var(--space-s);
+    border-block: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-sm);
+  }
+
+  .sg-toc a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .sg-toc__no {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-text-muted);
+  }
+
+  .sg-sec {
+    padding-top: var(--space-section);
+  }
+
+  code {
+    font-size: var(--fs-xs);
+    color: var(--color-text);
+  }
+
+  .sg-hex,
+  .sg-swatch__val {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  .sg-swatch__desc {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .sg-note {
+    margin-top: var(--space-m);
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+  }
+
+  /* logos */
+  .sg-logos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    gap: var(--layout-gap);
+    margin-bottom: var(--space-xl);
+  }
+
+  .sg-logo-tile {
+    display: grid;
+    gap: var(--space-s);
+    place-items: center;
+    min-height: 11rem;
+    padding: var(--space-l);
+    background: var(--color-bg-raised);
+    border: var(--border-hair) solid var(--color-rule);
+  }
+
+  .sg-logo-tile--forest,
+  .sg-logo-tile--night {
+    background: var(--color-bg);
+  }
+
+  .sg-foil {
+    color: var(--color-foil);
+  }
+
+  .sg-logo-tile code {
+    color: var(--color-text-muted);
+  }
+
+  /* swatches */
+  .sg-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: var(--space-m) var(--layout-gap);
+  }
+
+  .sg-swatch {
+    display: grid;
+    gap: 0.2rem;
+    align-content: start;
+  }
+
+  .sg-swatch__chip {
+    height: 4.5rem;
+    margin-bottom: var(--space-2xs);
+    border: var(--border-hair) solid var(--color-rule);
+  }
+
+  /* contrast */
+  .sg-contrast {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .sg-contrast__group {
+    padding: var(--space-m);
+    border: var(--border-hair) solid var(--color-rule);
+    overflow-x: auto;
+  }
+
+  .sg-contrast__title {
+    margin-bottom: var(--space-s);
+  }
+
+  .sg-table {
+    width: 100%;
+    font-size: var(--fs-sm);
+  }
+
+  .sg-table th {
+    text-align: left;
+    padding: var(--space-2xs) var(--space-s) var(--space-2xs) 0;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .sg-table td {
+    padding: var(--space-2xs) var(--space-s) var(--space-2xs) 0;
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    vertical-align: middle;
+  }
+
+  .sg-table .sg-hex {
+    display: block;
+  }
+
+  .sg-sample {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    border: var(--border-hair) solid var(--color-rule);
+  }
+
+  .sg-badge {
+    display: inline-block;
+    margin-left: var(--space-2xs);
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-green-ink);
+    color: var(--color-bg);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.06em;
+  }
+
+  .sg-badge--bad {
+    background: var(--color-red-ink);
+  }
+
+  .sg-use {
+    color: var(--color-text-muted);
+  }
+
+  /* type */
+  .sg-fonts {
+    display: grid;
+    gap: var(--space-m);
+    margin-bottom: var(--space-xl);
+  }
+
+  .sg-font {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.2rem var(--space-m);
+    align-items: baseline;
+    padding-bottom: var(--space-s);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .sg-font__sample {
+    grid-column: 1 / -1;
+    font-size: var(--fs-2xl);
+    line-height: 1.2;
+  }
+
+  .sg-scroll {
+    overflow-x: auto;
+  }
+
+  .sg-scale td:nth-child(3),
+  .sg-scale td:nth-child(4) {
+    max-width: 30vw;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .sg-type {
+    display: inline-block;
+    line-height: 1.15;
+  }
+
+  .sg-weights {
+    display: grid;
+    gap: var(--space-3xs);
+    margin-top: var(--space-l);
+    font-size: var(--fs-sm);
+  }
+
+  .sg-utils {
+    display: grid;
+    gap: var(--space-s);
+    margin-top: var(--space-l);
+    padding: var(--space-m);
+    border: var(--border-hair) dashed var(--color-rule-strong);
+  }
+
+  .sg-numerals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-m);
+    font-family: var(--font-display);
+  }
+
+  .sg-numerals b {
+    font-style: italic;
+    font-weight: var(--fw-display-sm);
+  }
+
+  .sg-numerals [lang='ka'] {
+    color: var(--color-text-muted);
+  }
+
+  /* space */
+  .sg-space {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .sg-space li {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr) 7rem;
+    gap: var(--space-s);
+    align-items: center;
+  }
+
+  .sg-space__bar {
+    display: block;
+    height: 0.75rem;
+    max-width: 100%;
+    background: var(--color-brand-green);
+  }
+
+  .sg-grid-demo {
+    margin-top: var(--space-m);
+  }
+
+  .sg-grid-demo span {
+    display: grid;
+    place-items: center;
+    height: 3rem;
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    color: var(--color-text-muted);
+  }
+
+  /* shape */
+  .sg-shapes,
+  .sg-shadows {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+    gap: var(--space-l) var(--layout-gap);
+  }
+
+  .sg-shapes li,
+  .sg-shadows li {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .sg-shape {
+    display: block;
+    width: 5rem;
+    height: 5rem;
+    margin-bottom: var(--space-2xs);
+    background: var(--color-bg-sunken);
+    border: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .sg-shape--line {
+    height: 2.5rem;
+    background: none;
+    border: 0;
+    border-top: solid var(--color-text);
+  }
+
+  .sg-shadow {
+    display: block;
+    height: 6rem;
+    margin-bottom: var(--space-s);
+    background: var(--color-bg-raised);
+    border-radius: var(--radius-sm);
+  }
+
+  /* motion */
+  .sg-motion {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .sg-motion li {
+    display: grid;
+    grid-template-columns: 11rem 11rem minmax(0, 1fr);
+    gap: var(--space-s);
+    align-items: center;
+    padding-block: var(--space-3xs);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .sg-motion__track {
+    position: relative;
+    height: 1rem;
+  }
+
+  .sg-motion__dot {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-top: -0.375rem;
+    border-radius: var(--radius-round);
+    background: var(--color-accent);
+    transition: left var(--d) var(--e);
+  }
+
+  .sg-motion li:hover .sg-motion__dot {
+    left: calc(100% - 0.75rem);
+  }
+
+  /* components */
+  .sg-h3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-s);
+    margin: var(--space-2xl) 0 var(--space-m);
+    padding-top: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-xl);
+  }
+
+  .sg-h3 code {
+    color: var(--color-text-muted);
+  }
+
+  .sg-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-m) var(--space-l);
+  }
+
+  .sg-row--top {
+    align-items: flex-start;
+  }
+
+  .sg-forest {
+    margin-top: var(--space-m);
+    padding: var(--space-l);
+  }
+
+  .sg-row :global(.sg-stamp) {
+    width: min(100%, 14rem);
+  }
+
+  .sg-icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+    gap: var(--space-s);
+  }
+
+  .sg-icons li {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-s) var(--space-2xs);
+    border: var(--border-hair) solid var(--color-rule);
+    color: var(--color-text);
+  }
+
+  .sg-figures {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  .sg-figures > :global(*) {
+    min-width: 0;
+  }
+
+  .sg-night__inner {
+    padding-inline: clamp(1rem, 4vw, 3rem);
+  }
+
+  :global(.sg-night) {
+    border-radius: var(--radius-lg);
+  }
+
+  .sg-mini {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 3rem;
+    font-family: var(--font-mono);
+    font-weight: var(--fw-bold);
+    color: var(--color-amber);
+  }
+
+  @media (max-width: 47.99em) {
+    .sg-figures {
+      grid-template-columns: 1fr;
+    }
+
+    .sg-space li,
+    .sg-motion li {
+      grid-template-columns: 1fr;
+      gap: var(--space-3xs);
+    }
+
+    .sg-scale td:nth-child(4),
+    .sg-scale th:nth-child(4) {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,383 @@
+---
+/**
+ * Dev harness for /api/mcp — "Local Host for AI assistants" (noindex).
+ *
+ * The tool and resource lists are rendered at BUILD time from the very same
+ * definitions the endpoint serves: the page creates the server with
+ * createMcpServer() and asks it for tools/list and resources/list through the
+ * SDK's in-memory transport, exactly as an MCP client would.
+ * Below that, a tiny JSON-RPC tester POSTs to this site's /api/mcp.
+ * Autorun for screenshots: ?run=<preset> (initialize, tools/list, resources/list or a tool name).
+ */
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { MCP_ENDPOINT, MCP_LIMITS, MCP_SERVER_INFO, createMcpServer } from '../../api/mcp';
+
+const server = createMcpServer();
+const [clientSide, serverSide] = InMemoryTransport.createLinkedPair();
+await server.connect(serverSide);
+const client = new Client({ name: 'mcp-dev-page', version: '1.0.0' });
+await client.connect(clientSide);
+const { tools } = await client.listTools();
+const { resources } = await client.listResources();
+await client.close();
+await server.close();
+
+interface PropSchema {
+  type?: string;
+  enum?: string[];
+  items?: PropSchema;
+  description?: string;
+  minimum?: number;
+  maximum?: number;
+  minItems?: number;
+  maxItems?: number;
+  minLength?: number;
+  maxLength?: number;
+}
+
+function typeLabel(s: PropSchema): string {
+  if (s.type === 'array') return `${s.items ? typeLabel(s.items) : 'any'}[]`;
+  if (s.enum) {
+    const quoted = s.enum.map((v) => `"${v}"`);
+    return (quoted.length > 8 ? [...quoted.slice(0, 2), '…', ...quoted.slice(-2)] : quoted).join(' | ');
+  }
+  return s.type ?? 'any';
+}
+
+function constraints(s: PropSchema): string {
+  const out: string[] = [];
+  if (s.minimum !== undefined || s.maximum !== undefined) out.push(`${s.minimum ?? '…'}–${s.maximum ?? '…'}`);
+  if (s.minItems !== undefined || s.maxItems !== undefined) out.push(`${s.minItems ?? 0}–${s.maxItems ?? '…'} items`);
+  if (s.maxLength !== undefined) out.push(`≤ ${s.maxLength} chars`);
+  return out.join(', ');
+}
+
+const toolCards = tools.map((t) => {
+  const props = (t.inputSchema.properties ?? {}) as Record<string, PropSchema>;
+  const required = new Set(t.inputSchema.required ?? []);
+  return {
+    name: t.name,
+    title: t.title ?? t.name,
+    description: t.description ?? '',
+    readOnly: t.annotations?.readOnlyHint === true,
+    params: Object.entries(props).map(([name, s]) => ({
+      name,
+      required: required.has(name),
+      type: typeLabel(s),
+      constraints: constraints(s),
+      description: s.description ?? '',
+    })),
+  };
+});
+
+/** Sample arguments for the tester (one per tool). */
+const EXAMPLE_ARGS: Record<string, Record<string, unknown>> = {
+  list_experiences: {},
+  get_experience: { id: 'wine' },
+  list_places: { country: 'GE', experience: 'trekking' },
+  get_place: { id: 'Kazbegi' },
+  list_flight_connections: { airport: 'KUT' },
+  get_trade_fairs: {},
+  get_sustainability_commitments: {},
+  get_contact: {},
+  draft_trip_request: {
+    countries: ['GE'],
+    interests: ['wine', 'gastronomy'],
+    days: 9,
+    month: 'September',
+    groupSize: 20,
+    notes: 'Italian-speaking guide, 4* hotels, arriving at Kutaisi.',
+  },
+};
+
+/** What an agency might ask their assistant, per tool. */
+const EXAMPLE_QUESTIONS: Record<string, string> = {
+  list_experiences: 'What kinds of trips does Local Host run?',
+  get_experience: 'Which places does Local Host suggest for a pilgrimage group?',
+  list_places: 'Which places in Armenia suit a wine group?',
+  get_place: 'What is near Sighnaghi, and how far is it from Tbilisi?',
+  list_flight_connections: 'Which cities fly direct to Kutaisi?',
+  get_trade_fairs: 'Where can I meet Local Host in Italy this season?',
+  get_sustainability_commitments: 'Is Local Host Travelife-recognised? What exactly can I tell my clients?',
+  get_contact: "What is Local Host's email and phone?",
+  draft_trip_request: 'Draft a 9-day wine trip request for 20 people in September.',
+};
+
+const presets: Record<string, unknown> = {
+  initialize: {
+    jsonrpc: '2.0',
+    id: 1,
+    method: 'initialize',
+    params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'dev-harness', version: '1.0.0' } },
+  },
+  'tools/list': { jsonrpc: '2.0', id: 2, method: 'tools/list' },
+  'resources/list': { jsonrpc: '2.0', id: 3, method: 'resources/list' },
+};
+tools.forEach((t, i) => {
+  presets[t.name] = {
+    jsonrpc: '2.0',
+    id: 10 + i,
+    method: 'tools/call',
+    params: { name: t.name, arguments: EXAMPLE_ARGS[t.name] ?? {} },
+  };
+});
+const presetsJson = JSON.stringify(presets).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>MCP harness</title>
+    <style is:global>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body { font: 15px/1.45 system-ui, sans-serif; margin: 0 auto; padding: 16px; max-width: 1100px; color: #1b1b1b; background: #fff; }
+      h1 { font-size: 22px; margin: 0 0 4px; }
+      h2 { font-size: 17px; margin: 28px 0 8px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+      code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .meta { font-size: 12px; color: #555; }
+      .endpoint { border: 1px solid #13783c; background: #eef8f1; padding: 10px 12px; display: grid; gap: 6px; }
+      .endpoint .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .endpoint code { font-size: 15px; font-weight: 600; word-break: break-all; }
+      .endpoint .label { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #13783c; font-weight: 700; min-width: 92px; }
+      .tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+      .tool { border: 1px solid #ccc; padding: 10px 12px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+      .tool header { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+      .tool header code { font-weight: 700; font-size: 14px; }
+      .tool p { margin: 0; font-size: 13px; }
+      .tool .ask { color: #444; font-style: italic; }
+      .badge { display: inline-block; padding: 1px 6px; border: 1px solid #333; font-size: 11px; font-weight: 600; }
+      .badge.ro { background: #d9f7d9; }
+      .badge.req { background: #fff4c2; }
+      table { border-collapse: collapse; width: 100%; font-size: 12px; }
+      th, td { border: 1px solid #ddd; padding: 4px 6px; vertical-align: top; text-align: left; }
+      td.name { white-space: nowrap; }
+      td.name .badge { display: table; margin-top: 3px; }
+      th { background: #f6f6f6; }
+      ul.resources { padding-left: 18px; font-size: 13px; }
+      .tester { display: grid; gap: 8px; }
+      .tester .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+      textarea { width: 100%; min-height: 150px; font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace; padding: 8px; }
+      button, select { font: inherit; font-size: 13px; padding: 4px 10px; }
+      button.primary { background: #13783c; color: #fff; border: 1px solid #0e5a2d; font-weight: 600; }
+      .status { font-size: 13px; font-weight: 600; }
+      .status.err { color: #a40000; }
+      .panes { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+      .panes h3 { font-size: 13px; margin: 0 0 4px; }
+      pre { background: #f4f4f4; padding: 8px; overflow: auto; max-height: 460px; font-size: 12px; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    </style>
+  </head>
+  <body>
+    <h1>Local Host for AI assistants — MCP harness</h1>
+    <p class="meta">
+      {MCP_SERVER_INFO.title} · v{MCP_SERVER_INFO.version} · read-only MCP server · stateless Streamable HTTP, JSON responses ·
+      no Claude API key involved · noindex
+    </p>
+
+    <section class="endpoint" aria-label="Endpoint">
+      <div class="row">
+        <span class="label">Production</span>
+        <code id="prod-url">{MCP_ENDPOINT}</code>
+        <button type="button" data-copy="prod-url">Copy</button>
+      </div>
+      <div class="row">
+        <span class="label">This server</span>
+        <code id="local-url">/api/mcp</code>
+      </div>
+      <p class="meta" style="margin:0">
+        Claude: Settings → Connectors → Add custom connector → paste the production URL. No sign-in needed.
+        Limits: {MCP_LIMITS.perMinute} requests/min and {MCP_LIMITS.perHour}/hour per IP, body ≤ {MCP_LIMITS.maxBodyBytes / 1024} KB,
+        batches ≤ {MCP_LIMITS.maxBatch}. GET/DELETE → 405 (no SSE, no sessions).
+      </p>
+    </section>
+
+    <h2>Tools ({toolCards.length}) — from tools/list at build time</h2>
+    <div class="tools">
+      {
+        toolCards.map((t) => (
+          <article class="tool" id={`tool-${t.name}`}>
+            <header>
+              <code>{t.name}</code>
+              <span>{t.title}</span>
+              {t.readOnly && <span class="badge ro">read-only</span>}
+            </header>
+            <p>{t.description}</p>
+            {EXAMPLE_QUESTIONS[t.name] && <p class="ask">“{EXAMPLE_QUESTIONS[t.name]}”</p>}
+            {t.params.length > 0 ? (
+              <table>
+                <thead>
+                  <tr><th>param</th><th>type</th><th>notes</th></tr>
+                </thead>
+                <tbody>
+                  {t.params.map((p) => (
+                    <tr>
+                      <td class="mono name">
+                        {p.name}
+                        {p.required && <span class="badge req">required</span>}
+                      </td>
+                      <td class="mono">{p.type}</td>
+                      <td>
+                        {p.constraints && <>{p.constraints}. </>}
+                        {p.description}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p class="meta">No parameters.</p>
+            )}
+            <div><button type="button" data-preset={t.name}>Try it ↓</button></div>
+          </article>
+        ))
+      }
+    </div>
+
+    <h2>Resources ({resources.length})</h2>
+    <ul class="resources">
+      {resources.map((r) => <li><code>{r.uri}</code> — {r.title ?? r.name}{r.description ? ` · ${r.description}` : ''}</li>)}
+    </ul>
+
+    <h2 id="tester-heading">JSON-RPC tester</h2>
+    <section class="tester" aria-labelledby="tester-heading">
+      <div class="row">
+        <span class="meta">Presets:</span>
+        <button type="button" data-preset="initialize">initialize</button>
+        <button type="button" data-preset="tools/list">tools/list</button>
+        <button type="button" data-preset="resources/list">resources/list</button>
+        <label class="meta" for="tool-select">tools/call</label>
+        <select id="tool-select">
+          {toolCards.map((t) => <option value={t.name}>{t.name}</option>)}
+        </select>
+        <button type="button" id="load-tool">Load</button>
+      </div>
+      <label class="meta" for="body">Request body — POST /api/mcp, Content-Type: application/json</label>
+      <textarea id="body" spellcheck="false"></textarea>
+      <div class="row">
+        <button type="button" class="primary" id="send">Send</button>
+        <span id="status" class="status" role="status" aria-live="polite"></span>
+      </div>
+      <div class="panes">
+        <div>
+          <h3>Tool output (content[0].text)</h3>
+          <pre id="tool-output">—</pre>
+        </div>
+        <div>
+          <h3>Raw JSON-RPC response</h3>
+          <pre id="raw-output">—</pre>
+        </div>
+      </div>
+    </section>
+
+    <script type="application/json" id="presets" set:html={presetsJson} />
+
+    <script>
+      const presets = JSON.parse(document.getElementById('presets')?.textContent ?? '{}') as Record<string, unknown>;
+      const endpoint = new URL('/api/mcp', location.origin).href;
+      const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+      const body = $<HTMLTextAreaElement>('body');
+      const status = $<HTMLSpanElement>('status');
+      const toolOut = $<HTMLPreElement>('tool-output');
+      const rawOut = $<HTMLPreElement>('raw-output');
+      $('local-url').textContent = endpoint;
+
+      function load(name: string): boolean {
+        const preset = presets[name];
+        if (!preset) return false;
+        body.value = JSON.stringify(preset, null, 2);
+        return true;
+      }
+
+      function pretty(text: string): string {
+        try {
+          return JSON.stringify(JSON.parse(text), null, 2);
+        } catch {
+          return text;
+        }
+      }
+
+      async function send(): Promise<void> {
+        let payload: unknown;
+        try {
+          payload = JSON.parse(body.value);
+        } catch (err) {
+          status.className = 'status err';
+          status.textContent = `Invalid JSON in the request body: ${(err as Error).message}`;
+          return;
+        }
+        status.className = 'status';
+        status.textContent = 'Sending…';
+        toolOut.textContent = '…';
+        rawOut.textContent = '…';
+        const started = performance.now();
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' },
+            body: JSON.stringify(payload),
+          });
+          const ms = Math.round(performance.now() - started);
+          const text = await res.text();
+          const remaining = res.headers.get('x-ratelimit-remaining');
+          const limit = res.headers.get('x-ratelimit-limit');
+          status.className = res.ok ? 'status' : 'status err';
+          status.textContent =
+            `HTTP ${res.status} ${res.statusText} · ${ms} ms` + (limit ? ` · rate limit ${remaining}/${limit} left this minute` : '');
+          rawOut.textContent = text ? pretty(text) : '(empty body)';
+          let tool = '—';
+          try {
+            const json = JSON.parse(text) as { result?: { content?: { type: string; text?: string }[]; isError?: boolean } };
+            const first = json.result?.content?.[0];
+            if (first?.type === 'text' && first.text !== undefined) {
+              tool = (json.result?.isError ? '[isError]\n' : '') + pretty(first.text);
+            }
+          } catch {
+            /* not JSON */
+          }
+          toolOut.textContent = tool;
+        } catch (err) {
+          status.className = 'status err';
+          status.textContent = `Network error: ${(err as Error).message}`;
+        }
+      }
+
+      document.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const name = button.dataset.preset ?? '';
+          if (!load(name)) return;
+          const select = $<HTMLSelectElement>('tool-select');
+          if ([...select.options].some((o) => o.value === name)) select.value = name;
+          $('tester-heading').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+      $('load-tool').addEventListener('click', () => load($<HTMLSelectElement>('tool-select').value));
+      $('send').addEventListener('click', () => void send());
+      document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const text = document.getElementById(button.dataset.copy ?? '')?.textContent ?? '';
+          try {
+            await navigator.clipboard.writeText(text);
+            button.textContent = 'Copied';
+          } catch {
+            button.textContent = 'Copy failed';
+          }
+          setTimeout(() => (button.textContent = 'Copy'), 1500);
+        });
+      });
+
+      const run = new URLSearchParams(location.search).get('run');
+      if (run && load(run)) {
+        const select = $<HTMLSelectElement>('tool-select');
+        if ([...select.options].some((o) => o.value === run)) select.value = run;
+        void send().then(() => $('tester-heading').scrollIntoView());
+      } else {
+        load('tools/list');
+      }
+    </script>
+  </body>
+</html>

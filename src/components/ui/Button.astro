@@ -60,7 +60,7 @@ const iconSize = size === 'sm' ? 16 : 18;
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       {...rest}
     >
-      {startIcon && <Icon name={startIcon} size={iconSize} tone={variant === 'ai' ? 'sun' : 'current'} class="btn__icon" />}
+      {startIcon && <Icon name={startIcon} size={iconSize} tone={startIcon === 'sparkle' ? 'sun' : 'current'} class="btn__icon" />}
       <span class="btn__label">
         <slot />
       </span>
@@ -68,8 +68,8 @@ const iconSize = size === 'sm' ? 16 : 18;
       {external && <span class="visually-hidden">({newTabLabel})</span>}
     </a>
   ) : (
-    <button class:list={classes} type={(rest.type as string | undefined) ?? 'button'} {...rest}>
-      {startIcon && <Icon name={startIcon} size={iconSize} tone={variant === 'ai' ? 'sun' : 'current'} class="btn__icon" />}
+    <button class:list={classes} type={(rest.type as 'button' | 'submit' | 'reset' | undefined) ?? 'button'} {...rest}>
+      {startIcon && <Icon name={startIcon} size={iconSize} tone={startIcon === 'sparkle' ? 'sun' : 'current'} class="btn__icon" />}
       <span class="btn__label">
         <slot />
       </span>

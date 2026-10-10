@@ -1,0 +1,21 @@
+---
+/**
+ * 01 · Caucasus (#caucasus) — STUB from the foundation.
+ * Owned by the Caucasus section agent: replace the <Placeholder> with the real
+ * section. Strings: src/i18n/<lang>/caucasus.json (English is canonical).
+ * See docs/ARCHITECTURE.md.
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Placeholder from '../ui/Placeholder.astro';
+import { getLang, useStrings } from '../../i18n';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'caucasus');
+---
+
+<section id="caucasus" class="section" aria-labelledby="caucasus-title">
+  <div class="container">
+    <SectionHead number={1} id="caucasus-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
+    <Placeholder shape="triptych" count={3} note="Georgia / Armenia / Azerbaijan triptych (hover widens) + schematic map" />
+  </div>
+</section>

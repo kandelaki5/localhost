@@ -1,0 +1,22 @@
+---
+/**
+ * 11 · Plan (#plan) — STUB from the foundation.
+ * Owned by the Plan section agent: replace the <Placeholder> with the real
+ * section. Strings: src/i18n/<lang>/plan.json (English is canonical).
+ * See docs/ARCHITECTURE.md.
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Placeholder from '../ui/Placeholder.astro';
+import NightSurface from '../ui/NightSurface.astro';
+import { getLang, useStrings } from '../../i18n';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'plan');
+---
+
+<NightSurface as="section" id="plan" labelledby="plan-title" ridge ridgeSeed={33}>
+  <div class="container">
+    <SectionHead number={11} id="plan-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
+    <Placeholder shape="form" count={2} note="AI trip designer: stamp choices, a letter to Local Host, streamed itinerary" />
+  </div>
+</NightSurface>

@@ -73,6 +73,7 @@ const peak = { x: (pts[top][0] / W) * 100, y: (pts[top][1] / H) * 100 };
   aria-hidden="true"
   data-ridge
 >
+  <div class="ridge__band">
   <svg class="ridge__svg" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" focusable="false">
     <path class="ridge__line" d={d} pathLength="1" />
   </svg>
@@ -89,14 +90,20 @@ const peak = { x: (pts[top][0] / W) * 100, y: (pts[top][1] / H) * 100 };
       </span>
     )
   }
+  </div>
 </div>
 
 <style>
   .ridge {
     position: relative;
-    height: var(--ridge-h, clamp(3.5rem, 7vw, 6.5rem));
     width: 100%;
+    padding-top: var(--ridge-pin-room, 1.75rem);
     pointer-events: none;
+  }
+
+  .ridge__band {
+    position: relative;
+    height: var(--ridge-h, clamp(3.5rem, 7vw, 6.5rem));
   }
 
   .ridge__svg {

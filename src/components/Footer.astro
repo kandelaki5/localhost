@@ -265,10 +265,9 @@ const tel = t.contact.phone.replace(/\s+/g, '');
   }
 
   .stand__fairs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: var(--space-s) var(--space-m);
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-s) var(--space-s);
     margin: 0;
   }
 
@@ -277,8 +276,8 @@ const tel = t.contact.phone.replace(/\s+/g, '');
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 6.5rem;
-    padding: 0.55rem 0.85rem;
+    min-width: 0;
+    padding: 0.55rem 0.5rem;
     border: var(--border-thick) solid currentColor;
     color: var(--color-foil);
     transform: rotate(var(--r));
@@ -496,7 +495,7 @@ const tel = t.contact.phone.replace(/\s+/g, '');
     }
 
     .stand__fairs {
-      justify-content: flex-start;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .site-footer__grid {
@@ -509,10 +508,6 @@ const tel = t.contact.phone.replace(/\s+/g, '');
       grid-template-columns: 1fr;
     }
 
-    .fair {
-      min-width: 0;
-      flex: 1 1 28%;
-    }
 
     .site-footer__bar {
       flex-direction: column;

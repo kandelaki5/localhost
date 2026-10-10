@@ -1,0 +1,22 @@
+---
+/**
+ * 05 · Connection (#connection) — STUB from the foundation.
+ * Owned by the Connection section agent: replace the <Placeholder> with the real
+ * section. Strings: src/i18n/<lang>/connection.json (English is canonical).
+ * See docs/ARCHITECTURE.md.
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Placeholder from '../ui/Placeholder.astro';
+import NightSurface from '../ui/NightSurface.astro';
+import { getLang, useStrings } from '../../i18n';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'connection');
+---
+
+<NightSurface as="section" id="connection" labelledby="connection-title" ridge ridgeSeed={15}>
+  <div class="container">
+    <SectionHead number={5} id="connection-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
+    <Placeholder shape="board" count={6} note="Split-flap departure boards TBS / KUT with tabs and the seasonal note" />
+  </div>
+</NightSurface>

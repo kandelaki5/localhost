@@ -164,6 +164,15 @@ const items = NAV.map((item) => ({
     margin: 0;
   }
 
+  /* Longer labels: tighter rhythm so the bar still fits at 1440. */
+  :global(:root:is(:lang(pl), :lang(de), :lang(ka))) .site-nav__list {
+    gap: clamp(0.7rem, 1.05vw, 1.15rem);
+  }
+
+  :global(:root:lang(ka)) .site-nav__link {
+    font-size: var(--fs-xs);
+  }
+
   .site-nav__link {
     position: relative;
     display: block;

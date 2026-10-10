@@ -1,0 +1,213 @@
+---
+/**
+ * Dev harness for POST /api/policy-qa (noindex, deliberately unstyled).
+ * Ask a question (or click a suggested one); shows the answer with numbered
+ * citations, the cited passages, the conversation history and the raw JSON.
+ * Autorun for screenshots: ?q=<suggested id | question text>&submit=1[&locale=de]
+ */
+import { LOCALES, LOCALE_INFO } from '../../../lib/ai/locales';
+import { POLICY_DOCUMENTS, POLICY_QUESTION_MAX, SUGGESTED_POLICY_QUESTIONS } from '../../../lib/ai/client/policy';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Policy Q&amp;A harness</title>
+    <style is:global>
+      body { font: 15px/1.45 system-ui, sans-serif; margin: 16px; max-width: 900px; color: #1b1b1b; background: #fff; }
+      form { display: grid; gap: 8px; border: 1px solid #ccc; padding: 12px; }
+      label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+      textarea { font: inherit; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .badge { display: inline-block; padding: 2px 8px; border: 1px solid #333; font-size: 12px; font-weight: 600; }
+      .badge.demo { background: #fff4c2; }
+      .badge.live { background: #d9f7d9; }
+      .error { color: #a40000; font-weight: 600; }
+      .meta { font-size: 12px; color: #555; }
+      .turn { border-top: 1px solid #ddd; padding: 10px 0; }
+      .q { font-weight: 600; }
+      .answer { white-space: pre-wrap; }
+      .cited { background: #eef8f1; }
+      sup a { text-decoration: none; font-size: 11px; }
+      ol.notes { font-size: 13px; padding-left: 20px; }
+      ol.notes blockquote { margin: 2px 0 6px; padding-left: 8px; border-left: 3px solid #13783c; color: #333; }
+      astro-dev-toolbar { display: none !important; } /* keeps harness screenshots clean (dev only) */
+      pre { background: #f4f4f4; padding: 8px; overflow: auto; max-height: 360px; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>Policy Q&amp;A — dev harness</h1>
+    <p class="meta">
+      POST /api/policy-qa · noindex · demo mode without ANTHROPIC_API_KEY · documents:{' '}
+      {POLICY_DOCUMENTS.map((d, i) => <span>{i > 0 ? ' · ' : ''}<a href={d.url}>{d.title}</a></span>)}
+    </p>
+
+    <div class="row">
+      {SUGGESTED_POLICY_QUESTIONS.map((q) => <button type="button" data-ask={q.id} data-question={q.question}>{q.question}</button>)}
+    </div>
+
+    <form id="ask">
+      <label>Language
+        <select name="locale">{LOCALES.map((l) => <option value={l}>{l} — {LOCALE_INFO[l].native}</option>)}</select>
+      </label>
+      <label><span>Question (<span id="count">0</span>/{POLICY_QUESTION_MAX})</span>
+        <textarea name="question" rows="2" maxlength={POLICY_QUESTION_MAX} required></textarea>
+      </label>
+      <div class="row">
+        <button type="submit">Ask</button>
+        <button id="cancel" type="button" disabled>Cancel</button>
+        <button id="clear" type="button">Clear conversation</button>
+        <span id="status" class="meta"></span>
+      </div>
+    </form>
+
+    <div id="log"></div>
+    <details>
+      <summary>History sent with the next question</summary>
+      <pre id="history">[]</pre>
+    </details>
+    <details>
+      <summary>Raw JSON (last answer)</summary>
+      <pre id="raw"></pre>
+    </details>
+
+    <script>
+      import {
+        SUGGESTED_POLICY_QUESTIONS,
+        askPolicyQuestion,
+        nextPolicyHistory,
+        policyFootnotes,
+        type PolicyHistoryTurn,
+        type PolicyQaOutcome,
+      } from '../../../lib/ai/client/policy';
+      import type { Locale } from '../../../lib/ai/types';
+
+      const form = document.getElementById('ask') as HTMLFormElement;
+      const textarea = form.elements.namedItem('question') as HTMLTextAreaElement;
+      const localeSelect = form.elements.namedItem('locale') as HTMLSelectElement;
+      const statusEl = document.getElementById('status') as HTMLSpanElement;
+      const logEl = document.getElementById('log') as HTMLDivElement;
+      const rawEl = document.getElementById('raw') as HTMLPreElement;
+      const historyEl = document.getElementById('history') as HTMLPreElement;
+      const cancelButton = document.getElementById('cancel') as HTMLButtonElement;
+      const counter = document.getElementById('count') as HTMLSpanElement;
+      let history: PolicyHistoryTurn[] = [];
+      let controller: AbortController | null = null;
+      let turnNo = 0;
+
+      const el = (tag: string, text?: string, className?: string) => {
+        const node = document.createElement(tag);
+        if (text !== undefined) node.textContent = text;
+        if (className) node.className = className;
+        return node;
+      };
+
+      function renderTurn(question: string, r: PolicyQaOutcome) {
+        turnNo += 1;
+        const turn = el('div', undefined, 'turn');
+        turn.append(el('p', `Q: ${question}`, 'q'));
+        if (!r.ok) {
+          turn.append(el('p', `Error ${r.status} ${r.error}${r.field ? ` (${r.field})` : ''}: ${r.message ?? ''}${r.retryAfter ? ` — retry in ${r.retryAfter}s` : ''}`, 'error'));
+          logEl.append(turn);
+          return;
+        }
+        const { data } = r;
+        const head = el('p');
+        head.append(el('span', data.mode === 'demo' ? 'DEMO — sample answer' : 'LIVE', `badge ${data.mode}`));
+        if (data.sample) {
+          head.append(' ', el('span', data.sample.exact ? `prepared answer “${data.sample.id}”` : `asked something else → showing ${data.sample.id === 'generic' ? 'the generic demo answer' : `the prepared answer to “${data.sample.question}”`}`, 'meta'));
+        }
+        head.append(' ', el('span', `locale ${data.locale}`, 'meta'));
+        turn.append(head);
+
+        const { notes, blocks } = policyFootnotes(data.answer);
+        const answer = el('p', undefined, 'answer');
+        for (const block of blocks) {
+          answer.append(block.refs.length ? el('span', block.text, 'cited') : document.createTextNode(block.text));
+          if (block.refs.length) {
+            const sup = el('sup');
+            sup.append('[');
+            block.refs.forEach((n, i) => {
+              if (i) sup.append(',');
+              const a = el('a', String(n)) as HTMLAnchorElement;
+              a.href = `#note-${turnNo}-${n}`;
+              sup.append(a);
+            });
+            sup.append(']');
+            answer.append(sup);
+          }
+        }
+        turn.append(answer);
+
+        if (notes.length) {
+          const ol = el('ol', undefined, 'notes');
+          for (const note of notes) {
+            const li = el('li');
+            li.id = `note-${turnNo}-${note.n}`;
+            const a = el('a', note.documentTitle) as HTMLAnchorElement;
+            a.href = note.documentUrl;
+            li.append(a, el('blockquote', note.citedText));
+            ol.append(li);
+          }
+          turn.append(ol);
+        } else {
+          turn.append(el('p', 'No citations in this answer.', 'meta'));
+        }
+        logEl.append(turn);
+      }
+
+      async function ask(question: string) {
+        controller?.abort();
+        controller = new AbortController();
+        cancelButton.disabled = false;
+        statusEl.textContent = 'Asking…';
+        const started = performance.now();
+        const r = await askPolicyQuestion({ locale: localeSelect.value as Locale, question, history }, { signal: controller.signal });
+        cancelButton.disabled = true;
+        statusEl.textContent = `${r.ok ? 'Done' : 'Failed'} in ${((performance.now() - started) / 1000).toFixed(1)} s`;
+        rawEl.textContent = JSON.stringify(r.ok ? r.data : r, null, 2);
+        renderTurn(question, r);
+        if (r.ok) {
+          history = nextPolicyHistory(history, question, r.data.answer);
+          historyEl.textContent = JSON.stringify(history, null, 2);
+        }
+      }
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const question = textarea.value.trim();
+        if (question) void ask(question);
+      });
+      cancelButton.addEventListener('click', () => controller?.abort());
+      document.getElementById('clear')?.addEventListener('click', () => {
+        history = [];
+        historyEl.textContent = '[]';
+        logEl.textContent = '';
+        rawEl.textContent = '';
+      });
+      textarea.addEventListener('input', () => (counter.textContent = String(textarea.value.length)));
+      document.querySelectorAll<HTMLButtonElement>('[data-ask]').forEach((button) =>
+        button.addEventListener('click', () => {
+          textarea.value = button.dataset.question ?? '';
+          counter.textContent = String(textarea.value.length);
+          void ask(textarea.value);
+        }),
+      );
+
+      // Autorun: ?q=<suggested id | text>&submit=1&locale=xx
+      const params = new URLSearchParams(location.search);
+      const locale = params.get('locale');
+      if (locale) localeSelect.value = locale;
+      const q = params.get('q');
+      if (q) {
+        textarea.value = SUGGESTED_POLICY_QUESTIONS.find((s) => s.id === q)?.question ?? q;
+        counter.textContent = String(textarea.value.length);
+        if (params.get('submit') === '1') void ask(textarea.value);
+      }
+    </script>
+  </body>
+</html>

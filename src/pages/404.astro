@@ -1,0 +1,112 @@
+---
+/**
+ * 404 — one static page for every language (Vercel serves it for any
+ * unknown URL), so the message is in English with the other languages
+ * offered underneath.
+ */
+import Base from '../layouts/Base.astro';
+import Button from '../components/ui/Button.astro';
+import RidgeDivider from '../components/ui/RidgeDivider.astro';
+import { LOCALES, localizePath, useStrings } from '../i18n';
+import { inline } from '../lib/markup';
+
+const t = useStrings('en', 'common');
+const others = LOCALES.filter((l) => l.code !== 'en').map((l) => ({
+  ...l,
+  t: useStrings(l.code, 'common').notFound,
+  href: localizePath('/', l.code),
+}));
+---
+
+<Base title={t.notFound.title} noindex>
+  <section class="nf" aria-labelledby="nf-title">
+    <div class="container">
+      <p class="nf__code" aria-hidden="true">404</p>
+      <RidgeDivider seed={404} label="404 m" />
+      <div class="nf__body">
+        <p class="kicker nf__kicker">{t.notFound.kicker}</p>
+        <h1 id="nf-title" class="display display--l" set:html={inline(t.notFound.heading)} />
+        <p class="nf__text">{t.notFound.text}</p>
+        <Button href="/" iconStart="arrow-left" size="lg">{t.notFound.home}</Button>
+      </div>
+      <ul class="nf__langs" role="list">
+        {
+          others.map((l) => (
+            <li lang={l.bcp47}>
+              <a href={l.href}>
+                <span class="nf__lang kicker">{l.native}</span>
+                <span class="nf__lang-text">{l.t.home}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    padding-block: var(--space-section-sm) var(--space-section);
+  }
+
+  .nf__code {
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 3rem + 14vw, 15rem);
+    font-weight: var(--fw-display);
+    font-variation-settings: var(--fvs-accent);
+    font-style: italic;
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    color: var(--color-text);
+  }
+
+  .nf__body {
+    display: grid;
+    gap: var(--space-m);
+    justify-items: start;
+    max-width: 44rem;
+    margin-top: var(--space-l);
+  }
+
+  .nf__kicker {
+    color: var(--color-red-ink);
+  }
+
+  .nf__text {
+    font-size: var(--fs-md);
+    color: var(--color-text-body);
+  }
+
+  .nf__langs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-m);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-m);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .nf__langs a {
+    display: grid;
+    gap: var(--space-3xs);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .nf__lang {
+    color: var(--color-text-muted);
+  }
+
+  .nf__lang-text {
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-variation-settings: var(--fvs-heading);
+  }
+
+  .nf__langs a:hover .nf__lang-text {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+</style>
