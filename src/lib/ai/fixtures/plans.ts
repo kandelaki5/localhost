@@ -285,7 +285,12 @@ export function demoPlanText(
   const sample = tripSummary(fixture, locale);
   const asked = tripSummary(request, locale);
   const lang = fixture.locale === locale ? '' : ` (${SAMPLE_LANGUAGE[fixture.locale]?.[locale] ?? fixture.locale})`;
-  const same = sample === asked;
+  const sameSet = <T,>(a: readonly T[], b: readonly T[]) => a.length === b.length && a.every((x) => b.includes(x));
+  // Same trip regardless of the order the visitor ticked the boxes in.
+  const same =
+    fixture.days === request.days &&
+    sameSet(fixture.countries, request.countries) &&
+    sameSet(fixture.interests, request.interests);
   let note: string;
   if (request.refinement) {
     const change = quote(request.refinement);

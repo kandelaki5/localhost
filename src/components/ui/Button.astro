@@ -1,0 +1,182 @@
+---
+/**
+ * Pill button / link.
+ *
+ *   <Button href="#contact" icon="arrow-right">Start a group request</Button>
+ *   <Button href="#plan" variant="ai">Plan with AI</Button>      ← sun sparkle first
+ *   <Button variant="secondary" type="submit">Send</Button>      ← no href = <button>
+ *
+ * Colours come from the surface roles, so the same button works on paper,
+ * night and Forest.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+type Common = {
+  variant?: 'primary' | 'secondary' | 'ai';
+  size?: 'sm' | 'md' | 'lg';
+  /** Icon after the label. */
+  icon?: IconName;
+  /** Icon before the label (the ai variant uses the sparkle by default). */
+  iconStart?: IconName;
+  /** Stretch to the container width, label left and icon right. */
+  full?: boolean;
+  /** Opens in a new tab (adds rel and a hidden "opens in a new tab"). */
+  external?: boolean;
+  newTabLabel?: string;
+  class?: string;
+};
+
+type Props = Common &
+  (
+    | ({ href: string } & Omit<HTMLAttributes<'a'>, 'class' | 'href'>)
+    | ({ href?: undefined; type?: 'button' | 'submit' | 'reset' } & Omit<HTMLAttributes<'button'>, 'class' | 'type'>)
+  );
+
+const {
+  variant = 'primary',
+  size = 'md',
+  icon,
+  iconStart,
+  full = false,
+  external = false,
+  newTabLabel = 'opens in a new tab',
+  class: className,
+  href,
+  ...rest
+} = Astro.props as Common & { href?: string; type?: string } & Record<string, unknown>;
+
+const startIcon: IconName | undefined = iconStart ?? (variant === 'ai' ? 'sparkle' : undefined);
+const classes = ['btn', `btn--${variant}`, `btn--${size}`, full && 'btn--full', className];
+const iconSize = size === 'sm' ? 16 : 18;
+---
+
+{
+  href ? (
+    <a
+      class:list={classes}
+      href={href}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      {...rest}
+    >
+      {startIcon && <Icon name={startIcon} size={iconSize} tone={variant === 'ai' ? 'sun' : 'current'} class="btn__icon" />}
+      <span class="btn__label">
+        <slot />
+      </span>
+      {icon && <Icon name={icon} size={iconSize} class="btn__icon btn__icon--end" />}
+      {external && <span class="visually-hidden">({newTabLabel})</span>}
+    </a>
+  ) : (
+    <button class:list={classes} type={(rest.type as string | undefined) ?? 'button'} {...rest}>
+      {startIcon && <Icon name={startIcon} size={iconSize} tone={variant === 'ai' ? 'sun' : 'current'} class="btn__icon" />}
+      <span class="btn__label">
+        <slot />
+      </span>
+      {icon && <Icon name={icon} size={iconSize} class="btn__icon btn__icon--end" />}
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    --btn-h: 2.875rem;
+    --btn-px: 1.25rem;
+    --btn-fs: var(--fs-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: var(--btn-h);
+    padding: var(--space-2xs) var(--btn-px);
+    border: var(--border-hair) solid var(--color-bg-inverse);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-text);
+    font-size: var(--btn-fs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.15;
+    letter-spacing: 0.005em;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .btn:lang(ka) {
+    white-space: normal;
+    text-wrap: balance;
+  }
+
+  .btn--sm {
+    --btn-h: 2.5rem;
+    --btn-px: 1rem;
+    --btn-fs: var(--fs-xs);
+  }
+
+  .btn--lg {
+    --btn-h: 3.25rem;
+    --btn-px: 1.5rem;
+    --btn-fs: var(--fs-base);
+  }
+
+  .btn--full {
+    display: flex;
+    width: 100%;
+  }
+
+  .btn--full .btn__label {
+    flex: 1;
+  }
+
+  .btn__icon--end {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .btn:hover .btn__icon--end {
+    transform: translateX(3px);
+  }
+
+  .btn:hover .icon--arrow-up-right.btn__icon--end {
+    transform: translate(2px, -2px);
+  }
+
+  /* primary: ink pill on paper, cream pill on night/Forest */
+  .btn--primary,
+  .btn--ai {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .btn--primary:hover,
+  .btn--ai:hover {
+    color: var(--color-text-inverse);
+    background: color-mix(in srgb, var(--color-bg-inverse) 86%, var(--color-accent));
+  }
+
+  /* secondary: hairline outline that fills on hover */
+  .btn--secondary {
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .btn--secondary:hover {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  /* ai: primary + sun sparkle and a faint sun glow on hover */
+  .btn--ai:hover {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 18%, transparent);
+  }
+
+  .btn--ai .btn__icon:first-child {
+    transition: transform var(--dur-slow) var(--ease-overshoot);
+  }
+
+  .btn--ai:hover .btn__icon:first-child {
+    transform: rotate(90deg) scale(1.08);
+  }
+</style>

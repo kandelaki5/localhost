@@ -1,0 +1,1073 @@
+{
+  "updated": "2026-10",
+  "note": "Direct scheduled passenger flights to Tbilisi (TBS) and Kutaisi (KUT), checked 10 Oct 2026 against the airports' own live schedules (TBS board 10-12 Oct 2026; KUT schedule 10 Oct-10 Nov 2026), airline pages and trade press. 'seasonal' = false where the route flew in winter 2025/26 and/or is filed for winter 2026/27; null where that is unknown. 'iata' is the airport code, or a city code (LON, PAR, MIL, ROM) when several airports are used, which are then listed in 'airports'. 'confidence' is about whether the route is flown (high = seen in an official airport schedule in Oct 2026). Each airport's 'destinations' list is the 20 entries for the board, in priority order; 'alternates' are verified swaps. Always show: 'Direct connections vary by season — ask us for the current schedule.' Details and sources: docs/research/flights.md.",
+  "airports": [
+    {
+      "code": "TBS",
+      "city": "Tbilisi",
+      "name": "Shota Rustaveli Tbilisi International Airport",
+      "url": "https://tbilisiairport.com/",
+      "destinations": [
+        {
+          "city": "Warsaw",
+          "iata": "WAW",
+          "country": "Poland",
+          "countryCode": "PL",
+          "airlines": [
+            "LOT Polish Airlines"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "note": "Year-round; flew through winter 2025/26 and winter 2026/27 is filed."
+        },
+        {
+          "city": "Berlin",
+          "iata": "BER",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Georgian Airways"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://georgian-airways.com/en/flight/schedule",
+          "note": "Wed and Sat per Georgian Airways' schedule; on the live TBS board 10-12 Oct 2026."
+        },
+        {
+          "city": "Munich",
+          "iata": "MUC",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Lufthansa"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "note": "Daily, year-round."
+        },
+        {
+          "city": "Milan",
+          "iata": "MIL",
+          "country": "Italy",
+          "countryCode": "IT",
+          "airlines": [
+            "easyJet",
+            "Georgian Airways"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "airports": [
+            "MXP",
+            "BGY"
+          ],
+          "note": "MIL is the city code: easyJet flies to Malpensa (MXP), Georgian Airways to Bergamo (BGY)."
+        },
+        {
+          "city": "Rome",
+          "iata": "FCO",
+          "country": "Italy",
+          "countryCode": "IT",
+          "airlines": [
+            "Georgian Airways"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://georgian-airways.com/en/flight/schedule",
+          "note": "Fiumicino; Wed and Sat per the Georgian Airways schedule."
+        },
+        {
+          "city": "Vienna",
+          "iata": "VIE",
+          "country": "Austria",
+          "countryCode": "AT",
+          "airlines": [
+            "Austrian Airlines",
+            "Georgian Airways"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Paris",
+          "iata": "PAR",
+          "country": "France",
+          "countryCode": "FR",
+          "airlines": [
+            "Georgian Airways",
+            "Transavia France"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "airports": [
+            "CDG",
+            "ORY"
+          ],
+          "note": "Georgian Airways flies to CDG, Transavia France to Orly. Air France's own CDG flights ended around late March 2026."
+        },
+        {
+          "city": "Amsterdam",
+          "iata": "AMS",
+          "country": "Netherlands",
+          "countryCode": "NL",
+          "airlines": [
+            "Georgian Airways",
+            "Transavia"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Athens",
+          "iata": "ATH",
+          "country": "Greece",
+          "countryCode": "GR",
+          "airlines": [
+            "Aegean Airlines",
+            "Sky Express"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Riga",
+          "iata": "RIX",
+          "country": "Latvia",
+          "countryCode": "LV",
+          "airlines": [
+            "airBaltic"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "note": "airBaltic sells nonstop Riga-Tbilisi fares through winter 2026/27."
+        },
+        {
+          "city": "London",
+          "iata": "LON",
+          "country": "United Kingdom",
+          "countryCode": "GB",
+          "airlines": [
+            "British Airways",
+            "easyJet"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "airports": [
+            "LHR",
+            "LTN"
+          ],
+          "note": "LON is the city code: British Airways flies to Heathrow (LHR), easyJet to Luton (LTN)."
+        },
+        {
+          "city": "Copenhagen",
+          "iata": "CPH",
+          "country": "Denmark",
+          "countryCode": "DK",
+          "airlines": [
+            "Norwegian"
+          ],
+          "seasonal": null,
+          "confidence": "medium",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "note": "New in June 2026, operated by Norwegian Air Sweden. On the live board in Oct 2026 and filed for winter 2026/27; Georgian officials say it is year-round, but it has not yet flown a winter."
+        },
+        {
+          "city": "Istanbul",
+          "iata": "IST",
+          "country": "Türkiye",
+          "countryCode": "TR",
+          "airlines": [
+            "Turkish Airlines",
+            "Pegasus Airlines",
+            "AJet"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "airports": [
+            "IST",
+            "SAW"
+          ],
+          "note": "Turkish Airlines flies to Istanbul Airport (IST); Pegasus and AJet to Sabiha Gokcen (SAW)."
+        },
+        {
+          "city": "Dubai",
+          "iata": "DXB",
+          "country": "United Arab Emirates",
+          "countryCode": "AE",
+          "airlines": [
+            "flydubai"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "note": "Operated by flydubai; Emirates sells seats on it as a codeshare."
+        },
+        {
+          "city": "Doha",
+          "iata": "DOH",
+          "country": "Qatar",
+          "countryCode": "QA",
+          "airlines": [
+            "Qatar Airways"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Tel Aviv",
+          "iata": "TLV",
+          "country": "Israel",
+          "countryCode": "IL",
+          "airlines": [
+            "Arkia",
+            "El Al",
+            "Israir"
+          ],
+          "seasonal": false,
+          "confidence": "medium",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures",
+          "note": "Several Israeli carriers. Flights are often cancelled at short notice for security reasons. Georgian Airways lists Tel Aviv in its schedule, but its flights were not on the live board 10-12 Oct 2026."
+        },
+        {
+          "city": "Almaty",
+          "iata": "ALA",
+          "country": "Kazakhstan",
+          "countryCode": "KZ",
+          "airlines": [
+            "Air Astana"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Tashkent",
+          "iata": "TAS",
+          "country": "Uzbekistan",
+          "countryCode": "UZ",
+          "airlines": [
+            "Uzbekistan Airways",
+            "Centrum Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Baku",
+          "iata": "GYD",
+          "country": "Azerbaijan",
+          "countryCode": "AZ",
+          "airlines": [
+            "Azerbaijan Airlines"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Yerevan",
+          "iata": "EVN",
+          "country": "Armenia",
+          "countryCode": "AM",
+          "airlines": [
+            "FlyOne Armenia",
+            "Georgian Airways"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        }
+      ],
+      "alternates": [
+        {
+          "city": "Zurich",
+          "iata": "ZRH",
+          "country": "Switzerland",
+          "countryCode": "CH",
+          "airlines": [
+            "Edelweiss Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Geneva",
+          "iata": "GVA",
+          "country": "Switzerland",
+          "countryCode": "CH",
+          "airlines": [
+            "easyJet"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Larnaca",
+          "iata": "LCA",
+          "country": "Cyprus",
+          "countryCode": "CY",
+          "airlines": [
+            "Georgian Airways"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://georgian-airways.com/en/flight/schedule"
+        },
+        {
+          "city": "Nice",
+          "iata": "NCE",
+          "country": "France",
+          "countryCode": "FR",
+          "airlines": [
+            "Georgian Airways"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://georgian-airways.com/en/flight/schedule"
+        },
+        {
+          "city": "Belgrade",
+          "iata": "BEG",
+          "country": "Serbia",
+          "countryCode": "RS",
+          "airlines": [
+            "Air Serbia"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Astana",
+          "iata": "NQZ",
+          "country": "Kazakhstan",
+          "countryCode": "KZ",
+          "airlines": [
+            "Air Astana"
+          ],
+          "seasonal": null,
+          "confidence": "medium",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Abu Dhabi",
+          "iata": "AUH",
+          "country": "United Arab Emirates",
+          "countryCode": "AE",
+          "airlines": [
+            "Air Arabia Abu Dhabi"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Sharjah",
+          "iata": "SHJ",
+          "country": "United Arab Emirates",
+          "countryCode": "AE",
+          "airlines": [
+            "Air Arabia"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Riyadh",
+          "iata": "RUH",
+          "country": "Saudi Arabia",
+          "countryCode": "SA",
+          "airlines": [
+            "flynas"
+          ],
+          "seasonal": null,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Jeddah",
+          "iata": "JED",
+          "country": "Saudi Arabia",
+          "countryCode": "SA",
+          "airlines": [
+            "flynas"
+          ],
+          "seasonal": null,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Kuwait City",
+          "iata": "KWI",
+          "country": "Kuwait",
+          "countryCode": "KW",
+          "airlines": [
+            "Jazeera Airways",
+            "Kuwait Airways"
+          ],
+          "seasonal": null,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Bahrain",
+          "iata": "BAH",
+          "country": "Bahrain",
+          "countryCode": "BH",
+          "airlines": [
+            "Gulf Air"
+          ],
+          "seasonal": null,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Ankara",
+          "iata": "ESB",
+          "country": "Türkiye",
+          "countryCode": "TR",
+          "airlines": [
+            "AJet"
+          ],
+          "seasonal": null,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Antalya",
+          "iata": "AYT",
+          "country": "Türkiye",
+          "countryCode": "TR",
+          "airlines": [
+            "Pegasus Airlines",
+            "SunExpress"
+          ],
+          "seasonal": null,
+          "confidence": "medium",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Chisinau",
+          "iata": "RMO",
+          "country": "Moldova",
+          "countryCode": "MD",
+          "airlines": [
+            "FlyOne"
+          ],
+          "seasonal": null,
+          "confidence": "high",
+          "source": "https://tbilisiairport.com/en-EN/flights/departures"
+        },
+        {
+          "city": "Cologne/Bonn",
+          "iata": "CGN",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Eurowings"
+          ],
+          "seasonal": true,
+          "confidence": "medium",
+          "source": "https://www.aeroroutes.com/eng/251201-ewns26",
+          "note": "Summer 2026 only (from 2 Jul 2026, 1-2 weekly). Eurowings cancelled the Duesseldorf-Tbilisi route it had planned."
+        },
+        {
+          "city": "Frankfurt",
+          "iata": "FRA",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Condor"
+          ],
+          "seasonal": null,
+          "confidence": "medium",
+          "source": "https://www.aeroroutes.com/eng/260820-dens27tbs",
+          "note": "NOT flying in 2026. Condor moved the restart to 2 May 2027. Do not show until then."
+        }
+      ]
+    },
+    {
+      "code": "KUT",
+      "city": "Kutaisi",
+      "name": "David the Builder Kutaisi International Airport",
+      "url": "https://www.kutaisi.aero/",
+      "destinations": [
+        {
+          "city": "Warsaw",
+          "iata": "WAW",
+          "country": "Poland",
+          "countryCode": "PL",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Katowice",
+          "iata": "KTW",
+          "country": "Poland",
+          "countryCode": "PL",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Poznan",
+          "iata": "POZ",
+          "country": "Poland",
+          "countryCode": "PL",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Display as 'Poznań'."
+        },
+        {
+          "city": "Wroclaw",
+          "iata": "WRO",
+          "country": "Poland",
+          "countryCode": "PL",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Display as 'Wrocław'."
+        },
+        {
+          "city": "Berlin",
+          "iata": "BER",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Dortmund",
+          "iata": "DTM",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Hamburg",
+          "iata": "HAM",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Memmingen",
+          "iata": "FMM",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Wizz Air markets Memmingen as 'Munich West'. It is about 110 km from Munich."
+        },
+        {
+          "city": "Frankfurt-Hahn",
+          "iata": "HHN",
+          "country": "Germany",
+          "countryCode": "DE",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Hahn airport is about 120 km from Frankfurt, so don't label it plain 'Frankfurt'."
+        },
+        {
+          "city": "Milan",
+          "iata": "MXP",
+          "country": "Italy",
+          "countryCode": "IT",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Malpensa."
+        },
+        {
+          "city": "Rome",
+          "iata": "ROM",
+          "country": "Italy",
+          "countryCode": "IT",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "airports": [
+            "FCO"
+          ],
+          "note": "The Kutaisi airport site labels Rome 'CIA' (Ciampino), but schedule data for flight W6 7921 shows Fiumicino (FCO). The city code ROM is safe for the board."
+        },
+        {
+          "city": "Venice",
+          "iata": "VCE",
+          "country": "Italy",
+          "countryCode": "IT",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Operated by Wizz Air Malta since 2 Dec 2025: 2 weekly, rising to 3 weekly from 15 May to 4 Sep 2026."
+        },
+        {
+          "city": "Budapest",
+          "iata": "BUD",
+          "country": "Hungary",
+          "countryCode": "HU",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Prague",
+          "iata": "PRG",
+          "country": "Czechia",
+          "countryCode": "CZ",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Bratislava",
+          "iata": "BTS",
+          "country": "Slovakia",
+          "countryCode": "SK",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "New route since 12 Jan 2026."
+        },
+        {
+          "city": "Vilnius",
+          "iata": "VNO",
+          "country": "Lithuania",
+          "countryCode": "LT",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Athens",
+          "iata": "ATH",
+          "country": "Greece",
+          "countryCode": "GR",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Paris-Beauvais",
+          "iata": "BVA",
+          "country": "France",
+          "countryCode": "FR",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Beauvais is about 85 km from Paris."
+        },
+        {
+          "city": "Brussels-Charleroi",
+          "iata": "CRL",
+          "country": "Belgium",
+          "countryCode": "BE",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Charleroi is about 55 km from Brussels."
+        },
+        {
+          "city": "Madrid",
+          "iata": "MAD",
+          "country": "Spain",
+          "countryCode": "ES",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        }
+      ],
+      "alternates": [
+        {
+          "city": "Istanbul",
+          "iata": "SAW",
+          "country": "Türkiye",
+          "countryCode": "TR",
+          "airlines": [
+            "Pegasus Airlines"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule",
+          "note": "Sabiha Gokcen; year-round."
+        },
+        {
+          "city": "Almaty",
+          "iata": "ALA",
+          "country": "Kazakhstan",
+          "countryCode": "KZ",
+          "airlines": [
+            "FlyArystan"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Astana",
+          "iata": "NQZ",
+          "country": "Kazakhstan",
+          "countryCode": "KZ",
+          "airlines": [
+            "FlyArystan"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Barcelona",
+          "iata": "BCN",
+          "country": "Spain",
+          "countryCode": "ES",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Larnaca",
+          "iata": "LCA",
+          "country": "Cyprus",
+          "countryCode": "CY",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Thessaloniki",
+          "iata": "SKG",
+          "country": "Greece",
+          "countryCode": "GR",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Lyon",
+          "iata": "LYS",
+          "country": "France",
+          "countryCode": "FR",
+          "airlines": [
+            "Wizz Air"
+          ],
+          "seasonal": false,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Aktau",
+          "iata": "SCO",
+          "country": "Kazakhstan",
+          "countryCode": "KZ",
+          "airlines": [
+            "FlyArystan"
+          ],
+          "seasonal": null,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        },
+        {
+          "city": "Atyrau",
+          "iata": "GUW",
+          "country": "Kazakhstan",
+          "countryCode": "KZ",
+          "airlines": [
+            "FlyArystan"
+          ],
+          "seasonal": null,
+          "confidence": "high",
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
+        }
+      ]
+    }
+  ],
+  "airlines": [
+    {
+      "name": "Turkish Airlines",
+      "iata": "TK",
+      "country": "Türkiye",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "Istanbul (IST) → TBS"
+      ],
+      "confidence": "high",
+      "source": "https://tbilisiairport.com/en-EN/flights/departures",
+      "note": "Several daily flights, year-round. Its subsidiary AJet (VF) also flies Istanbul-Sabiha Gokcen and Ankara to TBS. Turkish Airlines is not among Kutaisi's airlines."
+    },
+    {
+      "name": "Georgian Airways",
+      "iata": "A9",
+      "country": "Georgia",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "Amsterdam (AMS) → TBS",
+        "Berlin (BER) → TBS",
+        "Larnaca (LCA) → TBS",
+        "Milan-Bergamo (BGY) → TBS",
+        "Moscow-Vnukovo (VKO) → TBS",
+        "Nice (NCE) → TBS",
+        "Paris-CDG (CDG) → TBS",
+        "Rome-Fiumicino (FCO) → TBS",
+        "Saint Petersburg (LED) → TBS",
+        "Tel Aviv (TLV) → TBS",
+        "Vienna (VIE) → TBS",
+        "Yerevan (EVN) → TBS",
+        "Forli (FRL) → TBS (listed, status unclear)",
+        "Novosibirsk (OVB) → TBS",
+        "Batumi (BUS) → TBS (domestic)"
+      ],
+      "confidence": "high",
+      "source": "https://georgian-airways.com/en/flight/schedule",
+      "note": "Tbilisi-based national carrier. Its official schedule lists 13 international routes. On the live board 10-12 Oct 2026 we saw all of them except Tel Aviv and Forli. Doha ended in Feb 2026."
+    },
+    {
+      "name": "airBaltic",
+      "iata": "BT",
+      "country": "Latvia",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "Riga (RIX) → TBS"
+      ],
+      "confidence": "high",
+      "source": "https://www.airbaltic.com/en/flight-deals/flights-to-tbilisi",
+      "note": "Year-round, with fares on sale through spring 2027. Vilnius-Tbilisi is sold only as a connection, not nonstop."
+    },
+    {
+      "name": "Air France",
+      "iata": "AF",
+      "country": "France",
+      "servesTBS": false,
+      "servesKUT": false,
+      "routes": [],
+      "confidence": "medium",
+      "source": "https://flight-report.com/fr/report/76939/air-france-af1052-paris-cdg-tbilisi-tbs/",
+      "note": "Air France flew Paris-CDG to TBS with its own aircraft (AF1052/1053) until about the end of March 2026 (once a week in winter 2025/26), then dropped the route. AF1053 was not on the live TBS board on Sun 11 Oct 2026, a day it had been filed for. Tbilisi airport's route map still lists Air France, but that map is out of date. Paris-TBS nonstop is now Georgian Airways (CDG) and Transavia France (ORY), both Air France-KLM partners or group airlines. Recommendation: do not list Air France as a direct airline, or ask the owner."
+    },
+    {
+      "name": "Aegean Airlines",
+      "iata": "A3",
+      "country": "Greece",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "Athens (ATH) → TBS"
+      ],
+      "confidence": "high",
+      "source": "https://tbilisiairport.com/en-EN/flights/departures",
+      "note": "Year-round, with fares on sale Dec 2026-May 2027. Tbilisi airport's route map also lists Thessaloniki, but no 2026 schedule data for TBS-SKG was found, so treat Thessaloniki as not operated."
+    },
+    {
+      "name": "Pegasus Airlines",
+      "iata": "PC",
+      "country": "Türkiye",
+      "servesTBS": true,
+      "servesKUT": true,
+      "routes": [
+        "Istanbul-Sabiha Gokcen (SAW) → TBS",
+        "Antalya (AYT) → TBS",
+        "Istanbul-Sabiha Gokcen (SAW) → KUT"
+      ],
+      "confidence": "high",
+      "source": "https://www.kutaisi.aero/en/flight/schedule",
+      "note": "SAW-TBS and SAW-KUT are year-round; KUT flew through winter 2025/26. AYT-TBS was on the live board in Oct 2026, but its seasonality is unclear."
+    },
+    {
+      "name": "Wizz Air",
+      "iata": "W6",
+      "country": "Hungary",
+      "servesTBS": false,
+      "servesKUT": true,
+      "routes": [
+        "Athens (ATH) → KUT",
+        "Barcelona (BCN) → KUT",
+        "Berlin (BER) → KUT",
+        "Bratislava (BTS) → KUT",
+        "Brussels-Charleroi (CRL) → KUT",
+        "Budapest (BUD) → KUT",
+        "Dortmund (DTM) → KUT",
+        "Frankfurt-Hahn (HHN) → KUT",
+        "Hamburg (HAM) → KUT",
+        "Katowice (KTW) → KUT",
+        "Larnaca (LCA) → KUT",
+        "Lyon (LYS) → KUT",
+        "Madrid (MAD) → KUT",
+        "Memmingen (FMM) → KUT",
+        "Milan-Malpensa (MXP) → KUT",
+        "Paris-Beauvais (BVA) → KUT",
+        "Poznan (POZ) → KUT",
+        "Prague (PRG) → KUT",
+        "Rome (FCO) → KUT",
+        "Thessaloniki (SKG) → KUT",
+        "Venice (VCE) → KUT (Wizz Air Malta, W4)",
+        "Vilnius (VNO) → KUT",
+        "Warsaw (WAW) → KUT",
+        "Wroclaw (WRO) → KUT"
+      ],
+      "confidence": "high",
+      "source": "https://www.kutaisi.aero/en/flight/schedule",
+      "note": "Wizz Air has its Georgian base at Kutaisi and flies 24 routes there (official Kutaisi airport schedule, Oct-Nov 2026). It does not fly to Tbilisi: none of its flights were on the live TBS board and none were found in schedule data. Vienna-Kutaisi does not appear in the Oct-Nov 2026 schedule, so treat it as suspended. Cologne and Gdansk appear in the airport's city list but have no flights."
+    },
+    {
+      "name": "easyJet",
+      "iata": "U2",
+      "country": "United Kingdom",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "London-Luton (LTN) → TBS",
+        "Geneva (GVA) → TBS",
+        "Milan-Malpensa (MXP) → TBS"
+      ],
+      "confidence": "high",
+      "source": "https://tbilisiairport.com/en-EN/flights/departures",
+      "note": "Launched in spring 2025. All three routes were on the live board in Oct 2026, flew through winter 2025/26 and are filed for winter 2026/27. Operating airlines: easyJet UK, easyJet Switzerland and easyJet Europe."
+    },
+    {
+      "name": "Lufthansa",
+      "iata": "LH",
+      "country": "Germany",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "Munich (MUC) → TBS"
+      ],
+      "confidence": "high",
+      "source": "https://tbilisiairport.com/en-EN/flights/departures",
+      "note": "Daily, year-round. No Lufthansa Frankfurt-Tbilisi flight was found. Condor (not Lufthansa Group) plans Frankfurt-Tbilisi from 2 May 2027."
+    },
+    {
+      "name": "LOT Polish Airlines",
+      "iata": "LO",
+      "country": "Poland",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "Warsaw-Chopin (WAW) → TBS"
+      ],
+      "confidence": "high",
+      "source": "https://tbilisiairport.com/en-EN/flights/departures",
+      "note": "Year-round with Boeing 737 MAX 8 aircraft. Warsaw-Kutaisi is flown by Wizz Air, not LOT."
+    },
+    {
+      "name": "Austrian Airlines",
+      "iata": "OS",
+      "country": "Austria",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "Vienna (VIE) → TBS"
+      ],
+      "confidence": "high",
+      "source": "https://tbilisiairport.com/en-EN/flights/departures",
+      "note": "Year-round since 2024; Tbilisi was kept in the winter 2024/25 schedule and is filed for winter 2026/27."
+    },
+    {
+      "name": "British Airways",
+      "iata": "BA",
+      "country": "United Kingdom",
+      "servesTBS": true,
+      "servesKUT": false,
+      "routes": [
+        "London-Heathrow (LHR) → TBS"
+      ],
+      "confidence": "high",
+      "source": "https://mediacentre.britishairways.com/news/17092024/british-airways-launches-the-uks-only-direct-flight-to-georgian-capital-tbilisi",
+      "note": "Running since 30 Mar 2025 with A320neo aircraft. It flew through winter 2025/26, is filed for winter 2026/27, and was on the live board in Oct 2026."
+    }
+  ]
+}
