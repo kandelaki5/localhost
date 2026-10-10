@@ -1,0 +1,26 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Linie lotnicze",
+  "title": "Dwanaście linii, *jeden krótki lot.*",
+  "intro": "Tradycyjni i tani przewoźnicy łączą Gruzję z resztą Europy. Połączenia bezpośrednie zmieniają się w zależności od sezonu — zapytaj nas o aktualny rozkład.",
+  "running": "Dojazd",
+  "wallLabel": "Linie lotnicze z lotami bezpośrednimi do Tbilisi i Kutaisi",
+  "airports": {
+    "TBS": "Tbilisi",
+    "KUT": "Kutaisi"
+  },
+  "caption": {
+    "group": "grupa Air France–KLM",
+    "to": {
+      "TBS": "Bezpośrednio do Tbilisi",
+      "KUT": "Bezpośrednio do Kutaisi"
+    },
+    "more": "+ jeszcze {count}",
+    "notes": {
+      "transavia": "Air France zakończyło własne loty Paryż–Tbilisi wiosną 2026 roku."
+    }
+  },
+  "legend": "Indeks górny oznacza lotnisko: **TBS** Tbilisi · **KUT** Kutaisi.",
+  "hint": "Najedź na nazwę lub ją dotknij, aby zobaczyć przykładowe trasy.",
+  "boards": "Zobacz tablice odlotów"
+}

@@ -1,0 +1,89 @@
+---
+/**
+ * "Travelife · Partner" — a typeset stand-in for the official Travelife
+ * Partner logo, set in our own type (never an imitation of their mark).
+ * Linked to the public register, as Travelife's guidelines ask for the logo.
+ * Swap for the official logo file when the owner sends it (CONTENT-TODO).
+ */
+import { TRAVELIFE_BADGE, TRAVELIFE_REGISTER_URL } from './data';
+
+interface Props {
+  /** Accessible name, e.g. "Travelife Partner: check our entry in the public register". */
+  label: string;
+  /** "opens in a new tab" in the page language. */
+  newTab: string;
+  class?: string;
+}
+
+const { label, newTab, class: className } = Astro.props;
+---
+
+<a
+  class:list={['tl-badge', className]}
+  href={TRAVELIFE_REGISTER_URL}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={`${label} (${newTab})`}
+>
+  <span class="tl-badge__inner" lang="en" aria-hidden="true">
+    <span class="tl-badge__name">{TRAVELIFE_BADGE.name}</span>
+    <span class="tl-badge__dot"></span>
+    <span class="tl-badge__level">{TRAVELIFE_BADGE.level}</span>
+  </span>
+</a>
+
+<style>
+  .tl-badge {
+    display: inline-block;
+    padding: var(--space-3xs);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    background: var(--color-bg-raised);
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .tl-badge:hover {
+    color: var(--color-text);
+    border-color: var(--color-text);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tl-badge__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-2xs) var(--space-m) var(--space-2xs) var(--space-s);
+    border: var(--border-hair) solid var(--color-text);
+  }
+
+  .tl-badge__name {
+    font-family: var(--font-display);
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    letter-spacing: var(--tracking-heading);
+    line-height: 1;
+    /* optical: lift the baseline so the cap height centres on the dot */
+    padding-bottom: 0.08em;
+  }
+
+  .tl-badge__dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: var(--radius-round);
+    background: var(--color-accent);
+    flex: none;
+  }
+
+  .tl-badge__level {
+    font-family: var(--font-text);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps-wide);
+    text-transform: uppercase;
+    color: var(--color-green-ink);
+  }
+</style>

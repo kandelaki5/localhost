@@ -1,0 +1,38 @@
+---
+/**
+ * The South Caucasus base map as ONE hidden SVG symbol (#lab-map), so every
+ * map on the AI Lab page (teaser route, Photo Match pins, proposal route) can
+ * reuse it with <use href="#lab-map"> instead of repeating ~22 KB of paths.
+ *
+ * Colours come from custom properties set by the map's container
+ * (.lab-map in lab.css), so the same symbol renders on night and on paper.
+ * Data: src/data/caucasus-map.json — same projection as places.ts project().
+ */
+import map from '../../data/caucasus-map.json';
+
+const countries = Object.entries(map.countries).map(([code, c]) => ({ code, d: c.d }));
+const neighbours = Object.values(map.neighbours).map((n) => n.d);
+---
+
+<svg class="lab-map-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="lab-map" viewBox={map.viewBox}>
+    <rect x="-20" y="-20" width="1040" height="720" style="fill: var(--map-sea)" />
+    <path d={map.land} style="fill: var(--map-land)" />
+    {neighbours.map((d) => <path d={d} style="fill: none; stroke: var(--map-border-faint); stroke-width: 0.8" />)}
+    {
+      countries.map((c) => (
+        <path d={c.d} data-country={c.code} style="fill: var(--map-country); stroke: var(--map-border); stroke-width: 1.1; stroke-linejoin: round" />
+      ))
+    }
+    {map.lakes.map((l) => <path d={l.d} style="fill: var(--map-sea)" />)}
+  </symbol>
+</svg>
+
+<style>
+  .lab-map-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+</style>

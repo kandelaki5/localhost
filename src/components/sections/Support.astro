@@ -1,23 +1,277 @@
 ---
 /**
- * 10 · Support (#support) — STUB from the foundation.
- * Owned by the Support section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/support.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 10 · We Support (#support) — rendered as "What we stand behind": five
+ * commitments from Local Host's own policies, each an ink seal with a
+ * pictogram and a short line. No partner projects are verified yet, so the
+ * template's five project slots are shown empty with "Partner projects will
+ * be announced here." Research suggestions live only in docs/CONTENT-TODO.md.
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
+import Seal from '../ui/Seal.astro';
+import Stamp from '../ui/Stamp.astro';
+import Glyph from './support/Glyph.astro';
+import { COMMITMENTS, PROJECT_SLOTS } from './support/data';
 import { contentLang, getLang, useStrings } from '../../i18n';
+import { georgianNumeral } from '../../lib/sections';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'support');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'support') === lang ? undefined : 'en';
+const items = t.items.map((item, i) => ({ ...item, ...COMMITMENTS[i], n: i + 1 }));
+const slots = Array.from({ length: PROJECT_SLOTS }, (_, i) => i);
 ---
 
-<section lang={textLang} id="support" class="section" aria-labelledby="support-title">
+<section lang={textLang} id="support" class="section sup" aria-labelledby="support-title">
   <div class="container">
     <SectionHead number={10} id="support-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="columns" count={5} note="What we stand behind — five commitments from the policy" />
+
+    <ol class="sup__list" aria-label={t.listLabel}>
+      {
+        items.map((item, i) => (
+          <li class="sup__item" style={`--i:${i}`}>
+            <div class="sup__stamp" data-reveal>
+              <Seal ring={item.ring} tone={item.tone} rotate={item.rotate} class="sup__seal">
+                <span class="sup__face">
+                  <Glyph name={item.glyph} class="sup__glyph" />
+                  <span class="sup__num" lang="ka">
+                    {georgianNumeral(item.n)}
+                  </span>
+                </span>
+              </Seal>
+            </div>
+            <div class="sup__body">
+              <h3 class="sup__title">{item.title}</h3>
+              <p class="sup__text">{item.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="sup__projects">
+      <div class="sup__slots" aria-hidden="true">
+        {
+          slots.map((i) => (
+            <Stamp class="sup__slot" shadow={false} rotate={i % 2 ? 1 : -1}>
+              <span class="sup__slot-face" />
+            </Stamp>
+          ))
+        }
+      </div>
+      <p class="sup__projects-line">{t.projects.text}</p>
+    </div>
   </div>
 </section>
+
+<script>
+  // Seals "land" once as they scroll into view (motion allowed only). Seals
+  // already on screen at load are left alone, so nothing visible jumps.
+  const root = document.getElementById('support');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (root && !reduce && 'IntersectionObserver' in window) {
+    const pending = Array.from(root.querySelectorAll<HTMLElement>('[data-reveal]')).filter(
+      (el) => el.getBoundingClientRect().top > window.innerHeight,
+    );
+    if (pending.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            (entry.target as HTMLElement).dataset.reveal = 'in';
+            io.unobserve(entry.target);
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px' },
+      );
+      for (const el of pending) {
+        el.dataset.reveal = 'armed';
+        io.observe(el);
+      }
+    }
+  }
+</script>
+
+<style>
+  .sup {
+    background: var(--color-bg-sunken);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  /* ── the five commitments ── */
+  .sup__list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: var(--layout-gap);
+    margin: 0;
+  }
+
+  .sup__item {
+    --seal-size: clamp(7.5rem, 4rem + 5vw, 9.25rem);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    row-gap: var(--space-m);
+    padding-left: var(--layout-gap);
+    border-left: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .sup__item:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .sup__stamp {
+    width: var(--seal-size);
+  }
+
+  .sup__face {
+    display: grid;
+    justify-items: center;
+    gap: 0.2em;
+    width: 100%;
+  }
+
+  .sup__face :global(.sup__glyph) {
+    width: 3.5em;
+  }
+
+  .sup__num {
+    font-family: var(--font-ka-display);
+    font-size: 1em;
+    font-weight: var(--fw-ka-text);
+    line-height: 1;
+  }
+
+  .sup__title {
+    font-size: calc(var(--fs-lg) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    line-height: var(--lh-heading);
+  }
+
+  .sup__title:lang(ka) {
+    font-size: var(--fs-md);
+  }
+
+  .sup__text {
+    margin-top: var(--space-2xs);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+    max-width: 34ch;
+  }
+
+  /* ── partner projects (reserved) ── */
+  .sup__projects {
+    display: flex;
+    align-items: center;
+    gap: var(--space-l);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-m);
+    border-top: var(--border-hair) dashed var(--color-rule-strong);
+  }
+
+  .sup__slots {
+    display: flex;
+    gap: var(--space-2xs);
+    flex: none;
+  }
+
+  .sup__projects :global(.sup__slot) {
+    --stamp-perf: 3px;
+    --stamp-pad: 4px;
+    opacity: 0.85;
+  }
+
+  .sup__slot-face {
+    display: block;
+    width: 1.75rem;
+    height: 2.25rem;
+    border: var(--border-hair) dashed var(--color-rule-strong);
+  }
+
+  .sup__projects-line {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    color: var(--color-text);
+  }
+
+  .sup__projects-line:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-size: var(--fs-md);
+  }
+
+  /* ── landing (motion allowed, once) ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .sup__stamp[data-reveal='in'] {
+      animation: sup-land var(--dur-slow) var(--ease-overshoot) both;
+      animation-delay: calc(var(--i, 0) * var(--dur-stagger));
+    }
+
+    .sup__stamp[data-reveal='armed'] {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sup-land {
+    from {
+      opacity: 0;
+      transform: scale(1.35) rotate(-6deg);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ── tablet: two columns, the fifth commitment across both ── */
+  @media (max-width: 63.99em) {
+    .sup__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: var(--space-xl);
+    }
+
+    .sup__item,
+    .sup__item:first-child {
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-rows: auto;
+      column-gap: var(--space-m);
+      align-items: start;
+      padding: var(--space-m) 0 0;
+      border-left: 0;
+      border-top: var(--border-hair) solid var(--color-rule-strong);
+    }
+
+    .sup__item:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .sup__item:last-child .sup__text {
+      max-width: 52ch;
+    }
+  }
+
+  /* ── phone ── */
+  @media (max-width: 39.99em) {
+    .sup__list {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-l);
+    }
+
+    .sup__item,
+    .sup__item:first-child {
+      --seal-size: 6.25rem;
+      column-gap: var(--space-s);
+    }
+
+    .sup__projects {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-s);
+      margin-top: var(--space-xl);
+    }
+  }
+</style>

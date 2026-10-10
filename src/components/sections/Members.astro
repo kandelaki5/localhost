@@ -1,23 +1,349 @@
 ---
 /**
- * 07 · Members (#members) — STUB from the foundation.
- * Owned by the Members section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/members.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 07 · Members (#members) — an open passport.
+ * Two pages, Georgia and Poland, each stamped with residence-permit cards for
+ * the organisations from the owner's template (GNTA · GTA · CEBG | PIT · ŚIT),
+ * with a faint guilloche, a centre fold and Local Host's own postmark.
+ * Official logos are not supplied yet: each permit's photo box carries the
+ * acronym until they are (see sections/members/data.ts).
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
+import Seal from '../ui/Seal.astro';
+import Logo from '../ui/Logo.astro';
+import Permit from './members/Permit.astro';
+import { COUNTRIES, ORGS, mrz } from './members/data';
 import { contentLang, getLang, useStrings } from '../../i18n';
+import { latinNumber } from '../../lib/sections';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'members');
+const en = useStrings('en', 'members');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'members') === lang ? undefined : 'en';
+
+const SECTION = 7;
+const pages = COUNTRIES.map((c, pi) => ({
+  ...c,
+  name: t.countries[c.id],
+  folio: `${latinNumber(SECTION)}·${pi + 1}`,
+  orgs: ORGS.filter((o) => o.country === c.id),
+}));
+
+// Passport-page guilloche: a family of slowly drifting sine waves, drawn once.
+const W = 600;
+const H = 400;
+const guilloche = Array.from({ length: 16 }, (_, i) => {
+  const y0 = 18 + i * 24;
+  const pts: string[] = [];
+  for (let x = 0; x <= W; x += 6) {
+    const y = y0 + 9 * Math.sin((x / W) * Math.PI * 4 + i * 0.55) + 4 * Math.sin((x / W) * Math.PI * 11 - i * 0.3);
+    pts.push(`${x},${y.toFixed(1)}`);
+  }
+  return `M${pts.join('L')}`;
+});
 ---
 
-<section lang={textLang} id="members" class="section" aria-labelledby="members-title">
+<section lang={textLang} id="members" class="section members" aria-labelledby="members-title">
   <div class="container">
-    <SectionHead number={7} id="members-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="permits" count={5} note="GNTA · GTA · CEBG · PIT · ŚIT as residence-permit stamps" />
+    <SectionHead number={SECTION} id="members-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
+
+    <div class="passport" role="group" aria-label={t.spreadLabel}>
+      {
+        pages.map((page, pi) => (
+          <div class:list={['passport__page', `passport__page--${page.id}`]}>
+            <svg class="passport__guilloche" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              {guilloche.map((d) => (
+                <path d={d} />
+              ))}
+            </svg>
+
+            <h3 class="passport__country">
+              <span class="passport__country-name">{page.name}</span>
+              {page.native.lang !== lang && (
+                <span class="passport__country-native" lang={page.native.lang}>
+                  {page.native.text}
+                </span>
+              )}
+              <span class="passport__iso" aria-hidden="true">
+                {page.iso3}
+              </span>
+            </h3>
+
+            <div class="passport__stamps">
+              <ul class="passport__permits" role="list">
+                {page.orgs.map((org, oi) => (
+                  <Permit
+                    org={org}
+                    name={t.orgs[org.id]}
+                    type={t.types[org.type]}
+                    serial={`${page.id.toUpperCase()} · ${latinNumber(SECTION)}/${latinNumber(oi + 1)}`}
+                    mrz={mrz(page.iso3, org.acronym, en.orgs[org.id])}
+                    lang={lang}
+                    official={t.official}
+                    newTab={common.aria.newTab}
+                  />
+                ))}
+              </ul>
+
+              {pi === pages.length - 1 && (
+                <span class="passport__postmark" data-stamp>
+                  <Seal tone="green" ring={t.ring} rotate={-2} size="8.5rem">
+                    <Logo variant="icon" tone="mono" decorative />
+                  </Seal>
+                </span>
+              )}
+            </div>
+
+            <p class="passport__folio" aria-hidden="true">
+              {page.folio}
+            </p>
+          </div>
+        ))
+      }
+    </div>
   </div>
 </section>
+
+<script>
+  import { revealStamps } from './meet-us/reveal';
+
+  revealStamps(document.getElementById('members'));
+</script>
+
+<style>
+  .passport {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background: var(--color-bg-raised);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .passport__page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    min-width: 0;
+    padding: clamp(1.25rem, 0.75rem + 1.5vw, 2.5rem) clamp(1.25rem, 0.5rem + 2.5vw, 3rem) clamp(2.5rem, 2rem + 2vw, 3.25rem);
+  }
+
+  /* the centre fold, shading both pages */
+  .passport__page + .passport__page::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: clamp(2.5rem, 4vw, 4rem);
+    transform: translateX(-50%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--color-ink) 5%, transparent) 38%,
+      color-mix(in srgb, var(--color-ink) 12%, transparent) 50%,
+      color-mix(in srgb, var(--color-ink) 5%, transparent) 62%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .passport__guilloche {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-below);
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--color-green-ink);
+    stroke-width: 0.6;
+    opacity: var(--opacity-watermark);
+    pointer-events: none;
+  }
+
+  .passport__page--pl .passport__guilloche {
+    transform: scaleX(-1);
+  }
+
+  /* ── page head ── */
+  .passport__country {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem var(--space-s);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .passport__country-name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: 1;
+  }
+
+  .passport__country-name:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-ka-text);
+    line-height: 1.2;
+  }
+
+  .passport__country-native {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-display-sm);
+    color: var(--color-text-muted);
+  }
+
+  .passport__country-native:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-weight: var(--fw-ka-text);
+  }
+
+  .passport__iso {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-caps);
+    color: var(--color-text-muted);
+  }
+
+  /* ── permits ── */
+  .passport__permits {
+    display: grid;
+    gap: var(--space-m);
+    margin: 0;
+  }
+
+  /* Hand-placed: alternate edges, as stamps fall on a real passport page. */
+  .passport__permits > :global(.permit) {
+    width: min(100%, 31rem);
+  }
+
+  .passport__permits > :global(.permit:nth-child(even)) {
+    justify-self: end;
+  }
+
+  .passport__page--pl .passport__permits > :global(.permit:nth-child(odd)) {
+    justify-self: end;
+  }
+
+  .passport__page--pl .passport__permits > :global(.permit:nth-child(even)) {
+    justify-self: start;
+  }
+
+  .passport__stamps {
+    position: relative;
+  }
+
+  /* Two permits on the Poland page: give them the page's height, like stamps
+     spread across a passport page. */
+  @media (min-width: 64em) {
+    .passport__page--pl .passport__permits {
+      row-gap: clamp(var(--space-xl), 5vw, var(--space-3xl));
+      padding-top: var(--space-s);
+    }
+  }
+
+  /* Local Host's own postmark, struck across the last permit's empty corner. */
+  .passport__postmark {
+    position: absolute;
+    right: clamp(-0.5rem, 1vw, 1.5rem);
+    bottom: calc(-1 * clamp(4rem, 3rem + 3vw, 6rem));
+    z-index: var(--z-seal);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  /* Local Host's postmark lands last, with a thunk (motion allowed only). */
+  @media screen and (prefers-reduced-motion: no-preference) {
+    :global([data-reveal='ready']) .passport__postmark:not([data-revealed]) {
+      opacity: 0;
+    }
+
+    :global([data-reveal='ready']) .passport__postmark[data-revealed] {
+      animation: postmark-thunk var(--dur-base) var(--ease-overshoot) var(--dur-slow) backwards;
+    }
+  }
+
+  @keyframes postmark-thunk {
+    from {
+      opacity: 0;
+      transform: scale(1.45) rotate(-6deg);
+    }
+    60% {
+      opacity: 0.85;
+    }
+  }
+
+  .passport__folio {
+    position: absolute;
+    bottom: var(--space-s);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  .passport__page--ge .passport__folio {
+    left: clamp(1.25rem, 0.5rem + 2.5vw, 3.5rem);
+  }
+
+  .passport__page--pl .passport__folio {
+    right: clamp(1.25rem, 0.5rem + 2.5vw, 3.5rem);
+  }
+
+  /* ── tablet & phone: pages stack, the fold turns horizontal ── */
+  @media (max-width: 63.99em) {
+    .passport {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .passport__postmark {
+      right: var(--space-s);
+      bottom: calc(-1 * var(--space-m));
+    }
+
+    .passport__page + .passport__page::before {
+      inset-block: 0 auto;
+      inset-inline: 0;
+      width: auto;
+      height: clamp(2rem, 4vw, 3rem);
+      transform: translateY(-50%);
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        color-mix(in srgb, var(--color-ink) 5%, transparent) 38%,
+        color-mix(in srgb, var(--color-ink) 12%, transparent) 50%,
+        color-mix(in srgb, var(--color-ink) 5%, transparent) 62%,
+        transparent 100%
+      );
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .passport__permits > :global(.permit) {
+      width: 100%;
+    }
+
+    .passport__page--pl .passport__permits {
+      padding-bottom: 5.5rem;
+    }
+
+    .passport__postmark {
+      right: var(--space-2xs);
+      bottom: calc(-1 * var(--space-2xs));
+    }
+
+    .passport__postmark :global(.seal) {
+      --seal-size: 6.5rem;
+    }
+  }
+</style>

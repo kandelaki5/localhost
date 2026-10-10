@@ -1,0 +1,750 @@
+---
+/**
+ * 02 · Photo Match (#photo-match). Upload / drop / camera, or pick one of the
+ * three inspiration photos (credited next to them — CC BY / BY-SA). Results:
+ * mood + "what I see" on the screen, then three match cards with a Local Host
+ * photo of the place (or a pin map when we have none) and "Plan this trip".
+ * Script: client/photo-match.ts (lazy-loaded).
+ */
+import { getImage, Picture } from 'astro:assets';
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import LabIcon from './LabIcon.astro';
+import credits from '../../assets/inspiration/credits.json';
+import tuscany from '../../assets/inspiration/tuscany-vineyard.jpg';
+import dolomites from '../../assets/inspiration/dolomites-valley.jpg';
+import cappadocia from '../../assets/inspiration/cappadocia-valley.jpg';
+import { INSPIRATION_IDS, INSPIRATION_LABELS, type InspirationId } from '../../lib/ai/client/photo';
+import { PLACES } from '../../lib/ai/places';
+import { getPhoto, hasPhoto } from '../../lib/photos';
+import { fmt } from '../../lib/markup';
+import { getLang, localizePath, useStrings } from '../../i18n';
+import { blockLang, labSection, labStrings, photoStrings, scriptJson } from './data';
+
+const lang = getLang(Astro);
+const t = photoStrings(lang);
+const lab = labStrings(lang);
+const common = useStrings(lang, 'common');
+const s = labSection('photo-match');
+
+const images: Record<InspirationId, ImageMetadata> = {
+  'tuscany-vineyard': tuscany,
+  'dolomites-valley': dolomites,
+  'cappadocia-valley': cappadocia,
+};
+
+const samples = await Promise.all(
+  INSPIRATION_IDS.map(async (id) => {
+    const image = images[id];
+    // What we send (the browser shrinks it to ≤ 1280 px JPEG anyway) and what the screen shows.
+    const send = await getImage({ src: image, width: Math.min(1280, image.width), format: 'webp' });
+    const credit = credits.find((c) => c.id === id);
+    return { id, image, send: send.src, label: INSPIRATION_LABELS[id][lang], credit };
+  }),
+);
+
+// Local Host photos of catalogue places, for the match cards (built once, picked at runtime).
+const photoNames = [...new Set(PLACES.map((p) => p.photo?.replace(/\.[^.]+$/, '')).filter((n): n is string => Boolean(n && hasPhoto(n))))];
+const photos = Object.fromEntries(
+  await Promise.all(
+    photoNames.map(async (name) => {
+      const img = getPhoto(name);
+      const small = await getImage({ src: img, width: Math.min(480, img.width), format: 'webp' });
+      const large = await getImage({ src: img, width: Math.min(960, img.width), format: 'webp' });
+      return [name, { src: small.src, srcset: `${small.src} 480w, ${large.src} 960w` }] as const;
+    }),
+  ),
+);
+
+const clientStrings = {
+  lang,
+  errors: lab.errors,
+  overrides: t.errors,
+  working: t.screen.working,
+  cancelled: lab.ui.cancelled,
+  elapsed: lab.ui.elapsed,
+  match: t.result.match,
+  map: t.result.map,
+  yourPhoto: t.screen.yourPhoto,
+  resultTitle: t.result.title,
+  notTravel: t.result.notTravel,
+  countries: { GE: common.countries.ge, AM: common.countries.am, AZ: common.countries.az },
+  photos,
+};
+---
+
+<section
+  id="photo-match"
+  class="lab-section lab-photo"
+  aria-labelledby="photo-match-title"
+  data-lab-feature="photo-match"
+  lang={blockLang(lang, 'ai-lab-photo')}
+  style="--lab-glow-x: 78%; --lab-glow-y: 18%"
+>
+  <div class="container">
+    <SectionHead number={s.n} id="photo-match-title" kicker={t.kicker} title={t.title} intro={t.intro} running={lab.audience.travellers} size="m" />
+    <p class="lab-nojs">{lab.ui.noScript}</p>
+
+    <div class="lab-photo__grid">
+      <!-- Input deck -->
+      <div class="lab-panel lab-photo__deck">
+        <div class="lab-panel__bar">
+          <h3 class="lab-mono lab-mono--green">{t.upload.title}</h3>
+          <span class="lab-mono" aria-hidden="true">JPG · PNG · WEBP</span>
+        </div>
+        <div class="lab-panel__body">
+          <label class="lab-drop" data-drop>
+            <input type="file" accept="image/jpeg,image/png,image/webp,image/*" class="visually-hidden lab-drop__input" data-file />
+            <span class="lab-drop__icon" aria-hidden="true"><LabIcon name="upload" size={22} /></span>
+            <span class="lab-drop__title" data-drop-title data-text-idle={t.upload.drop} data-text-active={t.upload.dragActive}>{t.upload.drop}</span>
+            <span class="lab-drop__or" aria-hidden="true">{t.upload.or}</span>
+            <span class="lab-drop__btn">{t.upload.choose}</span>
+            <span class="lab-drop__hint">{t.upload.hint}</span>
+          </label>
+          <label class="lab-textbtn lab-photo__camera" data-camera-wrap hidden>
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" data-camera />
+            <LabIcon name="camera" size={18} />
+            <span>{t.upload.camera}</span>
+          </label>
+
+          <h4 class="lab-photo__samples-title kicker">{t.samples.title}</h4>
+          <ul class="lab-photo__samples" role="list">
+            {
+              samples.map((x) => (
+                <li class="lab-sample">
+                  <button type="button" class="lab-sample__btn" data-sample={x.id} data-src={x.send} aria-describedby={`credit-${x.id}`}>
+                    <Picture
+                      src={x.image}
+                      alt=""
+                      formats={['avif', 'webp']}
+                      widths={[240, 360, 560, 840]}
+                      sizes="(min-width: 64em) 14vw, (min-width: 40em) 30vw, 46vw"
+                      class="lab-sample__img"
+                      data-display
+                    />
+                    <span class="lab-sample__label">{x.label}</span>
+                    <span class="visually-hidden"> — {t.samples.action}</span>
+                  </button>
+                  {x.credit && (
+                    <p class="lab-sample__credit" id={`credit-${x.id}`}>
+                      {fmt(t.samples.credit, { title: x.credit.title, creator: x.credit.creator })} ·{' '}
+                      <a href={x.credit.licenseUrl} rel="license noopener" target="_blank">
+                        {x.credit.license}
+                      </a>{' '}
+                      ·{' '}
+                      <a href={x.credit.source} rel="noopener" target="_blank">
+                        Wikimedia Commons
+                      </a>
+                    </p>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screen -->
+      <div class="lab-panel lab-photo__monitor" data-monitor>
+        <div class="lab-panel__bar">
+          <span class="lab-mono">{t.kicker} · {t.screen.label}</span>
+          <span class="lab-photo__badge" data-badge></span>
+        </div>
+        <div class="lab-photo__screen" data-screen data-state="idle">
+          <div class="lab-photo__viewfinder">
+            <img class="lab-photo__preview" data-preview alt="" hidden />
+            <div class="lab-photo__scan" aria-hidden="true"></div>
+            <div class="lab-photo__idle" data-idle-screen>
+              <svg class="lab-photo__cross" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                <circle cx="24" cy="24" r="9" />
+                <path d="M24 4v12M24 32v12M4 24h12M32 24h12" />
+              </svg>
+              <p class="lab-mono lab-mono--green">{t.screen.idle}</p>
+              <p class="lab-photo__idle-hint">{t.screen.idleHint}</p>
+            </div>
+            <span class="lab-photo__corner lab-photo__corner--tl" aria-hidden="true"></span>
+            <span class="lab-photo__corner lab-photo__corner--tr" aria-hidden="true"></span>
+            <span class="lab-photo__corner lab-photo__corner--bl" aria-hidden="true"></span>
+            <span class="lab-photo__corner lab-photo__corner--br" aria-hidden="true"></span>
+          </div>
+
+          <div class="lab-photo__working" data-working hidden>
+            <ol class="lab-steps" data-steps>
+              {t.screen.steps.map((step) => <li>{step}</li>)}
+            </ol>
+            <div class="lab-photo__working-foot">
+              <div class="lab-bar" aria-hidden="true"></div>
+              <span class="lab-mono" data-elapsed></span>
+              <button type="button" class="lab-textbtn" data-cancel>{lab.ui.cancel}</button>
+            </div>
+          </div>
+
+          <div class="lab-photo__readout" data-readout hidden>
+            <p class="lab-mono lab-mono--green">{t.screen.mood}</p>
+            <p class="lab-photo__mood" data-slot="mood"></p>
+            <p class="lab-mono lab-mono--green">{t.screen.whatISee}</p>
+            <p class="lab-photo__see" data-slot="see"></p>
+            <p class="lab-photo__message" data-slot="message" hidden></p>
+          </div>
+
+          <p class="lab-status" role="status" aria-live="polite" data-status></p>
+          <p class="lab-error" role="alert" data-error hidden></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="lab-photo__results" data-results hidden>
+      <div class="lab-photo__results-head">
+        <h3 class="lab-photo__results-title" id="photo-match-results" tabindex="-1">{t.result.title}</h3>
+        <p class="lab-notice" data-notice></p>
+      </div>
+      <ol class="lab-photo__matches" role="list" data-matches aria-labelledby="photo-match-results"></ol>
+      <div class="lab-photo__foot">
+        <p class="lab-photo__tip"><span class="lab-mono lab-mono--green">{t.result.tip}</span><span data-slot="tip"></span></p>
+        <div class="lab-photo__actions">
+          <Button href={localizePath('/#plan', lang)} variant="ai" size="lg" icon="arrow-right">{t.result.plan}</Button>
+          <button type="button" class="lab-textbtn" data-again>
+            <LabIcon name="upload" size={16} />
+            <span>{t.result.again}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <template data-tpl="match">
+    <li class="lab-match">
+      <div class="lab-match__media" data-media></div>
+      <div class="lab-match__body">
+        <p class="lab-match__meta">
+          <span class="lab-mono" data-slot="n"></span>
+          <span class="lab-badge" data-slot="experience"></span>
+        </p>
+        <h4 class="lab-match__title" data-slot="title"></h4>
+        <p class="lab-match__place">
+          <Icon name="pin" size={16} />
+          <span data-slot="place"></span>
+        </p>
+        <p class="lab-match__why" data-slot="why"></p>
+      </div>
+    </li>
+  </template>
+  <template data-tpl="badge-demo"><span class="lab-badge lab-badge--demo">{lab.ui.demoBadge}</span></template>
+  <template data-tpl="badge-live"><span class="lab-badge lab-badge--live">{lab.ui.liveBadge}</span></template>
+  <script type="application/json" data-lab-strings set:html={scriptJson(clientStrings)} />
+</section>
+
+<style>
+  .lab-photo__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--layout-gap);
+    align-items: stretch;
+  }
+
+  /* ── input deck ── */
+  .lab-drop {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-l) var(--space-m);
+    border: var(--border-thin) dashed color-mix(in srgb, var(--color-green-ink) 55%, transparent);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-bg-sunken) 70%, transparent);
+    text-align: center;
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .lab-drop:hover,
+  .lab-drop:global(.is-dragging) {
+    border-color: var(--color-green-ink);
+    background: color-mix(in srgb, var(--color-glow) 9%, var(--color-bg-sunken));
+  }
+
+  .lab-drop:focus-within {
+    outline: var(--border-thick) solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  .lab-drop__icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-round);
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-glow) 55%, transparent);
+    color: var(--color-green-ink);
+    box-shadow: 0 0 24px -6px color-mix(in srgb, var(--color-glow) 55%, transparent);
+  }
+
+  .lab-drop__title {
+    font-family: var(--font-display);
+    font-size: calc(var(--fs-lg) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    color: var(--color-text);
+  }
+
+  .lab-drop__or {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .lab-drop__btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: var(--space-2xs) var(--space-m);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+  }
+
+  .lab-drop__hint {
+    max-width: 34ch;
+    margin-top: var(--space-2xs);
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .lab-photo__camera {
+    position: relative;
+    margin-top: var(--space-s);
+    cursor: pointer;
+  }
+
+  .lab-photo__camera:focus-within {
+    outline: var(--border-thick) solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .lab-photo__samples-title {
+    margin-top: var(--space-l);
+    color: var(--color-text-muted);
+  }
+
+  .lab-photo__samples {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-xs);
+    margin-top: var(--space-s);
+  }
+
+  .lab-sample {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2xs);
+    min-width: 0;
+  }
+
+  .lab-sample__btn {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    aspect-ratio: 4 / 5;
+    background: var(--color-bg-sunken);
+    text-align: start;
+    box-shadow: 0 0 0 var(--border-hair) var(--color-rule);
+    transition: box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  .lab-sample__btn :global(picture) {
+    display: contents;
+  }
+
+  .lab-sample__btn :global(.lab-sample__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-reveal) var(--ease-out);
+  }
+
+  .lab-sample__btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-scrim);
+  }
+
+  .lab-sample__btn:hover,
+  .lab-sample__btn[aria-pressed='true'] {
+    box-shadow: 0 0 0 var(--border-thick) var(--color-green-ink), 0 0 18px -4px color-mix(in srgb, var(--color-glow) 70%, transparent);
+  }
+
+  .lab-sample__btn:hover :global(.lab-sample__img) {
+    transform: scale(1.04);
+  }
+
+  .lab-sample__label {
+    position: absolute;
+    left: var(--space-2xs);
+    right: var(--space-2xs);
+    bottom: var(--space-2xs);
+    z-index: var(--z-raised);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.25;
+    color: var(--color-text-on-photo);
+    text-shadow: 0 1px 8px var(--color-scrim);
+  }
+
+  .lab-sample__credit {
+    font-size: var(--fs-3xs);
+    line-height: 1.4;
+    color: var(--color-text-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .lab-sample__credit a {
+    color: var(--color-text-muted);
+  }
+
+  .lab-sample__credit a:hover {
+    color: var(--color-link);
+  }
+
+  /* ── screen ── */
+  .lab-photo__monitor {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lab-photo__screen {
+    display: grid;
+    align-content: start;
+    gap: var(--space-m);
+    flex: 1;
+    padding: clamp(1rem, 0.5rem + 1.5vw, 1.75rem);
+  }
+
+  .lab-photo__viewfinder {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background:
+      radial-gradient(60% 60% at 50% 50%, color-mix(in srgb, var(--color-glow) 10%, transparent), transparent 75%),
+      var(--color-bg-sunken);
+  }
+
+  .lab-photo__preview {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lab-photo__idle {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-m);
+    text-align: center;
+  }
+
+  .lab-photo__cross {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: var(--space-2xs);
+    fill: none;
+    stroke: var(--color-green-ink);
+    stroke-width: 1;
+    filter: var(--filter-glow);
+  }
+
+  .lab-photo__idle-hint {
+    max-width: 32ch;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .lab-photo__corner {
+    position: absolute;
+    width: var(--space-m);
+    height: var(--space-m);
+    border: 0 solid var(--color-green-ink);
+    filter: var(--filter-glow);
+    pointer-events: none;
+  }
+
+  .lab-photo__corner--tl {
+    top: var(--space-xs);
+    left: var(--space-xs);
+    border-top-width: var(--border-thick);
+    border-left-width: var(--border-thick);
+  }
+
+  .lab-photo__corner--tr {
+    top: var(--space-xs);
+    right: var(--space-xs);
+    border-top-width: var(--border-thick);
+    border-right-width: var(--border-thick);
+  }
+
+  .lab-photo__corner--bl {
+    bottom: var(--space-xs);
+    left: var(--space-xs);
+    border-bottom-width: var(--border-thick);
+    border-left-width: var(--border-thick);
+  }
+
+  .lab-photo__corner--br {
+    bottom: var(--space-xs);
+    right: var(--space-xs);
+    border-bottom-width: var(--border-thick);
+    border-right-width: var(--border-thick);
+  }
+
+  .lab-photo__scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 12%;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-glow) 45%, transparent) 85%, var(--color-glow));
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  [data-state='working'] .lab-photo__scan {
+    opacity: 0.7;
+  }
+
+  [data-state='working'] .lab-photo__preview {
+    filter: saturate(0.6) brightness(0.8);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-state='working'] .lab-photo__scan {
+      animation: lab-scan var(--dur-draw) var(--ease-in-out) infinite alternate;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-state='working'] .lab-photo__scan {
+      top: 44%;
+    }
+  }
+
+  .lab-photo__working {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .lab-photo__working-foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .lab-photo__readout {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .lab-photo__readout > .lab-mono:not(:first-child) {
+    margin-top: var(--space-xs);
+  }
+
+  .lab-photo__mood {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: calc(var(--fs-2xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: var(--lh-heading);
+    color: var(--color-emphasis);
+    text-shadow: 0 0 24px color-mix(in srgb, var(--color-glow) 30%, transparent);
+  }
+
+  .lab-photo__mood:lang(ka) {
+    font-style: normal;
+  }
+
+  .lab-photo__see {
+    max-width: var(--layout-measure);
+    color: var(--color-text-body);
+  }
+
+  .lab-photo__message {
+    color: var(--color-amber);
+  }
+
+  /* ── results ── */
+  .lab-photo__results {
+    margin-top: var(--space-2xl);
+  }
+
+  .lab-photo__results-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-l);
+    padding-top: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+    margin-bottom: var(--space-l);
+  }
+
+  .lab-photo__results-title {
+    font-size: calc(var(--fs-2xl) * var(--fs-scale, 1));
+  }
+
+  .lab-photo__results-head :global(.lab-notice) {
+    max-width: 60ch;
+  }
+
+  .lab-photo__matches {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--layout-gap);
+    margin: 0;
+  }
+
+  .lab-photo__matches :global(.lab-match) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-bg-raised) 80%, transparent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-photo__matches :global(.lab-match) {
+      animation: lab-rise var(--dur-slow) var(--ease-out) both;
+      animation-delay: calc(var(--i, 0) * var(--dur-stagger) * 1.5);
+    }
+  }
+
+  .lab-photo__matches :global(.lab-match__media) {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-bg-sunken);
+  }
+
+  .lab-photo__matches :global(.lab-match__media img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lab-photo__matches :global(.lab-match__media .lab-map) {
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .lab-photo__matches :global(.lab-match__body) {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xs);
+    padding: var(--space-m);
+  }
+
+  .lab-photo__matches :global(.lab-match__meta) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+  }
+
+  .lab-photo__matches :global(.lab-match__title) {
+    font-size: calc(var(--fs-xl) * var(--fs-scale, 1));
+  }
+
+  .lab-photo__matches :global(.lab-match__place) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    color: var(--color-green-ink);
+  }
+
+  .lab-photo__matches :global(.lab-match__why) {
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+  }
+
+  .lab-photo__foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-m) var(--space-xl);
+    margin-top: var(--space-l);
+    padding: var(--space-m);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+  }
+
+  .lab-photo__tip {
+    display: grid;
+    gap: var(--space-3xs);
+    max-width: var(--layout-measure);
+    color: var(--color-text-body);
+  }
+
+  .lab-photo__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  @media (max-width: 63.99em) {
+    .lab-photo__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-photo__matches {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-photo__matches :global(.lab-match) {
+      flex-direction: row;
+    }
+
+    .lab-photo__matches :global(.lab-match__media) {
+      flex: 0 0 38%;
+      aspect-ratio: auto;
+      min-height: 12rem;
+    }
+
+    .lab-photo__foot {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .lab-photo__matches :global(.lab-match) {
+      flex-direction: column;
+    }
+
+    .lab-photo__matches :global(.lab-match__media) {
+      flex: none;
+      aspect-ratio: 4 / 3;
+      min-height: 0;
+    }
+
+    .lab-photo__samples {
+      gap: var(--space-2xs);
+    }
+
+    .lab-sample__label {
+      font-size: var(--fs-3xs);
+    }
+  }
+</style>

@@ -1,0 +1,42 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Pytania o polityki",
+  "title": "Zapytaj nasze polityki — *zobacz źródło.*",
+  "intro": "Pytaj o zrównoważony rozwój, wycieczki, hotele czy zasady dla partnerów. Claude odpowiada wyłącznie na podstawie naszych pięciu dokumentów i przytacza dokładny fragment przy każdym stwierdzeniu.",
+  "library": {
+    "title": "Biblioteka",
+    "text": "Pięć dokumentów, które czyta AI. Otwórz dowolny.",
+    "pdf": "PDF",
+    "lang": "po angielsku"
+  },
+  "suggested": {
+    "title": "Wypróbuj pytanie",
+    "questions": {
+      "footprint": "Jak ograniczacie swój wpływ na środowisko?",
+      "animals": "Czy w programach są atrakcje ze zwierzętami?",
+      "hotels": "Jak wybieracie hotele?",
+      "rights": "Jak chronicie prawa dzieci i pracowników?"
+    }
+  },
+  "composer": {
+    "label": "Twoje pytanie",
+    "placeholder": "np. Czy współpracujecie z lokalnymi przewodnikami?",
+    "submit": "Zapytaj",
+    "count": "{n} / {max}",
+    "newChat": "Nowa rozmowa",
+    "memory": "Pytania uzupełniające pamiętają trzy ostatnie wymiany."
+  },
+  "chat": {
+    "label": "Rozmowa",
+    "you": "Ty",
+    "ai": "Polityki Local Host",
+    "working": "Czytamy polityki…",
+    "empty": "Tu pojawi się rozmowa. Każda odpowiedź ma swoje źródła.",
+    "sources": "Źródła",
+    "source": "Źródło {n}",
+    "noSources": "Brak cytatu — być może nasze polityki nie obejmują tego pytania. Nasz zespół chętnie odpowie: info@localhost.ge.",
+    "englishNote": "Odpowiedzi demo są przygotowane po angielsku.",
+    "otherQuestion": "Zapytano o coś innego — to przygotowana odpowiedź na: „{q}”",
+    "generic": "Ta przygotowana odpowiedź demo jest ogólna. Po podłączeniu AI Claude odpowie dokładnie na Twoje pytanie."
+  }
+}

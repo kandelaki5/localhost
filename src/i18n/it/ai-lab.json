@@ -2,75 +2,105 @@
   "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
   "meta": {
     "title": "AI Lab",
-    "description": "Sette esperimenti di ospitalità assistita dall’AI di Local Host: progettista di viaggi, concierge vocale, abbinamento foto, proposte per agenzie, risposte sulle politiche, smistamento delle richieste e connettore AI."
+    "description": "Prova gli esperimenti AI di Local Host, realizzati con Claude di Anthropic: progettista di viaggi con la voce, abbinamento foto, proposte per agenzie, risposte dalle nostre politiche, smistamento delle email per il team e un connettore per il tuo assistente AI."
   },
-  "kicker": "Esperimenti di ospitalità",
-  "title": "Local Host *AI Lab*",
-  "lead": "Qui sperimentiamo come l’AI può aiutarci a ospitare meglio — i viaggiatori che sognano il Caucaso, le agenzie che ce li affidano e il nostro team a Tbilisi. Ogni strumento passa la parola a una persona vera di Local Host.",
-  "note": "Sperimentale. Le risposte sono bozze — ogni dettaglio viene confermato dal nostro team.",
-  "cardsLabel": "Sette esperimenti",
-  "status": {
-    "soon": "In officina",
-    "live": "Provalo",
-    "staff": "Per il nostro team"
+  "hero": {
+    "kicker": "Local Host · AI Lab",
+    "title": "Local Host *AI Lab*",
+    "lead": "Sei esperimenti funzionanti di ospitalità assistita dall’AI — e alla fine di ogni risposta c’è una persona vera a Tbilisi.",
+    "note": "Sperimentale. Le risposte sono bozze — ogni dettaglio viene confermato dal nostro team.",
+    "cta": "Inizia da una foto",
+    "back": "Torna alla home"
+  },
+  "console": {
+    "label": "Stato dell’AI Lab",
+    "title": "Local Host · AI Lab",
+    "coords": "TBS 41°43′N 44°47′E",
+    "system": "Sistema",
+    "online": "Online",
+    "model": "Modello",
+    "modelValue": "Claude · Anthropic",
+    "mode": "Modalità",
+    "demo": "Demo",
+    "live": "Live",
+    "demoNote": "Modalità demo — risposte di esempio finché la chiave AI non è collegata.",
+    "liveNote": "Live — Claude scrive ogni risposta per la tua richiesta.",
+    "index": "Esperimenti",
+    "ready": "Pronto",
+    "staff": "Staff"
   },
   "audience": {
-    "travellers": "Viaggiatori",
-    "agencies": "Agenzie",
-    "staff": "Staff",
-    "developers": "Sviluppatori"
+    "travellers": "Per i viaggiatori",
+    "agencies": "Per le agenzie",
+    "staff": "Strumento interno",
+    "developers": "Per assistenti AI"
   },
-  "cards": [
-    {
-      "id": "trip-designer",
-      "icon": "sparkle",
-      "audience": "travellers",
-      "title": "Progettista di viaggi",
-      "text": "Scegli paesi, interessi e mese, scrivi due righe — e guarda comparire una bozza di itinerario giorno per giorno, pronta da inviare al nostro team."
-    },
-    {
-      "id": "voice-concierge",
-      "icon": "mic",
-      "audience": "travellers",
-      "title": "Concierge vocale",
-      "text": "Chiedi a voce di stagioni, regioni e tempi di percorrenza e ascolta la risposta nella tua lingua."
-    },
-    {
-      "id": "photo-match",
-      "icon": "image",
-      "audience": "travellers",
-      "title": "Abbinamento foto",
-      "text": "Mostraci un luogo che ami, ovunque nel mondo, e ti suggeriamo dove ritrovare la stessa atmosfera nel Caucaso."
-    },
-    {
-      "id": "proposal-builder",
-      "icon": "pdf",
-      "audience": "agencies",
-      "title": "Proposte per agenzie",
-      "text": "Trasforma il brief di un cliente in una proposta di programma strutturata, che la tua agenzia può adattare e quotare."
-    },
-    {
-      "id": "policy-qa",
-      "icon": "leaf",
-      "audience": "agencies",
-      "title": "Domande sulle politiche",
-      "text": "Fai una domanda sulle nostre politiche di sostenibilità, escursioni e strutture ricettive e ricevi una risposta con la fonte citata."
-    },
-    {
-      "id": "inquiry-triage",
-      "icon": "mail",
-      "audience": "staff",
-      "title": "Smistamento richieste",
-      "text": "Ordina le richieste in arrivo per paese, date e dimensione del gruppo e prepara una prima bozza di risposta che il nostro team verifica."
-    },
-    {
-      "id": "mcp",
-      "icon": "globe",
-      "audience": "developers",
-      "title": "Connettore AI (MCP)",
-      "text": "Un server Model Context Protocol con cui l’assistente AI di un partner può consultare le nostre esperienze, regioni e politiche."
-    }
-  ],
-  "cta": "Torna alla home",
-  "poweredBy": "Realizzato con Claude di Anthropic"
+  "teaser": {
+    "kicker": "Progettista di viaggi e voce",
+    "title": "Progetta un viaggio *a voce.*",
+    "intro": "Il nostro strumento principale è sulla home. Scegli paesi e interessi, scrivi — o di’ — due parole e guarda comparire sulla mappa una bozza giorno per giorno.",
+    "points": [
+      "Una bozza giorno per giorno, nella tua lingua",
+      "Racconta a voce i tuoi desideri e ascolta il piano",
+      "Invia la bozza al nostro team con un clic"
+    ],
+    "cta": "Apri il progettista di viaggi",
+    "mapCaption": "Un percorso di esempio — Tbilisi, Mtskheta, Ananuri, Kazbegi, Sighnaghi e Telavi.",
+    "voiceNote": "La voce funziona nei browser che supportano il riconoscimento vocale; la elabora il servizio vocale del tuo browser.",
+    "days": [
+      "Giorno 1 — Tbilisi",
+      "Giorno 2 — Mtskheta e Ananuri",
+      "Giorno 3 — Kazbegi",
+      "Giorno 4 — Sighnaghi e Telavi"
+    ],
+    "ticket": "Bozza di itinerario"
+  },
+  "how": {
+    "kicker": "Come funziona",
+    "title": "Bozze intelligenti, *risposte umane.*",
+    "items": [
+      {
+        "title": "Claude di Anthropic",
+        "text": "Ogni esperimento funziona con Claude, il modello AI di Anthropic, basato sulle esperienze, i luoghi e le politiche di Local Host."
+      },
+      {
+        "title": "Che cosa viene inviato",
+        "text": "Solo ciò che scrivi, la foto che scegli o l’email che incolli. Viene inviato ad Anthropic per scrivere la risposta; questo sito non lo conserva."
+      },
+      {
+        "title": "Niente prezzi, niente prenotazioni",
+        "text": "L’AI non indica mai prezzi, non blocca camere e non prenota nulla. Prezzi e disponibilità arrivano sempre dal nostro team."
+      },
+      {
+        "title": "Il nostro team conferma",
+        "text": "Ogni risposta è una bozza. Una persona di Local Host a Tbilisi controlla ogni dettaglio prima che si concordi qualcosa."
+      }
+    ],
+    "contact": "Domande sull’AI Lab? Scrivici a"
+  },
+  "ui": {
+    "demoBadge": "Demo — risposta di esempio",
+    "liveBadge": "Live — scritto da Claude",
+    "cancel": "Annulla",
+    "cancelled": "Annullato.",
+    "elapsed": "{s} s",
+    "noScript": "Attiva JavaScript per provare questo esperimento.",
+    "copied": "Copiato",
+    "copyFailed": "Impossibile copiare — seleziona il testo a mano.",
+    "newTab": "si apre in una nuova scheda"
+  },
+  "errors": {
+    "network": "Non riusciamo a raggiungere il servizio AI. Controlla la connessione e riprova.",
+    "rateLimited": "Troppe richieste in poco tempo. Puoi riprovare tra {time}.",
+    "rateLimitedNow": "Ora puoi riprovare.",
+    "dailyCap": "L’AI Lab ha raggiunto il limite di oggi. Riprova domani — oppure scrivi a info@localhost.ge.",
+    "refusal": "L’AI non può aiutarti con questa richiesta. Prova a riformularla oppure scrivi al nostro team a info@localhost.ge.",
+    "truncated": "La risposta è diventata troppo lunga ed è stata interrotta. Prova una richiesta più semplice.",
+    "timeout": "Ci è voluto troppo tempo. Prova una richiesta più breve.",
+    "busy": "Il servizio AI è occupato in questo momento. Riprova tra poco.",
+    "tooLarge": "È troppo grande da inviare. Prova con qualcosa di più breve o più piccolo.",
+    "badRequest": "Qualcosa nella richiesta non va. Controlla il modulo.",
+    "unauthorized": "Questo strumento richiede la chiave di accesso dello staff.",
+    "generic": "Qualcosa è andato storto da parte nostra. Riprova tra poco."
+  }
 }

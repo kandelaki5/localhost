@@ -1,0 +1,502 @@
+---
+/**
+ * The planner's map at night: the South Caucasus from src/data/caucasus-map.json
+ * (Natural Earth, same projection as lib/ai/places.ts → project()), a degree
+ * graticule, every known place as a faint "station", and the Local Host pin
+ * in Tbilisi. Rendered at build time so it is there before any JS; the route
+ * layer ([data-route]) is drawn at runtime by route-map.ts.
+ *
+ * Sizes inside the SVG are in "screen pixels × --u" (--u = viewBox units per
+ * CSS pixel, kept up to date by route-map.ts), so labels and markers keep
+ * their size while the map zooms.
+ */
+import type { Lang } from '../../../i18n';
+import { MAP_VIEWBOX } from '../../../lib/ai/places';
+import { OFFICE, graticule, nightMap, placeDots } from './data';
+
+interface Props {
+  lang: Lang;
+  t: {
+    label: string;
+    title: string;
+    idle: string;
+    office: string;
+    routeLabel: string;
+    credit: string;
+  };
+}
+
+const { lang, t } = Astro.props;
+const grat = graticule();
+---
+
+<div class="nmap" data-map-panel>
+  <div class="nmap__bar">
+    <span class="nmap__led" aria-hidden="true"></span>
+    <span class="nmap__label kicker">{t.label}</span>
+    <span class="nmap__status" data-map-status>{t.idle}</span>
+  </div>
+
+  <div class="nmap__frame">
+    <svg class="nmap__svg" viewBox={MAP_VIEWBOX} role="img" aria-labelledby="plan-map-title" data-map>
+      <title id="plan-map-title" data-map-title>{t.title}</title>
+      <rect class="nmap__sea" x="-60" y="-60" width="1120" height="800"></rect>
+      <g class="nmap__grat" aria-hidden="true">
+        {grat.map((g) => <path d={g.d} />)}
+      </g>
+      <path class="nmap__land" d={nightMap.land}></path>
+      <g class="nmap__countries">
+        {nightMap.countries.map((c) => <path class="nmap__country" data-country={c.code} d={c.d} />)}
+      </g>
+      {nightMap.lakes.map((l) => <path class="nmap__lake" d={l.d} />)}
+
+      <g class="nmap__labels" aria-hidden="true">
+        {
+          nightMap.seas.map((s) => (
+            <text class="nmap__sea-label" x={s.x} y={s.y}>
+              {s.names[lang]}
+            </text>
+          ))
+        }
+        {
+          nightMap.neighbours.map((n) => (
+            <text class="nmap__neighbour" x={n.label.x} y={n.label.y}>
+              {n.names[lang]}
+            </text>
+          ))
+        }
+        {
+          nightMap.countries.map((c) => (
+            <text class="nmap__country-label" data-country-label={c.code} x={c.label.x} y={c.label.y}>
+              {c.names[lang]}
+            </text>
+          ))
+        }
+        {
+          grat.map((g) => (
+            <text class:list={['nmap__grat-label', `nmap__grat-label--${g.axis}`]} x={g.x} y={g.y}>
+              {g.label}
+            </text>
+          ))
+        }
+      </g>
+
+      <g class="nmap__dots" aria-hidden="true">
+        {placeDots.map((p) => <circle class="nmap__dot" data-country={p.country} data-place={p.id} cx={p.x} cy={p.y} r="2.6" />)}
+      </g>
+
+      <g class="nmap__office" style={`transform: translate(${OFFICE.x}px, ${OFFICE.y}px) scale(var(--u, 1.6))`} aria-hidden="true">
+        <circle class="nmap__office-pulse" r="5"></circle>
+        <circle class="nmap__office-dot" r="4.5"></circle>
+        <text class="nmap__office-label" x="9" y="-8">{t.office}</text>
+      </g>
+
+      <g class="nmap__route" data-route></g>
+    </svg>
+
+    <span class="nmap__corner nmap__corner--tl" aria-hidden="true"></span>
+    <span class="nmap__corner nmap__corner--tr" aria-hidden="true"></span>
+    <span class="nmap__corner nmap__corner--bl" aria-hidden="true"></span>
+    <span class="nmap__corner nmap__corner--br" aria-hidden="true"></span>
+    <span class="nmap__scan" aria-hidden="true"></span>
+  </div>
+
+  <div class="nmap__foot">
+    <ol class="nmap__list" data-route-list aria-label={t.routeLabel} hidden></ol>
+    <p class="nmap__credit">{t.credit}</p>
+  </div>
+</div>
+
+<style>
+  .nmap {
+    --u: 1.6;
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .nmap__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: 1.5rem;
+  }
+
+  .nmap__led {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-round);
+    background: color-mix(in srgb, var(--color-led) 35%, transparent);
+    flex: none;
+  }
+
+  :global([data-map-state='drawing']) .nmap__led,
+  :global([data-map-state='done']) .nmap__led {
+    background: var(--color-led);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .nmap__label {
+    color: var(--color-text);
+  }
+
+  .nmap__status {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+    text-align: end;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .nmap__frame {
+    position: relative;
+    overflow: hidden;
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-sunken);
+    box-shadow: var(--shadow-board);
+  }
+
+  .nmap__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1000 / 675.3;
+  }
+
+  .nmap__sea {
+    fill: var(--color-bg-sunken);
+  }
+
+  .nmap__grat path {
+    fill: none;
+    stroke: var(--color-night-grid);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .nmap__land {
+    fill: color-mix(in srgb, var(--color-bg-raised) 80%, var(--color-bg-sunken));
+    stroke: var(--color-rule);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .nmap__country {
+    fill: color-mix(in srgb, var(--color-green-ink) 5%, var(--color-bg-raised));
+    stroke: color-mix(in srgb, var(--color-green-ink) 38%, transparent);
+    stroke-width: 1;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    transition:
+      fill var(--dur-base) var(--ease-out),
+      stroke var(--dur-base) var(--ease-out);
+  }
+
+  .nmap__country:global(.is-on) {
+    fill: color-mix(in srgb, var(--color-green-ink) 14%, var(--color-bg-raised));
+    stroke: color-mix(in srgb, var(--color-green-ink) 85%, transparent);
+  }
+
+  .nmap__lake {
+    fill: var(--color-bg-sunken);
+    stroke: var(--color-rule);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .nmap__labels text {
+    font-family: var(--font-text);
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: var(--color-bg-sunken);
+    stroke-width: calc(3px * var(--u));
+    stroke-linejoin: round;
+  }
+
+  .nmap__sea-label {
+    font-family: var(--font-display) !important;
+    font-style: italic;
+    font-size: calc(12px * var(--u));
+    fill: var(--color-text-muted);
+    stroke: none !important;
+  }
+
+  .nmap__sea-label:lang(ka) {
+    font-style: normal;
+  }
+
+  .nmap__neighbour {
+    font-size: calc(9.5px * var(--u));
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    fill: color-mix(in srgb, var(--color-text-muted) 70%, transparent);
+  }
+
+  .nmap__country-label {
+    font-size: calc(10.5px * var(--u));
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    fill: var(--color-text-muted);
+    transition: fill var(--dur-base) var(--ease-out);
+  }
+
+  .nmap__country-label:global(.is-on) {
+    fill: var(--color-green-ink);
+  }
+
+  .nmap__grat-label {
+    font-family: var(--font-mono) !important;
+    font-size: calc(9px * var(--u));
+    letter-spacing: var(--tracking-mono);
+    fill: color-mix(in srgb, var(--color-text-muted) 55%, transparent);
+    stroke: none !important;
+  }
+
+  .nmap__grat-label--lat {
+    text-anchor: start !important;
+  }
+
+  .nmap__dot {
+    r: calc(2px * var(--u));
+    fill: color-mix(in srgb, var(--color-text) 22%, transparent);
+    transition: fill var(--dur-base) var(--ease-out);
+  }
+
+  .nmap__dot:global(.is-on) {
+    fill: color-mix(in srgb, var(--color-green-ink) 70%, transparent);
+  }
+
+  .nmap__office-dot {
+    fill: var(--color-accent);
+    filter: var(--filter-glow-red);
+  }
+
+  .nmap__office-pulse {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 1.5;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .nmap__office-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-mono);
+    fill: var(--color-red-ink);
+    paint-order: stroke;
+    stroke: var(--color-bg-sunken);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+
+  :global([data-map-state='drawing']) .nmap__office-label,
+  :global([data-map-state='done']) .nmap__office-label {
+    opacity: 0;
+  }
+
+  /* HUD corner brackets */
+  .nmap__corner {
+    position: absolute;
+    width: 0.875rem;
+    height: 0.875rem;
+    border: 0 solid color-mix(in srgb, var(--color-green-ink) 70%, transparent);
+    pointer-events: none;
+  }
+
+  .nmap__corner--tl {
+    top: var(--space-2xs);
+    left: var(--space-2xs);
+    border-top-width: var(--border-thin);
+    border-left-width: var(--border-thin);
+  }
+
+  .nmap__corner--tr {
+    top: var(--space-2xs);
+    right: var(--space-2xs);
+    border-top-width: var(--border-thin);
+    border-right-width: var(--border-thin);
+  }
+
+  .nmap__corner--bl {
+    bottom: var(--space-2xs);
+    left: var(--space-2xs);
+    border-bottom-width: var(--border-thin);
+    border-left-width: var(--border-thin);
+  }
+
+  .nmap__corner--br {
+    bottom: var(--space-2xs);
+    right: var(--space-2xs);
+    border-bottom-width: var(--border-thin);
+    border-right-width: var(--border-thin);
+  }
+
+  .nmap__scan {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--color-glow) 10%, transparent) 48%, color-mix(in srgb, var(--color-glow) 32%, transparent) 50%, transparent 52%);
+    background-size: 100% 220%;
+  }
+
+  .nmap__foot {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .nmap__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-2xs);
+    margin: 0;
+    font-size: var(--fs-xs);
+    color: var(--color-text-body);
+  }
+
+  .nmap__list :global(li) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .nmap__list :global(li:not(:last-child))::after {
+    content: '→';
+    margin-left: 0.15rem;
+    color: var(--color-text-muted);
+  }
+
+  .nmap__list :global(.nmap__n) {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.25rem;
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-glow) 70%, transparent);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    color: var(--color-text);
+  }
+
+  .nmap__credit {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: color-mix(in srgb, var(--color-text-muted) 80%, transparent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nmap__office-pulse {
+      animation: nmap-pulse 2.4s var(--ease-out) infinite;
+    }
+
+    :global([data-map-state='drawing']) .nmap__scan {
+      opacity: 1;
+      animation: nmap-scan 2.8s linear infinite;
+    }
+  }
+
+  @keyframes nmap-pulse {
+    0% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(3.2);
+    }
+  }
+
+  @keyframes nmap-scan {
+    from {
+      background-position: 0 120%;
+    }
+    to {
+      background-position: 0 -20%;
+    }
+  }
+
+  /* ── runtime route layer (created by route-map.ts) ── */
+  .nmap__route :global(.rseg) {
+    fill: none;
+    stroke: var(--color-glow);
+    stroke-width: calc(2.5px * var(--u));
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .nmap__route :global(.rsegs) {
+    filter: var(--filter-glow);
+  }
+
+  .nmap__route :global(.rstop__ring) {
+    fill: var(--color-bg-sunken);
+    stroke: var(--color-glow);
+    stroke-width: 1.75;
+  }
+
+  .nmap__route :global(.rstop__halo) {
+    fill: color-mix(in srgb, var(--color-glow) 22%, transparent);
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .nmap__route :global(.rstop__no) {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--fw-bold);
+    fill: var(--color-text);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  .nmap__route :global(.rstop__name) {
+    font-family: var(--font-text);
+    font-size: 11.5px;
+    font-weight: var(--fw-semibold);
+    fill: var(--color-text);
+    paint-order: stroke;
+    stroke: var(--color-bg-sunken);
+    stroke-width: 3.5px;
+    stroke-linejoin: round;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .nmap__route :global(.rstop__name[data-hidden]) {
+    opacity: 0;
+  }
+
+  .nmap__route :global(.rstop.is-hot .rstop__halo) {
+    opacity: 1;
+  }
+
+  .nmap__route :global(.rstop.is-hot .rstop__ring) {
+    fill: var(--color-glow);
+  }
+
+  .nmap__route :global(.rstop.is-hot .rstop__no) {
+    fill: var(--color-bg-sunken);
+  }
+
+  .nmap__route :global(.rstop.is-hot .rstop__name) {
+    opacity: 1;
+  }
+
+  .nmap__route :global(.rstop.is-dim) {
+    opacity: 0.45;
+  }
+</style>

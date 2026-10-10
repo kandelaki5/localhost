@@ -1,0 +1,23 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Auszeichnungen",
+  "title": "Anerkannt *im eigenen Land.*",
+  "intro": "Nominierungen bei Georgiens nationalen Tourismuspreisen – im Abstand von zehn Jahren.",
+  "running": "Welcome to Georgia!",
+  "programme": {
+    "kicker": "Die Preise",
+    "text": "Georgiens nationale Tourismuspreise, seit 2015 jedes Jahr vergeben.",
+    "link": "offizielle Website"
+  },
+  "nominee": "Nominiert",
+  "listLabel": "Nominierungen",
+  "items": {
+    "fastest-growing-2016": {
+      "category": "Am schnellsten wachsendes Unternehmen des Jahres",
+      "detail": "KMU-Segment"
+    },
+    "inbound-2026": {
+      "category": "Incoming-Reiseveranstalter des Jahres"
+    }
+  }
+}

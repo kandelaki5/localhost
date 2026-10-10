@@ -50,7 +50,6 @@
     "subject": "Subject",
     "copy": "Copy reply",
     "open": "Open in email",
-    "notMentioned": "—",
     "fields": {
       "travelDates": "Travel dates",
       "groupSize": "Group size",

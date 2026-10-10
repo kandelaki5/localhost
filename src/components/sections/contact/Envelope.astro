@@ -1,0 +1,323 @@
+---
+/**
+ * The contact illustration: an airmail envelope addressed to the office,
+ * with a perforated stamp (Georgia's real outline from the shared map data,
+ * the sun-pin on Tbilisi), a round postmark for post code 0159 and wavy
+ * cancellation lines. A typographic address card — deliberately not a street
+ * map: no tiles, no embeds, no invented geography.
+ */
+import Stamp from '../../ui/Stamp.astro';
+import Seal from '../../ui/Seal.astro';
+import { countryOutline, OFFICE } from '../plan/data';
+
+interface Props {
+  t: {
+    label: string;
+    airmail: string;
+    airmailSub: string;
+    from: string;
+    fromText: string;
+    to: string;
+    company: string;
+    country: string;
+  };
+  addressLines: readonly string[];
+  /** Georgian name of the country for the stamp. */
+  stampName: string;
+}
+
+const { t, addressLines, stampName } = Astro.props;
+const georgia = countryOutline('GE');
+// countryOutline() re-origins the shape at its bounding box; move the Tbilisi point the same way.
+const pin = { x: OFFICE.x - georgia.origin[0], y: OFFICE.y - georgia.origin[1] };
+---
+
+<div class="env" role="img" aria-label={t.label}>
+  <div class="env__paper">
+    <div class="env__top">
+      <p class="env__airmail">
+        <span class="env__airmail-main" lang="fr">{t.airmail}</span>
+        <span class="env__airmail-sub">{t.airmailSub}</span>
+      </p>
+
+      <div class="env__franking">
+        <svg class="env__cancel" viewBox="0 0 180 60" aria-hidden="true" focusable="false">
+          <path d="M0 12c9-6 18-6 27 0s18 6 27 0 18-6 27 0 18 6 27 0 18-6 27 0 18 6 27 0M0 24c9-6 18-6 27 0s18 6 27 0 18-6 27 0 18 6 27 0 18-6 27 0 18 6 27 0M0 36c9-6 18-6 27 0s18 6 27 0 18-6 27 0 18 6 27 0 18-6 27 0 18 6 27 0M0 48c9-6 18-6 27 0s18 6 27 0 18-6 27 0 18 6 27 0 18-6 27 0 18 6 27 0" />
+        </svg>
+        <Seal
+          class="env__postmark"
+          ring="LOCAL HOST • A. BAKRADZE 7 • TBILISI •"
+          top="Tbilisi"
+          main="0159"
+          bottom="GE"
+          rotate={-2}
+          size="6.25rem"
+        />
+        <Stamp tint="red" rotate={1.5} perf="4px" pad="6px" class="env__stamp">
+          <span class="env__stamp-face">
+            <svg class="env__stamp-map" viewBox={georgia.viewBox} aria-hidden="true" focusable="false">
+              <path class="env__stamp-land" d={georgia.d} />
+              <circle class="env__stamp-glow" cx={pin.x} cy={pin.y} r="34" />
+              <circle class="env__stamp-sun" cx={pin.x} cy={pin.y} r="17" />
+            </svg>
+            <span class="env__stamp-name" lang="ka">{stampName}</span>
+            <span class="env__stamp-value">LH · 12</span>
+          </span>
+        </Stamp>
+      </div>
+    </div>
+
+    <div class="env__from">
+      <span class="env__label">{t.from}</span>
+      <span class="env__hand">{t.fromText}</span>
+    </div>
+
+    <div class="env__to">
+      <span class="env__label">{t.to}</span>
+      <p class="env__address">
+        <span class="env__line env__line--name">{t.company}</span>
+        {addressLines.map((line) => <span class="env__line">{line}</span>)}
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .env {
+    --airmail: 0.6rem;
+    position: relative;
+    padding: var(--airmail);
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--color-accent) 0 1rem,
+      var(--color-bg-raised) 1rem 1.6rem,
+      var(--color-brand-green) 1.6rem 2.6rem,
+      var(--color-bg-raised) 2.6rem 3.2rem
+    );
+    box-shadow: var(--shadow-lg);
+    transform: rotate(-1.25deg);
+  }
+
+  .env__paper {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    grid-template-areas:
+      'top top'
+      'from to';
+    row-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+    column-gap: var(--space-l);
+    padding: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
+    background-color: var(--color-bg-raised);
+    background-image: var(--texture-paper);
+  }
+
+  .env__top {
+    grid-area: top;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-m);
+  }
+
+  .env__airmail {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.45rem 0.75rem 0.5rem;
+    border: var(--border-thin) solid var(--color-green-ink);
+    border-radius: var(--radius-xs);
+    color: var(--color-green-ink);
+    transform: rotate(-1deg);
+  }
+
+  .env__airmail-main {
+    font-family: var(--font-text);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-caps-wide);
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .env__airmail-sub {
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+  }
+
+  /* stamp + postmark + cancellation, top right */
+  .env__franking {
+    position: relative;
+    flex: none;
+    width: 7rem;
+    margin-right: var(--space-2xs);
+  }
+
+  .env__franking :global(.env__stamp) {
+    position: relative;
+    z-index: var(--z-raised);
+  }
+
+  .env__stamp-face {
+    display: grid;
+    justify-items: center;
+    gap: 0.2rem;
+    padding: 0.45rem 0.3rem 0.35rem;
+  }
+
+  .env__stamp-map {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .env__stamp-land {
+    fill: color-mix(in srgb, var(--color-green-deco) 22%, transparent);
+    stroke: var(--color-green-ink);
+    stroke-width: 1.25;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .env__stamp-glow {
+    fill: color-mix(in srgb, var(--color-accent) 22%, transparent);
+  }
+
+  .env__stamp-sun {
+    fill: var(--color-accent);
+  }
+
+  .env__stamp-name {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-ka-text);
+    color: var(--color-text);
+  }
+
+  .env__stamp-value {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-red-ink);
+  }
+
+  .env__franking :global(.env__postmark) {
+    position: absolute;
+    z-index: var(--z-seal);
+    left: -3.4rem;
+    top: 2.6rem;
+    opacity: 0.88;
+  }
+
+  .env__cancel {
+    position: absolute;
+    left: -11rem;
+    top: 3.6rem;
+    width: 9rem;
+    height: auto;
+    fill: none;
+    stroke: var(--color-text);
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: 0.55;
+    -webkit-mask-image: var(--texture-ink);
+    mask-image: var(--texture-ink);
+    -webkit-mask-size: 140px;
+    mask-size: 140px;
+  }
+
+  /* from / to */
+  .env__label {
+    display: block;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .env__from {
+    grid-area: from;
+    align-self: end;
+  }
+
+  .env__hand {
+    display: block;
+    margin-top: 0.35rem;
+    padding-bottom: 0.25rem;
+    border-bottom: var(--border-hair) dashed var(--color-rule-strong);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-md);
+    font-variation-settings: var(--fvs-accent);
+    color: var(--color-text-muted);
+  }
+
+  .env__hand:lang(ka) {
+    font-style: normal;
+  }
+
+  .env__to {
+    grid-area: to;
+    align-self: end;
+  }
+
+  .env__address {
+    display: grid;
+    margin-top: 0.35rem;
+  }
+
+  .env__line {
+    padding: 0.2rem 0 0.15rem;
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: 1.25;
+    color: var(--color-text);
+  }
+
+  .env__line:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-size: var(--fs-lg);
+  }
+
+  .env__line--name {
+    font-style: normal;
+    font-variation-settings: var(--fvs-heading);
+  }
+
+  @media (max-width: 39.99em) {
+    .env {
+      --airmail: 0.45rem;
+      transform: rotate(-0.75deg);
+    }
+
+    .env__paper {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'top'
+        'to'
+        'from';
+      row-gap: var(--space-l);
+    }
+
+    .env__franking {
+      width: 5.5rem;
+    }
+
+    .env__franking :global(.env__postmark) {
+      --seal-size: 5rem;
+      left: -2.6rem;
+      top: 2.4rem;
+    }
+
+    .env__cancel {
+      display: none;
+    }
+  }
+</style>

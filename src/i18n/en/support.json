@@ -1,6 +1,37 @@
 {
-  "kicker": "What we stand behind",
-  "title": "Five promises *we keep.*",
-  "intro": "Five commitments from our own sustainability policy. Partner projects will be announced here.",
-  "running": "Commitments"
+  "kicker": "We support",
+  "title": "What we *stand behind.*",
+  "intro": "Five commitments from our own policies: the people, places and principles every one of our journeys depends on.",
+  "running": "From our policies",
+  "listLabel": "Five commitments",
+  "items": [
+    {
+      "title": "Local families and hosts",
+      "text": "We build trips around the families who welcome our guests, and give preference to local food, goods and services.",
+      "ring": "SUSTAINABILITY POLICY • LOCAL COMMUNITIES •"
+    },
+    {
+      "title": "Nature and protected areas",
+      "text": "We promote excursions that support local nature, follow the rules of protected areas, and favour lesser-known places over crowded ones.",
+      "ring": "EXCURSION POLICY • ENVIRONMENT & BIODIVERSITY •"
+    },
+    {
+      "title": "Heritage and customs",
+      "text": "We respect local customs and traditions, include museums and craft workshops, and rule out illegal souvenirs and artefacts.",
+      "ring": "EXCURSION POLICY • CULTURE & HERITAGE •"
+    },
+    {
+      "title": "Fair work",
+      "text": "Written contracts and pay above the official average for our team. Every partner must pay at least a living wage or the national minimum wage.",
+      "ring": "SUSTAINABILITY POLICY • HUMAN RIGHTS •"
+    },
+    {
+      "title": "Protecting children",
+      "text": "Every partner must keep children safe from labour and sexual exploitation and follow the Child-Protection Code — or the partnership ends.",
+      "ring": "PARTNER POLICIES • RIGHTS OF CHILDREN •"
+    }
+  ],
+  "projects": {
+    "text": "Partner projects will be announced here."
+  }
 }

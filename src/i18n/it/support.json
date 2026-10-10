@@ -1,0 +1,38 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Sosteniamo",
+  "title": "Ciò in cui *crediamo.*",
+  "intro": "Cinque impegni tratti dalle nostre politiche: le persone, i luoghi e i principi da cui dipende ogni nostro viaggio.",
+  "running": "Dalle nostre politiche",
+  "listLabel": "Cinque impegni",
+  "items": [
+    {
+      "title": "Famiglie e padroni di casa locali",
+      "text": "Costruiamo i viaggi attorno alle famiglie che accolgono i nostri ospiti e preferiamo cibo, prodotti e servizi locali.",
+      "ring": "POLITICA DI SOSTENIBILITÀ • COMUNITÀ LOCALI •"
+    },
+    {
+      "title": "Natura e aree protette",
+      "text": "Promuoviamo escursioni che sostengono la natura locale, rispettiamo le regole delle aree protette e preferiamo luoghi meno noti a quelli affollati.",
+      "ring": "POLITICA ESCURSIONI • AMBIENTE E BIODIVERSITÀ •"
+    },
+    {
+      "title": "Patrimonio e tradizioni",
+      "text": "Rispettiamo usi e tradizioni locali, includiamo musei e laboratori artigiani ed escludiamo souvenir e reperti illegali.",
+      "ring": "POLITICA ESCURSIONI • CULTURA E PATRIMONIO •"
+    },
+    {
+      "title": "Lavoro equo",
+      "text": "Contratti scritti e retribuzioni sopra la media ufficiale per il nostro team. Ogni partner deve pagare almeno un salario dignitoso o il salario minimo nazionale.",
+      "ring": "POLITICA DI SOSTENIBILITÀ • DIRITTI UMANI •"
+    },
+    {
+      "title": "Tutela dei minori",
+      "text": "Ogni partner deve proteggere i minori dal lavoro e dallo sfruttamento sessuale e seguire il Codice di condotta per la tutela dei minori, altrimenti la collaborazione finisce.",
+      "ring": "POLITICHE PER I PARTNER • DIRITTI DEI MINORI •"
+    }
+  ],
+  "projects": {
+    "text": "I progetti partner saranno annunciati qui."
+  }
+}

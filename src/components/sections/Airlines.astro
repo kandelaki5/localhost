@@ -1,23 +1,615 @@
 ---
 /**
- * 04 · Airlines (#airlines) — STUB from the foundation.
- * Owned by the Airlines section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/airlines.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 04 · Airlines (#airlines) — a magazine index page: the twelve carriers as
+ * one justified block of large Fraunces type, alternating roman and italic,
+ * separated by small sun dots. Never logos.
+ *
+ * Each name is a disclosure button. Its superscript is the airport it flies
+ * to (like an index's page numbers); hovering, focusing or tapping it shows a
+ * caption with example routes — all checked against src/data/flights.json
+ * (see ./airlines/data.ts). The caption is also the button's description, so
+ * screen readers hear it on focus.
+ *
+ * Phones: the block becomes an index list with dotted leaders; a tap opens
+ * the caption under the name. No JS: hover/focus captions on desktop; the
+ * superscripts carry the essentials everywhere.
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
+import Icon from '../ui/Icon.astro';
 import { contentLang, getLang, useStrings } from '../../i18n';
+import { fmt, inline } from '../../lib/markup';
+import { wallEntries } from './airlines/data';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'airlines');
+const cities = useStrings(lang, 'connection').cities as Record<string, string>;
+const notes = t.caption.notes as Record<string, string | undefined>;
+const entries = wallEntries(cities);
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'airlines') === lang ? undefined : 'en';
 ---
 
-<section lang={textLang} id="airlines" class="section" aria-labelledby="airlines-title">
-  <div class="container">
+<section lang={textLang} id="airlines" class="section al" aria-labelledby="airlines-title">
+  <div class="container" data-al-root>
     <SectionHead number={4} id="airlines-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="type" count={12} note="Typography wall of twelve carriers — names set in type, never logos" />
+
+    <ul class="al__wall" role="list" aria-label={t.wallLabel} data-al-wall>
+      {
+        entries.map((e, i) => (
+          <>
+            <li class:list={['al__item', e.italic && 'al__item--italic']} style={`--i:${i}`} data-al-item>
+              <button
+                type="button"
+                class="al__name"
+                aria-expanded="false"
+                aria-controls={`al-cap-${e.id}`}
+                aria-describedby={`al-cap-${e.id}`}
+                data-al-toggle
+              >
+                <span class="al__word" lang="en">
+                  {e.label}
+                </span>
+                {e.group && (
+                  <span class="al__group" lang="en">
+                    <span class="al__group-dot" aria-hidden="true">· </span>
+                    {e.group}
+                  </span>
+                )}
+                <span class="al__leader" aria-hidden="true" />
+                <sup class="al__ports" aria-hidden="true">
+                  {e.groups.map((g) => (
+                    <span class:list={['al__port', `al__port--${g.airport.toLowerCase()}`]}>{g.airport}</span>
+                  ))}
+                </sup>
+                <Icon name="chevron" size={18} class="al__chev" />
+              </button>
+              {i < entries.length - 1 && (
+                <span class="al__sep" aria-hidden="true">
+                  {' '}
+                  <span class="al__dot" />
+                </span>
+              )}
+              <div class="al__cap" id={`al-cap-${e.id}`} data-al-cap>
+                <p class="al__cap-name" lang="en" data-same={e.full === e.label && !e.group ? '' : undefined}>
+                  {e.full}
+                  {e.group && <span class="visually-hidden">, </span>}
+                  {e.group && <span class="al__cap-group">{t.caption.group}</span>}
+                  <span class="visually-hidden">. </span>
+                </p>
+                {e.groups.map((g) => (
+                  <div class="al__cap-block">
+                    <p class="al__cap-to">
+                      <span class:list={['al__cap-code', `al__cap-code--${g.airport.toLowerCase()}`]}>{g.airport}</span>
+                      <span class="visually-hidden"> · </span>
+                      <span>{t.caption.to[g.airport]}</span>
+                      <span class="visually-hidden">: </span>
+                    </p>
+                    <ul class="al__routes" role="list">
+                      {g.routes.map((r, k) => (
+                        <li class="al__route">
+                          {cities[r.city] ?? r.city} <span class="al__route-code">{r.code}</span>
+                          {(k < g.routes.length - 1 || g.more > 0) && <span class="visually-hidden">, </span>}
+                        </li>
+                      ))}
+                      {g.more > 0 && <li class="al__route al__route--more">{fmt(t.caption.more, { count: g.more })}</li>}
+                    </ul>
+                    <span class="visually-hidden">. </span>
+                  </div>
+                ))}
+                {notes[e.id] && <p class="al__cap-note">{notes[e.id]}</p>}
+              </div>
+            </li>{' '}
+          </>
+        ))
+      }
+    </ul>
+
+    <div class="al__foot">
+      <p class="al__legend">
+        <span set:html={inline(t.legend)} />
+        <span class="al__hint">{t.hint}</span>
+      </p>
+      <a class="al__boards" href="#connection">
+        {t.boards}
+        <Icon name="arrow-down" size={14} />
+      </a>
+    </div>
   </div>
 </section>
+
+<script>
+  import { initAirlines } from './airlines/client';
+
+  const root = document.querySelector<HTMLElement>('#airlines [data-al-root]');
+  if (root) initAirlines(root);
+</script>
+
+<style>
+  /* ── the wall: one justified block (tablet and up) ── */
+  .al__wall {
+    margin: 0;
+    padding: clamp(1.5rem, 3vw, 2.75rem) 0 clamp(1.75rem, 3.4vw, 3.25rem);
+    border-top: var(--border-hair) solid var(--color-text);
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+    font-family: var(--font-display);
+    font-size: calc(var(--fs-4xl) * 0.88);
+    font-weight: var(--fw-display);
+    font-variation-settings: var(--fvs-display);
+    line-height: 1.22;
+    letter-spacing: var(--tracking-display);
+    text-align: justify;
+    text-align-last: justify;
+    text-wrap: balance;
+    /* hidden captions near the right edge must not widen the page */
+    overflow-x: clip;
+    overflow-clip-margin: var(--space-s);
+    color: var(--color-text);
+  }
+
+  .al__item {
+    display: inline;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .al__name {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-start;
+    padding: 0 0.05em;
+    border-radius: var(--radius-xs);
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    color: inherit;
+    text-align: inherit;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .al__word {
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 0.035em;
+    text-underline-offset: 0.14em;
+    transition: text-decoration-color var(--dur-fast) var(--ease-out);
+  }
+
+  .al__item--italic .al__word {
+    font-style: italic;
+    font-weight: var(--fw-accent);
+    font-variation-settings: var(--fvs-accent);
+    letter-spacing: calc(var(--tracking-display) - 0.008em);
+  }
+
+  /* "Air France–KLM" sits under "Transavia" (no descenders there), taking no width */
+  .al__group {
+    position: absolute;
+    bottom: 0;
+    left: 0.14em;
+    font-family: var(--font-text);
+    font-size: max(var(--fs-3xs), 0.14em);
+    font-style: normal;
+    font-weight: var(--fw-semibold);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .al__group-dot {
+    display: none;
+  }
+
+  .al__ports {
+    display: inline-flex;
+    gap: 0.4em;
+    margin: 0.42em 0 0 0.16em;
+    font-family: var(--font-mono);
+    font-size: max(var(--fs-3xs), 0.135em);
+    font-style: normal;
+    font-weight: var(--fw-semibold);
+    line-height: 1;
+    letter-spacing: var(--tracking-mono);
+    vertical-align: baseline;
+    color: var(--color-text-muted);
+  }
+
+  .al__item--italic .al__ports {
+    margin-left: 0.3em;
+  }
+
+  .al__port--kut {
+    color: var(--color-green-ink);
+  }
+
+  .al__leader,
+  .al__name :global(.al__chev) {
+    display: none;
+  }
+
+  .al__sep {
+    white-space: nowrap;
+  }
+
+  .al__dot {
+    display: inline-block;
+    width: 0.13em;
+    height: 0.13em;
+    margin-inline: 0.04em;
+    border-radius: var(--radius-round);
+    background: var(--gradient-sun);
+    vertical-align: 0.24em;
+  }
+
+  /* hover / focus: the others step back, the name gets a sun underline */
+  .al__wall:has(.al__name:hover, .al__name:focus-visible, .al__name[aria-expanded='true'])
+    .al__name:not(:hover, :focus-visible, [aria-expanded='true']) {
+    color: var(--color-text-muted);
+  }
+
+  .al__name:hover .al__word,
+  .al__name:focus-visible .al__word,
+  .al__name[aria-expanded='true'] .al__word {
+    text-decoration-color: var(--color-accent);
+  }
+
+  .al__name:focus-visible {
+    outline-offset: 0.08em;
+  }
+
+  /* the sun underline takes the group label's place */
+  .al__group {
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .al__name:is(:hover, :focus-visible, [aria-expanded='true']) .al__group {
+    opacity: 0;
+  }
+
+  /* ── caption (a small card under the name) ── */
+  .al__cap {
+    position: absolute;
+    z-index: var(--z-raised);
+    top: 100%;
+    left: 0;
+    width: max-content;
+    max-width: min(21rem, calc(100vw - 2 * var(--layout-gutter)));
+    margin-top: 0.15rem;
+    padding: var(--space-s) var(--space-m) var(--space-s) var(--space-s);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-top: var(--border-thick) solid var(--color-text);
+    background: var(--color-bg-raised);
+    box-shadow: var(--shadow-md);
+    font-family: var(--font-text);
+    font-size: var(--fs-sm);
+    font-style: normal;
+    font-weight: var(--fw-text);
+    font-variation-settings: normal;
+    line-height: 1.45;
+    letter-spacing: normal;
+    text-align: start;
+    text-align-last: auto;
+    white-space: normal;
+    color: var(--color-text-body);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.35rem);
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out),
+      visibility 0s linear var(--dur-fast);
+  }
+
+  /* bridge, so the pointer can travel from the name into the caption */
+  .al__cap::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 0.75rem;
+  }
+
+  .al__item[data-align='end'] .al__cap {
+    left: auto;
+    right: var(--cap-end, 0);
+  }
+
+  .al__item:hover .al__cap,
+  .al__item:has(> .al__name:focus-visible) .al__cap,
+  .al__item:has(> .al__name[aria-expanded='true']) .al__cap {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  /* Escape hides a hover/focus caption until the pointer or focus moves on */
+  .al__wall .al__item[data-dismissed] .al__cap {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .al__cap-name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: var(--space-2xs);
+    margin-bottom: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-style: italic;
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1.15;
+    color: var(--color-text);
+  }
+
+  .al__cap-group {
+    font-family: var(--font-text);
+    font-size: var(--fs-3xs);
+    font-style: normal;
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .al__cap-block + .al__cap-block {
+    margin-top: var(--space-xs);
+    padding-top: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .al__cap-to {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    margin-bottom: var(--space-3xs);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text);
+  }
+
+  .al__cap-code {
+    padding: 0.2em 0.45em;
+    border-radius: var(--radius-xs);
+    background: var(--color-text);
+    font-family: var(--font-mono);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-bg-raised);
+  }
+
+  .al__cap-code--kut {
+    background: var(--color-green-ink);
+  }
+
+  .al__routes {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-s);
+    row-gap: var(--space-3xs);
+    margin: 0;
+  }
+
+  .al__route {
+    white-space: nowrap;
+    color: var(--color-text);
+  }
+
+  .al__route-code {
+    margin-left: 0.15em;
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  .al__route--more {
+    color: var(--color-text-muted);
+  }
+
+  .al__cap-note {
+    margin-top: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-style: italic;
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text-muted);
+  }
+
+  .al__cap-note:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+  }
+
+  /* ── foot ── */
+  .al__foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-l);
+    row-gap: var(--space-2xs);
+    padding-top: var(--space-s);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .al__legend :global(strong) {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text);
+  }
+
+  .al__legend {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-l);
+    row-gap: var(--space-3xs);
+  }
+
+  .al__boards {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .al__boards:hover {
+    color: var(--color-link);
+  }
+
+  /* ── phones: an index list with dotted leaders; tap opens the caption ── */
+  @media (max-width: 39.99em) {
+    .al__wall {
+      padding-block: var(--space-2xs) 0;
+      border-bottom: 0;
+      font-size: calc(var(--fs-3xl) * 1.04);
+      font-weight: var(--fw-display-m);
+      line-height: 1.1;
+      text-align: start;
+      text-align-last: auto;
+    }
+
+    .al__item {
+      display: block;
+      white-space: normal;
+      border-bottom: var(--border-hair) solid var(--color-rule);
+    }
+
+    .al__name {
+      display: flex;
+      align-items: baseline;
+      width: 100%;
+      min-height: 2.75rem;
+      padding: 0.3em 0 0.22em;
+    }
+
+    .al__word {
+      flex: none;
+    }
+
+    .al__item--italic .al__word {
+      font-weight: var(--fw-display-m);
+    }
+
+    .al__group {
+      position: static;
+      align-self: auto;
+      margin-left: 0.4em;
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.08em;
+    }
+
+    .al__group-dot {
+      display: inline;
+    }
+
+    .al__wall {
+      overflow-x: visible;
+    }
+
+    .al__leader {
+      display: block;
+      flex: 1 1 1rem;
+      min-width: 1rem;
+      margin: 0 0.5rem;
+      border-bottom: 0.125rem dotted var(--color-rule-strong);
+      transform: translateY(-0.28em);
+    }
+
+    .al__ports {
+      flex: none;
+      margin: 0;
+      font-size: var(--fs-2xs);
+    }
+
+    .al__name :global(.al__chev) {
+      display: block;
+      flex: none;
+      align-self: center;
+      margin-left: var(--space-2xs);
+      color: var(--color-text-muted);
+      transition: transform var(--dur-base) var(--ease-out);
+    }
+
+    .al__name[aria-expanded='true'] :global(.al__chev) {
+      transform: rotate(180deg);
+    }
+
+    .al__sep {
+      display: none;
+    }
+
+    .al__cap,
+    .al__item:hover .al__cap,
+    .al__item:has(> .al__name:focus-visible) .al__cap {
+      position: static;
+      display: none;
+      width: auto;
+      max-width: none;
+      margin: 0;
+      padding: 0 0 var(--space-s);
+      border: 0;
+      background: none;
+      box-shadow: none;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+
+    .al__item:has(> .al__name[aria-expanded='true']) .al__cap {
+      display: block;
+    }
+
+    .al__cap::before {
+      display: none;
+    }
+
+    .al__cap-name {
+      font-size: var(--fs-md);
+    }
+
+    .al__cap-name[data-same] {
+      display: none;
+    }
+
+    .al__name:is(:hover, :focus-visible, [aria-expanded='true']) .al__group {
+      opacity: 1;
+    }
+
+    .al__foot {
+      grid-template-columns: minmax(0, 1fr);
+      padding-top: var(--space-m);
+    }
+  }
+
+  /* ── entrance (motion allowed, JS only — see client.ts) ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .al__name,
+    .al__dot {
+      transition:
+        color var(--dur-fast) var(--ease-out),
+        opacity var(--dur-slow) var(--ease-out) calc(var(--i, 0) * var(--dur-stagger) / 2),
+        transform var(--dur-slow) var(--ease-out) calc(var(--i, 0) * var(--dur-stagger) / 2);
+    }
+
+    .al__wall[data-reveal]:not([data-in]) .al__name,
+    .al__wall[data-reveal]:not([data-in]) .al__dot {
+      opacity: 0;
+      transform: translateY(0.18em);
+    }
+  }
+</style>

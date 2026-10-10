@@ -1,0 +1,50 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Foto-Abgleich",
+  "title": "Zeigen Sie uns einen *Lieblingsort.*",
+  "intro": "Ein Weinberg in der Toskana, ein Tal in den Dolomiten, eine Küste, die Sie nicht vergessen — teilen Sie ein Foto, und Claude findet, wo sich der Südkaukasus genauso anfühlt.",
+  "upload": {
+    "title": "Ihr Foto",
+    "drop": "Foto hier ablegen",
+    "or": "oder",
+    "choose": "Foto auswählen",
+    "camera": "Foto aufnehmen",
+    "hint": "JPEG, PNG oder WebP. Wir verkleinern es vor dem Senden in Ihrem Browser.",
+    "dragActive": "Zum Abgleichen loslassen"
+  },
+  "samples": {
+    "title": "Oder eines von unseren",
+    "action": "Dieses Foto abgleichen",
+    "credit": "„{title}“ von {creator}"
+  },
+  "screen": {
+    "label": "Sucher",
+    "idle": "Warten auf ein Foto",
+    "idleHint": "Wählen Sie ein Foto oder eines von unseren — das Ergebnis erscheint hier.",
+    "working": "Wir sehen uns Ihr Foto an…",
+    "steps": [
+      "Licht und Landschaft lesen",
+      "51 Orte in Georgien, Armenien und Aserbaidschan durchsuchen",
+      "Drei Treffer auswählen"
+    ],
+    "mood": "Stimmung",
+    "whatISee": "Was ich sehe",
+    "yourPhoto": "Ihr Foto"
+  },
+  "result": {
+    "title": "Drei Orte, die sich genauso anfühlen",
+    "match": "Treffer {n}",
+    "tip": "Tipp",
+    "map": "Karte: {place}",
+    "plan": "Diese Reise planen",
+    "again": "Anderes Foto versuchen",
+    "notTravel": "Keine Landschaft auf diesem Foto"
+  },
+  "errors": {
+    "not_an_image": "Diese Datei ist kein Bild. Bitte wählen Sie ein JPEG-, PNG- oder WebP-Foto.",
+    "file_too_large": "Das Foto ist zu groß. Bitte wählen Sie ein kleineres.",
+    "decode_failed": "Das Foto ließ sich nicht öffnen. Versuchen Sie ein anderes oder speichern Sie es zuerst als JPEG.",
+    "encode_failed": "Ihr Browser konnte das Foto nicht vorbereiten. Versuchen Sie ein anderes.",
+    "refusal": "Dieses Foto können wir nicht abgleichen. Versuchen Sie eine Landschaft oder eine Reiseszene."
+  }
+}

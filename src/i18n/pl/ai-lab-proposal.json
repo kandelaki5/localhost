@@ -1,0 +1,114 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Kreator ofert dla agencji",
+  "title": "Od briefu klienta *do szkicu programu.*",
+  "intro": "Opisz grupę, a Claude przygotuje propozycję programu — dzień po dniu, z miejscami, tym, co zawiera cena, i uwagami o zrównoważonym rozwoju — gotową do wyceny przez nasz zespół.",
+  "form": {
+    "title": "Brief",
+    "samples": "Wczytaj przykładowy brief",
+    "sampleLabels": {
+      "it-georgia-wine-8d": "Włochy · 8 dni · wino i kultura",
+      "pl-ge-am-trek-10d": "Polska · 10 dni · trekking"
+    },
+    "agency": "Agencja",
+    "agencyPlaceholder": "Opcjonalnie",
+    "market": "Rynek źródłowy",
+    "marketPlaceholder": "np. Polska",
+    "groupSize": "Wielkość grupy",
+    "travellers": "os.",
+    "when": "Kiedy",
+    "months": "Miesiąc",
+    "seasonsLabel": "Albo pora roku",
+    "seasons": {
+      "spring": "Wiosna",
+      "summer": "Lato",
+      "autumn": "Jesień",
+      "winter": "Zima",
+      "flexible": "Elastyczne terminy"
+    },
+    "days": "Długość",
+    "daysValue": "{n} dni",
+    "countries": "Kraje",
+    "interests": "Zainteresowania",
+    "interestsHint": "Brak wyboru = zrównoważona mieszanka",
+    "hotel": "Hotele",
+    "hotels": {
+      "boutique": "Butikowe",
+      "3*": "3★",
+      "4*": "4★",
+      "5*": "5★",
+      "mixed": "Mieszane"
+    },
+    "pace": "Tempo",
+    "paces": {
+      "relaxed": "Spokojne",
+      "balanced": "Zrównoważone",
+      "active": "Aktywne"
+    },
+    "requests": "Specjalne życzenia",
+    "requestsPlaceholder": "Język przewodnika, dieta, punkty obowiązkowe, uroczystości…",
+    "count": "{n} / {max}",
+    "submit": "Przygotuj ofertę"
+  },
+  "fieldErrors": {
+    "groupSize": "Podaj wielkość grupy od 1 do 200.",
+    "month": "Wybierz miesiąc lub porę roku.",
+    "season": "Wybierz miesiąc lub porę roku.",
+    "days": "Wybierz długość od 3 do 21 dni.",
+    "countries": "Wybierz co najmniej jeden kraj.",
+    "interests": "Sprawdź zainteresowania.",
+    "hotelCategory": "Wybierz kategorię hoteli.",
+    "pace": "Wybierz tempo.",
+    "specialRequests": "Specjalne życzenia mogą mieć do 1500 znaków.",
+    "agency": "Nazwa agencji może mieć do 120 znaków.",
+    "market": "Rynek może mieć do 80 znaków."
+  },
+  "empty": {
+    "title": "Tu powstanie Twoja oferta",
+    "text": "Wypełnij brief — albo wczytaj przykład — i kliknij „Przygotuj ofertę”."
+  },
+  "progress": {
+    "title": "Przygotowujemy ofertę",
+    "steps": [
+      "Czytamy brief",
+      "Wybieramy trasę",
+      "Piszemy kolejne dni",
+      "Dodajemy świadczenia i uwagi"
+    ],
+    "note": "Na żywo przygotowanie może potrwać minutę lub dwie."
+  },
+  "doc": {
+    "kind": "Propozycja programu",
+    "draft": "Szkic",
+    "preparedFor": "Przygotowano dla",
+    "summary": "Podsumowanie",
+    "highlights": "Najważniejsze punkty",
+    "route": "Trasa",
+    "routeMap": "Mapa trasy: {places}",
+    "days": "Dzień po dniu",
+    "day": "Dzień",
+    "programme": "Program",
+    "places": "Miejsca",
+    "meals": "Posiłki",
+    "overnight": "Nocleg",
+    "included": "W cenie",
+    "notIncluded": "Poza ceną",
+    "sustainability": "Zrównoważony rozwój",
+    "nextSteps": "Kolejne kroki",
+    "pricing": "Wycena"
+  },
+  "actions": {
+    "print": "Drukuj / Zapisz jako PDF",
+    "quote": "Poproś o ostateczną wycenę",
+    "edit": "Edytuj brief"
+  },
+  "mail": {
+    "subject": "Prośba o ostateczną wycenę — {title}",
+    "greeting": "Dzień dobry, zespole Local Host,",
+    "intro": "prosimy o ostateczną wycenę tego szkicu programu z Waszego laboratorium AI:",
+    "brief": "Nasz brief",
+    "programme": "Program",
+    "contact": "Nasza agencja i dane kontaktowe:",
+    "signoff": "Dziękujemy,"
+  }
+}

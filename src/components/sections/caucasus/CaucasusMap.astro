@@ -1,0 +1,719 @@
+---
+/**
+ * Fig. 4 — "Tbilisi, between two seas": an ink-on-paper schematic map.
+ *
+ * Geography is SVG (real outlines from src/data/caucasus-map.json, projected
+ * with project() / MAP_VIEWBOX from src/lib/ai/places.ts): sea with engraved
+ * water lines, GE/AM/AZ in fine ink with soft fills, neighbours dotted, the
+ * Greater Caucasus as a row of tick-mark peaks and thin road lines out of
+ * Tbilisi. Dots and labels are an HTML layer on top (percent positions), so
+ * type stays legible from phone to desktop.
+ *
+ * The plate is one role="img" with a full text description. It draws itself
+ * when scrolled into view — only when motion is allowed and JS runs;
+ * otherwise it is simply there.
+ */
+import MAP from '../../../data/caucasus-map.json';
+import { MAP_VIEWBOX } from '../../../lib/ai/places';
+import type { CountryCode } from '../../../lib/ai/types';
+import { COUNTRIES } from '../../../lib/ai/knowledge';
+import { getLang, useStrings } from '../../../i18n';
+import { uid } from '../../../lib/uid';
+import {
+  CITIES,
+  COUNTRY_LABELS,
+  GRATICULE,
+  H,
+  NEIGHBOUR_LABELS,
+  RANGE_LABEL,
+  ROUTES,
+  SCALE_BAR,
+  SEA_LABELS,
+  TICKS,
+  W,
+  pct,
+  type CityKey,
+  type MapLabel,
+} from './data';
+
+interface Props {
+  fig: number;
+  class?: string;
+}
+
+const { fig, class: className } = Astro.props;
+const lang = getLang(Astro);
+const t = useStrings(lang, 'caucasus');
+const common = useStrings(lang, 'common');
+
+const ids = { clip: uid('cmap-clip'), desc: uid('cmap-desc') };
+const codes: CountryCode[] = ['GE', 'AM', 'AZ'];
+const neighbours = ['RU', 'TR', 'IR'] as const;
+
+const pos = (l: MapLabel) => `left:${pct(l.x, W)};top:${pct(l.y, H)}`;
+
+// Draw order: a dot appears when the route that reaches it has drawn.
+const reachedAt: Record<CityKey, number> = {
+  tbilisi: 0,
+  kazbegi: 1,
+  kutaisi: 1,
+  yerevan: 1,
+  sheki: 1,
+  batumi: 2,
+  baku: 2,
+};
+const WATER_LINES = [30, 19, 9.5];
+---
+
+<figure class:list={['cmap', className]} data-cmap>
+  <div class="cmap__plate" role="img" aria-label={t.map.label} aria-describedby={ids.desc}>
+   <div class="cmap__inner">
+    <svg class="cmap__svg" viewBox={MAP_VIEWBOX} preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id={ids.clip}>
+          <rect width={W} height={H}></rect>
+        </clipPath>
+      </defs>
+      <g clip-path={`url(#${ids.clip})`}>
+        <rect class="cmap__sea" width={W} height={H}></rect>
+
+        <!-- engraved water lines along the coasts -->
+        <g class="cmap__water">
+          {
+            WATER_LINES.map((w, i) => (
+              <>
+                <path class="cmap__wl" d={MAP.land} style={`stroke-width:${w * 2};opacity:${0.5 + i * 0.25}`} />
+                <path class="cmap__wl-gap" d={MAP.land} style={`stroke-width:${w * 2 - 1.3}`} />
+              </>
+            ))
+          }
+        </g>
+
+        <path class="cmap__land" d={MAP.land}></path>
+
+        <g class="cmap__grid">
+          {GRATICULE.lons.map((g) => <line x1={g.x} x2={g.x} y1="0" y2={H} />)}
+          {GRATICULE.lats.map((g) => <line x1="0" x2={W} y1={g.y} y2={g.y} />)}
+        </g>
+
+        {neighbours.map((code) => <path class="cmap__neighbour" d={MAP.neighbours[code].d} />)}
+
+        {
+          codes.map((code) => (
+            <path class:list={['cmap__country', `cmap__country--${code.toLowerCase()}`]} data-country={code} d={MAP.countries[code].d} pathLength="1" />
+          ))
+        }
+
+        {MAP.lakes.map((lake) => <path class="cmap__lake" d={lake.d} />)}
+
+        <g class="cmap__ridge">
+          {TICKS.map((tick) => <path d={tick.d} style={`--t:${tick.t.toFixed(3)}`} />)}
+        </g>
+
+        <g class="cmap__routes">
+          {
+            ROUTES.map((r) => (
+              <path class:list={['cmap__route', r.dotted && 'cmap__route--dotted']} d={r.d} pathLength="1" style={`--stage:${r.stage}`} />
+            ))
+          }
+        </g>
+
+        <g class="cmap__scale">
+          <path d={`M${SCALE_BAR.x},${SCALE_BAR.y - 4} V${SCALE_BAR.y} H${SCALE_BAR.x + SCALE_BAR.length} V${SCALE_BAR.y - 4}`} />
+          <path d={`M${SCALE_BAR.x + SCALE_BAR.length / 2},${SCALE_BAR.y - 2.5} V${SCALE_BAR.y}`} />
+        </g>
+      </g>
+    </svg>
+
+    <div class="cmap__layer" aria-hidden="true">
+      <!-- graticule degrees on the frame -->
+      {
+        GRATICULE.lons.map((g) => (
+          <span class="cmap__deg cmap__deg--top" style={`left:${pct(g.x, W)}`}>
+            {g.lon}°E
+          </span>
+        ))
+      }
+      {
+        GRATICULE.lats.map((g) => (
+          <span class="cmap__deg cmap__deg--side" style={`top:${pct(g.y, H)}`}>
+            {g.lat}°N
+          </span>
+        ))
+      }
+
+      {
+        (Object.keys(SEA_LABELS) as (keyof typeof SEA_LABELS)[]).map((key) => (
+          <span class:list={['cmap__lbl', 'cmap__sea-lbl', `is-${SEA_LABELS[key].align}`]} style={pos(SEA_LABELS[key])} data-check="sea">
+            {t.map.seas[key]}
+          </span>
+        ))
+      }
+
+      {
+        neighbours.map((code) => (
+          <span class="cmap__lbl cmap__nb-lbl" style={pos(NEIGHBOUR_LABELS[code])} data-check="outside">
+            {t.map.neighbours[code]}
+          </span>
+        ))
+      }
+
+      {
+        codes.map((code) => (
+          <span class:list={['cmap__lbl', 'cmap__ct-lbl']} style={pos(COUNTRY_LABELS[code])} data-country={code} data-check={`in-${code}`}>
+            {COUNTRIES[code].name[lang]}
+          </span>
+        ))
+      }
+
+      <span class="cmap__lbl cmap__range-lbl" style={`${pos(RANGE_LABEL)};--angle:${RANGE_LABEL.angle}deg`}>
+        {t.map.range}
+      </span>
+
+      {
+        CITIES.map((c) => (
+          <span
+            class:list={['cmap__city', c.key === 'tbilisi' && 'cmap__city--home', c.capital && 'cmap__city--capital']}
+            style={`left:${pct(c.x, W)};top:${pct(c.y, H)};--reach:${reachedAt[c.key]}`}
+          >
+            <span class="cmap__dot" />
+            <span class:list={['cmap__city-lbl', `at-${c.side}`]}>{t.map.cities[c.key]}</span>
+          </span>
+        ))
+      }
+
+      <span class="cmap__scale-lbl" style={`left:${pct(SCALE_BAR.x + SCALE_BAR.length / 2, W)};top:${pct(SCALE_BAR.y, H)}`}>
+        {t.map.scale}
+      </span>
+      <span class="cmap__north" style={`left:${pct(SCALE_BAR.x + SCALE_BAR.length + 2, W)};top:${pct(SCALE_BAR.y - 44, H)}`}>
+        <svg viewBox="0 0 12 22" width="12" height="22" focusable="false"><path d="M6 1 10.5 15 6 12.2 1.5 15Z" /></svg>
+        {t.map.north}
+      </span>
+    </div>
+   </div>
+  </div>
+
+  <figcaption class="cmap__caption">
+    <span class="fig-caption">
+      <span class="cmap__fig-no">{common.figure.label} {fig}</span>
+      <span aria-hidden="true"> — </span>{t.map.fig}
+    </span>
+    <span class="cmap__note">{t.map.note}</span>
+  </figcaption>
+  <p id={ids.desc} class="visually-hidden">{t.map.description}</p>
+</figure>
+
+<style>
+  .cmap {
+    margin: 0;
+    /* Map paper and sea, mixed from role tokens so they follow any re-skin. */
+    --cmap-paper: var(--color-bg-raised);
+    --cmap-sea: color-mix(in srgb, var(--color-bg-sunken) 72%, var(--color-bg-raised));
+    --cmap-ink: var(--color-text);
+    --cmap-home: color-mix(in srgb, var(--color-brand-green) 13%, var(--cmap-paper));
+    --cmap-next: color-mix(in srgb, var(--color-text) 6.5%, var(--cmap-paper));
+  }
+
+  .cmap__plate {
+    padding: 5px;
+    border: var(--border-hair) solid var(--color-rule-strong);
+    background: var(--cmap-paper);
+  }
+
+  .cmap__inner {
+    position: relative;
+    aspect-ratio: 1000 / 675.3;
+    container-type: inline-size;
+    outline: var(--border-hair) solid var(--color-rule);
+  }
+
+  .cmap__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cmap__svg path,
+  .cmap__svg line {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cmap__sea {
+    fill: var(--cmap-sea);
+  }
+
+  .cmap__wl {
+    fill: none;
+    stroke: var(--color-rule-strong);
+    stroke-linejoin: round;
+    vector-effect: none !important;
+  }
+
+  .cmap__wl-gap {
+    fill: none;
+    stroke: var(--cmap-sea);
+    stroke-linejoin: round;
+    vector-effect: none !important;
+  }
+
+  .cmap__land {
+    fill: var(--cmap-paper);
+    stroke: var(--color-rule-strong);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+
+  .cmap__grid line {
+    stroke: var(--color-rule);
+    stroke-width: 1;
+    stroke-dasharray: 1 5;
+  }
+
+  .cmap__neighbour {
+    fill: none;
+    stroke: var(--color-text-muted);
+    stroke-width: 0.9;
+    stroke-dasharray: 1.5 3;
+    stroke-linecap: round;
+    opacity: 0.7;
+  }
+
+  .cmap__country {
+    fill: var(--cmap-next);
+    stroke: var(--cmap-ink);
+    stroke-width: 1;
+    stroke-linejoin: round;
+    transition: fill var(--dur-base) var(--ease-out);
+  }
+
+  .cmap__country--ge {
+    fill: var(--cmap-home);
+  }
+
+  /* Hovering or focusing a country card above lifts its country here. */
+  :global(.caucasus:has(.ccard--ge:is(:hover, :focus-within))) .cmap__country--ge {
+    fill: color-mix(in srgb, var(--color-brand-green) 24%, var(--cmap-paper));
+  }
+
+  :global(.caucasus:has(.ccard--am:is(:hover, :focus-within))) .cmap__country--am,
+  :global(.caucasus:has(.ccard--az:is(:hover, :focus-within))) .cmap__country--az {
+    fill: color-mix(in srgb, var(--color-text) 14%, var(--cmap-paper));
+  }
+
+  .cmap__lake {
+    fill: var(--cmap-sea);
+    stroke: var(--color-rule-strong);
+    stroke-width: 0.8;
+  }
+
+  .cmap__ridge path {
+    fill: none;
+    stroke: var(--cmap-ink);
+    stroke-width: 0.9;
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+  }
+
+  .cmap__route {
+    fill: none;
+    stroke: var(--cmap-ink);
+    stroke-width: 1.1;
+    stroke-linecap: round;
+  }
+
+  .cmap__route--dotted {
+    stroke-dasharray: 0.012 0.012;
+  }
+
+  .cmap__scale path {
+    fill: none;
+    stroke: var(--cmap-ink);
+    stroke-width: 1;
+  }
+
+  /* ── HTML layer: dots and type ── */
+  .cmap__layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    --lbl-size: clamp(0.5625rem, 0.4rem + 0.75cqi, 0.75rem);
+  }
+
+  .cmap__lbl,
+  .cmap__city,
+  .cmap__deg,
+  .cmap__scale-lbl,
+  .cmap__north {
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  .cmap__lbl {
+    translate: -50% -50%;
+  }
+
+  /* Cartographic halo: knocks lines out behind type. */
+  .cmap__lbl,
+  .cmap__city-lbl,
+  .cmap__scale-lbl {
+    text-shadow:
+      0 0 2px var(--cmap-paper),
+      0 0 2px var(--cmap-paper),
+      0 0 4px var(--cmap-paper);
+  }
+
+  .cmap__ct-lbl,
+  .cmap__sea-lbl {
+    text-shadow: none;
+  }
+
+  .cmap__sea-lbl {
+    width: min-content;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: calc(var(--lbl-size) * 1.2);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1.1;
+    color: var(--color-text-muted);
+    white-space: normal;
+    text-align: center;
+  }
+
+  .cmap__sea-lbl.is-start {
+    translate: 0 -50%;
+    text-align: start;
+  }
+
+  .cmap__nb-lbl {
+    font-family: var(--font-text);
+    font-size: var(--lbl-size);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-caps-wide);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .cmap__ct-lbl {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: calc(var(--lbl-size) * 1.42);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text-muted);
+    transition: color var(--dur-base) var(--ease-out);
+  }
+
+  .cmap__range-lbl {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: calc(var(--lbl-size) * 1.08);
+    font-variation-settings: var(--fvs-caption);
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    rotate: var(--angle);
+  }
+
+  .cmap__sea-lbl:lang(ka),
+  .cmap__ct-lbl:lang(ka),
+  .cmap__range-lbl:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+    letter-spacing: 0;
+  }
+
+  .cmap__city {
+    width: 0;
+    height: 0;
+  }
+
+  .cmap__dot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    translate: -50% -50%;
+    border: 1.5px solid var(--cmap-ink);
+    border-radius: var(--radius-round);
+    background: var(--cmap-paper);
+  }
+
+  .cmap__city--capital .cmap__dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    background: radial-gradient(circle, var(--cmap-ink) 0 1.5px, var(--cmap-paper) 2px);
+  }
+
+  /* Tbilisi: the sun / pin. */
+  .cmap__city--home .cmap__dot {
+    width: 0.875rem;
+    height: 0.875rem;
+    border: 0;
+    background: var(--color-accent);
+    box-shadow:
+      0 0 0 3px var(--cmap-paper),
+      0 0 0 4px color-mix(in srgb, var(--color-accent) 55%, transparent),
+      0 0 0 9px color-mix(in srgb, var(--color-accent) 9%, transparent);
+  }
+
+  .cmap__city-lbl {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-text);
+    font-size: var(--lbl-size);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .cmap__city--home .cmap__city-lbl {
+    font-size: calc(var(--lbl-size) * 1.12);
+    font-weight: var(--fw-bold);
+  }
+
+  .at-n {
+    translate: -50% calc(-100% - 0.7em);
+  }
+  .at-s {
+    translate: -50% 0.75em;
+  }
+  .at-e {
+    translate: 0.95em -50%;
+  }
+  .at-w {
+    translate: calc(-100% - 0.95em) -50%;
+  }
+  .at-ne {
+    translate: 0.75em calc(-100% - 0.55em);
+  }
+  .at-nw {
+    translate: calc(-100% - 0.75em) calc(-100% - 0.55em);
+  }
+  .at-se {
+    translate: 0.75em 0.55em;
+  }
+  .at-sw {
+    translate: calc(-100% - 0.75em) 0.55em;
+  }
+
+  .cmap__city--home .at-ne {
+    translate: 1.1em calc(-100% - 0.8em);
+  }
+
+  .cmap__deg {
+    font-family: var(--font-mono);
+    font-size: calc(var(--lbl-size) * 0.85);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+    opacity: 0.85;
+  }
+
+  .cmap__deg--top {
+    top: 0.35rem;
+    translate: -50% 0;
+  }
+
+  .cmap__deg--side {
+    left: 0.4rem;
+    translate: 0 -120%;
+  }
+
+  .cmap__scale-lbl {
+    translate: -50% calc(-100% - 0.45em);
+    font-family: var(--font-mono);
+    font-size: calc(var(--lbl-size) * 0.9);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text);
+  }
+
+  .cmap__north {
+    display: grid;
+    justify-items: center;
+    gap: 0.1rem;
+    translate: -50% -50%;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: calc(var(--lbl-size) * 1.05);
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .cmap__north svg {
+    width: 0.6rem;
+    height: auto;
+    fill: var(--cmap-ink);
+  }
+
+  /* ── caption ── */
+  .cmap__caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3xs) var(--space-m);
+    padding-top: var(--space-s);
+  }
+
+  .cmap__fig-no {
+    font-style: normal;
+    font-weight: var(--fw-medium);
+  }
+
+  .cmap__note {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  /* Small plates: drop the degree labels and the faintest detail. */
+  @container (max-width: 34rem) {
+    .cmap__deg {
+      display: none;
+    }
+
+    .cmap__ct-lbl {
+      font-size: calc(var(--lbl-size) * 1.25);
+    }
+
+    .cmap__sea-lbl {
+      font-size: calc(var(--lbl-size) * 1.05);
+    }
+
+    .cmap__range-lbl {
+      font-size: var(--lbl-size);
+    }
+  }
+
+  /* Phones: the ridge speaks for itself; its name would crowd Kazbegi. */
+  @container (max-width: 30rem) {
+    .cmap__range-lbl {
+      display: none;
+    }
+  }
+
+  /* ── draw-in (armed by the script only when motion is allowed) ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .cmap[data-draw] .cmap__country {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      fill-opacity: 0;
+      transition:
+        stroke-dashoffset var(--dur-draw) var(--ease-film),
+        fill-opacity var(--dur-slower) var(--ease-out) calc(var(--dur-draw) * 0.45),
+        fill var(--dur-base) var(--ease-out);
+    }
+
+    .cmap[data-draw] .cmap__ridge path {
+      opacity: 0;
+      scale: 1 0;
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      transition:
+        opacity var(--dur-slow) var(--ease-out),
+        scale var(--dur-slow) var(--ease-overshoot);
+      transition-delay: calc(var(--dur-slow) * 0.5 + var(--t) * var(--dur-reveal));
+    }
+
+    .cmap[data-draw] .cmap__route:not(.cmap__route--dotted) {
+      stroke-dasharray: 1 1;
+      stroke-dashoffset: 1;
+      transition: stroke-dashoffset var(--dur-slow) var(--ease-in-out);
+      transition-delay: calc(var(--dur-draw) * 0.42 + (var(--stage) - 1) * var(--dur-slow));
+    }
+
+    .cmap[data-draw] .cmap__route--dotted {
+      opacity: 0;
+      transition: opacity var(--dur-slow) var(--ease-out);
+      transition-delay: calc(var(--dur-draw) * 0.42);
+    }
+
+    .cmap[data-draw] .cmap__dot {
+      scale: 0;
+      transition: scale var(--dur-slow) var(--ease-overshoot);
+      transition-delay: calc(var(--dur-draw) * 0.42 + var(--reach) * var(--dur-slow) - var(--dur-stagger));
+    }
+
+    .cmap[data-draw] .cmap__city--home .cmap__dot {
+      transition-delay: var(--dur-stagger);
+    }
+
+    .cmap[data-draw] :is(.cmap__city-lbl, .cmap__lbl, .cmap__scale-lbl, .cmap__north, .cmap__deg),
+    .cmap[data-draw] :is(.cmap__scale, .cmap__neighbour) {
+      opacity: 0;
+      transition: opacity var(--dur-slower) var(--ease-out);
+      transition-delay: calc(var(--dur-draw) * 0.55 + var(--reach, 1) * var(--dur-stagger) * 2);
+    }
+
+    .cmap[data-draw='in'] .cmap__country,
+    .cmap[data-draw='in'] .cmap__route:not(.cmap__route--dotted) {
+      stroke-dashoffset: 0;
+      fill-opacity: 1;
+    }
+
+    .cmap[data-draw='in'] .cmap__ridge path {
+      opacity: 1;
+      scale: 1 1;
+    }
+
+    .cmap[data-draw='in'] :is(.cmap__dot, .cmap__route--dotted) {
+      scale: 1;
+      opacity: 1;
+    }
+
+    .cmap[data-draw='in'] :is(.cmap__city-lbl, .cmap__lbl, .cmap__scale-lbl, .cmap__north, .cmap__deg),
+    .cmap[data-draw='in'] :is(.cmap__scale, .cmap__neighbour) {
+      opacity: 1;
+    }
+
+    .cmap[data-draw='in'] .cmap__neighbour {
+      opacity: 0.7;
+    }
+
+    /* One ripple out of Tbilisi once the map has drawn. */
+    .cmap[data-draw='in'] .cmap__city--home .cmap__dot::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-round);
+      border: 1px solid var(--color-accent);
+      animation: cmap-ripple var(--dur-draw) var(--ease-out) var(--dur-slow) 1 both;
+    }
+  }
+
+  @keyframes cmap-ripple {
+    from {
+      opacity: 0.8;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 5;
+    }
+  }
+</style>
+
+<script>
+  const root = document.getElementById('caucasus');
+  const map = root?.querySelector<HTMLElement>('[data-cmap]');
+  const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  if (map && motionOk && 'IntersectionObserver' in window) {
+    map.dataset.draw = 'armed';
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          (entry.target as HTMLElement).dataset.draw = 'in';
+          io.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(map);
+  }
+</script>

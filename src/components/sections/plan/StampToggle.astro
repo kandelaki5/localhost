@@ -1,0 +1,387 @@
+---
+/**
+ * A postage stamp that is a toggle button (aria-pressed). Pressing it
+ * "cancels" the stamp: a round postmark with wavy cancellation lines lands on
+ * its corner. Countries show their outline (from the shared map data),
+ * experiences a small line glyph. The postmark's ring text runs along one
+ * shared arc path (`arcId`, defined once in Plan.astro).
+ */
+import Stamp from '../../ui/Stamp.astro';
+
+interface Props {
+  kind: 'country' | 'experience';
+  value: string;
+  label: string;
+  /** Denomination-style number, e.g. "01". */
+  no: string;
+  pressed?: boolean;
+  tint?: 'green' | 'red';
+  /** Degrees (Stamp clamps to ±2). */
+  rotate?: number;
+  /** Country outline in its own viewBox. */
+  outline?: { d: string; viewBox: string };
+  /** Inner SVG markup of a 24 × 24 glyph (static, from glyphs.ts). */
+  glyph?: string;
+  /** Big code on country stamps ("GE"). */
+  code?: string;
+  arcId: string;
+  describedby?: string;
+}
+
+const { kind, value, label, no, pressed = false, tint = 'green', rotate = 0, outline, glyph, code, arcId, describedby } =
+  Astro.props;
+const ringLength = (2 * Math.PI * 30.5).toFixed(1);
+---
+
+<button
+  type="button"
+  class:list={['pstamp', `pstamp--${kind}`]}
+  data-stamp={kind}
+  value={value}
+  aria-pressed={pressed ? 'true' : 'false'}
+  aria-describedby={describedby}
+>
+  <Stamp as="span" tint={tint} shadow={false} rotate={rotate} perf="4px" pad="7px" class="pstamp__stamp">
+    <span class="pstamp__face">
+      <span class="pstamp__no" aria-hidden="true">{no}</span>
+      {
+        outline && (
+          <svg class="pstamp__outline" viewBox={outline.viewBox} aria-hidden="true" focusable="false">
+            <path d={outline.d} />
+          </svg>
+        )
+      }
+      {
+        glyph && (
+          <svg
+            class="pstamp__glyph"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="square"
+            stroke-linejoin="miter"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <Fragment set:html={glyph} />
+          </svg>
+        )
+      }
+      <span class="pstamp__text">
+        {code && <span class="pstamp__code" aria-hidden="true">{code}</span>}
+        <span class="pstamp__label">{label}</span>
+      </span>
+    </span>
+  </Stamp>
+  <svg class="pstamp__postmark" viewBox="0 0 150 100" aria-hidden="true" focusable="false">
+    <g class="pm__ring">
+      <circle cx="50" cy="50" r="42" class="pm__rim" />
+      <circle cx="50" cy="50" r="38.5" class="pm__rim pm__rim--thin" />
+      <circle cx="50" cy="50" r="23" class="pm__rim pm__rim--inner" />
+      <text class="pm__text">
+        <textPath href={`#${arcId}`} textLength={ringLength} lengthAdjust="spacing">LOCAL HOST • TBILISI • 2015 • </textPath>
+      </text>
+      <path
+        class="pm__star"
+        d="M50 37.5c.5 6.2 3.3 9 9.5 9.5-6.2.5-9 3.3-9.5 9.5-.5-6.2-3.3-9-9.5-9.5 6.2-.5 9-3.3 9.5-9.5z"
+      />
+    </g>
+    <path
+      class="pm__waves"
+      d="M93 30c5.5-4 11-4 16.5 0s11 4 16.5 0 11-4 16.5 0M93 41c5.5-4 11-4 16.5 0s11 4 16.5 0 11-4 16.5 0M93 52c5.5-4 11-4 16.5 0s11 4 16.5 0 11-4 16.5 0M93 63c5.5-4 11-4 16.5 0s11 4 16.5 0 11-4 16.5 0"
+    />
+  </svg>
+</button>
+
+<style>
+  .pstamp {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0;
+    color: var(--color-text-muted);
+    text-align: start;
+    border-radius: var(--radius-sm);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .pstamp :global(.pstamp__stamp) {
+    height: 100%;
+    filter: grayscale(1) brightness(0.62);
+    transition:
+      filter var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+
+  .pstamp :global(.stamp__edge),
+  .pstamp :global(.stamp__paper) {
+    height: 100%;
+  }
+
+  .pstamp:hover :global(.pstamp__stamp) {
+    filter: grayscale(0.55) brightness(0.85);
+    transform: translateY(-2px) rotate(var(--stamp-rotate, 0deg));
+  }
+
+  .pstamp[aria-pressed='true'] {
+    color: var(--color-text);
+  }
+
+  .pstamp[aria-pressed='true'] :global(.pstamp__stamp) {
+    filter: var(--filter-glow);
+    transform: translateY(-2px) rotate(var(--stamp-rotate, 0deg));
+  }
+
+  .pstamp__face {
+    position: relative;
+    display: grid;
+    height: 100%;
+    gap: var(--space-2xs);
+    padding: var(--space-xs) var(--space-xs) var(--space-2xs);
+  }
+
+  .pstamp__no {
+    position: absolute;
+    top: var(--space-2xs);
+    left: var(--space-xs);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  /* country stamps: outline on top, code + name below */
+  .pstamp--country .pstamp__face {
+    grid-template-rows: 1fr auto;
+    min-height: 8.25rem;
+  }
+
+  .pstamp__outline {
+    width: 100%;
+    height: 4.25rem;
+    margin-top: var(--space-s);
+    fill: color-mix(in srgb, var(--color-green-ink) 16%, transparent);
+    stroke: var(--color-green-ink);
+    stroke-width: 1.25;
+    stroke-linejoin: round;
+    overflow: visible;
+  }
+
+  .pstamp__outline path {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .pstamp--country .pstamp__text {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0 var(--space-2xs);
+  }
+
+  .pstamp__code {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .pstamp__label {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    line-height: 1.25;
+  }
+
+  .pstamp__label:lang(ka) {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+  }
+
+  /* experience stamps: glyph on top, name below */
+  .pstamp--experience .pstamp__face {
+    grid-template-rows: 1fr auto;
+    justify-items: start;
+    gap: var(--space-2xs);
+    min-height: 6.25rem;
+    padding-top: var(--space-l);
+  }
+
+  .pstamp__glyph {
+    width: 2rem;
+    height: 2rem;
+    color: var(--color-green-ink);
+  }
+
+  .pstamp--experience .pstamp__label {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: 1.15;
+    color: var(--color-text);
+    hyphens: auto;
+  }
+
+  .pstamp--experience .pstamp__label:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-ka-text);
+    hyphens: manual;
+  }
+
+  /* the postmark */
+  .pstamp__postmark {
+    position: absolute;
+    top: -0.75rem;
+    right: -1.35rem;
+    width: 6.75rem;
+    height: auto;
+    color: var(--color-green-ink);
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.5);
+    pointer-events: none;
+    overflow: visible;
+    -webkit-mask-image: var(--texture-ink);
+    mask-image: var(--texture-ink);
+    -webkit-mask-size: 120px;
+    mask-size: 120px;
+  }
+
+  .pstamp--experience .pstamp__postmark {
+    top: -0.85rem;
+    right: -1.3rem;
+    width: 6rem;
+  }
+
+  .pstamp[aria-pressed='true'] .pstamp__postmark {
+    opacity: 0.95;
+    transform: rotate(-11deg) scale(1);
+  }
+
+  .pm__rim {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+  }
+
+  .pm__rim--thin {
+    stroke-width: 1;
+  }
+
+  .pm__rim--inner {
+    stroke-width: 1.25;
+  }
+
+  .pm__text {
+    fill: currentColor;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.04em;
+  }
+
+  .pm__star {
+    fill: currentColor;
+  }
+
+  .pm__waves {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.25;
+    stroke-linecap: round;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pstamp[aria-pressed='true'] .pstamp__postmark {
+      animation: pm-land 460ms var(--ease-overshoot) both;
+    }
+
+    .pstamp[aria-pressed='true'][data-replay] .pstamp__postmark {
+      animation-name: pm-land-again;
+    }
+
+    .pstamp[aria-pressed='true'] :global(.pstamp__stamp) {
+      animation: pstamp-press 380ms var(--ease-out);
+    }
+  }
+
+  @keyframes pm-land {
+    0% {
+      opacity: 0;
+      transform: rotate(-20deg) scale(1.7);
+    }
+    55% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.95;
+      transform: rotate(-11deg) scale(1);
+    }
+  }
+
+  @keyframes pm-land-again {
+    0% {
+      opacity: 0;
+      transform: rotate(-20deg) scale(1.7);
+    }
+    55% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.95;
+      transform: rotate(-11deg) scale(1);
+    }
+  }
+
+  @keyframes pstamp-press {
+    40% {
+      transform: translateY(1px) rotate(var(--stamp-rotate, 0deg)) scale(0.97);
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .pstamp--country .pstamp__face {
+      min-height: 7.25rem;
+      padding-inline: 0.45rem;
+    }
+
+    .pstamp--country .pstamp__text {
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .pstamp--country .pstamp__label {
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.05em;
+      hyphens: auto;
+    }
+
+    .pstamp__outline {
+      height: 3.25rem;
+    }
+
+    .pstamp__postmark {
+      width: 5.25rem;
+      right: -1rem;
+    }
+
+    .pstamp--experience .pstamp__postmark {
+      width: 5rem;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .pstamp[aria-pressed='true'] {
+      outline: 3px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
+</style>

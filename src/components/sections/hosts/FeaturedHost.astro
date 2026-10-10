@@ -1,0 +1,302 @@
+---
+/**
+ * A featured host: a large place photograph (never a portrait) with a
+ * "Place photograph" label, the monogram seal overlapping its top edge, the
+ * host's name, a pull-quote from the Sustainability Policy and, where we
+ * have verified facts, a short "at a glance" list.
+ *
+ * `wide` (Sisatura): landscape photo, quote and facts side by side.
+ * `tall` (Leila): portrait crop for the narrower, dropped column.
+ */
+import Figure from '../../ui/Figure.astro';
+import HostSeal from './HostSeal.astro';
+import HostQuote from './HostQuote.astro';
+import { POLICY_PDF, type Host } from './data';
+
+interface Copy {
+  name: string;
+  people?: string;
+  tag?: string;
+  quote: string;
+  alt: string;
+  seal: string;
+  facts?: readonly { term: string; text: string }[];
+}
+
+interface Props {
+  host: Host;
+  copy: Copy;
+  /** Text over the photo, e.g. "Place photograph · Host portraits to follow". */
+  label: string;
+  quoteSource: string;
+  factsTitle?: string;
+  variant?: 'wide' | 'tall';
+  sizes: string;
+  /** Seal tilt, ±2°. */
+  tilt?: number;
+  class?: string;
+}
+
+const { host, copy, label, quoteSource, factsTitle, variant = 'wide', sizes, tilt = 0, class: className } = Astro.props;
+const headingId = `host-${host.id}`;
+const sub = copy.people ?? copy.tag;
+---
+
+<article class:list={['fhost', `fhost--${variant}`, className]} aria-labelledby={headingId} data-reveal>
+  <div class="fhost__media">
+    <Figure photo={host.photo} alt={copy.alt} focal={host.focal} sizes={sizes} zoom class="fhost__figure">
+      <span slot="overlay" class="fhost__label">{label}</span>
+    </Figure>
+    <HostSeal class="fhost__seal" monogram={host.monogram} ring={copy.seal} rotate={tilt} />
+  </div>
+
+  <div class="fhost__body">
+    <header class="fhost__head">
+      <h3 id={headingId} class="fhost__name display display--m">{copy.name}</h3>
+      {sub && <p class="fhost__sub kicker">{sub}</p>}
+    </header>
+
+    <HostQuote class="fhost__quote" text={copy.quote} source={quoteSource} cite={POLICY_PDF} />
+
+    {
+      copy.facts && copy.facts.length > 0 && (
+        <div class="fhost__facts">
+          {factsTitle && <p class="fhost__facts-title kicker">{factsTitle}</p>}
+          <dl class="fhost__dl">
+            {copy.facts.map((f) => (
+              <div class="fhost__fact">
+                <dt class="fhost__term">{f.term}</dt>
+                <dd class="fhost__def">{f.text}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .fhost {
+    position: relative;
+  }
+
+  /* ── photo ── */
+  .fhost__media {
+    position: relative;
+  }
+
+  .fhost--wide :global(.figure__media) {
+    aspect-ratio: 16 / 10;
+  }
+
+  .fhost--tall :global(.figure__media) {
+    aspect-ratio: 4 / 5;
+  }
+
+  .fhost__label {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: var(--z-raised);
+    display: flex;
+    align-items: flex-end;
+    min-height: 34%;
+    padding: var(--space-s) var(--space-s) var(--space-xs);
+    background: var(--gradient-scrim);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text-on-photo);
+    pointer-events: none;
+  }
+
+  .fhost__label:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+  }
+
+  .fhost__media :global(.fhost__seal) {
+    position: absolute;
+    z-index: var(--z-seal);
+    top: calc(var(--hseal-size) * -0.42);
+    right: clamp(var(--space-s), 2.4vw, var(--space-l));
+  }
+
+  /* ── text ── */
+  .fhost__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: var(--space-m);
+    padding-top: var(--space-m);
+  }
+
+  .fhost__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3xs) var(--space-s);
+  }
+
+  .fhost__name {
+    margin: 0;
+  }
+
+  .fhost__sub {
+    color: var(--color-text-muted);
+  }
+
+  /* ── at a glance (verified facts only) ── */
+  .fhost__facts {
+    align-self: start;
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .fhost__facts-title {
+    padding-top: var(--space-xs);
+    color: var(--color-green-ink);
+  }
+
+  .fhost__dl {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--space-m);
+  }
+
+  .fhost__fact {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    padding-block: var(--space-xs);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .fhost__fact:last-child {
+    border-bottom: 0;
+  }
+
+  .fhost__term {
+    padding-top: 0.2em;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .fhost__term:lang(ka) {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+  }
+
+  .fhost__def {
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--color-text-body);
+    text-wrap: pretty;
+  }
+
+  /* Wide card with room to spare (a container query, so it follows the
+     card's own width, not the viewport): quote and facts side by side, and
+     each fact's term sits above its text in the narrower facts column. */
+  .fhost--wide {
+    container-type: inline-size;
+  }
+
+  @container (min-width: 37rem) {
+    .fhost--wide .fhost__body {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 3fr);
+      column-gap: clamp(var(--space-m), 3vw, var(--space-xl));
+    }
+
+    .fhost--wide .fhost__head {
+      grid-column: 1 / -1;
+    }
+
+    .fhost--wide .fhost__facts {
+      margin-top: 0.35rem;
+    }
+
+    .fhost--wide .fhost__dl {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .fhost--wide .fhost__fact {
+      row-gap: var(--space-3xs);
+    }
+  }
+
+  /* Tall card on tablets: photo and text side by side, so the portrait crop
+     never fills a whole screen. */
+  @media (min-width: 40em) and (max-width: 63.99em) {
+    .fhost--tall {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      column-gap: clamp(var(--space-m), 4vw, var(--space-xl));
+      align-items: end;
+    }
+
+    .fhost--tall .fhost__body {
+      padding-top: 0;
+      padding-bottom: var(--space-2xs);
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .fhost--wide :global(.figure__media) {
+      aspect-ratio: 4 / 3;
+    }
+
+    .fhost__media :global(.fhost__seal) {
+      --hseal-size: 5.25rem;
+    }
+  }
+
+  /* ── entrance: only when motion is allowed and the script armed it ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .fhost :global(.figure__media) {
+      clip-path: inset(0 0 0 0);
+      transition: clip-path var(--dur-reveal) var(--ease-film);
+    }
+
+    .fhost[data-reveal='pending'] :global(.figure__media) {
+      clip-path: inset(100% 0 0 0);
+    }
+
+    .fhost[data-reveal='pending'] :global(.figure__img) {
+      transform: scale(1.12);
+    }
+
+    .fhost[data-reveal='in'] :global(.figure__img) {
+      transition: transform var(--dur-reveal) var(--ease-out);
+    }
+
+    .fhost__media :global(.fhost__seal) {
+      transition:
+        opacity var(--dur-fast) var(--ease-out) calc(6 * var(--dur-stagger)),
+        scale var(--dur-slow) var(--ease-overshoot) calc(6 * var(--dur-stagger)),
+        rotate var(--dur-slow) var(--ease-overshoot) calc(6 * var(--dur-stagger));
+    }
+
+    .fhost[data-reveal='pending'] .fhost__media :global(.fhost__seal) {
+      opacity: 0;
+      scale: 1.35;
+      rotate: -9deg;
+    }
+
+    .fhost__body {
+      transition:
+        opacity var(--dur-slower) var(--ease-out) calc(3 * var(--dur-stagger)),
+        translate var(--dur-slower) var(--ease-out) calc(3 * var(--dur-stagger));
+    }
+
+    .fhost[data-reveal='pending'] .fhost__body {
+      opacity: 0;
+      translate: 0 var(--space-m);
+    }
+  }
+</style>

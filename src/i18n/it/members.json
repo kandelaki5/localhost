@@ -1,0 +1,28 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Orgogliosi di far parte di",
+  "title": "In buona *compagnia.*",
+  "intro": "Le associazioni e le camere del turismo di cui facciamo parte e gli enti nazionali con cui collaboriamo, in Georgia e in Polonia.",
+  "running": "Associazioni",
+  "spreadLabel": "Associazioni per paese",
+  "countries": {
+    "ge": "Georgia",
+    "pl": "Polonia"
+  },
+  "types": {
+    "administration": "Ente nazionale del turismo",
+    "association": "Associazione turistica",
+    "bureau": "Convention & exhibition bureau",
+    "chamber": "Camera nazionale del turismo",
+    "regional": "Camera regionale del turismo"
+  },
+  "orgs": {
+    "gnta": "Amministrazione nazionale del turismo della Georgia",
+    "gta": "Associazione georgiana del turismo",
+    "cebg": "Convention & Exhibition Bureau della Georgia",
+    "pit": "Camera polacca del turismo",
+    "sit": "Camera del turismo della Slesia"
+  },
+  "official": "sito ufficiale",
+  "ring": "LOCAL HOST • TBILISI • DAL 2015 •"
+}

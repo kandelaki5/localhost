@@ -1,0 +1,26 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Airlines",
+  "title": "Zwölf Airlines, *ein kurzer Flug.*",
+  "intro": "Linien- und Low-Cost-Airlines verbinden Georgien mit dem übrigen Europa. Direktverbindungen wechseln je nach Saison — fragen Sie uns nach dem aktuellen Flugplan.",
+  "running": "Anreise",
+  "wallLabel": "Airlines mit Direktflügen nach Tiflis und Kutaissi",
+  "airports": {
+    "TBS": "Tiflis",
+    "KUT": "Kutaissi"
+  },
+  "caption": {
+    "group": "Air-France-KLM-Gruppe",
+    "to": {
+      "TBS": "Direkt nach Tiflis",
+      "KUT": "Direkt nach Kutaissi"
+    },
+    "more": "+ {count} weitere",
+    "notes": {
+      "transavia": "Air France hat die eigenen Flüge Paris–Tiflis im Frühjahr 2026 eingestellt."
+    }
+  },
+  "legend": "Hochgestellt steht der Flughafen: **TBS** Tiflis · **KUT** Kutaissi.",
+  "hint": "Zeigen Sie auf einen Namen oder tippen Sie darauf, um Beispielstrecken zu sehen.",
+  "boards": "Zu den Abflugtafeln"
+}

@@ -1,6 +1,27 @@
 {
   "kicker": "Proud member of",
   "title": "In good *company.*",
-  "intro": "The associations and institutions we are proud to work alongside, in Georgia and in our partner markets.",
-  "running": "Memberships"
+  "intro": "The tourism associations and chambers we belong to, and the national bodies we work alongside, in Georgia and in Poland.",
+  "running": "Memberships",
+  "spreadLabel": "Memberships, by country",
+  "countries": {
+    "ge": "Georgia",
+    "pl": "Poland"
+  },
+  "types": {
+    "administration": "National tourism administration",
+    "association": "Tourism association",
+    "bureau": "Convention & exhibition bureau",
+    "chamber": "National chamber of tourism",
+    "regional": "Regional chamber of tourism"
+  },
+  "orgs": {
+    "gnta": "Georgian National Tourism Administration",
+    "gta": "Georgian Tourism Association",
+    "cebg": "Convention & Exhibition Bureau of Georgia",
+    "pit": "Polish Chamber of Tourism",
+    "sit": "Silesian Chamber of Tourism"
+  },
+  "official": "official website",
+  "ring": "LOCAL HOST • TBILISI • SINCE 2015 •"
 }

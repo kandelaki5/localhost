@@ -1,23 +1,282 @@
 ---
 /**
- * 08 · Awards (#awards) — STUB from the foundation.
- * Owned by the Awards section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/awards.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 08 · Awards (#awards) — two nominee seals.
+ * The Welcome to Georgia! National Tourism Awards set as a typographic
+ * lockup (never their logo), and one laurel seal per verified nomination:
+ * ink medallion, foil wreath. Only verified nominations are shown — the
+ * template's other two slots are in docs/CONTENT-TODO.md, never as empty boxes.
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
+import Icon from '../ui/Icon.astro';
+import LaurelSeal from './awards/LaurelSeal.astro';
+import { AWARDS, PROGRAMME } from './awards/data';
 import { contentLang, getLang, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'awards');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'awards') === lang ? undefined : 'en';
 ---
 
-<section lang={textLang} id="awards" class="section" aria-labelledby="awards-title">
+<section lang={textLang} id="awards" class="section awards" aria-labelledby="awards-title">
   <div class="container">
     <SectionHead number={8} id="awards-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="seals" count={2} note="Welcome to Georgia! National Tourism Awards — round nominee seals" />
+
+    <div class="awards__body">
+      <div class="awards__programme">
+        <p class="awards__kicker kicker">{t.programme.kicker}</p>
+        <p class="awards__name" lang="en">
+          <span class="awards__welcome">{PROGRAMME.name}</span>
+          <span class="awards__sub">{PROGRAMME.sub}</span>
+        </p>
+        <p class="awards__text">{t.programme.text}</p>
+        <a class="awards__link" href={PROGRAMME.url} target="_blank" rel="noopener">
+          {PROGRAMME.domain}
+          <Icon name="arrow-up-right" size={14} strokeWidth={1.75} />
+          <span class="visually-hidden"> — {t.programme.link} ({common.aria.newTab})</span>
+        </a>
+      </div>
+
+      <ol class="awards__list" role="list" aria-label={t.listLabel}>
+        {
+          AWARDS.map((award) => {
+            const item: { category: string; detail?: string } = t.items[award.id];
+            return (
+              <li class="award" data-stamp style={`--i:${AWARDS.indexOf(award)}`}>
+                <LaurelSeal
+                  class="award__seal"
+                  year={award.year}
+                  label={t.nominee}
+                  ringTop={PROGRAMME.ringTop}
+                  ringBottom={PROGRAMME.ringBottom}
+                  ink={award.ink}
+                  tilt={award.tilt}
+                />
+                <p class="award__meta">
+                  <span class="award__year">{award.year}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{t.nominee}</span>
+                </p>
+                <h3 class="award__category">{item.category}</h3>
+                {item.detail && <p class="award__detail">{item.detail}</p>}
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
   </div>
 </section>
+
+<script>
+  import { revealStamps } from './meet-us/reveal';
+
+  revealStamps(document.getElementById('awards'));
+</script>
+
+<style>
+  .awards__body {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    column-gap: var(--layout-gap);
+    row-gap: var(--space-xl);
+    align-items: center;
+  }
+
+  /* ── the programme, set in our type (no logo) ── */
+  .awards__programme {
+    grid-column: 1 / span 4;
+    display: grid;
+    justify-items: start;
+    gap: var(--space-s);
+    padding-block: var(--space-l);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .awards__kicker {
+    color: var(--color-text-muted);
+  }
+
+  .awards__name {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .awards__welcome {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-display-m);
+    font-variation-settings: var(--fvs-accent);
+    line-height: 0.98;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-emphasis);
+  }
+
+  .awards__sub {
+    font-family: var(--font-text);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-caps-wide);
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .awards__text {
+    max-width: 30ch;
+    font-size: var(--fs-base);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+  }
+
+  .awards__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-link);
+  }
+
+  /* ── the seals ── */
+  .awards__list {
+    grid-column: 6 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xl) var(--layout-gap);
+    margin: 0;
+  }
+
+  .award {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .award :global(.award__seal) {
+    --lseal-size: clamp(14.5rem, 10rem + 9vw, 19.5rem);
+    margin-bottom: var(--space-m);
+  }
+
+  .award__meta {
+    display: inline-flex;
+    gap: 0.45rem;
+    font-family: var(--font-text);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .award__meta:lang(ka) {
+    font-size: var(--fs-xs);
+  }
+
+  .award__year {
+    color: var(--color-text);
+  }
+
+  .award__category {
+    max-width: 18ch;
+    margin-top: var(--space-2xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .award__category:lang(ka) {
+    max-width: 22ch;
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-ka-text);
+    line-height: 1.35;
+  }
+
+  .award__detail {
+    margin-top: var(--space-2xs);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* ── entrance: the seals are pressed on, one after the other ── */
+  @media screen and (prefers-reduced-motion: no-preference) {
+    :global([data-reveal='ready']) .award:not([data-revealed]) :global(.award__seal) {
+      opacity: 0;
+    }
+
+    :global([data-reveal='ready']) .award[data-revealed] :global(.award__seal) {
+      animation: seal-press var(--dur-slow) var(--ease-overshoot) backwards;
+      animation-delay: calc(var(--i, 0) * 2 * var(--dur-stagger));
+    }
+  }
+
+  @keyframes seal-press {
+    from {
+      opacity: 0;
+      transform: rotate(calc(var(--lseal-tilt, 0deg) - 8deg)) scale(1.18);
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* ── tablet ── */
+  @media (max-width: 63.99em) {
+    .awards__programme {
+      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--layout-gap);
+      align-items: end;
+    }
+
+    .awards__kicker,
+    .awards__name {
+      grid-column: 1;
+    }
+
+    .awards__text,
+    .awards__link {
+      grid-column: 2;
+    }
+
+    .awards__text {
+      grid-row: 2;
+    }
+
+    .awards__link {
+      grid-row: 3;
+    }
+
+    .awards__list {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ── phone ── */
+  @media (max-width: 39.99em) {
+    .awards__programme {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .awards__text,
+    .awards__link {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .awards__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,23 +1,360 @@
 ---
 /**
- * 03 · Hosts (#hosts) — STUB from the foundation.
- * Owned by the Hosts section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/hosts.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 03 · Hosts We Love (#hosts) — a magazine feature spread.
+ *
+ * Two featured hosts as large cards (Sisatura, wide; Leila, tall and dropped
+ * like the editorial mock), a margin note on the photographs, then "Doors we
+ * keep coming back to": the policy's statement on local families and the four
+ * other hosts as duotone entries. Monogram seals with Georgian initials stand
+ * in for portraits; every photo is a place photograph, labelled as such.
+ *
+ * Facts come only from docs/BRIEF.md, docs/DESIGN.md and docs/research
+ * (Sisatura, Leila, Samvel). Vacheishvili Family, Aluda and Maia get warm
+ * lines that make no factual claim. Data: sections/hosts/data.ts.
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import FeaturedHost from './hosts/FeaturedHost.astro';
+import HostEntry from './hosts/HostEntry.astro';
+import HostQuote from './hosts/HostQuote.astro';
+import { HOSTS, POLICY_PDF } from './hosts/data';
 import { contentLang, getLang, useStrings } from '../../i18n';
+import { inline } from '../../lib/markup';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'hosts');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'hosts') === lang ? undefined : 'en';
+
+const byId = (id: string) => HOSTS.find((h) => h.id === id)!;
+const featured = HOSTS.filter((h) => h.featured);
+const others = HOSTS.filter((h) => !h.featured);
+const sisatura = byId('sisatura');
+const leila = byId('leila');
+// Hand-stamped feel: small, fixed tilts (never more than ±2°).
+const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
 ---
 
-<section lang={textLang} id="hosts" class="section" aria-labelledby="hosts-title">
+<section lang={textLang} id="hosts" class="section hosts" aria-labelledby="hosts-title" data-hosts>
   <div class="container">
     <SectionHead number={3} id="hosts-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="pair" count={2} note="Six hosts: landscape photos, monogram seals, pull-quotes from the policy" />
+
+    <div class="hosts__spread">
+      <p class="hosts__note">
+        <Icon name="image" size={16} class="hosts__note-icon" />
+        <span>{t.note}</span>
+      </p>
+
+      <FeaturedHost
+        class="hosts__lead"
+        variant="wide"
+        host={sisatura}
+        copy={t.hosts.sisatura}
+        label={`${t.photo.label} · ${t.photo.portraits}`}
+        quoteSource={t.quoteSource}
+        factsTitle={t.factsTitle}
+        sizes="(min-width: 64em) 56vw, 100vw"
+        tilt={TILTS[0]}
+      />
+
+      <FeaturedHost
+        class="hosts__second"
+        variant="tall"
+        host={leila}
+        copy={t.hosts.leila}
+        label={t.photo.label}
+        quoteSource={t.quoteSource}
+        sizes="(min-width: 64em) 32vw, (min-width: 40em) 48vw, 100vw"
+        tilt={TILTS[1]}
+      />
+    </div>
+
+    <div class="hosts__more">
+      <div class="hosts__more-head">
+        <div class="hosts__more-titles">
+          <p class="kicker hosts__more-kicker">{t.more.kicker}</p>
+          <h3 id="hosts-more-title" class="hosts__more-title display display--m" set:html={inline(t.more.title)} />
+        </div>
+        <HostQuote class="hosts__statement" size="l" text={t.more.quote} source={t.quoteSource} cite={POLICY_PDF} />
+      </div>
+
+      <ul class="hosts__grid" aria-labelledby="hosts-more-title">
+        {
+          others.map((host, i) => (
+            <li class="hosts__item">
+              <HostEntry
+                host={host}
+                copy={t.hosts[host.id as 'vacheishvili' | 'samvel' | 'aluda' | 'maia']}
+                label={t.photo.label}
+                quoteSource={t.quoteSource}
+                index={i}
+                tilt={TILTS[(i + featured.length) % TILTS.length]}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="hosts__foot">
+      <Button href="#contact" icon="arrow-right">{t.cta}</Button>
+      <a class="hosts__policy" href={POLICY_PDF}>
+        <Icon name="pdf" size={18} />
+        <span>{t.policyLink}</span>
+        <span class="hosts__policy-meta">{common.aria.pdf}</span>
+      </a>
+    </div>
   </div>
 </section>
+
+<script>
+  // Entrance reveal: arm every [data-reveal] item (hidden state) only when
+  // motion is allowed and IntersectionObserver exists, then reveal each one
+  // once as it scrolls in. Without JS or with reduced motion, nothing hides.
+  const root = document.getElementById('hosts');
+  const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  if (root && motionOk && 'IntersectionObserver' in window) {
+    const items = root.querySelectorAll<HTMLElement>('[data-reveal]');
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          (entry.target as HTMLElement).dataset.reveal = 'in';
+          io.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.12 },
+    );
+    items.forEach((el) => {
+      const box = el.getBoundingClientRect();
+      // Already on screen (e.g. landed on /#hosts): leave it visible.
+      if (box.top < window.innerHeight && box.bottom > 0) return;
+      el.dataset.reveal = 'pending';
+      io.observe(el);
+    });
+  }
+</script>
+
+<style>
+  /* ── featured spread ── */
+  .hosts__spread {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    grid-template-areas:
+      'lead lead lead lead lead lead lead . note note note note'
+      'lead lead lead lead lead lead lead . second second second second';
+    grid-template-rows: auto 1fr;
+    column-gap: var(--layout-gap);
+    align-items: start;
+    /* Room for the seal that overlaps the first photo's top edge. */
+    margin-top: var(--space-m);
+  }
+
+  .hosts__spread > :global(.hosts__lead) {
+    grid-area: lead;
+  }
+
+  .hosts__spread > :global(.hosts__second) {
+    grid-area: second;
+    margin-top: clamp(5rem, 2rem + 6vw, 8.5rem);
+  }
+
+  /* Margin note: why there are no portraits. */
+  .hosts__note {
+    grid-area: note;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-xs);
+    align-items: start;
+    max-width: 36ch;
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-text);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text-muted);
+  }
+
+  .hosts__note:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-ka-text);
+    line-height: 1.6;
+  }
+
+  .hosts__note :global(.hosts__note-icon) {
+    margin-top: 0.15em;
+    color: var(--color-text-muted);
+  }
+
+  /* ── more hosts ── */
+  .hosts__more {
+    margin-top: clamp(4rem, 2rem + 6vw, 7.5rem);
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .hosts__more-head {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    column-gap: var(--layout-gap);
+    row-gap: var(--space-l);
+    align-items: end;
+    margin-bottom: clamp(3.5rem, 2rem + 4vw, 5.5rem);
+  }
+
+  .hosts__more-titles {
+    grid-column: 1 / span 5;
+    display: grid;
+    gap: var(--space-m);
+    align-self: start;
+  }
+
+  .hosts__more-kicker {
+    color: var(--color-text-muted);
+  }
+
+  .hosts__more-title {
+    margin: 0;
+  }
+
+  .hosts__more-head > :global(.hosts__statement) {
+    grid-column: 7 / -1;
+    align-self: start;
+    margin-top: var(--space-xl);
+  }
+
+  .hosts__more-head > :global(.hosts__statement) {
+    --hq-measure: 38ch;
+  }
+
+  .hosts__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-2xl) clamp(var(--layout-gap), 2.2vw, var(--space-xl));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hosts__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* ── foot ── */
+  .hosts__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m) var(--space-l);
+    margin-top: clamp(3rem, 2rem + 3vw, 4.5rem);
+    padding-top: var(--space-m);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .hosts__policy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+    text-decoration-color: var(--color-rule-strong);
+  }
+
+  .hosts__policy:hover {
+    color: var(--color-link);
+    text-decoration-color: currentColor;
+  }
+
+  .hosts__policy-meta {
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    color: var(--color-text-muted);
+  }
+
+  /* ── laptop ── */
+  @media (min-width: 64em) and (max-width: 79.99em) {
+    .hosts__spread {
+      grid-template-areas:
+        'lead lead lead lead lead lead lead note note note note note'
+        'lead lead lead lead lead lead lead second second second second second';
+    }
+  }
+
+  /* ── tablet ── */
+  @media (max-width: 63.99em) {
+    .hosts__spread {
+      grid-template-areas:
+        'note note note note note note note note note note . .'
+        'lead lead lead lead lead lead lead lead lead lead lead lead'
+        'second second second second second second second second second second second second';
+      grid-template-rows: auto;
+      row-gap: var(--space-xl);
+    }
+
+    .hosts__note {
+      max-width: 52ch;
+    }
+
+    .hosts__spread > :global(.hosts__second) {
+      margin-top: var(--space-l);
+    }
+
+    .hosts__more-titles,
+    .hosts__more-head > :global(.hosts__statement) {
+      grid-column: 1 / -1;
+    }
+
+    .hosts__more-head > :global(.hosts__statement) {
+      margin-top: var(--space-s);
+    }
+
+    .hosts__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: var(--space-2xl);
+    }
+  }
+
+  /* ── phone ── */
+  @media (max-width: 39.99em) {
+    .hosts__spread {
+      grid-template-areas:
+        'note note note note note note note note note note note note'
+        'lead lead lead lead lead lead lead lead lead lead lead lead'
+        'second second second second second second second second second second second second';
+    }
+
+    .hosts__grid {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-xl);
+    }
+
+    .hosts__item + .hosts__item {
+      padding-top: var(--space-l);
+      border-top: var(--border-hair) solid var(--color-rule);
+    }
+
+    .hosts__foot {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    /* The shared button never wraps (Latin); long translations must here. */
+    .hosts__foot :global(.btn) {
+      justify-content: space-between;
+      white-space: normal;
+      text-wrap: balance;
+    }
+  }
+</style>

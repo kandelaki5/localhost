@@ -1,0 +1,606 @@
+/* ==========================================================================
+   AI Lab — the proposal document ("paper on night") + its print stylesheet.
+   The sheet re-maps the colour roles to paper locally (the night surface
+   remaps them for the whole page). Uses --color-paper / --color-ink, which
+   stay paper/ink on every surface. A [data-surface='paper'] remap is
+   requested in docs/requests/ai-lab.md; until then it lives here.
+   ========================================================================== */
+
+.lab-sheet {
+  --color-bg: var(--color-paper);
+  --color-bg-raised: color-mix(in srgb, var(--color-paper) 55%, var(--color-text-on-photo));
+  --color-bg-sunken: color-mix(in srgb, var(--color-paper) 88%, var(--color-ink));
+  --color-text: var(--color-ink);
+  --color-text-body: color-mix(in srgb, var(--color-ink) 84%, var(--color-paper));
+  --color-text-muted: color-mix(in srgb, var(--color-ink) 66%, var(--color-paper));
+  --color-rule: color-mix(in srgb, var(--color-ink) 15%, transparent);
+  --color-rule-strong: color-mix(in srgb, var(--color-ink) 40%, transparent);
+  --color-emphasis: color-mix(in srgb, var(--color-brand-green) 72%, var(--color-ink));
+  --color-green-ink: color-mix(in srgb, var(--color-brand-green) 72%, var(--color-ink));
+  --color-red-ink: color-mix(in srgb, var(--color-accent) 78%, var(--color-ink));
+  --color-link: var(--color-green-ink);
+  --color-link-hover: var(--color-ink);
+  --color-focus: var(--color-accent);
+  position: relative;
+  padding: clamp(1.25rem, 0.25rem + 4.2vw, 4rem);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  background-image: var(--texture-paper);
+  box-shadow: var(--shadow-lg), 0 0 0 var(--border-hair) color-mix(in srgb, var(--color-ink) 10%, transparent);
+  color: var(--color-text);
+  color-scheme: light;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lab-sheet {
+    animation: lab-rise var(--dur-slow) var(--ease-out) both;
+  }
+}
+
+.lab-sheet ::selection {
+  background: var(--color-green-ink);
+  color: var(--color-paper);
+}
+
+/* ── header ── */
+.lab-sheet__head {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-s) var(--space-l);
+  padding-bottom: var(--space-s);
+  border-bottom: var(--border-thick) solid var(--color-ink);
+}
+
+.lab-sheet__head .logo,
+.lab-sheet__logo {
+  height: 2.5rem;
+  width: auto;
+}
+
+.lab-sheet__meta {
+  display: grid;
+  justify-items: end;
+  gap: var(--space-3xs);
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-3xs);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-align: end;
+}
+
+.lab-sheet__meta:lang(ka) {
+  font-family: var(--font-ka-text);
+  font-size: var(--fs-2xs);
+  text-transform: none;
+}
+
+.lab-sheet__kind {
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+}
+
+/* Rubber stamp: DRAFT (· DEMO) — red ink, ≤ 2° */
+.lab-sheet__stamp {
+  align-self: center;
+  transform: rotate(-2deg);
+  padding: var(--space-3xs) var(--space-xs);
+  border: var(--border-heavy) solid var(--color-red-ink);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-red-ink);
+  -webkit-mask-image: var(--texture-ink);
+  mask-image: var(--texture-ink);
+  mask-size: 160px;
+}
+
+.lab-sheet__stamp:lang(ka) {
+  font-family: var(--font-ka-text);
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+/* ── title block ── */
+.lab-sheet__for {
+  margin-top: var(--space-l);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.lab-sheet__label {
+  font-family: var(--font-text);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: var(--case-caps);
+  color: var(--color-green-ink);
+}
+
+.lab-sheet__label--red {
+  color: var(--color-red-ink);
+}
+
+.lab-sheet__title {
+  margin-top: var(--space-s);
+  font-family: var(--font-display);
+  font-size: calc(var(--fs-3xl) * var(--fs-scale, 1));
+  font-weight: var(--fw-display-m);
+  font-variation-settings: var(--fvs-display);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-text);
+}
+
+.lab-sheet__title:focus {
+  outline: none;
+}
+
+.lab-sheet__for:not([hidden]) + .lab-sheet__title {
+  margin-top: var(--space-2xs);
+}
+
+.lab-sheet__subtitle {
+  margin-top: var(--space-xs);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-md);
+  font-variation-settings: var(--fvs-caption);
+  color: var(--color-text-muted);
+}
+
+.lab-sheet__subtitle:lang(ka) {
+  font-style: normal;
+}
+
+.lab-sheet__h {
+  margin-bottom: var(--space-xs);
+  padding-top: var(--space-2xs);
+  border-top: var(--border-hair) solid var(--color-green-ink);
+  font-family: var(--font-text);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: var(--case-caps);
+  color: var(--color-text);
+}
+
+.lab-sheet__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: var(--space-l);
+  margin-top: var(--space-xl);
+  align-items: start;
+}
+
+.lab-sheet__summary {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--color-text-body);
+}
+
+.lab-sheet__pricing {
+  display: grid;
+  gap: var(--space-2xs);
+  padding: var(--space-s) var(--space-m);
+  border: var(--border-hair) solid color-mix(in srgb, var(--color-red-ink) 45%, transparent);
+  border-left: var(--border-heavy) solid var(--color-red-ink);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--color-accent) 5%, var(--color-paper));
+  font-size: var(--fs-xs);
+  line-height: var(--lh-snug);
+  color: var(--color-text);
+}
+
+/* ── overview: highlights + route ── */
+.lab-sheet__overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-l);
+  margin-top: var(--space-xl);
+}
+
+.lab-sheet__highlights {
+  display: grid;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: hl;
+}
+
+.lab-sheet__highlights li {
+  position: relative;
+  padding-left: 2.25rem;
+  counter-increment: hl;
+  color: var(--color-text-body);
+}
+
+.lab-sheet__highlights li::before {
+  content: counter(hl, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-md);
+  font-variation-settings: 'opsz' 30, 'WONK' 1;
+  line-height: 1.3;
+  color: var(--color-red-ink);
+}
+
+.lab-sheet .lab-map {
+  --map-sea: color-mix(in srgb, var(--color-paper) 86%, var(--color-ink));
+  --map-land: color-mix(in srgb, var(--color-paper) 93%, var(--color-ink));
+  --map-country: var(--color-paper);
+  --map-border: color-mix(in srgb, var(--color-brand-green) 60%, transparent);
+  --map-border-faint: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  --map-route: var(--color-brand-green);
+  --map-pin: var(--color-ink);
+  --map-pin-text: var(--color-paper);
+  --map-grid: color-mix(in srgb, var(--color-ink) 5%, transparent);
+  border: var(--border-hair) solid var(--color-rule);
+}
+
+.lab-sheet__map .lab-map__name {
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-paper) 85%, transparent);
+}
+
+.lab-sheet__map .lab-map__glow {
+  opacity: 0.18;
+}
+
+.lab-sheet__route .lab-sheet__routeno {
+  margin-right: 0.2em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-3xs);
+  font-weight: var(--fw-bold);
+  color: var(--color-green-ink);
+}
+
+.lab-sheet__route {
+  margin-top: var(--space-xs);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+}
+
+/* ── day table ── */
+.lab-sheet__days {
+  margin-top: var(--space-xl);
+}
+
+.lab-sheet__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-xs);
+  line-height: var(--lh-snug);
+}
+
+.lab-sheet__table thead th {
+  padding: var(--space-2xs) var(--space-xs);
+  border-bottom: var(--border-thin) solid var(--color-ink);
+  font-size: var(--fs-3xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: var(--case-caps);
+  text-align: start;
+  color: var(--color-text-muted);
+}
+
+.lab-sheet__table tbody tr {
+  border-bottom: var(--border-hair) solid var(--color-rule);
+  break-inside: avoid;
+}
+
+.lab-sheet__table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--color-ink) 2.5%, transparent);
+}
+
+.lab-sheet__table td,
+.lab-sheet__table tbody th {
+  padding: var(--space-s) var(--space-xs);
+  vertical-align: top;
+  text-align: start;
+  color: var(--color-text-body);
+}
+
+.lab-sheet__table th:first-child,
+.lab-sheet__table td:first-child {
+  padding-left: 0;
+}
+
+.lab-sheet__dayno {
+  width: 3.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-display-sm);
+  font-variation-settings: 'opsz' 48, 'WONK' 1;
+  line-height: 1;
+  color: var(--color-green-ink);
+}
+
+.lab-sheet__prog {
+  width: 46%;
+}
+
+.lab-sheet__daytitle {
+  margin-bottom: var(--space-2xs);
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-display-sm);
+  font-variation-settings: var(--fvs-heading);
+  line-height: var(--lh-heading);
+  color: var(--color-text);
+}
+
+.lab-sheet__acts {
+  display: grid;
+  gap: var(--space-3xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lab-sheet__acts li {
+  position: relative;
+  padding-left: var(--space-s);
+}
+
+.lab-sheet__acts li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.375rem;
+  height: 1px;
+  background: var(--color-green-ink);
+}
+
+.lab-sheet__places {
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+}
+
+/* ── lists ── */
+.lab-sheet__lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xl) var(--space-l);
+  margin-top: var(--space-xl);
+}
+
+.lab-sheet__list {
+  display: grid;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: st;
+}
+
+.lab-sheet__list li {
+  position: relative;
+  padding-left: var(--space-m);
+  color: var(--color-text-body);
+}
+
+.lab-sheet__list li::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: var(--fw-bold);
+}
+
+.lab-sheet__list--yes li::before {
+  content: '✓';
+  color: var(--color-green-ink);
+}
+
+.lab-sheet__list--no li::before {
+  content: '–';
+  color: var(--color-text-muted);
+}
+
+.lab-sheet__list--leaf li::before {
+  content: '';
+  top: 0.45em;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 0 var(--radius-round) 0 var(--radius-round);
+  background: var(--color-green-ink);
+}
+
+.lab-sheet__list--steps li {
+  counter-increment: st;
+  padding-left: var(--space-l);
+}
+
+.lab-sheet__list--steps li::before {
+  content: counter(st);
+  display: grid;
+  place-items: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  border: var(--border-hair) solid var(--color-ink);
+  border-radius: var(--radius-round);
+  font-family: var(--font-mono);
+  font-size: var(--fs-3xs);
+  line-height: 1;
+  color: var(--color-ink);
+}
+
+.lab-sheet__disclaimer {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-s);
+  border-top: var(--border-hair) solid var(--color-rule);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-xs);
+  font-variation-settings: var(--fvs-caption);
+  line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+}
+
+.lab-sheet__disclaimer:lang(ka) {
+  font-style: normal;
+}
+
+.lab-sheet__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs) var(--space-m);
+  margin-top: var(--space-l);
+  padding-top: var(--space-s);
+  border-top: var(--border-thick) solid var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--fs-3xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-text-muted);
+}
+
+/* ── narrow screens: the table becomes stacked day cards ── */
+@media screen and (max-width: 47.99em) {
+  .lab-sheet__meta {
+    justify-items: start;
+    margin-left: 0;
+    text-align: start;
+  }
+
+  .lab-sheet__intro,
+  .lab-sheet__overview,
+  .lab-sheet__lists {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lab-sheet__table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .lab-sheet__table,
+  .lab-sheet__table tbody,
+  .lab-sheet__table tr,
+  .lab-sheet__table td,
+  .lab-sheet__table tbody th {
+    display: block;
+    width: auto;
+  }
+
+  .lab-sheet__table tbody tr {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    column-gap: var(--space-xs);
+    padding-block: var(--space-s);
+  }
+
+  .lab-sheet__table tbody tr:nth-child(even) {
+    background: none;
+  }
+
+  .lab-sheet__table td,
+  .lab-sheet__table tbody th {
+    padding: 0;
+  }
+
+  .lab-sheet__dayno {
+    grid-row: span 4;
+  }
+
+  .lab-sheet__table td[data-label] {
+    display: flex;
+    gap: var(--space-2xs);
+    margin-top: var(--space-2xs);
+  }
+
+  .lab-sheet__table td[data-label]::before {
+    content: attr(data-label);
+    flex: none;
+    min-width: 6.5rem;
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+}
+
+/* ── Print / Save as PDF: only the proposal sheet ─────────────────────────── */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 14mm 16mm;
+  }
+
+  html:has(.lab-sheet) body,
+  html:has(.lab-sheet) .lab-page,
+  html:has(.lab-sheet) #proposal {
+    background: none !important;
+  }
+
+  html:has(.lab-sheet) body > :not(main),
+  html:has(.lab-sheet) main > :not(.lab-page):not(.lab-map-sprite),
+  html:has(.lab-sheet) .lab-page > :not(#proposal),
+  html:has(.lab-sheet) #proposal .container > :not(.lab-prop__grid),
+  html:has(.lab-sheet) #proposal .no-print,
+  html:has(.lab-sheet) #proposal::before,
+  html:has(.lab-sheet) #proposal template {
+    display: none !important;
+  }
+
+  html:has(.lab-sheet) #proposal {
+    padding: 0 !important;
+  }
+
+  html:has(.lab-sheet) #proposal .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  html:has(.lab-sheet) .lab-prop__grid {
+    display: block !important;
+  }
+
+  html:has(.lab-sheet) .lab-prop__output {
+    max-width: none !important;
+  }
+
+  .lab-sheet {
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    animation: none !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .lab-sheet__intro,
+  .lab-sheet__overview,
+  .lab-sheet__lists > section,
+  .lab-sheet__h {
+    break-inside: avoid;
+  }
+
+  .lab-sheet__h {
+    break-after: avoid;
+  }
+
+  .lab-sheet__table thead {
+    display: table-header-group;
+  }
+}

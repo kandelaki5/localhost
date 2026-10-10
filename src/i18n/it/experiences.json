@@ -1,0 +1,63 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Esperienze",
+  "title": "Sei modi per *entrare* nel Caucaso.",
+  "intro": "Costruisci un programma attorno a un solo tema o intrecciane diversi. Ogni itinerario è preparato dal nostro team di Tbilisi e adattato ai tuoi clienti, alla stagione e al budget.",
+  "running": "Sei vie d’accesso",
+  "carousel": {
+    "label": "Esperienze",
+    "prev": "Esperienze precedenti",
+    "next": "Esperienze successive",
+    "status": "Esperienze da {from} a {to} di {total}",
+    "statusOne": "Esperienza {from} di {total}"
+  },
+  "card": {
+    "number": "Nº",
+    "where": "Dove",
+    "when": "Quando",
+    "plan": "Pianifica con l’AI"
+  },
+  "seasons": {
+    "yearRound": "Tutto l’anno",
+    "best": "meglio {months}",
+    "harvest": "vendemmia {months}",
+    "harvestTable": "sapori del raccolto {months}",
+    "highRoutes": "alta quota {months}",
+    "lowerRoutes": "percorsi più bassi {months}",
+    "beach": "mare {months}",
+    "ski": "sci {months}",
+    "feasts": "date delle feste verificate ogni anno"
+  },
+  "cards": {
+    "culture": {
+      "text": "Città vecchie, città rupestri e chiese affrescate, dove si incontravano imperi e fedi e le tradizioni si vivono, non si recitano.",
+      "subject": "Narikala, Tbilisi vecchia",
+      "alt": "Tbilisi vecchia all’ora d’oro: tetti rossi che salgono verso la fortezza di Narikala, con una chiesa a cupola sulla collina"
+    },
+    "wine": {
+      "text": "Ottomila vendemmie: vino in qvevri nelle cantine di famiglia e un posto alla tavola del raccolto.",
+      "subject": "Rtveli, la vendemmia",
+      "alt": "Vendemmia in un vigneto: un uomo anziano e un ragazzo in abiti tradizionali mostrano un cesto di uva nera"
+    },
+    "trekking": {
+      "text": "Ghiacciai, villaggi di torri e sentieri di pastori: dalle escursioni facili di un giorno ai trekking di più giorni, da una guesthouse all’altra.",
+      "subject": "Valle di Truso, Kazbegi",
+      "alt": "Un fiume serpeggia sul fondo verde della Valle di Truso tra creste ripide, con raggi di sole che filtrano tra le nuvole"
+    },
+    "gastronomy": {
+      "text": "La supra guidata dal tamada, le cucine di famiglia, i mercati e il pane del forno di argilla: ogni valle ha il suo piatto.",
+      "subject": "Mtsvadi, pane ed erbe",
+      "alt": "Una tavola apparecchiata all’aperto con spiedini di carne alla griglia, focacce, formaggio, pomodori, cipollotti e una brocca di terracotta"
+    },
+    "pilgrim": {
+      "text": "Monasteri, chiese rupestri e luoghi santi ancora vivi, in due delle più antiche nazioni cristiane del mondo.",
+      "subject": "David Gareja",
+      "alt": "Il complesso monastico di David Gareja: celle scavate nella roccia ed edifici in pietra su un pendio verde tra colline semidesertiche"
+    },
+    "leisure": {
+      "text": "Coste del Mar Nero, città termali, laghi e piste da sci: una vacanza a sé o un finale lento dopo un tour intenso.",
+      "subject": "Batumi all’ora blu",
+      "alt": "Batumi all’ora blu: il lungomare illuminato e le torri della città sul Mar Nero"
+    }
+  }
+}

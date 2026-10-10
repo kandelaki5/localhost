@@ -1,0 +1,63 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Doświadczenia",
+  "title": "Sześć dróg *w głąb* Kaukazu.",
+  "intro": "Zbuduj program wokół jednego tematu albo połącz kilka. Każdą trasę przygotowuje nasz zespół w Tbilisi i dopasowuje ją do Twoich klientów, sezonu i budżetu.",
+  "running": "Sześć dróg",
+  "carousel": {
+    "label": "Doświadczenia",
+    "prev": "Poprzednie doświadczenia",
+    "next": "Następne doświadczenia",
+    "status": "Doświadczenia od {from} do {to} z {total}",
+    "statusOne": "Doświadczenie {from} z {total}"
+  },
+  "card": {
+    "number": "Nº",
+    "where": "Gdzie",
+    "when": "Kiedy",
+    "plan": "Zaplanuj z AI"
+  },
+  "seasons": {
+    "yearRound": "Cały rok",
+    "best": "najlepiej {months}",
+    "harvest": "winobranie {months}",
+    "harvestTable": "smaki zbiorów {months}",
+    "highRoutes": "wysokie trasy {months}",
+    "lowerRoutes": "niższe trasy {months}",
+    "beach": "plaża {months}",
+    "ski": "narty {months}",
+    "feasts": "daty świąt sprawdzamy co roku"
+  },
+  "cards": {
+    "culture": {
+      "text": "Stare miasta, skalne miasta i cerkwie pełne fresków: tu spotykały się imperia i wiary, a tradycje wciąż są żywe, nie odgrywane.",
+      "subject": "Narikala, Stare Tbilisi",
+      "alt": "Stare Tbilisi o złotej godzinie: czerwone dachy pną się ku twierdzy Narikala, na wzgórzu cerkiew z kopułą"
+    },
+    "wine": {
+      "text": "Osiem tysięcy lat winiarstwa: wino z kwewri w rodzinnych piwnicach i miejsce przy stole w czasie winobrania.",
+      "subject": "Rtweli, czyli winobranie",
+      "alt": "Winobranie w winnicy: starszy mężczyzna i chłopiec w tradycyjnych strojach trzymają kosz czarnych winogron"
+    },
+    "trekking": {
+      "text": "Lodowce, wioski z wieżami obronnymi i pasterskie ścieżki: od łatwych jednodniowych wędrówek po kilkudniowe trekkingi od pensjonatu do pensjonatu.",
+      "subject": "Dolina Truso, Kazbegi",
+      "alt": "Rzeka wije się zielonym dnem Doliny Truso między stromymi grzbietami, przez chmury przebijają się promienie słońca"
+    },
+    "gastronomy": {
+      "text": "Supra z tamadą, rodzinne kuchnie, targi i chleb z glinianego pieca: każda dolina ma swoje danie.",
+      "subject": "Mcwadi, chleb i zielenina",
+      "alt": "Stół nakryty na zewnątrz: szaszłyki z grillowanego mięsa, placki chlebowe, ser, pomidory, dymka i gliniany dzban"
+    },
+    "pilgrim": {
+      "text": "Klasztory, skalne kościoły i wciąż żywe miejsca święte w dwóch z najstarszych chrześcijańskich krajów świata.",
+      "subject": "Dawit Garedża",
+      "alt": "Kompleks klasztorny Dawit Garedża: skalne cele i kamienne budynki na zielonym zboczu wśród półpustynnych wzgórz"
+    },
+    "leisure": {
+      "text": "Wybrzeże Morza Czarnego, uzdrowiska, jeziora i stoki narciarskie: osobny urlop albo spokojny finał intensywnej wycieczki.",
+      "subject": "Batumi o zmierzchu",
+      "alt": "Batumi o zmierzchu: oświetlony nadmorski bulwar i wieżowce nad Morzem Czarnym"
+    }
+  }
+}

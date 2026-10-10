@@ -1,0 +1,50 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Abbinamento foto",
+  "title": "Mostraci un luogo *che ami.*",
+  "intro": "Un vigneto in Toscana, una valle nelle Dolomiti, una costa che non dimentichi — condividi una foto e Claude trova dove, nel Caucaso meridionale, si respira la stessa atmosfera.",
+  "upload": {
+    "title": "La tua foto",
+    "drop": "Trascina qui una foto",
+    "or": "oppure",
+    "choose": "Scegli una foto",
+    "camera": "Scatta una foto",
+    "hint": "JPEG, PNG o WebP. La riduciamo nel tuo browser prima di inviarla.",
+    "dragActive": "Rilascia per abbinare"
+  },
+  "samples": {
+    "title": "Oppure prova una delle nostre",
+    "action": "Abbina questa foto",
+    "credit": "“{title}” di {creator}"
+  },
+  "screen": {
+    "label": "Mirino",
+    "idle": "In attesa di una foto",
+    "idleHint": "Scegli una foto, o una delle nostre — il risultato appare qui.",
+    "working": "Stiamo guardando la tua foto…",
+    "steps": [
+      "Leggiamo la luce e il paesaggio",
+      "Cerchiamo tra 51 luoghi in Georgia, Armenia e Azerbaigian",
+      "Scegliamo tre abbinamenti"
+    ],
+    "mood": "Atmosfera",
+    "whatISee": "Cosa vedo",
+    "yourPhoto": "La tua foto"
+  },
+  "result": {
+    "title": "Tre luoghi con la stessa atmosfera",
+    "match": "Abbinamento {n}",
+    "tip": "Consiglio",
+    "map": "Mappa di {place}",
+    "plan": "Pianifica questo viaggio",
+    "again": "Prova un’altra foto",
+    "notTravel": "Nessun paesaggio in questa foto"
+  },
+  "errors": {
+    "not_an_image": "Questo file non è un’immagine. Scegli una foto JPEG, PNG o WebP.",
+    "file_too_large": "La foto è troppo grande. Scegline una più piccola.",
+    "decode_failed": "Non riusciamo ad aprire la foto. Provane un’altra o salvala prima come JPEG.",
+    "encode_failed": "Il browser non è riuscito a preparare la foto. Provane un’altra.",
+    "refusal": "Non possiamo abbinare questa foto. Prova con un paesaggio o una scena di viaggio."
+  }
+}

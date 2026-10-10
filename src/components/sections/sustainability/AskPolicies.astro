@@ -1,0 +1,161 @@
+---
+/**
+ * "Ask our policies ✦" — the entry point to the AI Lab's Policy Q&A
+ * (/ai-lab/#policy-qa), which answers from the five documents with verbatim
+ * quotes. Set on a small night-surface panel: the AI layer is always "night"
+ * on this site (DESIGN.md). A plain link: no AI code is loaded here.
+ */
+import NightSurface from '../../ui/NightSurface.astro';
+import Button from '../../ui/Button.astro';
+import Icon from '../../ui/Icon.astro';
+import { getLang, localizePath, useStrings } from '../../../i18n';
+import { POLICY_QA_PATH } from './data';
+
+interface Props {
+  headingId: string;
+  class?: string;
+}
+
+const { headingId, class: className } = Astro.props;
+const lang = getLang(Astro);
+const t = useStrings(lang, 'sustainability');
+const a = t.ask;
+// Keep the sparkle on the same line as the title's last word.
+const words = a.title.split(' ');
+const lastWord = words.pop() ?? '';
+const titleHead = words.join(' ');
+---
+
+<NightSurface as="aside" labelledby={headingId} padded={false} glow="top" class={['sus-ask', className].filter(Boolean).join(' ')}>
+  <div class="ask__inner">
+    <p class="ask__kicker kicker">
+      <span class="ask__lamp" aria-hidden="true"></span>
+      {a.kicker}
+    </p>
+    <h3 id={headingId} class="ask__title">
+      {titleHead}{' '}
+      <span class="ask__last">{lastWord}<Icon name="sparkle" size={22} tone="sun" class="ask__sparkle" /></span>
+    </h3>
+    <p class="ask__text">{a.text}</p>
+    <div class="ask__examples">
+      <p class="ask__examples-label">{a.examplesLabel}</p>
+      <ul class="ask__list">
+        {a.examples.map((q) => <li class="ask__q">{q}</li>)}
+      </ul>
+    </div>
+    <Button href={localizePath(POLICY_QA_PATH, lang)} variant="ai" icon="arrow-right" class="ask__cta">
+      {a.cta}
+    </Button>
+  </div>
+</NightSurface>
+
+<style>
+  /* The panel root is rendered by NightSurface, so it is styled through :global(). */
+  :global(.sus-ask) {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .ask__inner {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+    padding: var(--space-m) var(--space-m) var(--space-l);
+  }
+
+  .ask__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    color: var(--color-text-muted);
+  }
+
+  .ask__lamp {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: var(--radius-round);
+    background: var(--color-led);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .ask__title {
+    margin: 0;
+    font-size: calc(var(--fs-2xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    line-height: var(--lh-heading);
+  }
+
+  .ask__last {
+    white-space: nowrap;
+  }
+
+  /* Inline, so it follows the last word when the title wraps (Georgian). */
+  .ask__title :global(.ask__sparkle) {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 0.2em;
+    margin-top: 0.05em;
+  }
+
+  .ask__text {
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+    max-width: 40ch;
+  }
+
+  .ask__examples {
+    width: 100%;
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .ask__examples-label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .ask__list {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-top: var(--space-2xs);
+  }
+
+  .ask__examples-label:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-size: var(--fs-2xs);
+    letter-spacing: 0;
+  }
+
+  .ask__q {
+    position: relative;
+    padding-left: var(--space-s);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-base);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text);
+  }
+
+  .ask__q:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+  }
+
+  .ask__q::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.5rem;
+    border-top: var(--border-hair) solid var(--color-green-ink);
+  }
+
+  .ask__inner :global(.ask__cta) {
+    margin-top: var(--space-2xs);
+  }
+</style>

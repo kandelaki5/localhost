@@ -1,0 +1,42 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Fragen zu Richtlinien",
+  "title": "Fragen Sie unsere Richtlinien — *mit Quelle.*",
+  "intro": "Fragen Sie nach Nachhaltigkeit, Ausflügen, Hotels oder Partnerregeln. Claude antwortet nur aus unseren fünf Richtlinien-Dokumenten und zitiert zu jeder Aussage die genaue Stelle.",
+  "library": {
+    "title": "Die Bibliothek",
+    "text": "Die fünf Dokumente, die die KI liest. Öffnen Sie jedes davon.",
+    "pdf": "PDF",
+    "lang": "auf Englisch"
+  },
+  "suggested": {
+    "title": "Eine Frage ausprobieren",
+    "questions": {
+      "footprint": "Wie verringern Sie Ihren ökologischen Fußabdruck?",
+      "animals": "Gehören Tierattraktionen zu Ihren Touren?",
+      "hotels": "Wie wählen Sie Hotels aus?",
+      "rights": "Wie schützen Sie die Rechte von Kindern und Beschäftigten?"
+    }
+  },
+  "composer": {
+    "label": "Ihre Frage",
+    "placeholder": "z. B. Arbeiten Sie mit lokalen Guides?",
+    "submit": "Fragen",
+    "count": "{n} / {max}",
+    "newChat": "Neues Gespräch",
+    "memory": "Folgefragen berücksichtigen die letzten drei Wortwechsel."
+  },
+  "chat": {
+    "label": "Gespräch",
+    "you": "Sie",
+    "ai": "Richtlinien von Local Host",
+    "working": "Wir lesen die Richtlinien…",
+    "empty": "Hier erscheint das Gespräch. Jede Antwort kommt mit ihren Quellen.",
+    "sources": "Quellen",
+    "source": "Quelle {n}",
+    "noSources": "Keine Stelle zitiert — vielleicht decken unsere Richtlinien diese Frage nicht ab. Unser Team antwortet gern unter info@localhost.ge.",
+    "englishNote": "Demo-Antworten sind auf Englisch vorbereitet.",
+    "otherQuestion": "Sie haben etwas anderes gefragt — dies ist die vorbereitete Antwort auf: „{q}“",
+    "generic": "Diese vorbereitete Demo-Antwort ist allgemein. Mit aktivierter KI beantwortet Claude genau Ihre Frage."
+  }
+}

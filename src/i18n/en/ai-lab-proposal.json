@@ -74,13 +74,12 @@
       "Writing the days",
       "Adding inclusions and notes"
     ],
-    "note": "Live drafting can take up to a minute."
+    "note": "Live drafting can take a minute or two."
   },
   "doc": {
     "kind": "Programme proposal",
     "draft": "Draft",
     "preparedFor": "Prepared for",
-    "date": "Date",
     "summary": "Summary",
     "highlights": "Highlights",
     "route": "Route",
@@ -95,8 +94,7 @@
     "notIncluded": "Not included",
     "sustainability": "Sustainability",
     "nextSteps": "Next steps",
-    "pricing": "Pricing",
-    "brief": "{groupSize} travellers · {when} · {days} days · {hotel} · {pace}"
+    "pricing": "Pricing"
   },
   "actions": {
     "print": "Print / Save as PDF",

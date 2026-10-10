@@ -1,0 +1,63 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Erlebnisse",
+  "title": "Sechs Wege *in* den Kaukasus.",
+  "intro": "Bauen Sie ein Programm um ein Thema oder verbinden Sie mehrere. Jede Route entwirft unser Team in Tiflis und passt sie an Ihre Kunden, Ihre Saison und Ihr Budget an.",
+  "running": "Sechs Wege",
+  "carousel": {
+    "label": "Erlebnisse",
+    "prev": "Vorherige Erlebnisse",
+    "next": "Nächste Erlebnisse",
+    "status": "Erlebnisse {from} bis {to} von {total}",
+    "statusOne": "Erlebnis {from} von {total}"
+  },
+  "card": {
+    "number": "Nº",
+    "where": "Wo",
+    "when": "Wann",
+    "plan": "Mit KI planen"
+  },
+  "seasons": {
+    "yearRound": "Ganzjährig",
+    "best": "am besten {months}",
+    "harvest": "Weinlese {months}",
+    "harvestTable": "Erntezeit {months}",
+    "highRoutes": "Hochgebirge {months}",
+    "lowerRoutes": "tiefere Routen {months}",
+    "beach": "Strand {months}",
+    "ski": "Ski {months}",
+    "feasts": "Festtage prüfen wir jedes Jahr"
+  },
+  "cards": {
+    "culture": {
+      "text": "Altstädte, Höhlenstädte und Freskenkirchen, wo Reiche und Religionen aufeinandertrafen und Traditionen gelebt statt inszeniert werden.",
+      "subject": "Narikala, Alt-Tiflis",
+      "alt": "Alt-Tiflis im Abendlicht: rote Dächer steigen zur Festung Narikala an, auf dem Hügel eine Kirche mit Kuppel"
+    },
+    "wine": {
+      "text": "Achttausend Jahrgänge: Qvevri-Wein in Familienkellern und ein Platz an der Erntetafel.",
+      "subject": "Rtweli, die Weinlese",
+      "alt": "Weinlese im Weinberg: ein älterer Mann und ein Junge in traditioneller Kleidung halten einen Korb mit dunklen Trauben"
+    },
+    "trekking": {
+      "text": "Gletscher, Wehrturmdörfer und Hirtenpfade: von leichten Tageswanderungen bis zu mehrtägigen Treks von Gästehaus zu Gästehaus.",
+      "subject": "Truso-Tal, Kasbegi",
+      "alt": "Ein Fluss windet sich durch den grünen Talboden des Truso-Tals zwischen steilen Graten, Sonnenstrahlen brechen durch die Wolken"
+    },
+    "gastronomy": {
+      "text": "Supra mit Tamada, Familienküchen, Märkte und Brot aus dem Lehmofen: Jedes Tal hat sein eigenes Gericht.",
+      "subject": "Mzwadi, Brot und Kräuter",
+      "alt": "Ein im Freien gedeckter Tisch mit gegrillten Fleischspießen, Fladenbrot, Käse, Tomaten, Frühlingszwiebeln und einem Tonkrug"
+    },
+    "pilgrim": {
+      "text": "Klöster, Felsenkirchen und lebendige heilige Stätten in zwei der ältesten christlichen Nationen der Welt.",
+      "subject": "Dawit Garedscha",
+      "alt": "Die Klosteranlage Dawit Garedscha: Felszellen und Steinbauten an einem grünen Hang inmitten halbwüstenartiger Hügel"
+    },
+    "leisure": {
+      "text": "Schwarzmeerküste, Kurorte, Seen und Skipisten: als eigener Urlaub oder ruhiger Ausklang einer vollen Rundreise.",
+      "subject": "Batumi zur blauen Stunde",
+      "alt": "Batumi zur blauen Stunde: die beleuchtete Strandpromenade und die Türme der Stadt am Schwarzen Meer"
+    }
+  }
+}

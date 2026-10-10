@@ -1,23 +1,594 @@
 ---
 /**
- * 06 · MeetUs (#meet-us) — STUB from the foundation.
- * Owned by the MeetUs section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/meet-us.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 06 · Meet us (#meet-us) — the trade-fair year.
+ * Six fairs as visa ink stamps, grouped by season and pinned to a Jan–Dec
+ * ruler with leader lines (desktop) or a stamped timeline (tablet/phone).
+ * The next fair is computed at build time from src/data/fairs.json and
+ * re-checked in the browser, so the page stays right after the build date.
+ * Copy never claims Local Host exhibits at a given edition (unverified).
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
-import { contentLang, getLang, useStrings } from '../../i18n';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import FairStamp from './meet-us/FairStamp.astro';
+import { FAIRS, MONTHS, seasonOf, yearPosition, type Season } from './meet-us/data';
+import { cityInName, formatDay, formatRange, isoDay, scheduleFairs, type Edition } from './meet-us/schedule';
+import { contentLang, getLang, localeInfo, useStrings } from '../../i18n';
+import { fmt } from '../../lib/markup';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'meet-us');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'meet-us') === lang ? undefined : 'en';
+// Day-month order for English ("14–16 Oct 2026"), as in the rest of the site (en_GB).
+const locale = lang === 'en' ? 'en-GB' : localeInfo(lang).bcp47;
+
+const today = isoDay(new Date());
+const status = new Map(scheduleFairs(FAIRS, today).map((s) => [s.id, s]));
+const cities: Record<string, string> = t.cities;
+
+const labelsOf = (e: Edition | null) => (e ? { range: formatRange(e, locale), until: formatDay(e.end, locale) } : undefined);
+
+const items = FAIRS.map((fair) => {
+  const s = status.get(fair.id);
+  const edition = s?.edition ?? null;
+  return {
+    fair,
+    labels: { last: labelsOf(fair.last), next: labelsOf(fair.next) },
+    state: s?.state ?? 'held',
+    edition,
+    city: cities[fair.id] ?? fair.name,
+    when: edition ? formatRange(edition, locale) : '',
+    x: edition ? yearPosition(edition.start) : 0,
+    season: (edition ? seasonOf(edition.start) : 'autumn') as Season,
+  };
+});
+
+const monthName = (m: number, month: 'long' | 'short') =>
+  new Intl.DateTimeFormat(locale, { month, timeZone: 'UTC' }).format(new Date(Date.UTC(2026, m, 15)));
+
+const seasons = (['spring', 'autumn'] as const)
+  .map((key) => {
+    const list = items.filter((i) => i.season === key).sort((a, b) => a.x - b.x);
+    const months = [...new Set(list.map((i) => Number(i.edition?.start.slice(5, 7)) - 1))].sort((a, b) => a - b);
+    const range =
+      months.length === 0
+        ? ''
+        : months.length === 1
+          ? monthName(months[0], 'long')
+          : `${monthName(months[0], 'long')} – ${monthName(months[months.length - 1], 'long')}`;
+    return { key, title: t.seasons[key], range, list };
+  })
+  .filter((s) => s.list.length > 0);
+
+// Leader lines: from the bottom centre of each stamp (an equal share of its
+// season's half of the calendar) to the fair's day on the ruler.
+let order = 0;
+const leaders = seasons.flatMap((s, si) =>
+  s.list.map((item, j) => ({
+    id: item.fair.id,
+    state: item.state,
+    from: (si + (j + 0.5) / s.list.length) / seasons.length,
+    to: item.x,
+    index: order++,
+  })),
+);
+
+const next = items.find((i) => i.state === 'next');
+const running = items.filter((i) => i.state === 'now' && i.edition);
+const tagFor = (state: string) => (state === 'next' ? t.status.next : state === 'now' ? t.status.now : '');
+
+const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.mail.subject)}&body=${encodeURIComponent(t.mail.body)}`;
 ---
 
-<section lang={textLang} id="meet-us" class="section" aria-labelledby="meet-us-title">
+<section lang={textLang} id="meet-us" class="section meet" aria-labelledby="meet-us-title">
   <div class="container">
-    <SectionHead number={6} id="meet-us-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="seals" count={6} note="Six trade fairs as visa stamps, with a calendar of the next editions" />
+    <SectionHead number={6} id="meet-us-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running}>
+      <Button href={mailto} variant="secondary" iconStart="mail">{t.cta}</Button>
+    </SectionHead>
+
+    <div
+      class="fairs"
+      data-fairs
+      data-locale={locale}
+      data-l-next={t.status.next}
+      data-l-now={t.status.now}
+      data-l-until={t.summary.until}
+    >
+      <div class="fairs__summary">
+        <p class="fairs__next" data-role="next" hidden={!next}>
+          <Icon name="pin" size={16} strokeWidth={1.75} class="fairs__pin" />
+          <span class="fairs__label kicker">{t.summary.next}</span>
+          <span class="fairs__next-name" data-role="next-name">{next?.fair.name}</span>
+          <span class="fairs__next-meta">
+            <span class="fairs__next-city" data-role="next-city" hidden={!next || cityInName(next.fair.name, next.city)}>
+              {next?.city}
+            </span>
+            <time data-role="next-when" datetime={next?.edition?.start}>{next?.when}</time>
+            <span class="fairs__rel" data-role="next-rel"></span>
+          </span>
+        </p>
+        <p class="fairs__now" data-role="now" hidden={running.length === 0}>
+          <span class="fairs__led" aria-hidden="true"></span>
+          <span class="fairs__label kicker">{t.summary.now}</span>
+          <span class="fairs__now-list" data-role="now-list">
+            {
+              running.map((item) => (
+                <span class="fairs__now-item">
+                  <b>{item.fair.name}</b> {fmt(t.summary.until, { date: formatDay(item.edition!.end, locale) })}
+                </span>
+              ))
+            }
+          </span>
+        </p>
+      </div>
+
+      <div class="fairs__calendar" role="group" aria-label={t.calendarLabel}>
+        <div class="fairs__seasons">
+          {
+            seasons.map((s, si) => (
+              <div class:list={['fairs__season', `fairs__season--${s.key}`]}>
+                <h3 class="fairs__season-head">
+                  <span class="fairs__season-title">{s.title}</span>
+                  <span class="fairs__season-range">{s.range}</span>
+                </h3>
+                <ol class="fairs__list" role="list" style={`--n:${s.list.length}`}>
+                  {s.list.map((item, j) => (
+                    <FairStamp
+                      fair={item.fair}
+                      city={item.city}
+                      state={item.state}
+                      when={item.when}
+                      whenIso={item.edition?.start ?? ''}
+                      labels={item.labels}
+                      tag={tagFor(item.state)}
+                      tba={t.status.tba}
+                      official={t.official}
+                      newTab={common.aria.newTab}
+                      index={si * 3 + j}
+                    />
+                  ))}
+                </ol>
+              </div>
+            ))
+          }
+        </div>
+
+        <svg class="fairs__leaders" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          {
+            leaders.map((l) => (
+              <path
+                class="fairs__leader"
+                data-fair={l.id}
+                data-state={l.state}
+                style={`--i:${l.index}`}
+                d={`M${(l.from * 1000).toFixed(1)},0 C${(l.from * 1000).toFixed(1)},58 ${(l.to * 1000).toFixed(1)},42 ${(l.to * 1000).toFixed(1)},100`}
+              />
+            ))
+          }
+        </svg>
+
+        <div class="fairs__ruler" aria-hidden="true">
+          {
+            MONTHS.map((m) => (
+              <span class="fairs__month" style={`--days:${m.days}`}>
+                {monthName(m.index, 'short').replace('.', '')}
+              </span>
+            ))
+          }
+          {
+            items.map((item) => (
+              <span class="fairs__dot" data-fair={item.fair.id} data-state={item.state} style={`--x:${item.x.toFixed(4)}`} />
+            ))
+          }
+        </div>
+      </div>
+
+      <p class="fairs__note fig-caption">{t.note}</p>
+    </div>
   </div>
 </section>
+
+<script>
+  import { cityInName, daysUntil, decodeEdition, formatRelative, isoDay, scheduleFairs, type FairStatus } from './meet-us/schedule';
+  import { revealStamps } from './meet-us/reveal';
+
+  // Re-check the fair states against today's date, so "Next" stays right long
+  // after the build. Dates are never formatted here: every label was rendered
+  // at build time (browsers may lack Georgian locale data). Progressive
+  // enhancement: on any failure the build-time state stays on the page.
+  function refresh(root: HTMLElement) {
+    const locale = root.dataset.locale || 'en-GB';
+    const today = isoDay(new Date());
+    const stamps = [...root.querySelectorAll<HTMLElement>('li[data-fair]')];
+    const statuses = scheduleFairs(
+      stamps.map((li) => ({ id: li.dataset.fair ?? '', last: decodeEdition(li.dataset.last), next: decodeEdition(li.dataset.next) })),
+      today,
+    );
+    // The pre-rendered label of the edition a status points at.
+    const label = (li: HTMLElement, s: FairStatus, kind: 'Range' | 'Until') => {
+      const which = s.edition && li.dataset.last?.startsWith(s.edition.start) ? 'last' : 'next';
+      return li.dataset[`${which}${kind}`] ?? '';
+    };
+    const set = (role: string, text: string) => {
+      const el = root.querySelector<HTMLElement>(`[data-role="${role}"]`);
+      if (el) el.textContent = text;
+    };
+
+    statuses.forEach((s, i) => {
+      const li = stamps[i];
+      root.querySelectorAll<HTMLElement | SVGElement>(`[data-fair="${s.id}"]`).forEach((el) => (el.dataset.state = s.state));
+
+      const time = li.querySelector<HTMLTimeElement>('[data-role="when"]');
+      if (time && s.edition && time.dateTime !== s.edition.start) {
+        time.dateTime = s.edition.start;
+        time.textContent = label(li, s, 'Range');
+      }
+      const tag = li.querySelector<HTMLElement>('[data-role="tag"]');
+      if (tag) {
+        const text = s.state === 'next' ? root.dataset.lNext : s.state === 'now' ? root.dataset.lNow : '';
+        tag.textContent = text ?? '';
+        tag.hidden = !text;
+      }
+      const tba = li.querySelector<HTMLElement>('[data-role="tba"]');
+      if (tba) tba.hidden = s.state !== 'held';
+    });
+
+    const nextIndex = statuses.findIndex((s) => s.state === 'next');
+    const nextLine = root.querySelector<HTMLElement>('[data-role="next"]');
+    if (nextLine) {
+      const s = statuses[nextIndex];
+      nextLine.hidden = !s?.edition;
+      if (s?.edition) {
+        const li = stamps[nextIndex];
+        const name = li.dataset.name ?? '';
+        const city = li.dataset.city ?? '';
+        set('next-name', name);
+        set('next-city', city);
+        const cityEl = root.querySelector<HTMLElement>('[data-role="next-city"]');
+        if (cityEl) cityEl.hidden = cityInName(name, city);
+        set('next-when', label(li, s, 'Range'));
+        root.querySelector<HTMLTimeElement>('[data-role="next-when"]')?.setAttribute('datetime', s.edition.start);
+        // "(in 4 days)" only where the browser really speaks the page's language.
+        if ('RelativeTimeFormat' in Intl && Intl.RelativeTimeFormat.supportedLocalesOf([locale]).length > 0) {
+          set('next-rel', `(${formatRelative(daysUntil(s.edition.start, today), locale)})`);
+        }
+      }
+    }
+
+    const nowLine = root.querySelector<HTMLElement>('[data-role="now"]');
+    const nowList = root.querySelector<HTMLElement>('[data-role="now-list"]');
+    if (nowLine && nowList) {
+      const items = statuses.flatMap((s, i) => {
+        if (s.state !== 'now' || !s.edition) return [];
+        const item = document.createElement('span');
+        const name = document.createElement('b');
+        item.className = 'fairs__now-item';
+        name.textContent = stamps[i].dataset.name ?? '';
+        item.append(name, ` ${(root.dataset.lUntil ?? '{date}').replace('{date}', label(stamps[i], s, 'Until'))}`);
+        return [item];
+      });
+      nowList.replaceChildren(...items);
+      nowLine.hidden = items.length === 0;
+    }
+  }
+
+  const root = document.querySelector<HTMLElement>('#meet-us [data-fairs]');
+  if (root) {
+    try {
+      refresh(root);
+    } catch {
+      /* keep the build-time state */
+    }
+    revealStamps(root);
+  }
+</script>
+
+<style>
+  /* ── summary strip: next fair · on now ── */
+  .fairs__summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-xl);
+    padding-block: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  }
+
+  .fairs__next,
+  .fairs__now {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.65rem;
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+  }
+
+  .fairs__next[hidden],
+  .fairs__now[hidden] {
+    display: none;
+  }
+
+  .meet :global(.fairs__pin) {
+    align-self: center;
+    color: var(--color-accent);
+  }
+
+  .fairs__label {
+    color: var(--color-text-muted);
+  }
+
+  .fairs__next .fairs__label {
+    color: var(--color-red-ink);
+  }
+
+  .fairs__next-name {
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1.1;
+    color: var(--color-text);
+  }
+
+  .fairs__next-meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.45rem;
+  }
+
+  .fairs__next-city:not([hidden])::after {
+    content: ' ·';
+  }
+
+  .fairs__next-meta time {
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+  }
+
+  .fairs__rel {
+    color: var(--color-text-muted);
+  }
+
+  .fairs__rel:empty {
+    display: none;
+  }
+
+  .fairs__led {
+    align-self: center;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-round);
+    background: var(--color-led);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-led) 22%, transparent);
+  }
+
+  .fairs__now-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem var(--space-s);
+  }
+
+  .fairs__now-list :global(b) {
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+  }
+
+  /* ── calendar ── */
+  .fairs__seasons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fairs__season {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fairs__season + .fairs__season {
+    border-left: var(--border-hair) solid var(--color-rule);
+  }
+
+  .fairs__season-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem var(--space-xs);
+    padding-inline: clamp(0.5rem, 0.2rem + 0.8vw, 0.875rem);
+    margin-bottom: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+    font-family: var(--font-text);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+  }
+
+  .fairs__season-head:lang(ka) {
+    font-size: var(--fs-xs);
+  }
+
+  .fairs__season-range {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-md);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-caption);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-text-muted);
+  }
+
+  .fairs__season-range:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-ka-text);
+  }
+
+  .fairs__season + .fairs__season .fairs__season-head {
+    padding-left: calc(clamp(0.5rem, 0.2rem + 0.8vw, 0.875rem) + var(--space-s));
+  }
+
+  .fairs__list {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    align-items: end;
+    margin: 0;
+  }
+
+  /* leader lines + ruler (desktop only) */
+  .fairs__leaders {
+    display: block;
+    width: 100%;
+    height: clamp(3.5rem, 2rem + 3vw, 5rem);
+    margin-top: var(--space-2xs);
+    overflow: visible;
+  }
+
+  .fairs__leader {
+    fill: none;
+    stroke: var(--color-text-muted);
+    stroke-width: 1;
+    stroke-dasharray: 1 4;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .fairs__leader[data-state='next'] {
+    stroke: var(--color-text);
+    stroke-width: 1.5;
+    stroke-dasharray: none;
+  }
+
+  .fairs__leader[data-state='held'] {
+    opacity: 0.5;
+  }
+
+  @media screen and (prefers-reduced-motion: no-preference) {
+    [data-reveal='ready'] .fairs__leaders {
+      opacity: 0;
+      transition: opacity var(--dur-slow) var(--ease-out) var(--dur-slow);
+    }
+
+    [data-reveal='ready']:has([data-revealed]) .fairs__leaders {
+      opacity: 1;
+    }
+  }
+
+  .fairs__ruler {
+    position: relative;
+    display: flex;
+    border-top: var(--border-hair) solid var(--color-text);
+  }
+
+  .fairs__month {
+    flex: var(--days) 1 0;
+    min-width: 0;
+    padding: 0.55rem 0 0 0.4rem;
+    border-left: var(--border-hair) solid var(--color-rule-strong);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    line-height: 1;
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .fairs__month:lang(ka) {
+    font-family: var(--font-ka-text);
+  }
+
+  .fairs__month:first-child {
+    border-left-color: var(--color-text);
+  }
+
+  .fairs__dot {
+    position: absolute;
+    top: 0;
+    left: calc(var(--x) * 100%);
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-round);
+    background: var(--color-text);
+    box-shadow: 0 0 0 2px var(--color-bg);
+    transform: translate(-50%, -50%);
+  }
+
+  .fairs__dot[data-state='held'] {
+    background: var(--color-text-muted);
+  }
+
+  .fairs__dot[data-state='now'] {
+    background: var(--color-led);
+    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px color-mix(in srgb, var(--color-led) 30%, transparent);
+  }
+
+  .fairs__dot[data-state='next'] {
+    z-index: var(--z-raised);
+    width: 9px;
+    height: 9px;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-accent);
+  }
+
+  .fairs__note {
+    max-width: 64ch;
+    margin-top: var(--space-l);
+  }
+
+  /* ── tablet: seasons stack; stamps on a stamped timeline ── */
+  @media (max-width: 63.99em) {
+    .fairs__seasons {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-xl);
+    }
+
+    .fairs__season + .fairs__season {
+      border-left: 0;
+    }
+
+    .fairs__season + .fairs__season .fairs__season-head {
+      padding-left: clamp(0.5rem, 0.2rem + 0.8vw, 0.875rem);
+    }
+
+    .fairs__season-head {
+      margin-bottom: var(--space-l);
+      padding-bottom: var(--space-2xs);
+      border-bottom: var(--border-hair) solid var(--color-rule);
+    }
+
+    .fairs__leaders,
+    .fairs__ruler {
+      display: none;
+    }
+  }
+
+  /* ── phone: one column, a vertical timeline ── */
+  @media (max-width: 39.99em) {
+    .fairs__summary {
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .fairs__season-head {
+      padding-inline: 0;
+    }
+
+    .fairs__season + .fairs__season .fairs__season-head {
+      padding-left: 0;
+    }
+
+    .fairs__list {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-l);
+    }
+  }
+</style>

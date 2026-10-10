@@ -1,0 +1,382 @@
+---
+/**
+ * AI Lab hero: the promise on the left, the "mission control" console on the
+ * right — system/model/mode readouts and an index of the six experiments.
+ *
+ * Mode: rendered from the server config at build time (`mode` prop) and
+ * corrected at runtime by the X-AI-Mode header of every AI response
+ * (client/lazy.ts listens for `lab:mode`).
+ */
+import Button from '../ui/Button.astro';
+import RidgeDivider from '../ui/RidgeDivider.astro';
+import { getLang, localizePath } from '../../i18n';
+import { inline } from '../../lib/markup';
+import { latinNumber } from '../../lib/sections';
+import type { AiMode } from '../../lib/ai/types';
+import { LAB_SECTIONS, labStrings, mcpStrings, photoStrings, policyStrings, proposalStrings, triageStrings } from './data';
+
+interface Props {
+  mode: AiMode;
+}
+
+const { mode } = Astro.props;
+const lang = getLang(Astro);
+const t = labStrings(lang);
+const titles: Record<string, string> = {
+  'trip-designer': t.teaser.kicker,
+  'photo-match': photoStrings(lang).kicker,
+  proposal: proposalStrings(lang).kicker,
+  'policy-qa': policyStrings(lang).kicker,
+  triage: triageStrings(lang).kicker,
+  mcp: mcpStrings(lang).kicker,
+};
+const rows = LAB_SECTIONS.map((s) => ({ ...s, title: titles[s.id] ?? s.id }));
+---
+
+<section class="lab-hero" aria-labelledby="lab-title">
+  <div class="container lab-hero__grid">
+    <div class="lab-hero__copy">
+      <p class="kicker lab-hero__kicker">
+        <span class="lab-lamp lab-lamp--pulse" aria-hidden="true"></span>
+        {t.hero.kicker}
+      </p>
+      <h1 id="lab-title" class="display display--xl lab-hero__title" set:html={inline(t.hero.title)} />
+      <p class="lab-hero__lead">{t.hero.lead}</p>
+      <p class="lab-hero__note fig-caption">{t.hero.note}</p>
+      <div class="lab-hero__ctas">
+        <Button href="#photo-match" variant="ai" size="lg">{t.hero.cta}</Button>
+        <Button href={localizePath('/', lang)} variant="secondary" size="lg" iconStart="arrow-left">{t.hero.back}</Button>
+      </div>
+    </div>
+
+    <div class="lab-console" role="group" aria-label={t.console.label}>
+      <div class="lab-console__top lab-mono" aria-hidden="true">
+        <span>{t.console.title}</span>
+        <span>{t.console.coords}</span>
+      </div>
+
+      <dl class="lab-console__readouts">
+        <div class="lab-console__row" style="--i:0">
+          <dt class="lab-mono">{t.console.system}</dt>
+          <dd><span class="lab-lamp" aria-hidden="true"></span>{t.console.online}</dd>
+        </div>
+        <div class="lab-console__row" style="--i:1">
+          <dt class="lab-mono">{t.console.model}</dt>
+          <dd>{t.console.modelValue}</dd>
+        </div>
+        <div class="lab-console__row" style="--i:2" data-lab-mode={mode}>
+          <dt class="lab-mono">{t.console.mode}</dt>
+          <dd>
+            <span data-mode-show="demo" hidden={mode !== 'demo'}>
+              <span class="lab-lamp lab-lamp--amber" aria-hidden="true"></span>{t.console.demo}
+            </span>
+            <span data-mode-show="live" hidden={mode !== 'live'}>
+              <span class="lab-lamp" aria-hidden="true"></span>{t.console.live}
+            </span>
+          </dd>
+        </div>
+      </dl>
+      <p class="lab-console__note" role="status" style="--i:3">
+        <span aria-hidden="true">&gt;&nbsp;</span>
+        <span data-mode-show="demo" hidden={mode !== 'demo'}>{t.console.demoNote}</span>
+        <span data-mode-show="live" hidden={mode !== 'live'}>{t.console.liveNote}</span>
+      </p>
+
+      <nav class="lab-console__index" aria-label={t.console.index}>
+        <p class="lab-console__label lab-mono" aria-hidden="true">{t.console.index}</p>
+        <ol class="lab-console__list" role="list">
+          {
+            rows.map((r, i) => (
+              <li style={`--i:${i + 4}`}>
+                <a class="lab-console__link" href={`#${r.id}`}>
+                  <span class="lab-console__no">{latinNumber(r.n)}</span>
+                  <span class="lab-console__name">{r.title}</span>
+                  <span class="lab-console__state lab-mono">
+                    <span class:list={['lab-lamp', r.lamp === 'amber' && 'lab-lamp--amber']} aria-hidden="true" />
+                    {r.audience === 'staff' ? t.console.staff : t.console.ready}
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+      <p class="lab-console__cursor lab-mono" aria-hidden="true">_</p>
+    </div>
+  </div>
+  <RidgeDivider variant="night" seed={21} label="AI Lab" class="lab-hero__ridge" />
+</section>
+
+<style>
+  .lab-hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(2.5rem, 6vw, 6rem) clamp(2rem, 4vw, 3.5rem);
+    overflow: clip;
+    background: var(--gradient-night);
+  }
+
+  .lab-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-below);
+    background-image:
+      linear-gradient(var(--color-night-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-night-grid) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    -webkit-mask-image: radial-gradient(90% 80% at 70% 30%, #000 25%, transparent 80%);
+    mask-image: radial-gradient(90% 80% at 70% 30%, #000 25%, transparent 80%);
+  }
+
+  .lab-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-below);
+    background: radial-gradient(45% 60% at 78% 35%, var(--color-night-glow), transparent 70%);
+  }
+
+  .lab-hero__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    column-gap: var(--layout-gap);
+    row-gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .lab-hero__copy {
+    grid-column: 1 / span 7;
+  }
+
+  .lab-hero__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    color: var(--color-green-ink);
+  }
+
+  .lab-hero__title {
+    margin-top: var(--space-m);
+  }
+
+  .lab-hero__title :global(em) {
+    text-shadow: 0 0 28px color-mix(in srgb, var(--color-glow) 35%, transparent);
+  }
+
+  .lab-hero__lead {
+    margin-top: var(--space-l);
+    max-width: 38ch;
+    font-family: var(--font-display);
+    font-size: calc(var(--fs-xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-snug);
+    color: var(--color-text);
+    text-wrap: balance;
+  }
+
+  .lab-hero__note {
+    margin-top: var(--space-s);
+  }
+
+  .lab-hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xl);
+  }
+
+  /* ── console ── */
+  .lab-console {
+    grid-column: 8 / -1;
+    padding: var(--space-m);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-bg-sunken) 84%, transparent);
+    box-shadow: var(--shadow-board);
+  }
+
+  .lab-console__top {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    color: var(--color-green-ink);
+  }
+
+  .lab-console__readouts {
+    margin: var(--space-2xs) 0 0;
+  }
+
+  .lab-console__row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+    padding-block: 0.45rem;
+  }
+
+  .lab-console__row dt {
+    flex: none;
+  }
+
+  /* dotted leader between label and value */
+  .lab-console__row::after {
+    content: '';
+    order: 1;
+    flex: 1;
+    min-width: var(--space-s);
+    border-bottom: var(--border-hair) dotted var(--color-rule-strong);
+    transform: translateY(-0.25em);
+  }
+
+  .lab-console__row dd {
+    order: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .lab-console__row dd > span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .lab-console__row dd > span[hidden] {
+    display: none;
+  }
+
+  .lab-console__row dd:lang(ka) {
+    font-family: var(--font-ka-text);
+    text-transform: none;
+  }
+
+  [data-lab-mode='demo'] dd {
+    color: var(--color-amber);
+  }
+
+  [data-lab-mode='live'] dd {
+    color: var(--color-green-ink);
+  }
+
+  .lab-console__note {
+    margin-top: var(--space-2xs);
+    padding: var(--space-xs) var(--space-s);
+    border-left: var(--border-thick) solid var(--color-amber);
+    background: color-mix(in srgb, var(--color-amber) 7%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .lab-console__note:lang(ka) {
+    font-family: var(--font-ka-text);
+  }
+
+  .lab-console:has([data-lab-mode='live']) .lab-console__note {
+    border-left-color: var(--color-led);
+    background: color-mix(in srgb, var(--color-glow) 8%, transparent);
+  }
+
+  .lab-console__label {
+    margin-top: var(--space-m);
+    padding-bottom: var(--space-2xs);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    color: var(--color-green-ink);
+  }
+
+  .lab-console__list {
+    margin: 0;
+  }
+
+  .lab-console__link {
+    display: grid;
+    grid-template-columns: 2.5ch minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: 2.75rem;
+    padding-inline: var(--space-2xs);
+    margin-inline: calc(-1 * var(--space-2xs));
+    border-bottom: var(--border-hair) dashed var(--color-rule);
+    border-radius: var(--radius-xs);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .lab-console__link:hover {
+    background: color-mix(in srgb, var(--color-glow) 9%, transparent);
+    color: var(--color-text);
+  }
+
+  .lab-console__no {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    color: var(--color-text-muted);
+  }
+
+  .lab-console__name {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+  }
+
+  .lab-console__state {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .lab-console__cursor {
+    margin-top: var(--space-xs);
+    color: var(--color-green-ink);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-console__cursor {
+      animation: lab-blink 1.1s steps(2, start) infinite;
+    }
+
+    .lab-console__row,
+    .lab-console__note,
+    .lab-console__list li {
+      animation: lab-rise var(--dur-slow) var(--ease-out) both;
+      animation-delay: calc(var(--i, 0) * var(--dur-stagger) + var(--dur-base));
+    }
+  }
+
+  .lab-hero > :global(.lab-hero__ridge) {
+    margin-top: clamp(1.5rem, 4vw, 3rem);
+    margin-bottom: calc(-1 * clamp(2rem, 4vw, 3.5rem));
+  }
+
+  @media (max-width: 63.99em) {
+    .lab-hero__copy,
+    .lab-console {
+      grid-column: 1 / -1;
+    }
+
+    .lab-console {
+      max-width: 36rem;
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .lab-console {
+      padding: var(--space-s);
+    }
+
+    .lab-console__top span:last-child {
+      display: none;
+    }
+  }
+</style>

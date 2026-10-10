@@ -1,0 +1,99 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Smistamento richieste",
+  "title": "Smista la posta *prima del caffè.*",
+  "intro": "Incolla l’email di un partner: Claude la legge in qualsiasi lingua, la indirizza al reparto giusto, estrae i dati del viaggio, elenca ciò che manca e prepara una bozza di risposta nella lingua del mittente, che il nostro team verifica.",
+  "staffLabel": "Strumento interno — demo",
+  "staffNote": "Creato per il team di Local Host. Le email vere contengono dati personali, quindi la versione live richiede una chiave di accesso.",
+  "inbox": {
+    "title": "Prova un’email di esempio",
+    "samples": {
+      "it-wine-group": "Agenzia italiana — tour del vino di 9 giorni, 30 ospiti",
+      "pl-family-hiking": "Famiglia polacca — trekking in Georgia e Armenia",
+      "de-transfer-complaint": "Agenzia tedesca — reclamo per un transfer in ritardo"
+    }
+  },
+  "form": {
+    "label": "Incolla un’email",
+    "placeholder": "Oggetto, messaggio e firma…",
+    "count": "{n} / {max}",
+    "submit": "Smista questa email",
+    "clear": "Svuota",
+    "notesLanguage": "Note per il team nella lingua della pagina; la bozza di risposta è sempre nella lingua del mittente."
+  },
+  "key": {
+    "label": "Chiave di accesso dello staff",
+    "prompt": "Inserisci la chiave di accesso dello staff per smistare le tue email.",
+    "remember": "Ricorda su questo dispositivo",
+    "wrong": "Questa chiave non funziona. Controllala e riprova.",
+    "submit": "Sblocca e smista",
+    "forget": "Dimentica la chiave"
+  },
+  "empty": {
+    "title": "Scheda di smistamento",
+    "text": "Scegli un’email di esempio o incollane una — il risultato appare qui."
+  },
+  "working": "Stiamo leggendo l’email…",
+  "card": {
+    "label": "Risultato",
+    "routeTo": "Inoltra a",
+    "urgency": "Urgenza",
+    "language": "Lingua",
+    "market": "Mercato",
+    "sender": "Mittente",
+    "intent": "Intento",
+    "summary": "Sintesi",
+    "extracted": "Dati estratti",
+    "missing": "Informazioni mancanti",
+    "nothingMissing": "Non manca nulla — pronta per il reparto.",
+    "reply": "Bozza di risposta",
+    "replyIn": "in {language}",
+    "subject": "Oggetto",
+    "copy": "Copia la risposta",
+    "open": "Apri nell’email",
+    "fields": {
+      "travelDates": "Date",
+      "groupSize": "Dimensione del gruppo",
+      "countries": "Paesi",
+      "interests": "Interessi",
+      "budgetHints": "Budget",
+      "hotelCategory": "Hotel",
+      "specialNeeds": "Esigenze particolari"
+    }
+  },
+  "senderTypes": {
+    "agency": "Agenzia",
+    "traveller": "Viaggiatore",
+    "supplier": "Fornitore",
+    "other": "Altro"
+  },
+  "intents": {
+    "new-request": "Nuova richiesta",
+    "quote-follow-up": "Seguito preventivo",
+    "booking-change": "Modifica prenotazione",
+    "complaint": "Reclamo",
+    "partnership": "Collaborazione",
+    "other": "Altro"
+  },
+  "urgency": {
+    "low": "Bassa",
+    "normal": "Normale",
+    "high": "Alta"
+  },
+  "routes": {
+    "Italy desk": "Ufficio Italia",
+    "Poland desk": "Ufficio Polonia",
+    "DACH desk": "Ufficio DACH",
+    "CIS & Ukraine desk": "Ufficio CSI e Ucraina",
+    "UK, US & Nordics desk": "Ufficio Regno Unito, USA e Paesi nordici",
+    "Western Europe & Asia desk": "Ufficio Europa occidentale e Asia",
+    "Reservations": "Prenotazioni",
+    "Finance": "Amministrazione",
+    "Management": "Direzione"
+  },
+  "sample": {
+    "exact": "Email di esempio — risultato preparato.",
+    "other": "Demo — questo è il risultato preparato di un esempio simile (“{label}”). Con l’AI collegata, Claude smista proprio la tua email.",
+    "englishNote": "Le note demo sono in inglese."
+  }
+}

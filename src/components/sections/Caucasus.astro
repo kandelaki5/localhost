@@ -1,23 +1,344 @@
 ---
 /**
- * 01 · Caucasus (#caucasus) — STUB from the foundation.
- * Owned by the Caucasus section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/caucasus.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 01 · Caucasus (#caucasus) — "Three countries. One local host."
+ *
+ * A staggered magazine triptych (Georgia · Armenia · Azerbaijan) and Fig. 4,
+ * the schematic map "Tbilisi, between two seas", with notes on combining
+ * countries and approximate drive times.
+ *
+ * Desktop: the three plates sit in one flex row; the hovered or focused plate
+ * widens (pure CSS: flex-grow + :has). Text columns keep a fixed width so
+ * nothing reflows or jumps while a plate widens. Tablet: Georgia across the
+ * top, Armenia and Azerbaijan below. Phone: one column.
+ *
+ * "Plan a trip here" links go to #plan; with JS they also announce the
+ * country (event `localhost:plan-preselect`, detail { countries: ['GE'] })
+ * so the AI planner can preselect it — see docs/requests/caucasus.md.
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
-import { contentLang, getLang, useStrings } from '../../i18n';
+import Button from '../ui/Button.astro';
+import CountryCard from './caucasus/CountryCard.astro';
+import CaucasusMap from './caucasus/CaucasusMap.astro';
+import { CARDS, LEGS } from './caucasus/data';
+import { contentLang, getLang, localeInfo, useStrings } from '../../i18n';
+import { fmt, inline } from '../../lib/markup';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'caucasus');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'caucasus') === lang ? undefined : 'en';
+
+const num = new Intl.NumberFormat(localeInfo(lang).bcp47, { maximumFractionDigits: 1 });
+const hours = (h: number | [number, number]) =>
+  fmt(t.aside.hours, { h: Array.isArray(h) ? `${num.format(h[0])}–${num.format(h[1])}` : num.format(h) });
 ---
 
-<section lang={textLang} id="caucasus" class="section" aria-labelledby="caucasus-title">
+<section lang={textLang} id="caucasus" class="section caucasus" aria-labelledby="caucasus-title">
   <div class="container">
     <SectionHead number={1} id="caucasus-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="triptych" count={3} note="Georgia / Armenia / Azerbaijan triptych (hover widens) + schematic map" />
+
+    <div class="caucasus__triptych">
+      {CARDS.map((card, i) => <CountryCard card={card} index={i} />)}
+    </div>
+
+    <div class="caucasus__atlas">
+      <CaucasusMap fig={4} class="caucasus__map" />
+
+      <div class="caucasus__notes">
+        <div class="caucasus__notes-main">
+        <p class="kicker caucasus__notes-kicker">{t.aside.kicker}</p>
+        <h3 class="caucasus__notes-title display display--s" set:html={inline(t.aside.title)} />
+        <p class="caucasus__notes-text">{t.aside.text}</p>
+        </div>
+
+        <div class="caucasus__notes-times">
+        <h4 class="caucasus__times-title kicker">{t.aside.timesLabel}</h4>
+        <dl class="caucasus__times">
+          {
+            LEGS.map((leg) => (
+              <div class="caucasus__time">
+                <dt>
+                  {t.map.cities[leg.from]}
+                  <span class="caucasus__arrow" aria-hidden="true">
+                    →
+                  </span>
+                  <span class="visually-hidden">–</span>
+                  {t.map.cities[leg.to]}
+                </dt>
+                <dd>
+                  {hours(leg.hours)}
+                  {leg.border && <span class="caucasus__border">{t.aside.border}</span>}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="caucasus__times-note fig-caption">{t.aside.note}</p>
+        </div>
+
+        <Button href="#plan" variant="secondary" size="sm" iconStart="sparkle" class="caucasus__notes-cta" data-plan-country="GE AM AZ">
+          {t.aside.cta}
+        </Button>
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  /* ── triptych ── */
+  .caucasus__triptych {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  /* Tablet: Georgia across the top, Armenia and Azerbaijan side by side. */
+  @media (min-width: 40em) and (max-width: 63.99em) {
+    .caucasus__triptych {
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--layout-gap);
+      row-gap: var(--space-xl);
+    }
+
+    .caucasus__triptych > :global(.ccard--ge) {
+      grid-column: 1 / -1;
+      --ccard-ratio: 16 / 9;
+    }
+
+    .caucasus__triptych > :global(.ccard--am) {
+      --ccard-ratio: 4 / 5;
+    }
+
+    .caucasus__triptych > :global(.ccard--az) {
+      --ccard-ratio: 4 / 5;
+      margin-top: var(--space-2xl);
+    }
+  }
+
+  /* Desktop: one staggered row; the hovered/focused plate widens. */
+  @media (min-width: 64em) {
+    .caucasus__triptych {
+      /* The featured plate is --lead × as wide as the other two. */
+      --lead: 1.6;
+      container-type: inline-size;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--layout-gap);
+    }
+
+    .caucasus__triptych > :global(.ccard) {
+      /* Width of a plate at its narrowest = the fixed text column. */
+      --ccard-text-w: calc((100cqi - 2 * var(--layout-gap)) / (var(--lead) + 2));
+      --ccard-photo-h: calc(var(--ccard-text-w) * 1.28);
+      --ccard-ratio: auto;
+      flex: 1 1 0;
+      /* Back to rest a beat later, so crossing a gap between plates doesn't flicker. */
+      transition: flex-grow var(--dur-slow) var(--ease-out) var(--dur-fast);
+    }
+
+    .caucasus__triptych > :global(.ccard--ge) {
+      flex-grow: var(--lead);
+    }
+
+    .caucasus__triptych > :global(.ccard--am) {
+      margin-top: calc(var(--ccard-photo-h) * 0.24);
+    }
+
+    .caucasus__triptych > :global(.ccard--az) {
+      margin-top: calc(var(--ccard-photo-h) * 0.1);
+    }
+  }
+
+  @media (min-width: 80em) {
+    .caucasus__triptych {
+      --lead: 2;
+    }
+  }
+
+  @media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
+    .caucasus__triptych:has(> :global(.ccard:is(:hover, :focus-within))) > :global(.ccard) {
+      flex-grow: 1;
+      transition-delay: 0ms;
+    }
+
+    .caucasus__triptych:has(> :global(.ccard:is(:hover, :focus-within))) > :global(.ccard:is(:hover, :focus-within)) {
+      flex-grow: var(--lead);
+    }
+  }
+
+  /* ── atlas: Fig. 4 + notes ── */
+  .caucasus__atlas {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    column-gap: var(--layout-gap);
+    row-gap: var(--space-xl);
+    margin-top: clamp(3.5rem, 2rem + 5vw, 6.5rem);
+    padding-top: var(--space-l);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .caucasus__atlas > :global(.caucasus__map) {
+    grid-column: 1 / span 9;
+    align-self: start;
+  }
+
+  .caucasus__notes {
+    grid-column: 10 / -1;
+    align-self: start;
+  }
+
+  .caucasus__notes-kicker {
+    color: var(--color-green-ink);
+  }
+
+  .caucasus__notes-title {
+    margin-top: var(--space-xs);
+  }
+
+  .caucasus__notes-text {
+    margin-top: var(--space-m);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+  }
+
+  .caucasus__times-title {
+    margin-top: var(--space-l);
+    padding-bottom: var(--space-2xs);
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+    color: var(--color-text-muted);
+  }
+
+  .caucasus__time {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0 var(--space-s);
+    padding-block: 0.5rem;
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-sm);
+    line-height: 1.35;
+  }
+
+  .caucasus__time dt {
+    color: var(--color-text);
+    font-weight: var(--fw-medium);
+  }
+
+  .caucasus__arrow {
+    margin-inline: 0.2em;
+    color: var(--color-text-muted);
+    font-weight: var(--fw-text);
+  }
+
+  .caucasus__time dd {
+    margin: 0;
+    margin-left: auto;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text-body);
+    white-space: nowrap;
+    text-align: end;
+  }
+
+  .caucasus__time dd:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+  }
+
+  .caucasus__border {
+    display: block;
+    font-family: var(--font-text);
+    font-style: normal;
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-red-ink);
+  }
+
+  .caucasus__times-note {
+    margin-top: var(--space-2xs);
+  }
+
+  .caucasus__notes :global(.caucasus__notes-cta) {
+    margin-top: var(--space-l);
+  }
+
+  /* Laptop: a little more room for the notes. */
+  @media (min-width: 64em) and (max-width: 79.99em) {
+    .caucasus__atlas > :global(.caucasus__map) {
+      grid-column: 1 / span 8;
+    }
+
+    .caucasus__notes {
+      grid-column: 9 / -1;
+    }
+  }
+
+  /* Tablet: map across, notes in two columns below. */
+  @media (max-width: 63.99em) {
+    .caucasus__atlas > :global(.caucasus__map) {
+      grid-column: 1 / -1;
+    }
+
+    .caucasus__notes {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .caucasus__notes-times {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+
+    .caucasus__times-title {
+      margin-top: 0;
+    }
+
+    .caucasus__notes :global(.caucasus__notes-cta) {
+      grid-column: 1;
+      grid-row: 2;
+      justify-self: start;
+    }
+  }
+
+  /* Phone: one column; the map runs edge to edge. */
+  @media (max-width: 39.99em) {
+    .caucasus__atlas > :global(.caucasus__map) {
+      margin-inline: calc(-1 * var(--layout-gutter));
+    }
+
+    .caucasus__atlas > :global(.caucasus__map figcaption) {
+      padding-inline: var(--layout-gutter);
+    }
+
+    .caucasus__atlas > :global(.caucasus__map .cmap__plate) {
+      border-inline: 0;
+      padding-inline: 0;
+    }
+
+    .caucasus__notes {
+      display: block;
+    }
+
+    .caucasus__times-title {
+      margin-top: var(--space-l);
+    }
+  }
+</style>
+
+<script>
+  // "Plan a trip here": tell the AI planner which countries to preselect.
+  // The link still scrolls to #plan without JS (or if nobody listens).
+  const root = document.getElementById('caucasus');
+  root?.addEventListener('click', (event) => {
+    const link = (event.target as Element | null)?.closest<HTMLElement>('[data-plan-country]');
+    const codes = link?.dataset.planCountry?.split(' ').filter(Boolean);
+    if (!codes?.length) return;
+    document.dispatchEvent(new CustomEvent('localhost:plan-preselect', { detail: { countries: codes, source: 'caucasus' } }));
+  });
+</script>

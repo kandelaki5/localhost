@@ -1,6 +1,70 @@
 {
   "kicker": "Hosts We Love",
   "title": "The people your travellers *write home* about.",
-  "intro": "Our journeys pass through the gates of families we know by name. Recommending them keeps the money from tourism where it belongs — in villages, kitchens and cellars.",
-  "running": "Local communities"
+  "intro": "Our journeys pass through the gates of families we know by name. Building them into your programme keeps the money from tourism where it belongs: in the villages, with the people who cook, host and tell the stories.",
+  "running": "Local communities",
+  "photo": {
+    "label": "Place photograph",
+    "portraits": "Host portraits to follow"
+  },
+  "note": "Every photograph in this section shows a Georgian landscape, not the hosts or their homes. Host portraits will follow, with our hosts’ permission.",
+  "quoteSource": "From our Sustainability Policy",
+  "factsTitle": "At a glance",
+  "hosts": {
+    "sisatura": {
+      "name": "Sisatura",
+      "people": "Marika & Enry",
+      "seal": "Sisatura • Marika & Enry",
+      "quote": "What is better than Marika and Enry meeting you at the gate of Sisatura with a shot of chacha and a big smile?",
+      "alt": "Old wooden village houses on a steep green hillside, smoke rising from a chimney",
+      "facts": [
+        {
+          "term": "Where",
+          "text": "Chkhoria, near Zugdidi, in Samegrelo"
+        },
+        {
+          "term": "The place",
+          "text": "A family-run Megrelian ethno-village with traditional houses, a lake and an old water mill"
+        },
+        {
+          "term": "At the table",
+          "text": "Megrelian cooking (ghomi, elarji, gebzhalia) and a supra, the Georgian feast, led by a tamada"
+        }
+      ]
+    },
+    "leila": {
+      "name": "Leila",
+      "tag": "Khinkali & stories",
+      "seal": "Leila",
+      "quote": "Leila prepares the best khinkali while telling the story of her life, which could easily be an Oscar-winning movie.",
+      "alt": "A family house with a carved wooden balcony behind a sunlit lawn"
+    },
+    "vacheishvili": {
+      "name": "Vacheishvili Family",
+      "line": "A family we are proud to call friends, and a door we are always glad to knock on.",
+      "alt": "Horses grazing in a wide green mountain valley"
+    },
+    "samvel": {
+      "name": "Samvel & family",
+      "quote": "Samvel and his family, with their super-warm hospitality, make you laugh all the time while serving delicious home-grown food.",
+      "alt": "A calm lake reflecting wooded hills under a blue sky"
+    },
+    "aluda": {
+      "name": "Aluda",
+      "line": "Every journey is better with a friend along the way. Aluda is one of ours.",
+      "alt": "A high mountain pasture below jagged rocky peaks"
+    },
+    "maia": {
+      "name": "Maia",
+      "line": "Some welcomes need no translation. Maia’s is one of them.",
+      "alt": "A small town in a deep, forested gorge"
+    }
+  },
+  "more": {
+    "kicker": "More hosts we love",
+    "title": "Doors we keep *coming back to.*",
+    "quote": "In Georgia there are countless people and families who deliver an unparalleled level of positive emotions — emotions you can never buy. Our mission is to support them."
+  },
+  "cta": "Plan a visit with our hosts",
+  "policyLink": "Read the Sustainability Policy"
 }

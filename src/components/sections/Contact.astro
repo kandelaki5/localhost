@@ -1,23 +1,362 @@
 ---
 /**
- * 12 · Contact (#contact) — STUB from the foundation.
- * Owned by the Contact section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/contact.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 12 · Contact (#contact) — the sign-off before the passport-cover footer.
+ * Office address (with Google Maps / OpenStreetMap search links — links only,
+ * no embeds or tiles), email and phone set large, a note for travel agencies
+ * and tour operators (partner kit by email), the airmail-envelope address
+ * card, and a hand-off to the AI planner.
+ *
+ * Office hours and the team's languages are not verified yet, so they are not
+ * shown (docs/requests/contact.md → Content TODO).
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import Envelope from './contact/Envelope.astro';
 import { contentLang, getLang, useStrings } from '../../i18n';
+import { inline } from '../../lib/markup';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'contact');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'contact') === lang ? undefined : 'en';
+
+const { addressLines, email, phone, web } = common.contact;
+// Search by the canonical (Latin) address so both map services find it in any language.
+const query = 'A. Bakradze 7, 0159 Tbilisi, Georgia';
+const googleMaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+const osm = `https://www.openstreetmap.org/search?query=${encodeURIComponent(query)}`;
+const tel = `tel:${phone.replace(/[^\d+]/g, '')}`;
+const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=${encodeURIComponent(t.b2b.body.replace(/\n/g, '\r\n'))}`;
 ---
 
-<section lang={textLang} id="contact" class="section" aria-labelledby="contact-title">
+<section lang={textLang} id="contact" class="section contact" aria-labelledby="contact-title">
   <div class="container">
     <SectionHead number={12} id="contact-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="columns" count={4} note="Office, write & call, map at street level, the closing sign-off" />
+
+    <div class="contact__grid">
+      <div class="contact__details">
+        <section class="cblock" aria-labelledby="contact-office">
+          <h3 class="cblock__title kicker" id="contact-office">{t.office}</h3>
+          <address class="cblock__address">
+            <Icon name="pin" size={22} class="cblock__pin" />
+            <span>
+              {addressLines.map((line, i) => (i ? [<br />, line] : line))}
+            </span>
+          </address>
+          <p class="cblock__maps">
+            <a href={googleMaps} target="_blank" rel="noopener noreferrer">
+              {t.maps.google}
+              <Icon name="arrow-up-right" size={14} />
+              <span class="visually-hidden">({common.aria.newTab})</span>
+            </a>
+            <a href={osm} target="_blank" rel="noopener noreferrer">
+              {t.maps.osm}
+              <Icon name="arrow-up-right" size={14} />
+              <span class="visually-hidden">({common.aria.newTab})</span>
+            </a>
+          </p>
+        </section>
+
+        <section class="cblock" aria-labelledby="contact-write">
+          <h3 class="cblock__title kicker" id="contact-write">{t.write}</h3>
+          <ul class="cblock__lines" role="list">
+            <li>
+              <span class="cblock__label">{t.emailLabel}</span>
+              <a class="cblock__big" href={`mailto:${email}`}>{email}</a>
+            </li>
+            <li>
+              <span class="cblock__label">{t.phoneLabel}</span>
+              <a class="cblock__big" href={tel}>{phone}</a>
+            </li>
+            <li>
+              <span class="cblock__label">{t.webLabel}</span>
+              <a class="cblock__web" href="https://www.localhost.ge">{web}</a>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <figure class="contact__figure">
+        <Envelope t={t.envelope} addressLines={addressLines} stampName="საქართველო" />
+        <figcaption class="fig-caption contact__caption">
+          <span class="contact__fig">{common.figure.label} 1</span>
+          {t.envelope.caption}
+        </figcaption>
+      </figure>
+
+      <aside class="kit" aria-labelledby="contact-kit">
+        <p class="kicker kit__kicker">{t.b2b.kicker}</p>
+        <h3 class="kit__title display" id="contact-kit" set:html={inline(t.b2b.title)} />
+        <p class="kit__text">{t.b2b.text}</p>
+        <Button href={kit} variant="secondary" icon="mail">{t.b2b.cta}</Button>
+      </aside>
+    </div>
+
+    <div class="handoff">
+      <div class="handoff__text">
+        <p class="handoff__title">{t.plan.title}</p>
+        <p class="handoff__note">{t.plan.text}</p>
+      </div>
+      <Button href="#plan" variant="ai" size="lg">{t.plan.cta}</Button>
+    </div>
   </div>
 </section>
+
+<style>
+  .contact__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    grid-template-areas:
+      'details details details details details . figure figure figure figure figure figure'
+      'kit kit kit kit kit . figure figure figure figure figure figure';
+    grid-template-rows: auto 1fr;
+    column-gap: var(--layout-gap);
+    row-gap: var(--space-xl);
+  }
+
+  .contact__details {
+    grid-area: details;
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .cblock__title {
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+    color: var(--color-text);
+  }
+
+  .cblock__address {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-xs);
+    margin-top: var(--space-m);
+    font-family: var(--font-display);
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1.15;
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text);
+  }
+
+  .cblock__address:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-xl);
+  }
+
+  .cblock__address :global(.cblock__pin) {
+    margin-top: 0.3rem;
+    color: var(--color-accent);
+  }
+
+  .cblock__maps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+    margin-top: var(--space-s);
+    padding-left: calc(22px + var(--space-xs));
+  }
+
+  .cblock__maps a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 2.75rem;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    text-decoration: none;
+    color: var(--color-link);
+  }
+
+  .cblock__maps a:hover {
+    color: var(--color-link-hover);
+  }
+
+  .cblock__lines {
+    display: grid;
+    margin-top: var(--space-xs);
+  }
+
+  .cblock__lines li {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--space-s);
+    padding-block: var(--space-xs);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .cblock__label {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .cblock__big {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    font-variant-numeric: lining-nums;
+    color: var(--color-text);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition:
+      background-size var(--dur-base) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .cblock__big:hover {
+    color: var(--color-link);
+    background-size: 100% 1px;
+  }
+
+  .cblock__web {
+    font-size: var(--fs-base);
+    color: var(--color-link);
+  }
+
+  /* envelope */
+  .contact__figure {
+    grid-area: figure;
+    align-self: start;
+    margin: var(--space-s) 0 0;
+  }
+
+  .contact__caption {
+    margin-top: var(--space-m);
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  .contact__fig {
+    font-style: normal;
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+  }
+
+  /* partner kit */
+  .kit {
+    grid-area: kit;
+    align-self: start;
+    display: grid;
+    justify-items: start;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    border: var(--border-thin) solid var(--color-green-ink);
+    outline: var(--border-hair) solid color-mix(in srgb, var(--color-green-ink) 40%, transparent);
+    outline-offset: -0.45rem;
+    background: var(--color-bg-raised);
+  }
+
+  .kit__kicker {
+    color: var(--color-green-ink);
+  }
+
+  .kit__title {
+    font-size: calc(var(--fs-2xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+  }
+
+  .kit__title :global(em) {
+    font-weight: var(--fw-display-sm);
+  }
+
+  .kit__text {
+    color: var(--color-text-body);
+    max-width: 42ch;
+  }
+
+  /* hand-off to the planner */
+  .handoff {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m) var(--space-xl);
+    margin-top: var(--space-2xl);
+    padding-block: var(--space-l);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .handoff__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: var(--lh-heading);
+    color: var(--color-text);
+  }
+
+  .handoff__title:lang(ka) {
+    font-style: normal;
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-xl);
+  }
+
+  .handoff__note {
+    margin-top: var(--space-2xs);
+    color: var(--color-text-body);
+    max-width: 52ch;
+  }
+
+  /* ── tablet ── */
+  @media (max-width: 63.99em) {
+    .contact__grid {
+      grid-template-areas:
+        'details details details details details details details details details details details details'
+        'figure figure figure figure figure figure figure figure figure figure figure figure'
+        'kit kit kit kit kit kit kit kit kit kit kit kit';
+      grid-template-rows: auto;
+    }
+
+    .contact__details {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-l);
+    }
+
+    .contact__figure {
+      max-width: 40rem;
+    }
+  }
+
+  /* ── phone ── */
+  @media (max-width: 39.99em) {
+    .contact__details {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+    }
+
+    .cblock__address {
+      font-size: var(--fs-xl);
+    }
+
+    .cblock__lines li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.1rem;
+    }
+
+    .kit {
+      padding: var(--space-m);
+    }
+
+    .handoff {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .handoff :global(.btn) {
+      justify-content: center;
+    }
+  }
+</style>

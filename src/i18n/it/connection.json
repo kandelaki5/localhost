@@ -1,0 +1,83 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). City names use Italian exonyms.",
+  "kicker": "Collegamenti",
+  "title": "L’Europa è a\n*poche ore* di volo.",
+  "intro": "Tbilisi e Kutaisi sono collegate con voli diretti a città di tutta Europa: i vostri viaggiatori arrivano riposati, pronti per la loro prima supra.",
+  "running": "Tbilisi TBS · Kutaisi KUT",
+  "tabsLabel": "Aeroporto",
+  "airports": {
+    "TBS": {
+      "tab": "Tbilisi",
+      "name": "Aeroporto di Tbilisi",
+      "caption": "Voli diretti dall’aeroporto internazionale di Tbilisi (TBS)",
+      "footnote": "Se una città ha due aeroporti, sotto le compagnie trovate entrambi i codici."
+    },
+    "KUT": {
+      "tab": "Kutaisi",
+      "name": "Aeroporto di Kutaisi",
+      "caption": "Voli diretti dall’aeroporto internazionale di Kutaisi (KUT)",
+      "footnote": "Alcuni di questi aeroporti si trovano fuori dalla città di cui portano il nome: Parigi-Beauvais dista circa 85 km da Parigi, Bruxelles-Charleroi 55 km da Bruxelles, Francoforte-Hahn 120 km da Francoforte e Memmingen 110 km da Monaco di Baviera."
+    }
+  },
+  "board": {
+    "title": "Partenze",
+    "flourish": "გაფრენა",
+    "flourishLang": "ka",
+    "clock": "Ora di Tbilisi",
+    "clockLabel": "Ora attuale a Tbilisi:",
+    "columns": {
+      "city": "Destinazione",
+      "code": "Codice",
+      "airline": "Compagnia",
+      "status": "Note"
+    },
+    "direct": "Diretto",
+    "seasonal": "Stagionale",
+    "row": "{city} ({code}): {airlines}. {status}.",
+    "showing": "{shown} di {total}",
+    "more": "Tutte le {total} città",
+    "less": "Mostra solo le prime {shown}",
+    "checked": "Verificato sull’orario ufficiale dell’aeroporto · {date}"
+  },
+  "note": "I voli diretti variano a seconda della stagione — chiedeteci l’orario aggiornato.",
+  "noteLink": "Chiedeteci",
+  "cities": {
+    "warsaw": "Varsavia",
+    "berlin": "Berlino",
+    "munich": "Monaco di Baviera",
+    "milan": "Milano",
+    "rome": "Roma",
+    "vienna": "Vienna",
+    "paris": "Parigi",
+    "amsterdam": "Amsterdam",
+    "athens": "Atene",
+    "riga": "Riga",
+    "london": "Londra",
+    "copenhagen": "Copenaghen",
+    "istanbul": "Istanbul",
+    "dubai": "Dubai",
+    "doha": "Doha",
+    "tel-aviv": "Tel Aviv",
+    "almaty": "Almaty",
+    "tashkent": "Tashkent",
+    "baku": "Baku",
+    "yerevan": "Erevan",
+    "katowice": "Katowice",
+    "poznan": "Poznań",
+    "wroclaw": "Breslavia",
+    "dortmund": "Dortmund",
+    "hamburg": "Amburgo",
+    "memmingen": "Memmingen",
+    "frankfurt-hahn": "Francoforte-Hahn",
+    "venice": "Venezia",
+    "budapest": "Budapest",
+    "prague": "Praga",
+    "bratislava": "Bratislava",
+    "vilnius": "Vilnius",
+    "paris-beauvais": "Parigi-Beauvais",
+    "brussels-charleroi": "Bruxelles-Charleroi",
+    "madrid": "Madrid",
+    "antalya": "Antalya",
+    "geneva": "Ginevra"
+  }
+}

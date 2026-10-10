@@ -1,0 +1,87 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Kaukaz",
+  "title": "Trzy kraje. *Jeden gospodarz.*",
+  "intro": "Gruzja to nasz dom, Armenia i Azerbejdżan – najbliżsi sąsiedzi. Jeden zespół w Tbilisi projektuje i prowadzi programy we wszystkich trzech krajach – osobno albo połączone w jedną podróż, a przekraczanie granic organizujemy my.",
+  "running": "Gruzja · Armenia · Azerbejdżan",
+  "countries": [
+    {
+      "tag": "Dom · Tbilisi",
+      "summary": "Nasz dom: mały kraj o ogromnej różnorodności – od wysokiego Kaukazu po Morze Czarne i winne doliny Kachetii.",
+      "highlights": [
+        "Tbilisi, Mccheta i droga do Kazbegi",
+        "Winna Kachetia i piwnice z kwewri",
+        "Swanetia i Tuszetia wysoko w górach"
+      ],
+      "photo": {
+        "alt": "Średniowieczne kamienne wieże obronne wśród domów wsi w zielonej dolinie Swanetii, w tle ośnieżony masyw",
+        "caption": "Wieże swańskie w Swanetii"
+      }
+    },
+    {
+      "tag": "Po sąsiedzku · Erywań",
+      "summary": "Górzysty kraj klasztorów, wulkanicznego tufu i widoków na Ararat, z tętniącą życiem stolicą – Erywaniem.",
+      "highlights": [
+        "Erywań, świątynia Garni i Geghard",
+        "Chor Wirap naprzeciw Araratu",
+        "Wina z Areni i jezioro Sewan"
+      ],
+      "photo": {
+        "alt": "Klasztor Chor Wirap na wzgórzu nad równiną Araratu, a za nim ośnieżony stożek Araratu na tle błękitnego nieba",
+        "caption": "Chor Wirap i Ararat"
+      }
+    },
+    {
+      "tag": "Po sąsiedzku · Baku",
+      "summary": "Kraina Ognia nad Morzem Kaspijskim: otoczone murami Stare Miasto, prehistoryczne ryty naskalne i górskie wioski słynące z jedwabiu i miedzi.",
+      "highlights": [
+        "Stare Miasto w Baku i nadmorski bulwar",
+        "Ryty naskalne Gobustanu i Półwysep Apszeroński",
+        "Szeki, Lahıc i wioski Wielkiego Kaukazu"
+      ],
+      "photo": {
+        "alt": "Dachy Starego Miasta w Baku widziane z góry, na horyzoncie Płonące Wieże i wieża telewizyjna",
+        "caption": "Stare Miasto w Baku i Płonące Wieże"
+      }
+    }
+  ],
+  "cta": "Zaplanuj tu podróż",
+  "credit": "Fot. {creator}, {license}",
+  "map": {
+    "fig": "Tbilisi między dwoma morzami",
+    "note": "Mapa schematyczna. Kontury: Natural Earth.",
+    "label": "Schematyczna mapa Kaukazu Południowego",
+    "description": "Gruzja, Armenia i Azerbejdżan między Morzem Czarnym na zachodzie a Morzem Kaspijskim na wschodzie, z pasmem Wielkiego Kaukazu wzdłuż ich północnego skraju. Tbilisi we wschodniej Gruzji oznaczono czerwonym słońcem. Z Tbilisi prowadzą linie: na północ do Kazbegi, na zachód do Kutaisi i dalej do Batumi nad Morzem Czarnym, na południe do Erywania w Armenii oraz na wschód do Szeki i dalej do Baku nad Morzem Kaspijskim. Na północy leży Rosja, na południowym zachodzie Turcja, a na południu Iran.",
+    "cities": {
+      "tbilisi": "Tbilisi",
+      "kutaisi": "Kutaisi",
+      "batumi": "Batumi",
+      "kazbegi": "Kazbegi",
+      "yerevan": "Erywań",
+      "sheki": "Szeki",
+      "baku": "Baku"
+    },
+    "seas": {
+      "blackSea": "Morze Czarne",
+      "caspianSea": "Morze Kaspijskie"
+    },
+    "neighbours": {
+      "RU": "Rosja",
+      "TR": "Turcja",
+      "IR": "Iran"
+    },
+    "range": "Wielki Kaukaz",
+    "scale": "100 km",
+    "north": "N"
+  },
+  "aside": {
+    "kicker": "Z Tbilisi",
+    "title": "Dwa morza, *trzy stolice.*",
+    "text": "Tbilisi leży między Morzem Czarnym a Kaspijskim, z Erywaniem na południu i Baku na wschodzie. Gdy program łączy dwa lub trzy kraje, nasz zespół organizuje transfery, harmonogram i przekraczanie granic – dzięki temu grupa podróżuje według jednego planu, z jednym zespołem za plecami.",
+    "timesLabel": "Orientacyjny czas jazdy",
+    "hours": "ok. {h} godz.",
+    "border": "z granicą",
+    "note": "Samochodem. Korki, pogoda i kolejki na granicy mogą to zmienić.",
+    "cta": "Szkic trasy przez trzy kraje"
+  }
+}

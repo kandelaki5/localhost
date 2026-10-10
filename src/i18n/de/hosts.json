@@ -1,0 +1,71 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Gastgeber, die wir lieben",
+  "title": "Menschen, von denen Ihre Gäste *noch zu Hause erzählen.*",
+  "intro": "Unsere Reisen führen durch die Tore von Familien, die wir beim Namen kennen. Wenn Sie sie in Ihr Programm aufnehmen, bleibt das Geld aus dem Tourismus dort, wo es hingehört: in den Dörfern, bei den Menschen, die kochen, bewirten und Geschichten erzählen.",
+  "running": "Lokale Gemeinschaften",
+  "photo": {
+    "label": "Ortsfoto",
+    "portraits": "Porträts der Gastgeber folgen"
+  },
+  "note": "Alle Fotos in diesem Abschnitt zeigen georgische Landschaften, nicht die Gastgeber oder ihre Häuser. Porträts folgen, mit der Erlaubnis unserer Gastgeber.",
+  "quoteSource": "Aus unserer Nachhaltigkeits­richtlinie",
+  "factsTitle": "Auf einen Blick",
+  "hosts": {
+    "sisatura": {
+      "name": "Sisatura",
+      "people": "Marika & Enry",
+      "seal": "Sisatura • Marika & Enry",
+      "quote": "Was gibt es Schöneres, als wenn Marika und Enry Sie am Tor von Sisatura mit einem Gläschen Tschatscha und einem breiten Lächeln empfangen?",
+      "alt": "Alte Holzhäuser an einem steilen grünen Hang, aus einem Schornstein steigt Rauch",
+      "facts": [
+        {
+          "term": "Wo",
+          "text": "Tschchoria bei Sugdidi, in Mingrelien (Samegrelo)"
+        },
+        {
+          "term": "Der Ort",
+          "text": "Ein familiengeführtes mingrelisches Ethno-Dorf mit traditionellen Häusern, einem See und einer alten Wassermühle"
+        },
+        {
+          "term": "Bei Tisch",
+          "text": "Mingrelische Küche (Ghomi, Elardschi, Gebschalia) und eine Supra, das georgische Festmahl, geleitet von einem Tamada"
+        }
+      ]
+    },
+    "leila": {
+      "name": "Leila",
+      "tag": "Chinkali & Geschichten",
+      "seal": "Leila",
+      "quote": "Leila bereitet die besten Chinkali zu und erzählt dabei ihre Lebensgeschichte, aus der man mühelos einen oscarreifen Film machen könnte.",
+      "alt": "Ein Familienhaus mit geschnitztem Holzbalkon hinter einem sonnigen Rasen"
+    },
+    "vacheishvili": {
+      "name": "Familie Vacheishvili",
+      "line": "Eine Familie, die wir stolz unsere Freunde nennen, und eine Tür, an die wir immer gern klopfen.",
+      "alt": "Pferde grasen in einem weiten grünen Bergtal"
+    },
+    "samvel": {
+      "name": "Samvel & Familie",
+      "quote": "Samvel und seine Familie bringen Sie mit ihrer herzlichen Gastfreundschaft ständig zum Lachen und servieren dabei köstliches Essen aus eigenem Anbau.",
+      "alt": "Ein ruhiger See, in dem sich bewaldete Hügel unter blauem Himmel spiegeln"
+    },
+    "aluda": {
+      "name": "Aluda",
+      "line": "Jede Reise wird schöner mit Freunden am Weg. Aluda ist einer davon.",
+      "alt": "Eine Hochweide unter zerklüfteten Felsgipfeln"
+    },
+    "maia": {
+      "name": "Maia",
+      "line": "Manches Willkommen braucht keine Übersetzung. Maias gehört dazu.",
+      "alt": "Eine kleine Stadt in einer tiefen, bewaldeten Schlucht"
+    }
+  },
+  "more": {
+    "kicker": "Weitere Gastgeber, die wir lieben",
+    "title": "Türen, zu denen wir *immer wieder zurückkehren.*",
+    "quote": "In Georgien gibt es unzählige Menschen und Familien, die ein unvergleichliches Maß an positiven Emotionen schenken — Emotionen, die man nie kaufen kann. Unsere Mission ist es, sie zu unterstützen."
+  },
+  "cta": "Besuch bei Gastgebern planen",
+  "policyLink": "Nachhaltigkeits­richtlinie lesen"
+}

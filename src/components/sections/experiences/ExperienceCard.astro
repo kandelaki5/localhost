@@ -1,0 +1,414 @@
+---
+/**
+ * One experience: a perforated stamp (photo + printed "Nº 01" strip) with
+ * the name, a gloss in the other script, a two-line description, where and
+ * when, and "Plan this with AI ✦".
+ *
+ * The heading comes first in the DOM (screen readers meet the name before
+ * the photo); CSS shows the stamp first. The article is focusable so the
+ * carousel can move between cards with the arrow keys.
+ *
+ * "Plan this with AI" is a plain link to #plan. With JS, the carousel script
+ * also dispatches `lh:plan-preset` so the planner preselects this experience.
+ */
+import { Picture } from 'astro:assets';
+import Stamp from '../../ui/Stamp.astro';
+import Icon from '../../ui/Icon.astro';
+import { getPhoto } from '../../../lib/photos';
+import { getLang, localeInfo, useStrings } from '../../../i18n';
+import { monthLevels, monthNames, placeNames, seasonLine, type ExperienceCard } from './data';
+
+interface Props {
+  card: ExperienceCard;
+}
+
+const { card } = Astro.props;
+const lang = getLang(Astro);
+const t = useStrings(lang, 'experiences');
+const copy = t.cards[card.id];
+const bcp47 = localeInfo(lang).bcp47;
+
+const name = card.experience.name[lang];
+// The gloss is the name in the other script: Georgian on Latin pages, English on /ka/.
+const gloss = lang === 'ka' ? { text: card.experience.name.en, lang: 'en' } : { text: card.experience.name.ka, lang: 'ka' };
+const titleId = `exp-${card.id}-title`;
+const number = String(card.number).padStart(2, '0');
+
+const image = getPhoto(card.photo);
+const widths = [320, 480, 640, 800, 960].filter((w) => w <= image.width);
+
+const months = monthNames(bcp47);
+const levels = monthLevels(card.season);
+// Georgian has no capitals (toUpperCase would turn Mkhedruli into Mtavruli).
+const capitalise = (s: string) => (lang === 'ka' ? s : s.charAt(0).toLocaleUpperCase(bcp47) + s.slice(1));
+const season = seasonLine(card.season, t.seasons, months.short, capitalise);
+const places = placeNames(card, lang);
+---
+
+<article class:list={['exp-card', `exp-card--${card.tint}`]} tabindex="0" aria-labelledby={titleId} data-exp-card>
+  <header class="exp-card__head">
+    <h3 id={titleId} class="exp-card__title">{name}</h3>
+    <span class="exp-card__gloss" lang={gloss.lang}>{gloss.text}</span>
+  </header>
+
+  <Stamp tint={card.tint} class="exp-card__stamp">
+    <span class="exp-card__photo">
+      <Picture
+        src={image}
+        alt={copy.alt}
+        formats={['avif', 'webp']}
+        widths={widths}
+        sizes="(min-width: 82rem) 380px, (min-width: 64em) 26vw, (min-width: 40em) 36vw, 72vw"
+        loading="lazy"
+        decoding="async"
+        class="exp-card__img"
+        style={`object-position:${card.focal}`}
+      />
+    </span>
+    <span class="exp-card__plate">
+      <span class="exp-card__no">{t.card.number}&nbsp;{number}</span>
+      <span class="exp-card__subject">{copy.subject}</span>
+    </span>
+  </Stamp>
+
+  <p class="exp-card__text">{copy.text}</p>
+
+  <dl class="exp-card__facts">
+    <div class="exp-card__fact">
+      <dt class="exp-card__label">{t.card.where}</dt>
+      <dd>
+        <ul class="exp-card__places">
+          {places.map((p) => <li>{p}</li>)}
+        </ul>
+      </dd>
+    </div>
+    <div class="exp-card__fact">
+      <dt class="exp-card__label">{t.card.when}</dt>
+      <dd>
+        <span class="exp-card__months" aria-hidden="true">
+          {months.narrow.map((m, i) => <span class="exp-card__month" data-level={levels[i]}>{m}</span>)}
+        </span>
+        <span class="exp-card__season">{season}</span>
+      </dd>
+    </div>
+  </dl>
+
+  <a class="exp-card__plan" href="#plan" data-exp-plan={card.id}>
+    <span class="exp-card__plan-label">{t.card.plan}</span>
+    <Icon name="sparkle" size={16} tone="sun" class="exp-card__sparkle" />
+    <span class="visually-hidden">({name})</span>
+    <Icon name="arrow-right" size={16} class="exp-card__arrow" />
+  </a>
+</article>
+
+<style>
+  .exp-card {
+    --exp-tint: var(--color-green-ink);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: var(--color-text);
+  }
+
+  .exp-card--red {
+    --exp-tint: var(--color-red-ink);
+  }
+
+  .exp-card:focus-visible {
+    outline-offset: var(--space-2xs);
+  }
+
+  /* ── stamp (shown first) ── */
+  /* A thin tint: the perforated edge keeps only a hairline of colour past the holes. */
+  .exp-card :global(.exp-card__stamp) {
+    --stamp-band: var(--border-thin);
+    order: -1;
+    transition: translate var(--dur-base) var(--ease-out);
+  }
+
+  .exp-card__photo {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-bg-sunken);
+  }
+
+  .exp-card__photo :global(picture) {
+    display: contents;
+  }
+
+  .exp-card__photo :global(.exp-card__img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale var(--dur-reveal) var(--ease-out);
+  }
+
+  .exp-card__plate {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    padding: var(--space-2xs) var(--space-3xs) 0;
+  }
+
+  .exp-card__no {
+    flex: none;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1;
+    color: var(--exp-tint);
+  }
+
+  .exp-card__no:lang(ka) {
+    font-style: normal;
+  }
+
+  .exp-card__subject {
+    min-width: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text-muted);
+    text-align: end;
+  }
+
+  .exp-card__subject:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+  }
+
+  /* ── name + gloss ── */
+  .exp-card__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+  }
+
+  .exp-card__title {
+    margin: 0;
+    font-size: calc(var(--fs-2xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-m);
+    font-variation-settings: var(--fvs-display);
+    line-height: var(--lh-heading);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .exp-card__gloss {
+    flex: none;
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-ka-text);
+    color: var(--color-text-muted);
+  }
+
+  .exp-card__gloss:lang(en) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-caption);
+  }
+
+  /* ── description ── */
+  .exp-card__text {
+    margin-top: var(--space-xs);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+    color: var(--color-text-body);
+    max-width: var(--layout-measure-narrow);
+  }
+
+  .exp-card__text:lang(ka) {
+    line-height: var(--lh-body);
+  }
+
+  /* ── where / when ── */
+  .exp-card__facts {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-s);
+    row-gap: var(--space-xs);
+    margin-top: var(--space-s);
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .exp-card__fact {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    align-items: baseline;
+  }
+
+  .exp-card__fact dd {
+    margin: 0;
+  }
+
+  .exp-card__label {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1.3;
+    color: var(--color-text-muted);
+  }
+
+  .exp-card__label:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+  }
+
+  .exp-card__places {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.55em;
+    margin: 0;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.6;
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+  }
+
+  .exp-card__places:lang(ka) {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+  }
+
+  /* The dot ends a line rather than starting the next one when the list wraps. */
+  .exp-card__places li:not(:last-child)::after {
+    content: '·';
+    margin-left: 0.55em;
+    color: var(--color-text-muted);
+  }
+
+  /* Twelve month initials; a bar marks when it works, a heavy tint bar the best months. */
+  .exp-card__months {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: calc(var(--space-3xs) / 2);
+    max-width: 13rem;
+  }
+
+  .exp-card__month {
+    padding-bottom: 0.3rem;
+    border-bottom: var(--border-thick) solid transparent;
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-medium);
+    line-height: 1.2;
+    text-align: center;
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+    opacity: var(--opacity-disabled);
+  }
+
+  .exp-card__month:lang(ka) {
+    font-size: var(--fs-2xs);
+  }
+
+  .exp-card__month[data-level='1'] {
+    opacity: 1;
+    border-bottom-color: color-mix(in srgb, var(--exp-tint) 28%, transparent);
+  }
+
+  .exp-card__month[data-level='2'] {
+    opacity: 1;
+    font-weight: var(--fw-bold);
+    color: var(--color-text);
+    border-bottom-color: var(--exp-tint);
+  }
+
+  .exp-card__season {
+    display: block;
+    margin-top: var(--space-2xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text-body);
+  }
+
+  .exp-card__season:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+  }
+
+  /* ── plan with AI ── */
+  .exp-card__plan {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    margin-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .exp-card__plan:lang(ka) {
+    font-size: var(--fs-xs);
+  }
+
+  .exp-card__plan-label {
+    padding-block: 0.2em;
+    background: linear-gradient(currentColor 0 0) no-repeat 0 100% / 0 var(--border-hair);
+    transition: background-size var(--dur-base) var(--ease-out);
+  }
+
+  .exp-card__plan:hover .exp-card__plan-label,
+  .exp-card__plan:focus-visible .exp-card__plan-label {
+    background-size: 100% var(--border-hair);
+  }
+
+  .exp-card :global(.exp-card__sparkle) {
+    flex: none;
+    transition: rotate var(--dur-slow) var(--ease-overshoot);
+  }
+
+  .exp-card__plan:hover :global(.exp-card__sparkle) {
+    rotate: 90deg;
+  }
+
+  .exp-card :global(.exp-card__arrow) {
+    flex: none;
+    margin-left: auto;
+    color: var(--color-text-muted);
+    transition:
+      translate var(--dur-base) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .exp-card__plan:hover :global(.exp-card__arrow),
+  .exp-card__plan:focus-visible :global(.exp-card__arrow) {
+    translate: var(--space-3xs) 0;
+    color: var(--color-text);
+  }
+
+  /* ── hover: the stamp lifts, the photo settles in ── */
+  @media (hover: hover) {
+    .exp-card:hover :global(.exp-card__stamp) {
+      translate: 0 calc(-1 * var(--space-3xs));
+    }
+
+    .exp-card:hover .exp-card__photo :global(.exp-card__img) {
+      scale: 1.035;
+    }
+  }
+</style>

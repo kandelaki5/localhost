@@ -1,435 +1,60 @@
 ---
 /**
- * /ai-lab/ — night-mode landing shell for the AI features. Each card becomes
- * a live demo as the AI agents ship them (their dev pages live under
- * /ai-lab/dev/, which is not linked or indexed).
+ * /ai-lab/ — "Local Host AI Lab": the night-mode showcase of every AI feature,
+ * each one a working, designed UI (dev harnesses stay under /ai-lab/dev/).
+ *
+ *   hero (promise + console with demo/live status)
+ *   01 Trip Designer & Voice (teaser → /#plan)   02 Photo Match
+ *   03 Agency Proposal Builder                    04 Policy Q&A
+ *   05 Inquiry Triage (staff tool)                06 MCP connector
+ *   How it works / privacy
+ *
+ * Feature scripts are lazy-loaded (components/ai-lab/client/lazy.ts).
+ * Mode: build-time server config, corrected by every response's X-AI-Mode.
  */
 import Base from '../../layouts/Base.astro';
-import Icon from '../ui/Icon.astro';
-import Button from '../ui/Button.astro';
-import RidgeDivider from '../ui/RidgeDivider.astro';
-import type { IconName } from '../ui/icons';
-import { getLang, localizePath, useStrings } from '../../i18n';
-import { inline } from '../../lib/markup';
-import { georgianNumeral, latinNumber } from '../../lib/sections';
+import LabHero from '../ai-lab/LabHero.astro';
+import MapSprite from '../ai-lab/MapSprite.astro';
+import TripTeaser from '../ai-lab/TripTeaser.astro';
+import PhotoMatch from '../ai-lab/PhotoMatch.astro';
+import ProposalBuilder from '../ai-lab/ProposalBuilder.astro';
+import PolicyQa from '../ai-lab/PolicyQa.astro';
+import Triage from '../ai-lab/Triage.astro';
+import McpConnect from '../ai-lab/McpConnect.astro';
+import HowItWorks from '../ai-lab/HowItWorks.astro';
+import { aiMode } from '../../lib/ai/config';
+import { getLang } from '../../i18n';
+import { labStrings } from '../ai-lab/data';
+import '../ai-lab/lab.css';
+import '../ai-lab/sheet.css';
 
 const lang = getLang(Astro);
-const t = useStrings(lang, 'ai-lab');
-const home = localizePath('/', lang);
-type Audience = keyof typeof t.audience;
-const cards = t.cards.map((c, i) => ({
-  ...c,
-  n: i + 1,
-  icon: c.icon as IconName,
-  audienceLabel: t.audience[c.audience as Audience] ?? c.audience,
-  staff: c.audience === 'staff',
-}));
+const t = labStrings(lang);
+const mode = aiMode();
 ---
 
 <Base title={t.meta.title} description={t.meta.description} surface="night">
-  <section class="lab-hero" aria-labelledby="lab-title">
-    <div class="container lab-hero__grid">
-      <div class="lab-hero__copy">
-        <p class="kicker lab-hero__kicker">
-          <span class="lab-led" aria-hidden="true"></span>
-          {t.kicker}
-        </p>
-        <h1 id="lab-title" class="display display--xl lab-hero__title" set:html={inline(t.title)} />
-        <p class="lab-hero__lead">{t.lead}</p>
-        <p class="lab-hero__note fig-caption">{t.note}</p>
-        <div class="lab-hero__ctas">
-          <Button href={`${home}#plan`} variant="ai" size="lg">{t.cards[0].title}</Button>
-          <Button href={home} variant="secondary" size="lg" iconStart="arrow-left">{t.cta}</Button>
-        </div>
-      </div>
-
-      <div class="lab-console" aria-hidden="true">
-        <div class="lab-console__top">
-          <span>LOCAL HOST · AI LAB</span>
-          <span>TBS 41°43′N 44°47′E</span>
-        </div>
-        <ol class="lab-console__list" role="list">
-          {
-            cards.map((c) => (
-              <li class="lab-console__row">
-                <span class="lab-console__no">{latinNumber(c.n)}</span>
-                <span class="lab-console__name">{c.title}</span>
-                <span class="lab-lamp lab-lamp--amber" />
-              </li>
-            ))
-          }
-        </ol>
-        <div class="lab-console__foot">
-          <span>{t.status.soon}</span>
-          <span class="lab-console__cursor">_</span>
-        </div>
-      </div>
-    </div>
-    <RidgeDivider variant="night" seed={21} label="AI Lab" class="lab-hero__ridge" />
-  </section>
-
-  <section class="lab-cards" aria-labelledby="lab-cards-title">
-    <div class="container">
-      <h2 id="lab-cards-title" class="kicker lab-cards__title">{t.cardsLabel}</h2>
-      <ol class="lab-grid" role="list">
-        {
-          cards.map((c) => (
-            <li class:list={['lab-card', `lab-card--${c.id}`]}>
-              <div class="lab-card__top">
-                <span class="lab-card__no">
-                  {latinNumber(c.n)}
-                  <span class="lab-card__ka" lang="ka" aria-hidden="true">
-                    {georgianNumeral(c.n)}
-                  </span>
-                </span>
-                <span class="lab-card__tag">{c.audienceLabel}</span>
-              </div>
-              <span class="lab-card__icon" aria-hidden="true">
-                <Icon name={c.icon} size={22} tone={c.icon === 'sparkle' ? 'sun' : 'current'} />
-              </span>
-              <h3 class="lab-card__title">{c.title}</h3>
-              <p class="lab-card__text">{c.text}</p>
-              <p class="lab-card__status">
-                <span class="lab-lamp lab-lamp--amber" aria-hidden="true" />
-                {c.staff ? t.status.staff : t.status.soon}
-              </p>
-            </li>
-          ))
-        }
-      </ol>
-      <p class="lab-cards__powered fig-caption">{t.poweredBy}</p>
-    </div>
-  </section>
+  <MapSprite />
+  <LabHero mode={mode} />
+  <div class="lab-page">
+    <TripTeaser />
+    <PhotoMatch />
+    <ProposalBuilder />
+    <PolicyQa />
+    <Triage />
+    <McpConnect />
+    <HowItWorks />
+  </div>
 </Base>
 
+<script>
+  import { boot } from '../ai-lab/client/lazy';
+  boot();
+</script>
+
 <style>
-  /* ── hero ── */
-  .lab-hero {
-    position: relative;
-    isolation: isolate;
-    padding-block: clamp(3rem, 7vw, 6.5rem) clamp(2rem, 4vw, 3.5rem);
-    overflow: clip;
-    background: var(--gradient-night);
-  }
-
-  .lab-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background-image:
-      linear-gradient(var(--color-night-grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-night-grid) 1px, transparent 1px);
-    background-size: 4rem 4rem;
-    -webkit-mask-image: radial-gradient(90% 80% at 70% 30%, #000 25%, transparent 80%);
-    mask-image: radial-gradient(90% 80% at 70% 30%, #000 25%, transparent 80%);
-  }
-
-  .lab-hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: radial-gradient(45% 60% at 78% 35%, var(--color-night-glow), transparent 70%);
-  }
-
-  .lab-hero__grid {
-    display: grid;
-    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
-    column-gap: var(--layout-gap);
-    row-gap: var(--space-2xl);
-    align-items: center;
-  }
-
-  .lab-hero__copy {
-    grid-column: 1 / span 7;
-  }
-
-  .lab-hero__kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    color: var(--color-green-ink);
-  }
-
-  .lab-hero__title {
-    margin-top: var(--space-m);
-  }
-
-  .lab-hero__title :global(em) {
-    text-shadow: 0 0 28px rgb(43 179 75 / 0.35);
-  }
-
-  .lab-hero__lead {
-    margin-top: var(--space-l);
-    max-width: 56ch;
-    font-size: var(--fs-md);
-    color: var(--color-text-body);
-  }
-
-  .lab-hero__note {
-    margin-top: var(--space-s);
-  }
-
-  .lab-hero__ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-    margin-top: var(--space-xl);
-  }
-
-  /* ── console ── */
-  .lab-console {
-    grid-column: 9 / -1;
-    padding: var(--space-m);
-    border: var(--border-hair) solid var(--color-rule-strong);
-    border-radius: var(--radius-md);
-    background: color-mix(in srgb, var(--color-bg-sunken) 82%, transparent);
-    box-shadow: var(--shadow-board);
-    font-family: var(--font-mono);
-    font-size: var(--fs-3xs);
-    letter-spacing: var(--tracking-mono);
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-  }
-
-  .lab-console__top,
-  .lab-console__foot {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-s);
-  }
-
-  .lab-console__top {
-    padding-bottom: var(--space-xs);
-    border-bottom: var(--border-hair) solid var(--color-rule);
-    color: var(--color-green-ink);
-  }
-
-  .lab-console__list {
-    margin: var(--space-2xs) 0;
-  }
-
-  .lab-console__row {
-    display: grid;
-    grid-template-columns: 2.5ch 1fr auto;
-    align-items: center;
-    gap: var(--space-xs);
-    padding-block: 0.55rem;
-    border-bottom: var(--border-hair) dashed var(--color-rule);
-  }
-
-  .lab-console__name {
-    color: var(--color-text);
-    font-size: var(--fs-2xs);
-    font-weight: var(--fw-semibold);
-  }
-
-  .lab-console__foot {
-    padding-top: var(--space-xs);
-    color: var(--color-amber);
-  }
-
-  .lab-console__cursor {
-    animation: lab-blink 1.1s steps(2, start) infinite;
-  }
-
-  /* ── lamps ── */
-  .lab-led,
-  .lab-lamp {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    flex: none;
-    border-radius: var(--radius-round);
-    background: var(--color-led);
-    box-shadow: var(--shadow-glow);
-  }
-
-  .lab-led {
-    animation: lab-pulse 2.4s var(--ease-in-out) infinite;
-  }
-
-  .lab-lamp--amber {
-    background: var(--color-amber);
-    box-shadow: var(--shadow-glow-amber);
-  }
-
-  .lab-lamp--dim {
-    background: transparent;
-    box-shadow: inset 0 0 0 1.5px var(--color-amber);
-  }
-
-  /* ── cards ── */
-  .lab-hero > :global(.lab-hero__ridge) {
-    margin-top: clamp(1.5rem, 4vw, 3rem);
-    margin-bottom: calc(-1 * clamp(2rem, 4vw, 3.5rem));
-  }
-
-  .lab-cards {
-    padding-block: var(--space-xl) var(--space-section);
+  .lab-page {
     background: var(--gradient-night-fade) no-repeat;
-    background-size: 100% 28rem;
-  }
-
-  .lab-cards__title {
-    padding-top: var(--space-xs);
-    border-top: var(--border-hair) solid var(--color-rule-section);
-    margin-bottom: var(--space-l);
-    color: var(--color-text);
-  }
-
-  .lab-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--layout-gap);
-    margin: 0;
-  }
-
-  .lab-card--trip-designer,
-  .lab-card--mcp {
-    grid-column: span 2;
-  }
-
-  .lab-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-s);
-    padding: clamp(1.25rem, 2.2vw, 2rem);
-    border: var(--border-hair) solid var(--color-rule);
-    border-radius: var(--radius-md);
-    background: color-mix(in srgb, var(--color-bg-raised) 70%, transparent);
-    transition:
-      border-color var(--dur-base) var(--ease-out),
-      transform var(--dur-base) var(--ease-out),
-      box-shadow var(--dur-base) var(--ease-out);
-  }
-
-  .lab-card:hover {
-    border-color: var(--color-rule-strong);
-    transform: translateY(-3px);
-    box-shadow: 0 24px 48px -28px rgb(0 0 0 / 0.8);
-  }
-
-  .lab-card__top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: var(--space-s);
-  }
-
-  .lab-card__no {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--fs-md);
-    color: var(--color-text);
-  }
-
-  .lab-card__ka {
-    margin-left: 0.4rem;
-    font-family: var(--font-ka-display);
-    font-style: normal;
-    font-size: var(--fs-xs);
-    color: var(--color-text-muted);
-  }
-
-  .lab-card__tag {
-    padding: 0.2rem 0.6rem;
-    border: var(--border-hair) solid var(--color-rule-strong);
-    border-radius: var(--radius-pill);
-    font-size: var(--fs-3xs);
-    font-weight: var(--fw-semibold);
-    letter-spacing: 0.12em;
-    text-transform: var(--case-caps);
-    color: var(--color-text-muted);
-  }
-
-  .lab-card__icon {
-    display: grid;
-    place-items: center;
-    width: 3rem;
-    height: 3rem;
-    margin-top: var(--space-s);
-    border: var(--border-hair) solid color-mix(in srgb, var(--color-glow) 55%, transparent);
-    border-radius: var(--radius-round);
-    color: var(--color-green-ink);
-    box-shadow: 0 0 24px -6px rgb(43 179 75 / 0.55);
-  }
-
-  .lab-card__title {
-    font-size: var(--fs-2xl);
-    font-weight: var(--fw-display-sm);
-    line-height: 1.08;
-  }
-
-  .lab-card__text {
-    color: var(--color-text-body);
-    font-size: var(--fs-sm);
-    max-width: 48ch;
-  }
-
-  .lab-card__status {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    margin-top: auto;
-    padding-top: var(--space-s);
-    border-top: var(--border-hair) solid var(--color-rule);
-    font-family: var(--font-mono);
-    font-size: var(--fs-3xs);
-    letter-spacing: var(--tracking-mono);
-    text-transform: uppercase;
-    color: var(--color-amber);
-  }
-
-  .lab-cards__powered {
-    margin-top: var(--space-xl);
-    text-align: center;
-  }
-
-  @keyframes lab-pulse {
-    50% {
-      opacity: 0.35;
-    }
-  }
-
-  @keyframes lab-blink {
-    to {
-      visibility: hidden;
-    }
-  }
-
-  @media (max-width: 63.99em) {
-    .lab-hero__copy,
-    .lab-console {
-      grid-column: 1 / -1;
-    }
-
-    .lab-console {
-      max-width: 34rem;
-    }
-
-    .lab-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .lab-card--trip-designer {
-      grid-column: 1 / -1;
-    }
-
-    .lab-card--mcp {
-      grid-column: auto;
-    }
-  }
-
-  @media (max-width: 39.99em) {
-    .lab-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .lab-card--trip-designer {
-      grid-column: auto;
-    }
+    background-size: 100% 40rem;
   }
 </style>

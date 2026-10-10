@@ -1,0 +1,655 @@
+---
+/**
+ * 05 · Inquiry Triage — staff tool (#triage). Paste an email or try one of
+ * the three samples; the result is a staff dashboard card (desk, urgency,
+ * classification, extracted facts, missing info, draft reply with Copy /
+ * Open in email). Staff access key flow per docs/AI-ARCHITECTURE.md: the key
+ * field appears on 401 `unauthorized`; the key lives in sessionStorage
+ * (localStorage only when "Remember on this device" is ticked).
+ * Script: client/triage.ts (lazy-loaded).
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import LabIcon from './LabIcon.astro';
+import { TRIAGE_EMAIL_MAX } from '../../lib/ai/client/triage';
+import { TRIAGE_SAMPLE_EMAILS } from '../../lib/ai/fixtures/triage';
+import { fmt } from '../../lib/markup';
+import { getLang } from '../../i18n';
+import { blockLang, labSection, labStrings, scriptJson, triageStrings } from './data';
+
+const lang = getLang(Astro);
+const t = triageStrings(lang);
+const lab = labStrings(lang);
+const s = labSection('triage');
+
+const LANG_OF: Record<string, string> = { 'it-wine-group': 'it', 'pl-family-hiking': 'pl', 'de-transfer-complaint': 'de' };
+const samples = TRIAGE_SAMPLE_EMAILS.map((x) => ({
+  id: x.id,
+  email: x.email,
+  lang: LANG_OF[x.id] ?? 'en',
+  subject: (x.email.split('\n')[0] ?? '').replace(/^[^:]{2,14}:\s*/, ''),
+  label: (t.inbox.samples as Record<string, string>)[x.id] ?? x.label,
+}));
+
+const clientStrings = {
+  lang,
+  errors: lab.errors,
+  cancelled: lab.ui.cancelled,
+  copied: lab.ui.copied,
+  copyFailed: lab.ui.copyFailed,
+  count: t.form.count,
+  working: t.working,
+  key: t.key,
+  card: t.card,
+  senderTypes: t.senderTypes,
+  intents: t.intents,
+  urgency: t.urgency,
+  routes: t.routes,
+  sample: t.sample,
+  samples: samples.map(({ id, email, label }) => ({ id, email, label })),
+};
+---
+
+<section
+  id="triage"
+  class="lab-section lab-triage"
+  aria-labelledby="triage-title"
+  data-lab-feature="triage"
+  lang={blockLang(lang, 'ai-lab-triage')}
+  style="--lab-glow-x: 25%; --lab-glow-y: 55%"
+>
+  <div class="container">
+    <SectionHead number={s.n} id="triage-title" kicker={t.kicker} title={t.title} intro={t.intro} running={lab.audience.staff} size="m">
+      <p class="lab-triage__staff">
+        <span class="lab-badge lab-badge--staff"><span class="lab-lamp lab-lamp--red" aria-hidden="true"></span>{t.staffLabel}</span>
+        <span>{t.staffNote}</span>
+      </p>
+    </SectionHead>
+    <p class="lab-nojs">{lab.ui.noScript}</p>
+
+    <div class="lab-triage__grid">
+      <form class="lab-panel lab-triage__inbox" data-form novalidate aria-labelledby="triage-inbox-title">
+        <div class="lab-panel__bar">
+          <h3 class="lab-mono lab-mono--green" id="triage-inbox-title">{t.inbox.title}</h3>
+          <span class="lab-mono" aria-hidden="true">{samples.length} · INBOX</span>
+        </div>
+        <ul class="lab-triage__samples" role="list">
+          {
+            samples.map((x) => (
+              <li>
+                <button type="button" class="lab-mail" data-sample={x.id}>
+                  <span class="lab-mail__lang lab-mono" aria-hidden="true">{x.lang.toUpperCase()}</span>
+                  <span class="lab-mail__text">
+                    <span class="lab-mail__subject" lang={x.lang}>{x.subject}</span>
+                    <span class="lab-mail__label">{x.label}</span>
+                  </span>
+                  <Icon name="chevron-right" size={18} />
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="lab-panel__body lab-triage__paste">
+          <div class="lab-field">
+            <label class="lab-label" for="triage-email">
+              {t.form.label}
+              <span class="lab-label__aside" data-count>{fmt(t.form.count, { n: 0, max: TRIAGE_EMAIL_MAX })}</span>
+            </label>
+            <textarea
+              id="triage-email"
+              class="lab-textarea lab-triage__email"
+              name="email"
+              rows="8"
+              maxlength={TRIAGE_EMAIL_MAX}
+              placeholder={t.form.placeholder}
+              spellcheck="false"></textarea>
+          </div>
+
+          <div class="lab-triage__key" data-key hidden>
+            <div class="lab-field">
+              <label class="lab-label" for="triage-key">
+                <span><LabIcon name="key" size={16} /> {t.key.label}</span>
+              </label>
+              <p class="lab-field__hint" data-key-msg>{t.key.prompt}</p>
+              <input id="triage-key" class="lab-input" name="staffKey" type="password" autocomplete="current-password" spellcheck="false" />
+            </div>
+            <div class="lab-triage__key-row">
+              <label class="lab-triage__remember">
+                <input type="checkbox" name="remember" />
+                <span>{t.key.remember}</span>
+              </label>
+              <button type="button" class="lab-textbtn lab-textbtn--ghost" data-forget hidden>{t.key.forget}</button>
+            </div>
+          </div>
+
+          <div class="lab-triage__actions">
+            <Button type="submit" variant="primary" size="lg" icon="arrow-right" data-submit>
+              <span data-submit-label data-text-default={t.form.submit} data-text-key={t.key.submit}>{t.form.submit}</span>
+            </Button>
+            <button type="button" class="lab-textbtn lab-textbtn--ghost" data-clear>{t.form.clear}</button>
+          </div>
+          <p class="lab-field__hint">{t.form.notesLanguage}</p>
+          <p class="lab-error" role="alert" data-error hidden></p>
+        </div>
+      </form>
+
+      <div class="lab-panel lab-triage__desk" data-desk>
+        <div class="lab-panel__bar">
+          <span class="lab-mono">{t.kicker} · {t.card.label}</span>
+          <span data-badge></span>
+        </div>
+
+        <div class="lab-triage__empty" data-empty>
+          <span class="lab-triage__empty-icon" aria-hidden="true"><Icon name="mail" size={28} /></span>
+          <p class="lab-panel__title">{t.empty.title}</p>
+          <p>{t.empty.text}</p>
+        </div>
+
+        <div class="lab-triage__working" data-working hidden>
+          <p class="lab-panel__title">{t.working}<span class="lab-dots" aria-hidden="true"><i></i><i></i><i></i></span></p>
+          <div class="lab-bar" aria-hidden="true"></div>
+          <button type="button" class="lab-textbtn" data-cancel>{lab.ui.cancel}</button>
+        </div>
+
+        <div data-card-slot></div>
+        <p class="visually-hidden" role="status" aria-live="polite" data-status></p>
+      </div>
+    </div>
+  </div>
+
+  <template data-tpl="card">
+    <article class="lab-tcard" data-card aria-labelledby="triage-route">
+      <header class="lab-tcard__head">
+        <div class="lab-tcard__route">
+          <p class="lab-mono lab-mono--green">{t.card.routeTo}</p>
+          <h4 id="triage-route" class="lab-tcard__desk" tabindex="-1" data-slot="route"></h4>
+        </div>
+        <div class="lab-tcard__urgency" data-urgency>
+          <p class="lab-mono">{t.card.urgency}</p>
+          <p class="lab-tcard__level"><span class="lab-lamp" data-lamp aria-hidden="true"></span><span data-slot="urgency"></span></p>
+        </div>
+      </header>
+      <p class="lab-tcard__reason" data-slot="reason"></p>
+
+      <dl class="lab-tcard__readouts">
+        <div><dt class="lab-mono">{t.card.language}</dt><dd data-slot="language"></dd></div>
+        <div><dt class="lab-mono">{t.card.market}</dt><dd data-slot="market"></dd></div>
+        <div><dt class="lab-mono">{t.card.sender}</dt><dd data-slot="sender"></dd></div>
+        <div><dt class="lab-mono">{t.card.intent}</dt><dd data-slot="intent"></dd></div>
+      </dl>
+
+      <section class="lab-tcard__block">
+        <h5 class="lab-mono lab-mono--green">{t.card.summary}</h5>
+        <p class="lab-tcard__summary" data-slot="summary"></p>
+      </section>
+
+      <div class="lab-tcard__cols">
+        <section class="lab-tcard__block">
+          <h5 class="lab-mono lab-mono--green">{t.card.extracted}</h5>
+          <dl class="lab-tcard__facts" data-facts></dl>
+        </section>
+        <section class="lab-tcard__block">
+          <h5 class="lab-mono lab-mono--green">{t.card.missing} <span data-slot="missingCount"></span></h5>
+          <ul class="lab-tcard__missing" data-missing></ul>
+          <p class="lab-tcard__ok" data-slot="nothingMissing" hidden></p>
+        </section>
+      </div>
+
+      <section class="lab-tcard__reply">
+        <div class="lab-tcard__reply-head">
+          <h5 class="lab-mono lab-mono--green">{t.card.reply} <span data-slot="replyIn"></span></h5>
+          <div class="lab-tcard__reply-actions">
+            <button type="button" class="lab-textbtn" data-copy>
+              <LabIcon name="copy" size={16} />
+              <span data-label>{t.card.copy}</span>
+            </button>
+            <a class="lab-textbtn lab-tcard__open" data-open href="mailto:">
+              <Icon name="mail" size={16} />
+              <span>{t.card.open}</span>
+            </a>
+          </div>
+        </div>
+        <div class="lab-tcard__mail" data-mail>
+          <p class="lab-tcard__subject"><span class="lab-mono">{t.card.subject}</span> <span data-slot="subject"></span></p>
+          <p class="lab-tcard__body" data-slot="body"></p>
+        </div>
+      </section>
+      <p class="lab-notice" data-notice></p>
+    </article>
+  </template>
+  <template data-tpl="badge-demo"><span class="lab-badge lab-badge--demo">{lab.ui.demoBadge}</span></template>
+  <template data-tpl="badge-live"><span class="lab-badge lab-badge--live">{lab.ui.liveBadge}</span></template>
+  <script type="application/json" data-lab-strings set:html={scriptJson(clientStrings)} />
+</section>
+
+<style>
+  .lab-triage__staff {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    max-width: 44ch;
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .lab-triage__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  /* ── inbox ── */
+  .lab-triage__samples {
+    margin: 0;
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .lab-mail {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-s);
+    width: 100%;
+    min-height: 4rem;
+    padding: var(--space-s) var(--space-m);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    text-align: start;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  li:last-child > .lab-mail {
+    border-bottom: 0;
+  }
+
+  .lab-mail:hover,
+  .lab-mail[aria-pressed='true'] {
+    background: color-mix(in srgb, var(--color-glow) 9%, transparent);
+  }
+
+  .lab-mail[aria-pressed='true'] {
+    box-shadow: inset var(--border-thick) 0 0 var(--color-led);
+  }
+
+  .lab-mail__lang {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-round);
+    color: var(--color-text);
+  }
+
+  .lab-mail__text {
+    display: grid;
+    gap: var(--space-3xs);
+    min-width: 0;
+  }
+
+  .lab-mail__subject {
+    overflow: hidden;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .lab-mail__label {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .lab-mail :global(.icon) {
+    color: var(--color-text-muted);
+  }
+
+  .lab-triage__paste {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .lab-triage__email {
+    min-height: 11rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    line-height: 1.55;
+  }
+
+  .lab-triage__key {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--space-s);
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-amber) 55%, transparent);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-amber) 7%, transparent);
+  }
+
+  .lab-triage__key .lab-label span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .lab-triage__key-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+  }
+
+  .lab-triage__remember {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    font-size: var(--fs-xs);
+    color: var(--color-text-body);
+    cursor: pointer;
+  }
+
+  .lab-triage__remember input {
+    width: 1.125rem;
+    height: 1.125rem;
+    accent-color: var(--color-led);
+  }
+
+  .lab-triage__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  /* ── desk ── */
+  .lab-triage__desk {
+    min-height: 32rem;
+  }
+
+  .lab-triage__empty,
+  .lab-triage__working {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: var(--space-s);
+    min-height: 28rem;
+    padding: var(--space-xl);
+    text-align: center;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .lab-triage__empty-icon {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    border: var(--border-hair) dashed var(--color-rule-strong);
+    border-radius: var(--radius-round);
+    color: var(--color-green-ink);
+  }
+
+  .lab-triage__empty .lab-panel__title,
+  .lab-triage__working .lab-panel__title {
+    color: var(--color-text);
+  }
+
+  .lab-triage__working .lab-bar {
+    width: min(20rem, 80%);
+  }
+
+  .lab-triage__working .lab-panel__title {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+  }
+
+  /* ── result card (built from the template at runtime) ── */
+  .lab-triage__desk :global(.lab-tcard) {
+    display: grid;
+    gap: var(--space-l);
+    padding: clamp(1rem, 0.5rem + 1.6vw, 2rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-triage__desk :global(.lab-tcard) {
+      animation: lab-rise var(--dur-slow) var(--ease-out) both;
+    }
+  }
+
+  .lab-triage__desk :global(.lab-tcard__head) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-bottom: var(--space-m);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__desk) {
+    margin-top: var(--space-2xs);
+    font-size: calc(var(--fs-3xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-m);
+    font-variation-settings: var(--fvs-display);
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__desk:focus) {
+    outline: none;
+  }
+
+  .lab-triage__desk :global(.lab-tcard__urgency) {
+    display: grid;
+    justify-items: end;
+    gap: var(--space-2xs);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__level) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+  }
+
+  .lab-triage__desk :global([data-level='high'] .lab-tcard__level) {
+    border-color: color-mix(in srgb, var(--color-red-ink) 70%, transparent);
+    background: color-mix(in srgb, var(--color-red-ink) 12%, transparent);
+    color: var(--color-red-ink);
+  }
+
+  .lab-triage__desk :global([data-level='normal'] .lab-tcard__level) {
+    border-color: color-mix(in srgb, var(--color-amber) 60%, transparent);
+    color: var(--color-amber);
+  }
+
+  .lab-triage__desk :global([data-level='low'] .lab-tcard__level) {
+    color: var(--color-green-ink);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__reason) {
+    margin-top: calc(-1 * var(--space-s));
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__readouts) {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-2xs);
+    margin: 0;
+  }
+
+  .lab-triage__desk :global(.lab-tcard__readouts > div) {
+    display: grid;
+    gap: var(--space-3xs);
+    padding: var(--space-xs) var(--space-s);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-bg-sunken) 60%, transparent);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__readouts dd) {
+    margin: 0;
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    overflow-wrap: anywhere;
+  }
+
+  .lab-triage__desk :global(.lab-tcard__block) {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xs);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__summary) {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-snug);
+    color: var(--color-text);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__cols) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: var(--space-l);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__facts) {
+    display: grid;
+    margin: 0;
+    font-size: var(--fs-xs);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__facts > div) {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: var(--space-xs);
+    padding-block: var(--space-2xs);
+    border-bottom: var(--border-hair) dashed var(--color-rule);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__facts dt) {
+    color: var(--color-text-muted);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__facts dd) {
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__missing) {
+    display: grid;
+    gap: var(--space-2xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--fs-xs);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__missing li) {
+    display: flex;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs) var(--space-xs);
+    border-left: var(--border-thick) solid var(--color-amber);
+    background: color-mix(in srgb, var(--color-amber) 7%, transparent);
+    color: var(--color-text);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__ok) {
+    font-size: var(--fs-xs);
+    color: var(--color-green-ink);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__reply) {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__reply-head) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__reply-actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__mail) {
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-sunken);
+    overflow: hidden;
+  }
+
+  .lab-triage__desk :global(.lab-tcard__subject) {
+    padding: var(--space-xs) var(--space-m);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+  }
+
+  .lab-triage__desk :global(.lab-tcard__body) {
+    max-height: 22rem;
+    overflow: auto;
+    padding: var(--space-m);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+    white-space: pre-wrap;
+  }
+
+  @media (max-width: 63.99em) {
+    .lab-triage__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .lab-triage__desk :global(.lab-tcard__readouts) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .lab-triage__desk :global(.lab-tcard__cols) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-triage__desk :global(.lab-tcard__urgency) {
+      justify-items: start;
+    }
+
+    .lab-mail {
+      padding-inline: var(--space-s);
+    }
+
+    .lab-triage__empty,
+    .lab-triage__working {
+      min-height: 16rem;
+      padding: var(--space-m);
+    }
+
+    .lab-triage__desk {
+      min-height: 0;
+    }
+  }
+</style>

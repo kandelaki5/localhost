@@ -1,0 +1,38 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Wspieramy",
+  "title": "Za czym *stoimy.*",
+  "intro": "Pięć zobowiązań z naszych własnych polityk: ludzie, miejsca i zasady, od których zależy każda nasza podróż.",
+  "running": "Z naszych polityk",
+  "listLabel": "Pięć zobowiązań",
+  "items": [
+    {
+      "title": "Lokalne rodziny i gospodarze",
+      "text": "Budujemy programy wokół rodzin, które przyjmują naszych gości, i wybieramy lokalną żywność, towary i usługi.",
+      "ring": "ZRÓWNOWAŻONY ROZWÓJ • SPOŁECZNOŚCI LOKALNE •"
+    },
+    {
+      "title": "Przyroda i obszary chronione",
+      "text": "Promujemy wycieczki, które wspierają lokalną przyrodę, przestrzegamy zasad obszarów chronionych i wybieramy mniej znane miejsca zamiast zatłoczonych.",
+      "ring": "POLITYKA WYCIECZEK • OCHRONA PRZYRODY •"
+    },
+    {
+      "title": "Dziedzictwo i tradycje",
+      "text": "Szanujemy lokalne zwyczaje i tradycje, włączamy do programów muzea i pracownie rzemieślnicze, a nielegalne pamiątki i artefakty wykluczamy.",
+      "ring": "POLITYKA WYCIECZEK • KULTURA I DZIEDZICTWO •"
+    },
+    {
+      "title": "Uczciwa praca",
+      "text": "Umowy na piśmie i wynagrodzenia powyżej oficjalnej średniej dla naszego zespołu. Każdy partner musi płacić co najmniej płacę godziwą lub krajową płacę minimalną.",
+      "ring": "ZRÓWNOWAŻONY ROZWÓJ • PRAWA CZŁOWIEKA •"
+    },
+    {
+      "title": "Ochrona dzieci",
+      "text": "Każdy partner musi chronić dzieci przed pracą i wykorzystywaniem seksualnym oraz przestrzegać Kodeksu ochrony dzieci — inaczej współpraca się kończy.",
+      "ring": "POLITYKI DLA PARTNERÓW • PRAWA DZIECI •"
+    }
+  ],
+  "projects": {
+    "text": "Projekty partnerskie ogłosimy tutaj."
+  }
+}

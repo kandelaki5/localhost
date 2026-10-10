@@ -1,0 +1,70 @@
+{
+  "kicker": "AI connector (MCP)",
+  "title": "Connect your *AI assistant.*",
+  "intro": "More and more agents plan trips with an AI assistant such as Claude. Plug Local Host's own catalogue into it, and get answers from our data — not from random web pages.",
+  "why": [
+    {
+      "title": "Answers from the source",
+      "text": "Experiences, places, direct flights, trade-fair dates and sustainability facts, with the same honesty rules as this website."
+    },
+    {
+      "title": "Tidier requests, faster",
+      "text": "Ask for a trip request and get a ready-to-send email to our team: countries, interests, length, month and group size."
+    },
+    {
+      "title": "Sustainability in seconds",
+      "text": "Our approved Travelife Partner statement and links to all five policies are always one question away."
+    }
+  ],
+  "endpoint": {
+    "label": "Connector URL",
+    "note": "No sign-in, no API key, nothing to install.",
+    "copy": "Copy URL"
+  },
+  "steps": {
+    "title": "Add it to Claude",
+    "items": [
+      "Open Claude (claude.ai or the desktop app) and go to **Settings → Connectors**.",
+      "Choose **Add custom connector**.",
+      "Name it **Local Host** and paste the URL above. Leave the sign-in (OAuth) fields empty.",
+      "Click **Add**, switch the Local Host connector on in a chat — and ask away."
+    ],
+    "teams": "On Claude Team and Enterprise plans, an owner or admin may need to add the connector for the organisation first.",
+    "other": "Using Claude Code or another MCP client?",
+    "otherText": "Any client that supports remote MCP servers over Streamable HTTP can use the same URL.",
+    "copyCommand": "Copy command"
+  },
+  "tools": {
+    "title": "What your assistant can look up",
+    "count": "{n} read-only tools",
+    "readOnly": "Read-only",
+    "descriptions": {
+      "list_experiences": "The six experiences: Culture, Wine, Trekking, Gastronomy, Pilgrim and Leisure.",
+      "get_experience": "One experience in depth: highlights, best places, seasons and who it suits.",
+      "list_places": "Places in Georgia, Armenia and Azerbaijan, by country or experience.",
+      "get_place": "One place: region, approximate coordinates, what's nearby and rough travel times.",
+      "list_flight_connections": "Direct flights to Tbilisi (TBS) and Kutaisi (KUT), and which airlines fly them.",
+      "get_trade_fairs": "The trade fairs where you can meet us, with their next known dates.",
+      "get_sustainability_commitments": "Our Travelife Partner status, commitments and the five policy PDFs.",
+      "get_contact": "Our address, phone and email — and what to include in a quote request.",
+      "draft_trip_request": "Drafts a ready-to-send trip request email to our team. No prices, nothing booked."
+    },
+    "params": "Inputs",
+    "noParams": "No inputs"
+  },
+  "examples": {
+    "title": "Try asking",
+    "items": [
+      "Which cities fly direct to Kutaisi?",
+      "What could a pilgrimage group see in Armenia?",
+      "Draft a 9-day wine trip request for 20 people in September."
+    ]
+  },
+  "limits": "It doesn't book, hold, price or send anything, and it collects no personal data. Sending a request email is always your own click.",
+  "diagram": {
+    "label": "How the connector works",
+    "assistant": "Your AI assistant",
+    "connector": "Local Host connector",
+    "catalogue": "Our catalogue"
+  }
+}

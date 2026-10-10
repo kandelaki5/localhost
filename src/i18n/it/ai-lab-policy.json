@@ -1,0 +1,42 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Domande sulle politiche",
+  "title": "Chiedi alle nostre politiche — *con la fonte.*",
+  "intro": "Chiedi di sostenibilità, escursioni, hotel o regole per i partner. Claude risponde solo dai nostri cinque documenti e cita il passaggio esatto dietro ogni affermazione.",
+  "library": {
+    "title": "La biblioteca",
+    "text": "I cinque documenti che l’AI legge. Aprili quando vuoi.",
+    "pdf": "PDF",
+    "lang": "in inglese"
+  },
+  "suggested": {
+    "title": "Prova una domanda",
+    "questions": {
+      "footprint": "Come riducete il vostro impatto ambientale?",
+      "animals": "Nei tour ci sono attrazioni con animali?",
+      "hotels": "Come scegliete gli hotel?",
+      "rights": "Come tutelate i diritti dei bambini e dei lavoratori?"
+    }
+  },
+  "composer": {
+    "label": "La tua domanda",
+    "placeholder": "es. Lavorate con guide locali?",
+    "submit": "Chiedi",
+    "count": "{n} / {max}",
+    "newChat": "Nuova conversazione",
+    "memory": "Le domande successive ricordano gli ultimi tre scambi."
+  },
+  "chat": {
+    "label": "Conversazione",
+    "you": "Tu",
+    "ai": "Politiche di Local Host",
+    "working": "Stiamo leggendo le politiche…",
+    "empty": "La conversazione appare qui. Ogni risposta arriva con le sue fonti.",
+    "sources": "Fonti",
+    "source": "Fonte {n}",
+    "noSources": "Nessun passaggio citato — forse le nostre politiche non trattano questa domanda. Il nostro team ti risponde volentieri a info@localhost.ge.",
+    "englishNote": "Le risposte demo sono preparate in inglese.",
+    "otherQuestion": "Hai chiesto qualcosa di diverso — questa è la risposta preparata a: “{q}”",
+    "generic": "Questa risposta demo preparata è generica. Con l’AI collegata, Claude risponde alla tua domanda esatta."
+  }
+}

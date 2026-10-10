@@ -1,0 +1,37 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Treffen Sie uns",
+  "title": "Sechs Messen, *zwei Saisons.*",
+  "intro": "Unsere Partner treffen wir auf den Reisemessen in Italien, Deutschland und Polen. Sie besuchen eine davon? Schreiben Sie uns – wir finden gern einen Termin.",
+  "running": "Reisemessen",
+  "cta": "Termin am Messestand vereinbaren",
+  "mail": {
+    "subject": "Termin auf einer Messe — Local Host",
+    "body": "Hallo Local Host,\n\nwir würden Sie gern auf einer Messe treffen.\n\nMesse:\nGewünschte Tage:\nUnternehmen:\nLand:\n\nMit freundlichen Grüßen"
+  },
+  "calendarLabel": "Messekalender",
+  "seasons": {
+    "spring": "Frühjahrssaison",
+    "autumn": "Herbstsaison"
+  },
+  "status": {
+    "next": "Nächste",
+    "now": "Läuft gerade",
+    "tba": "Neue Termine folgen"
+  },
+  "summary": {
+    "next": "Nächste Messe",
+    "now": "Läuft gerade",
+    "until": "bis {date}"
+  },
+  "official": "offizielle Website",
+  "note": "Termine der nächsten Ausgaben, wie von den Veranstaltern zum Zeitpunkt der Erstellung veröffentlicht. Bitte prüfen Sie sie vor der Reise auf der Website der Messe.",
+  "cities": {
+    "bit-milano": "Mailand",
+    "bmt-napoli": "Neapel",
+    "itb-berlin": "Berlin",
+    "tour-salon": "Poznań",
+    "ttg-rimini": "Rimini",
+    "tt-warsaw": "Warschau"
+  }
+}

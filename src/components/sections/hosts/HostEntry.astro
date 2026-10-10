@@ -1,0 +1,250 @@
+---
+/**
+ * One of the four "more hosts" entries: a place photograph printed as a
+ * forest-green duotone (mood, not documentation — none of these photos shows
+ * the host's place), the monogram seal, the name and either a pull-quote from
+ * the policy (Samvel) or a warm line that makes no factual claim.
+ *
+ * Duotone: the greyscale photo multiplies onto paper (highlights → paper),
+ * then a Forest layer in `screen` lifts the shadows to Forest — a smooth
+ * two-colour ramp, like a two-ink print.
+ *
+ * Vertical card from tablet up; a thumbnail + text row on phones.
+ * Hovering a card (pointer devices only) brings the photo back to colour.
+ */
+import Figure from '../../ui/Figure.astro';
+import HostSeal from './HostSeal.astro';
+import HostQuote from './HostQuote.astro';
+import { POLICY_PDF, type Host } from './data';
+
+interface Copy {
+  name: string;
+  quote?: string;
+  line?: string;
+  alt: string;
+}
+
+interface Props {
+  host: Host;
+  copy: Copy;
+  label: string;
+  quoteSource: string;
+  /** Position in the row, for the entrance stagger. */
+  index?: number;
+  tilt?: number;
+  class?: string;
+}
+
+const { host, copy, label, quoteSource, index = 0, tilt = 0, class: className } = Astro.props;
+const headingId = `host-${host.id}`;
+---
+
+<article class:list={['hentry', className]} aria-labelledby={headingId} data-reveal style={`--i:${index}`}>
+  <div class="hentry__media">
+    <Figure
+      photo={host.photo}
+      alt={copy.alt}
+      focal={host.focal}
+      sizes="(min-width: 64em) 22vw, (min-width: 40em) 46vw, 36vw"
+      widths={[320, 480, 640, 860]}
+      class="hentry__figure"
+    >
+      <Fragment slot="overlay">
+        <span class="hentry__tone" aria-hidden="true"></span>
+        <span class="hentry__label">{label}</span>
+      </Fragment>
+    </Figure>
+    <HostSeal class="hentry__seal" size="s" monogram={host.monogram} rotate={tilt} />
+  </div>
+
+  <div class="hentry__body">
+    <h4 id={headingId} class="hentry__name">{copy.name}</h4>
+    {
+      copy.quote ? (
+        <HostQuote class="hentry__quote" size="s" text={copy.quote} source={quoteSource} cite={POLICY_PDF} />
+      ) : (
+        copy.line && <p class="hentry__line">{copy.line}</p>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .hentry {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-content: start;
+  }
+
+  /* ── photo: forest-green duotone on paper ── */
+  .hentry__media {
+    position: relative;
+  }
+
+  .hentry :global(.figure__media) {
+    aspect-ratio: 4 / 5;
+    background: var(--color-paper);
+    isolation: isolate;
+  }
+
+  .hentry :global(.figure__img) {
+    filter: grayscale(1) contrast(1.22) brightness(1.04);
+    mix-blend-mode: multiply;
+    transition:
+      filter var(--dur-slow) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out);
+  }
+
+  .hentry__tone {
+    position: absolute;
+    inset: 0;
+    background: var(--color-forest);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transition: opacity var(--dur-slow) var(--ease-out);
+  }
+
+  .hentry__label {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: var(--z-raised);
+    display: flex;
+    align-items: flex-end;
+    min-height: 32%;
+    padding: var(--space-xs);
+    background: var(--gradient-scrim);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-3xs);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text-on-photo);
+    pointer-events: none;
+  }
+
+  .hentry__label:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+  }
+
+  @media (hover: hover) {
+    .hentry:hover :global(.figure__img) {
+      filter: none;
+      transform: scale(1.035);
+    }
+
+    .hentry:hover .hentry__tone {
+      opacity: 0;
+    }
+  }
+
+  .hentry__media :global(.hentry__seal) {
+    position: absolute;
+    z-index: var(--z-seal);
+    top: calc(var(--hseal-size) * -0.38);
+    right: var(--space-s);
+  }
+
+  /* ── text ── */
+  .hentry__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: var(--space-xs);
+    padding-top: var(--space-m);
+  }
+
+  .hentry__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: calc(var(--fs-xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-heading);
+    letter-spacing: var(--tracking-heading);
+    hyphens: auto;
+  }
+
+  .hentry__name:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-ka-text);
+  }
+
+  .hentry__line {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-snug);
+    color: var(--color-text-body);
+    max-width: 30ch;
+  }
+
+  .hentry__line:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-ka-text);
+    line-height: 1.6;
+  }
+
+  .hentry__body :global(.hentry__quote) {
+    margin-top: var(--space-2xs);
+  }
+
+  /* ── tablet: a calmer landscape crop in the 2 × 2 grid ── */
+  @media (min-width: 40em) and (max-width: 63.99em) {
+    .hentry :global(.figure__media) {
+      aspect-ratio: 3 / 2;
+    }
+  }
+
+  /* ── phone: thumbnail + text row ── */
+  @media (max-width: 39.99em) {
+    .hentry {
+      grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+      grid-template-rows: auto;
+      column-gap: var(--space-s);
+      align-items: start;
+    }
+
+    .hentry__body {
+      padding-top: 0;
+    }
+
+    .hentry__media :global(.hentry__seal) {
+      right: var(--space-2xs);
+    }
+
+    .hentry__label {
+      padding: var(--space-2xs);
+    }
+  }
+
+  /* ── entrance: a gentle staggered rise ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .hentry {
+      transition:
+        opacity var(--dur-slower) var(--ease-out) calc(var(--i, 0) * 1.5 * var(--dur-stagger)),
+        translate var(--dur-slower) var(--ease-out) calc(var(--i, 0) * 1.5 * var(--dur-stagger));
+    }
+
+    .hentry[data-reveal='pending'] {
+      opacity: 0;
+      translate: 0 var(--space-l);
+    }
+
+    .hentry__media :global(.hentry__seal) {
+      transition:
+        opacity var(--dur-fast) var(--ease-out) calc((var(--i, 0) * 1.5 + 5) * var(--dur-stagger)),
+        scale var(--dur-slow) var(--ease-overshoot) calc((var(--i, 0) * 1.5 + 5) * var(--dur-stagger));
+    }
+
+    .hentry[data-reveal='pending'] .hentry__media :global(.hentry__seal) {
+      opacity: 0;
+      scale: 1.4;
+    }
+  }
+</style>

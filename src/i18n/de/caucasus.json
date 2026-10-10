@@ -1,0 +1,87 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Kaukasus",
+  "title": "Drei Länder. *Ein Gastgeber.*",
+  "intro": "Georgien ist unser Zuhause, Armenien und Aserbaidschan sind die Nachbarn. Ein Team in Tiflis plant und führt Programme in allen drei Ländern durch – einzeln oder zu einer Reise kombiniert. Die Grenzübertritte organisieren wir.",
+  "running": "Georgien · Armenien · Aserbaidschan",
+  "countries": [
+    {
+      "tag": "Zuhause · Tiflis",
+      "summary": "Unser Zuhause: ein kleines Land mit riesiger Vielfalt – vom Hohen Kaukasus bis ans Schwarze Meer und in die Weintäler Kachetiens.",
+      "highlights": [
+        "Tiflis, Mzcheta und die Straße nach Kasbegi",
+        "Weinland Kachetien und Qvevri-Keller",
+        "Swanetien und Tuschetien im Hochgebirge"
+      ],
+      "photo": {
+        "alt": "Mittelalterliche steinerne Wehrtürme zwischen Dorfhäusern in einem grünen Tal in Swanetien, dahinter ein schneebedecktes Massiv",
+        "caption": "Swanische Türme in Swanetien"
+      }
+    },
+    {
+      "tag": "Nachbarland · Jerewan",
+      "summary": "Ein Hochland der Klöster, des vulkanischen Tuffsteins und der Blicke auf den Ararat – mit einer lebendigen Hauptstadt, Jerewan.",
+      "highlights": [
+        "Jerewan, Tempel von Garni und Geghard",
+        "Chor Virap mit Blick auf den Ararat",
+        "Weinregion Areni und Sewansee"
+      ],
+      "photo": {
+        "alt": "Das Kloster Chor Virap auf einem Hügel über der Araratebene, dahinter der schneebedeckte Kegel des Ararat unter blauem Himmel",
+        "caption": "Chor Virap und der Ararat"
+      }
+    },
+    {
+      "tag": "Nachbarland · Baku",
+      "summary": "Das Land des Feuers am Kaspischen Meer: eine ummauerte Altstadt, prähistorische Felsbilder und Bergdörfer, bekannt für Seide und Kupfer.",
+      "highlights": [
+        "Bakus Altstadt und Strandboulevard",
+        "Felsbilder von Gobustan und die Halbinsel Abşeron",
+        "Scheki, Lahıc und die Dörfer des Großen Kaukasus"
+      ],
+      "photo": {
+        "alt": "Dächer der Altstadt von Baku von oben, am Horizont die Flame Towers und der Fernsehturm",
+        "caption": "Bakus Altstadt und die Flame Towers"
+      }
+    }
+  ],
+  "cta": "Hier eine Reise planen",
+  "credit": "Foto: {creator}, {license}",
+  "map": {
+    "fig": "Tiflis, zwischen zwei Meeren",
+    "note": "Schematische Karte. Umrisse: Natural Earth.",
+    "label": "Schematische Karte des Südkaukasus",
+    "description": "Georgien, Armenien und Aserbaidschan zwischen dem Schwarzen Meer im Westen und dem Kaspischen Meer im Osten, mit der Kette des Großen Kaukasus an ihrem Nordrand. Tiflis im Osten Georgiens ist mit der roten Sonne markiert. Von Tiflis führen Linien nach Norden bis Kasbegi, nach Westen bis Kutaissi und weiter nach Batumi am Schwarzen Meer, nach Süden bis Jerewan in Armenien und nach Osten bis Scheki und weiter nach Baku am Kaspischen Meer. Im Norden liegt Russland, im Südwesten die Türkei und im Süden der Iran.",
+    "cities": {
+      "tbilisi": "Tiflis",
+      "kutaisi": "Kutaissi",
+      "batumi": "Batumi",
+      "kazbegi": "Kasbegi",
+      "yerevan": "Jerewan",
+      "sheki": "Scheki",
+      "baku": "Baku"
+    },
+    "seas": {
+      "blackSea": "Schwarzes Meer",
+      "caspianSea": "Kaspisches Meer"
+    },
+    "neighbours": {
+      "RU": "Russland",
+      "TR": "Türkei",
+      "IR": "Iran"
+    },
+    "range": "Großer Kaukasus",
+    "scale": "100 km",
+    "north": "N"
+  },
+  "aside": {
+    "kicker": "Ab Tiflis",
+    "title": "Zwei Meere, *drei Hauptstädte.*",
+    "text": "Tiflis liegt zwischen dem Schwarzen und dem Kaspischen Meer, mit Jerewan im Süden und Baku im Osten. Verbindet ein Programm zwei oder drei Länder, organisiert unser Team Transfers, Zeitplan und Grenzübertritte – so reist Ihre Gruppe mit einem Plan und einem Team im Rücken.",
+    "timesLabel": "Ungefähre Fahrzeiten",
+    "hours": "ca. {h} Std.",
+    "border": "inkl. Grenze",
+    "note": "Mit dem Auto. Verkehr, Wetter und Wartezeiten an der Grenze können sie verändern.",
+    "cta": "Route durch drei Länder entwerfen"
+  }
+}

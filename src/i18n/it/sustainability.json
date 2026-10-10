@@ -1,0 +1,112 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
+  "kicker": "Sostenibilità",
+  "title": "Chi ospita bene *ha cura della casa.*",
+  "intro": "Lavoriamo secondo i criteri Travelife per tour operator e agenzie di viaggio, con un coordinatore della sostenibilità formato nel nostro team, e chiediamo a ogni partner di condividere questi standard.",
+  "running": "Travelife Partner",
+  "recognition": {
+    "kicker": "Riconoscimento indipendente",
+    "badgeLabel": "Travelife Partner: verifica la nostra scheda nel registro pubblico Travelife",
+    "statement": "**Travelife Partner** — valutati in modo indipendente secondo i criteri Travelife Partner per tour operator e agenzie di viaggio (riconoscimento da novembre 2025).",
+    "explain": "Partner è il primo dei due livelli di riconoscimento Travelife: una valutazione indipendente di come gestiamo la sostenibilità rispetto a circa 60 criteri obbligatori, rinnovata ogni due anni.",
+    "register": "Verificaci nel registro pubblico Travelife"
+  },
+  "certificate": {
+    "kicker": "Certificato Partner",
+    "scope": "Criteri Travelife per tour operator e agenzie di viaggio",
+    "holderLabel": "Titolare",
+    "holder": "Local Host LLC, Georgia",
+    "levelLabel": "Livello",
+    "level": "Travelife Partner",
+    "firstLabel": "Prima approvazione",
+    "validLabel": "Valido fino al",
+    "pending": "Immagine del certificato in arrivo",
+    "imageAlt": "Certificato Travelife Partner rilasciato a Local Host LLC",
+    "register": "Verifica nel registro"
+  },
+  "figures": {
+    "kicker": "Misurato nel nostro ufficio",
+    "title": "Meno energia, *molto meno gas.*",
+    "period": "Gennaio–ottobre 2025, rispetto agli stessi mesi del 2024.",
+    "items": [
+      {
+        "label": "Consumo di energia",
+        "text": "Luci e apparecchi si spengono a fine giornata e ogni volta che una stanza non è in uso."
+      },
+      {
+        "label": "Consumo di gas",
+        "text": "Stessi dieci mesi, stesso ufficio: oltre un terzo in meno."
+      }
+    ],
+    "chartLabel": "{label}: indice {after} nel 2025, contro 100 nel 2024",
+    "source": "Fonte: Politica di sostenibilità, «Tutela dell’ambiente»"
+  },
+  "quote": {
+    "translationLabel": "Traduzione",
+    "translation": "Amiamo le montagne dello Svaneti, i paesaggi del Samtskhe-Javakheti, la vista sulla catena del Caucaso da Telavi, la bellezza del canyon di Martvili, il mistero del lago Paravani e l’autenticità dei villaggi dell’Agiaria.",
+    "source": "Politica di sostenibilità",
+    "photoAlt": "Un villaggio di torri svane in pietra tra prati verdi e alberi, con pendii boscosi e una catena innevata alle spalle, Svaneti, Georgia.",
+    "photoCaption": "Torri svane ai piedi del Grande Caucaso, Svaneti"
+  },
+  "practice": {
+    "kicker": "In pratica",
+    "title": "Che cosa *ci chiede* la nostra politica",
+    "items": [
+      {
+        "title": "Viaggi di lavoro compensati",
+        "text": "Compensiamo l’impronta di carbonio di tutti i nostri viaggi di lavoro internazionali.",
+        "source": "Politica di sostenibilità"
+      },
+      {
+        "title": "Trasporto pubblico e lavoro da remoto",
+        "text": "Rimborsiamo a ogni dipendente l’abbonamento annuale ai mezzi pubblici. Tutti lavorano da casa un giorno a settimana, e un secondo giorno quando la presenza in ufficio non serve.",
+        "source": "Politica di sostenibilità"
+      },
+      {
+        "title": "Alloggi e ristoranti: prima i certificati",
+        "text": "Preferiamo strutture ricettive e ristoranti con certificazioni di sostenibilità riconosciute. Il nostro obiettivo per il 2026: almeno metà delle strutture ricettive con credenziali di sostenibilità.",
+        "source": "Politica sulle strutture ricettive"
+      },
+      {
+        "title": "Nessuna escursione che faccia danni",
+        "text": "Nessuna escursione che danneggi persone, animali o natura, e nessuna che preveda commercio, consumo, contatto ravvicinato o spettacoli con animali.",
+        "source": "Politica sulle escursioni"
+      },
+      {
+        "title": "Tolleranza zero sullo sfruttamento dei minori",
+        "text": "Tolleranza zero per lo sfruttamento dei minori, il lavoro forzato e la tratta di esseri umani, nel nostro lavoro e in ogni partnership.",
+        "source": "Politica di sostenibilità"
+      }
+    ],
+    "partnersTranslation": "Ci aspettiamo da tutti i nostri partner e fornitori impegno e un ulteriore rafforzamento di questi valori.",
+    "partnersSource": "Politica di sostenibilità"
+  },
+  "documents": {
+    "kicker": "I documenti",
+    "title": "Leggi le politiche",
+    "note": "PDF · in inglese",
+    "effective": "In vigore: {date}",
+    "published": "Pubblicato: {date}",
+    "pages": "{n} pp.",
+    "size": "{n} KB",
+    "items": {
+      "sustainability": "Politica di sostenibilità",
+      "report": "Rapporto di sostenibilità",
+      "excursions": "Politica per escursioni e destinazioni sostenibili",
+      "accommodations": "Politica per strutture ricettive sostenibili",
+      "inbound": "Politica per le agenzie partner incoming"
+    },
+    "reportNote": "Secondo i criteri Travelife per tour operator e agenzie di viaggio"
+  },
+  "ask": {
+    "kicker": "AI Lab",
+    "title": "Chiedi alle nostre politiche",
+    "text": "Fai una domanda nella tua lingua. La risposta cita questi documenti parola per parola e ne indica la fonte.",
+    "examplesLabel": "Per esempio",
+    "examples": [
+      "Nei tour includete attrazioni con animali?",
+      "Come scegliete gli hotel?"
+    ],
+    "cta": "Fai una domanda"
+  }
+}

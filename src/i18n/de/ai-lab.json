@@ -2,75 +2,105 @@
   "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
   "meta": {
     "title": "KI-Labor",
-    "description": "Sieben Experimente von Local Host mit KI-gestützter Gastfreundschaft: Reise-Designer, Sprach-Concierge, Foto-Abgleich, Agenturangebote, Antworten zu Richtlinien, Anfragen-Triage und ein KI-Connector."
+    "description": "Probieren Sie die KI-Experimente von Local Host aus, gebaut mit Claude von Anthropic: Reise-Designer mit Sprachsteuerung, Foto-Abgleich, Angebote für Agenturen, Antworten aus unseren Richtlinien, Anfragen-Triage für unser Team und ein Connector für Ihren eigenen KI-Assistenten."
   },
-  "kicker": "Experimente in Gastfreundschaft",
-  "title": "Local Host *KI-Labor*",
-  "lead": "Hier testen wir, wie KI uns helfen kann, noch bessere Gastgeber zu sein — für Reisende, die vom Kaukasus träumen, für die Agenturen, die sie zu uns schicken, und für unser eigenes Team in Tiflis. Jedes Werkzeug übergibt am Ende an einen echten Menschen bei Local Host.",
-  "note": "Experimentell. Antworten sind Entwürfe — jedes Detail bestätigt unser Team.",
-  "cardsLabel": "Sieben Experimente",
-  "status": {
-    "soon": "In der Werkstatt",
-    "live": "Ausprobieren",
-    "staff": "Für unser Team"
+  "hero": {
+    "kicker": "Local Host · KI-Labor",
+    "title": "Local Host *KI-Labor*",
+    "lead": "Sechs funktionierende Experimente in KI-gestützter Gastfreundschaft — und am Ende jeder Antwort steht ein echter Mensch in Tiflis.",
+    "note": "Experimentell. Antworten sind Entwürfe — jedes Detail bestätigt unser Team.",
+    "cta": "Mit einem Foto beginnen",
+    "back": "Zur Startseite"
+  },
+  "console": {
+    "label": "Status des KI-Labors",
+    "title": "Local Host · KI-Labor",
+    "coords": "TBS 41°43′N 44°47′E",
+    "system": "System",
+    "online": "Online",
+    "model": "Modell",
+    "modelValue": "Claude · Anthropic",
+    "mode": "Modus",
+    "demo": "Demo",
+    "live": "Live",
+    "demoNote": "Demo-Modus — Beispielantworten, bis der KI-Schlüssel verbunden ist.",
+    "liveNote": "Live — Claude schreibt jede Antwort für Ihre Anfrage.",
+    "index": "Experimente",
+    "ready": "Bereit",
+    "staff": "Team"
   },
   "audience": {
-    "travellers": "Reisende",
-    "agencies": "Agenturen",
-    "staff": "Team",
-    "developers": "Entwickler"
+    "travellers": "Für Reisende",
+    "agencies": "Für Agenturen",
+    "staff": "Team-Werkzeug",
+    "developers": "Für KI-Assistenten"
   },
-  "cards": [
-    {
-      "id": "trip-designer",
-      "icon": "sparkle",
-      "audience": "travellers",
-      "title": "Reise-Designer",
-      "text": "Länder, Interessen und Monat wählen, eine Zeile schreiben — und zusehen, wie ein Reiseentwurf Tag für Tag entsteht, bereit für unser Team."
-    },
-    {
-      "id": "voice-concierge",
-      "icon": "mic",
-      "audience": "travellers",
-      "title": "Sprach-Concierge",
-      "text": "Fragen Sie laut nach Reisezeiten, Regionen und Fahrzeiten und hören Sie die Antwort in Ihrer Sprache."
-    },
-    {
-      "id": "photo-match",
-      "icon": "image",
-      "audience": "travellers",
-      "title": "Foto-Abgleich",
-      "text": "Zeigen Sie uns einen Lieblingsort irgendwo auf der Welt — wir schlagen vor, wo sich der Kaukasus ähnlich anfühlt."
-    },
-    {
-      "id": "proposal-builder",
-      "icon": "pdf",
-      "audience": "agencies",
-      "title": "Angebots-Baukasten",
-      "text": "Verwandelt ein Kundenbriefing in einen strukturierten Programmvorschlag, den Ihre Agentur anpassen und kalkulieren kann."
-    },
-    {
-      "id": "policy-qa",
-      "icon": "leaf",
-      "audience": "agencies",
-      "title": "Fragen zu Richtlinien",
-      "text": "Stellen Sie eine Frage zu unseren Richtlinien für Nachhaltigkeit, Ausflüge und Unterkünfte und erhalten Sie eine Antwort mit zitierter Quelle."
-    },
-    {
-      "id": "inquiry-triage",
-      "icon": "mail",
-      "audience": "staff",
-      "title": "Anfragen-Triage",
-      "text": "Sortiert eingehende Anfragen nach Land, Reisedaten und Gruppengröße und entwirft eine erste Antwort, die unser Team prüft."
-    },
-    {
-      "id": "mcp",
-      "icon": "globe",
-      "audience": "developers",
-      "title": "KI-Connector (MCP)",
-      "text": "Ein Model-Context-Protocol-Server, über den der KI-Assistent eines Partners unsere Erlebnisse, Regionen und Richtlinien abfragen kann."
-    }
-  ],
-  "cta": "Zur Startseite",
-  "poweredBy": "Entwickelt mit Claude von Anthropic"
+  "teaser": {
+    "kicker": "Reise-Designer & Sprache",
+    "title": "Eine Reise *laut planen.*",
+    "intro": "Unser Flaggschiff wohnt auf der Startseite. Länder und Interessen wählen, eine Zeile schreiben — oder sagen — und zusehen, wie auf der Karte ein Entwurf Tag für Tag entsteht.",
+    "points": [
+      "Ein Entwurf Tag für Tag, in Ihrer Sprache",
+      "Wünsche einsprechen und den Plan vorlesen lassen",
+      "Den Entwurf mit einem Klick an unser Team senden"
+    ],
+    "cta": "Reise-Designer öffnen",
+    "mapCaption": "Eine Beispielroute — Tiflis, Mzcheta, Ananuri, Kasbegi, Signagi und Telawi.",
+    "voiceNote": "Die Sprachfunktion läuft in Browsern mit Spracherkennung; verarbeitet wird sie vom Sprachdienst Ihres Browsers.",
+    "days": [
+      "Tag 1 — Tiflis",
+      "Tag 2 — Mzcheta & Ananuri",
+      "Tag 3 — Kasbegi",
+      "Tag 4 — Signagi & Telawi"
+    ],
+    "ticket": "Reiseentwurf"
+  },
+  "how": {
+    "kicker": "So funktioniert es",
+    "title": "Kluge Entwürfe, *menschliche Antworten.*",
+    "items": [
+      {
+        "title": "Claude von Anthropic",
+        "text": "Jedes Experiment läuft mit Claude, dem KI-Modell von Anthropic, auf Grundlage der eigenen Erlebnisse, Orte und Richtlinien von Local Host."
+      },
+      {
+        "title": "Was gesendet wird",
+        "text": "Nur was Sie eintippen, das Foto, das Sie wählen, oder die E-Mail, die Sie einfügen. Es geht an Anthropic, damit die Antwort entsteht; diese Website speichert es nicht."
+      },
+      {
+        "title": "Keine Preise, keine Buchungen",
+        "text": "Die KI nennt nie Preise, reserviert keine Zimmer und bucht nichts. Preise und Verfügbarkeit kommen immer von unserem Team."
+      },
+      {
+        "title": "Unser Team bestätigt",
+        "text": "Jede Antwort ist ein Entwurf. Ein Mensch bei Local Host in Tiflis prüft jedes Detail, bevor etwas vereinbart wird."
+      }
+    ],
+    "contact": "Fragen zum KI-Labor? Schreiben Sie uns an"
+  },
+  "ui": {
+    "demoBadge": "Demo — Beispielantwort",
+    "liveBadge": "Live — von Claude geschrieben",
+    "cancel": "Abbrechen",
+    "cancelled": "Abgebrochen.",
+    "elapsed": "{s} s",
+    "noScript": "Aktivieren Sie JavaScript, um dieses Experiment auszuprobieren.",
+    "copied": "Kopiert",
+    "copyFailed": "Kopieren nicht möglich — bitte den Text markieren.",
+    "newTab": "öffnet in einem neuen Tab"
+  },
+  "errors": {
+    "network": "Der KI-Dienst ist nicht erreichbar. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+    "rateLimited": "Zu viele Anfragen in kurzer Zeit. Sie können es in {time} erneut versuchen.",
+    "rateLimitedNow": "Sie können es jetzt erneut versuchen.",
+    "dailyCap": "Das KI-Labor hat sein Tageslimit erreicht. Bitte versuchen Sie es morgen — oder schreiben Sie an info@localhost.ge.",
+    "refusal": "Dabei kann die KI nicht helfen. Formulieren Sie es anders oder schreiben Sie unserem Team an info@localhost.ge.",
+    "truncated": "Die Antwort wurde zu lang und abgeschnitten. Versuchen Sie eine einfachere Anfrage.",
+    "timeout": "Das hat zu lange gedauert. Bitte versuchen Sie eine kürzere Anfrage.",
+    "busy": "Der KI-Dienst ist gerade ausgelastet. Bitte versuchen Sie es gleich noch einmal.",
+    "tooLarge": "Das ist zu groß zum Senden. Versuchen Sie etwas Kürzeres oder Kleineres.",
+    "badRequest": "In der Anfrage stimmt etwas nicht. Bitte prüfen Sie das Formular.",
+    "unauthorized": "Dieses Werkzeug benötigt den Team-Zugangsschlüssel.",
+    "generic": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es gleich noch einmal."
+  }
 }

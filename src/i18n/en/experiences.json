@@ -2,5 +2,61 @@
   "kicker": "Experiences",
   "title": "Six ways *into* the Caucasus.",
   "intro": "Build a programme around one theme or weave several together. Every itinerary is drafted by our Tbilisi team and adapted to your clients, your season and your budget.",
-  "running": "Six ways in"
+  "running": "Six ways in",
+  "carousel": {
+    "label": "Experiences",
+    "prev": "Previous experiences",
+    "next": "Next experiences",
+    "status": "Experiences {from} to {to} of {total}",
+    "statusOne": "Experience {from} of {total}"
+  },
+  "card": {
+    "number": "Nº",
+    "where": "Where",
+    "when": "When",
+    "plan": "Plan this with AI"
+  },
+  "seasons": {
+    "yearRound": "Year-round",
+    "best": "best {months}",
+    "harvest": "harvest {months}",
+    "harvestTable": "harvest flavours {months}",
+    "highRoutes": "high routes {months}",
+    "lowerRoutes": "lower routes {months}",
+    "beach": "beach {months}",
+    "ski": "ski {months}",
+    "feasts": "feast dates checked every year"
+  },
+  "cards": {
+    "culture": {
+      "text": "Old towns, cave cities and frescoed churches where empires and faiths met, and traditions are lived, not staged.",
+      "subject": "Narikala, Old Tbilisi",
+      "alt": "Old Tbilisi at golden hour: red roofs climb towards Narikala fortress, with a domed church on the hill"
+    },
+    "wine": {
+      "text": "Eight thousand vintages: qvevri wine in family cellars, and a seat at the harvest table.",
+      "subject": "Rtveli, the grape harvest",
+      "alt": "Grape harvest in a vineyard: an older man and a boy in traditional dress hold up a basket of black grapes"
+    },
+    "trekking": {
+      "text": "Glaciers, tower villages and shepherd trails, from easy day hikes to multi-day treks between guesthouses.",
+      "subject": "Truso Valley, Kazbegi",
+      "alt": "A river winds through the green floor of the Truso Valley between steep ridges, with sunlight breaking through cloud"
+    },
+    "gastronomy": {
+      "text": "Supra feasts led by a tamada, family kitchens, markets and clay-oven bread, with a dish for every valley.",
+      "subject": "Mtsvadi, bread and greens",
+      "alt": "A table laid outdoors with skewers of grilled meat, flatbread, cheese, tomatoes, spring onions and a clay jug"
+    },
+    "pilgrim": {
+      "text": "Monasteries, rock-cut churches and holy sites still in use, in two of the oldest Christian nations on earth.",
+      "subject": "David Gareja",
+      "alt": "The David Gareja monastery complex: cave cells and stone buildings on a green hillside in rolling semi-desert hills"
+    },
+    "leisure": {
+      "text": "Black Sea shores, spa towns, lakes and ski slopes: a holiday of its own, or a slow finish to a busy tour.",
+      "subject": "Batumi at blue hour",
+      "alt": "Batumi at blue hour: the lit seafront boulevard and city towers along the Black Sea"
+    }
+  }
 }

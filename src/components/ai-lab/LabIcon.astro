@@ -1,0 +1,47 @@
+---
+/**
+ * Icons the shared set (ui/icons.ts) doesn't have yet, drawn on the same
+ * 24 × 24 grid with 1.5 px square-capped strokes. Requested for ui/icons.ts in
+ * docs/requests/ai-lab.md — switch to <Icon> once they land.
+ */
+interface Props {
+  name: 'camera' | 'upload' | 'copy' | 'print' | 'key' | 'plug';
+  size?: number;
+  class?: string;
+}
+
+const PATHS: Record<Props['name'], string> = {
+  camera:
+    '<path d="M3.75 8.25a1 1 0 0 1 1-1h3l1.5-2.5h5.5l1.5 2.5h3a1 1 0 0 1 1 1v10.5a1 1 0 0 1-1 1H4.75a1 1 0 0 1-1-1z"/><circle cx="12" cy="13" r="3.5"/>',
+  upload: '<path d="M12 15.5V4M7 8.75 12 3.75l5 5"/><path d="M4.25 14.5v5.25h15.5V14.5"/>',
+  copy: '<rect x="8.25" y="8.25" width="12" height="12" rx="1"/><path d="M15.75 8.25V4.75a1 1 0 0 0-1-1h-10a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3.5"/>',
+  print:
+    '<path d="M7 8.25V3.75h10v4.5"/><path d="M7 16.25H4.75a1 1 0 0 1-1-1V9.25a1 1 0 0 1 1-1h14.5a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H17"/><path d="M7 13.25h10v7H7z"/>',
+  key: '<circle cx="8" cy="15.5" r="4"/><path d="m10.9 12.6 8.6-8.6M16.5 7l2.5 2.5M14.25 9.25l2 2"/>',
+  plug: '<path d="M9 3.75v4.5M15 3.75v4.5M6.25 8.25h11.5v3.5a5.75 5.75 0 0 1-11.5 0zM12 17.5v2.75"/>',
+};
+
+const { name, size = 20, class: className } = Astro.props;
+---
+
+<svg
+  class:list={['icon', `icon--${name}`, className]}
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="square"
+  stroke-linejoin="miter"
+  aria-hidden="true"
+  focusable="false"
+  set:html={PATHS[name]}
+/>
+
+<style>
+  .icon {
+    flex: none;
+    overflow: visible;
+  }
+</style>

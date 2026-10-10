@@ -1,0 +1,112 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
+  "kicker": "Nachhaltigkeit",
+  "title": "Gute Gastgeber *pflegen ihr Haus.*",
+  "intro": "Wir arbeiten nach den Travelife-Kriterien für Reiseveranstalter und Reisebüros, mit einem geschulten Nachhaltigkeitskoordinator im Team – und wir erwarten von jedem Partner dieselben Standards.",
+  "running": "Travelife Partner",
+  "recognition": {
+    "kicker": "Unabhängige Anerkennung",
+    "badgeLabel": "Travelife Partner: unseren Eintrag im öffentlichen Travelife-Register prüfen",
+    "statement": "**Travelife Partner** – unabhängig bewertet nach den Travelife-Partner-Kriterien für Reiseveranstalter und Reisebüros (anerkannt seit November 2025).",
+    "explain": "Partner ist die erste von zwei Anerkennungsstufen bei Travelife: eine unabhängige Bewertung unseres Nachhaltigkeitsmanagements anhand von rund 60 Pflichtkriterien, die alle zwei Jahre erneuert wird.",
+    "register": "Im öffentlichen Travelife-Register prüfen"
+  },
+  "certificate": {
+    "kicker": "Partner-Zertifikat",
+    "scope": "Travelife-Kriterien für Reiseveranstalter und Reisebüros",
+    "holderLabel": "Inhaber",
+    "holder": "Local Host LLC, Georgien",
+    "levelLabel": "Stufe",
+    "level": "Travelife Partner",
+    "firstLabel": "Erstmals anerkannt",
+    "validLabel": "Gültig bis",
+    "pending": "Abbildung des Zertifikats folgt",
+    "imageAlt": "Travelife-Partner-Zertifikat für Local Host LLC",
+    "register": "Im Register prüfen"
+  },
+  "figures": {
+    "kicker": "Gemessen in unserem Büro",
+    "title": "Weniger Energie, *viel weniger Gas.*",
+    "period": "Januar–Oktober 2025 im Vergleich zu denselben Monaten 2024.",
+    "items": [
+      {
+        "label": "Energieverbrauch",
+        "text": "Licht und Geräte werden nach Feierabend und in ungenutzten Räumen ausgeschaltet."
+      },
+      {
+        "label": "Gasverbrauch",
+        "text": "Dieselben zehn Monate, dasselbe Büro: mehr als ein Drittel weniger."
+      }
+    ],
+    "chartLabel": "{label}: Index {after} im Jahr 2025 gegenüber 100 im Jahr 2024",
+    "source": "Quelle: Nachhaltigkeitsrichtlinie, „Umweltschutz“"
+  },
+  "quote": {
+    "translationLabel": "Übersetzung",
+    "translation": "Wir lieben die Berge Swanetiens, die Landschaften von Samzche-Dschawachetien, den Blick von Telawi auf den Kaukasus, die Schönheit des Martwili-Canyons, das Geheimnisvolle des Parawani-Sees und die Ursprünglichkeit der Dörfer Adschariens.",
+    "source": "Nachhaltigkeitsrichtlinie",
+    "photoAlt": "Ein Dorf mit steinernen Swanentürmen zwischen grünen Feldern und Bäumen, dahinter bewaldete Hänge und ein schneebedeckter Gebirgszug, Swanetien, Georgien.",
+    "photoCaption": "Swanentürme am Fuß des Großen Kaukasus, Swanetien"
+  },
+  "practice": {
+    "kicker": "In der Praxis",
+    "title": "Was unsere Richtlinie *von uns verlangt*",
+    "items": [
+      {
+        "title": "Dienstreisen kompensiert",
+        "text": "Wir kompensieren den CO₂-Fußabdruck aller unserer internationalen Dienstreisen.",
+        "source": "Nachhaltigkeitsrichtlinie"
+      },
+      {
+        "title": "Nahverkehr und Homeoffice",
+        "text": "Wir erstatten allen Mitarbeitenden das Jahresticket für den öffentlichen Nahverkehr. Alle arbeiten einen Tag pro Woche von zu Hause, einen zweiten, wenn das Büro nicht nötig ist.",
+        "source": "Nachhaltigkeitsrichtlinie"
+      },
+      {
+        "title": "Unterkünfte und Restaurants: Zertifikate zuerst",
+        "text": "Wir bevorzugen Unterkünfte und Restaurants mit anerkannten Nachhaltigkeitszertifikaten. Unser Ziel für 2026: mindestens die Hälfte unserer Unterkünfte mit Nachhaltigkeitsnachweis.",
+        "source": "Richtlinie für Unterkünfte"
+      },
+      {
+        "title": "Keine Ausflüge, die schaden",
+        "text": "Keine Ausflüge, die Menschen, Tieren oder der Natur schaden, und keine mit Tierhandel, Tierverzehr, engem Tierkontakt oder Tiershows.",
+        "source": "Richtlinie für Ausflüge"
+      },
+      {
+        "title": "Null Toleranz bei Kinderausbeutung",
+        "text": "Null Toleranz für die Ausbeutung von Kindern, Zwangsarbeit und Menschenhandel – in unserer eigenen Arbeit und in jeder Partnerschaft.",
+        "source": "Nachhaltigkeitsrichtlinie"
+      }
+    ],
+    "partnersTranslation": "Wir erwarten von allen unseren Partnern und Lieferanten, dass sie sich zu diesen Werten bekennen und sie weiter stärken.",
+    "partnersSource": "Nachhaltigkeitsrichtlinie"
+  },
+  "documents": {
+    "kicker": "Die Dokumente",
+    "title": "Die Richtlinien lesen",
+    "note": "PDF · auf Englisch",
+    "effective": "Gültig ab {date}",
+    "published": "Veröffentlicht am {date}",
+    "pages": "{n} S.",
+    "size": "{n} KB",
+    "items": {
+      "sustainability": "Nachhaltigkeitsrichtlinie",
+      "report": "Nachhaltigkeitsbericht",
+      "excursions": "Richtlinie für nachhaltige Ausflüge und Destinationen",
+      "accommodations": "Richtlinie für nachhaltige Unterkünfte",
+      "inbound": "Richtlinie für Incoming-Partneragenturen"
+    },
+    "reportNote": "Nach den Travelife-Kriterien für Reiseveranstalter und Reisebüros"
+  },
+  "ask": {
+    "kicker": "KI-Labor",
+    "title": "Fragen Sie unsere Richtlinien",
+    "text": "Stellen Sie eine Frage in Ihrer Sprache. Die Antwort zitiert diese Dokumente wörtlich und nennt die Quelle.",
+    "examplesLabel": "Zum Beispiel",
+    "examples": [
+      "Bieten Sie in Ihren Touren Tierattraktionen an?",
+      "Wie wählen Sie Hotels aus?"
+    ],
+    "cta": "Frage stellen"
+  }
+}

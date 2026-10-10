@@ -2,5 +2,137 @@
   "kicker": "Plan with AI",
   "title": "Draft a journey *in a minute.*",
   "intro": "Choose countries and interests, write us a line, and our AI trip designer sketches a day-by-day draft. Then our team in Tbilisi makes it real.",
-  "running": "AI trip designer"
+  "running": "AI trip designer",
+  "form": {
+    "label": "Travel document",
+    "serial": "Form LH · 11",
+    "title": "Your trip, *in a few stamps.*",
+    "hint": "Tap the stamps that fit your trip, then write us a line. Nothing is booked: you get a draft to send us.",
+    "countries": "Countries",
+    "countriesHint": "One, two or all three.",
+    "countriesError": "Please choose at least one country.",
+    "experiences": "Experiences",
+    "experiencesHint": "Leave them all blank for a balanced mix.",
+    "length": "Length",
+    "daysUnit": "days",
+    "daysValue": "{n} days",
+    "daysLabel": "Number of days",
+    "fewer": "One day fewer",
+    "more": "One day more",
+    "month": "When",
+    "monthLabel": "Travel month",
+    "monthAny": "Any time (flexible)",
+    "travellers": "Travelling as",
+    "optional": "optional",
+    "pace": "Pace",
+    "letter": "Your letter",
+    "salutation": "Dear Local Host,",
+    "letterLabel": "Your letter to Local Host (optional)",
+    "letterPlaceholder": "we are twelve friends from Verona who love wine, long lunches and easy walks…",
+    "letterHint": "Who is travelling, what they love, anything to avoid. Please leave out personal details.",
+    "counter": "{n} of {max} characters",
+    "dictate": "Dictate",
+    "dictateStop": "Stop dictation",
+    "listening": "Listening… speak now.",
+    "micPrivacy": "Voice input uses your browser’s speech service: your voice is processed by the company behind your browser (for example Google or Apple), not by Local Host.",
+    "submit": "Design my trip",
+    "privacy": "To draft your plan, your choices and letter are processed by an AI model (Claude, by Anthropic).",
+    "disclaimer": "An AI draft is a starting point, not an offer: prices, availability and every detail are confirmed by the Local Host team.",
+    "summaryLabel": "Your choices",
+    "edit": "Change choices"
+  },
+  "countries": {
+    "GE": "Georgia",
+    "AM": "Armenia",
+    "AZ": "Azerbaijan"
+  },
+  "experiences": {
+    "culture": "Culture",
+    "wine": "Wine",
+    "trekking": "Trekking",
+    "gastronomy": "Gastronomy",
+    "pilgrim": "Pilgrim",
+    "leisure": "Leisure"
+  },
+  "travellers": {
+    "solo": "Solo",
+    "couple": "Couple",
+    "family": "Family",
+    "friends": "Friends",
+    "group": "Group",
+    "agency": "Travel agency"
+  },
+  "pace": {
+    "relaxed": "Relaxed",
+    "balanced": "Balanced",
+    "active": "Active"
+  },
+  "output": {
+    "title": "Draft itinerary",
+    "draft": "Draft {n}",
+    "connecting": "Connecting to the trip designer…",
+    "designing": "Designing your trip…",
+    "writingDay": "Writing day {day} of {days}…",
+    "done": "Draft ready: {days} days, {stops} stops on the map.",
+    "doneDemo": "Sample ready: {days} days, {stops} stops on the map.",
+    "stopped": "Stopped. The draft so far is below.",
+    "failed": "This draft couldn’t be finished.",
+    "stop": "Stop",
+    "retry": "Try again",
+    "demoBadge": "Demo",
+    "demoStampTop": "Sample itinerary",
+    "demoStampMain": "Demo",
+    "demoStampLabel": "Sample itinerary — demo",
+    "demoNotice": "Demo mode: the live AI planner isn’t connected yet, so you see a ready-made sample, not a plan written for you. You can still send your choices to our team.",
+    "rateLimited": "Please wait about {minutes} min before the next try.",
+    "stopsLabel": "Map stops"
+  },
+  "actions": {
+    "refineLabel": "Refine this draft",
+    "refinePlaceholder": "e.g. Make day 3 more relaxed",
+    "refine": "Refine",
+    "refineEmpty": "Write what you would like to change, then press Refine.",
+    "send": "Send this plan to Local Host",
+    "sendHint": "Opens your email app with the plan filled in. Nothing is sent until you press send.",
+    "copy": "Copy plan",
+    "copied": "Copied to your clipboard.",
+    "copyFailed": "Couldn’t copy. Please select the text instead.",
+    "read": "Read aloud",
+    "readStop": "Stop reading",
+    "restart": "Start over"
+  },
+  "map": {
+    "label": "Route map",
+    "title": "Map of Georgia, Armenia and Azerbaijan",
+    "routeTitle": "Map of the planned route: {route}",
+    "idle": "Your route will be drawn here",
+    "drawing": "Drawing the route",
+    "office": "Local Host · Tbilisi",
+    "stops": "{n} stops",
+    "routeLabel": "Route, in visiting order",
+    "credit": "Map data: Natural Earth"
+  },
+  "nojs": {
+    "title": "The trip designer needs JavaScript",
+    "text": "It runs in your browser. You can also simply write to us: tell us the countries, interests, dates and size of your group, and we will come back with a first draft.",
+    "cta": "Write to Local Host",
+    "subject": "Trip request"
+  },
+  "how": {
+    "title": "How it works",
+    "steps": [
+      {
+        "title": "Stamp your trip",
+        "text": "Countries, experiences, length and pace — and a line about who is travelling."
+      },
+      {
+        "title": "Watch the draft appear",
+        "text": "Our AI trip designer writes a day-by-day plan and draws the route, using the places and experiences we work with."
+      },
+      {
+        "title": "Send it to Tbilisi",
+        "text": "Our team checks every detail and turns your draft into a tailored programme."
+      }
+    ]
+  }
 }

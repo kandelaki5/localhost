@@ -1,0 +1,22 @@
+---
+/**
+ * PREVIEW ONLY (noindex) — 04 Airlines (+ 05 Connection below it, the order
+ * they sit in on the home page), for screenshots while other sections are
+ * being built. /preview/airlines/en/ · /preview/airlines/ka/ …
+ * The language comes from the route param, which getLang() reads.
+ * The main session deletes src/pages/preview/ before launch.
+ */
+import Base from '../../../layouts/Base.astro';
+import Airlines from '../../../components/sections/Airlines.astro';
+import Connection from '../../../components/sections/Connection.astro';
+import { LANGS } from '../../../i18n';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+---
+
+<Base title="Preview · Airlines" noindex>
+  <Airlines />
+  <Connection />
+</Base>

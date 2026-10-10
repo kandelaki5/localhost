@@ -1,6 +1,22 @@
 {
   "kicker": "Awards",
   "title": "Noticed *at home.*",
-  "intro": "Nominations from Georgia’s national tourism awards.",
-  "running": "Welcome to Georgia!"
+  "intro": "Nominations at Georgia’s national tourism awards, ten years apart.",
+  "running": "Welcome to Georgia!",
+  "programme": {
+    "kicker": "About the awards",
+    "text": "Georgia’s national tourism awards, held every year since 2015.",
+    "link": "official website"
+  },
+  "nominee": "Nominee",
+  "listLabel": "Nominations",
+  "items": {
+    "fastest-growing-2016": {
+      "category": "The Fastest Growing Company of the Year",
+      "detail": "SME segment"
+    },
+    "inbound-2026": {
+      "category": "Inbound Tour Company of the Year"
+    }
+  }
 }

@@ -1,0 +1,38 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Wir unterstützen",
+  "title": "Wofür wir *einstehen.*",
+  "intro": "Fünf Verpflichtungen aus unseren eigenen Richtlinien: die Menschen, Orte und Grundsätze, von denen jede unserer Reisen lebt.",
+  "running": "Aus unseren Richtlinien",
+  "listLabel": "Fünf Verpflichtungen",
+  "items": [
+    {
+      "title": "Familien und Gastgeber vor Ort",
+      "text": "Wir planen Reisen rund um die Familien, die unsere Gäste empfangen, und bevorzugen lokale Lebensmittel, Waren und Dienstleistungen.",
+      "ring": "NACHHALTIGKEIT • LOKALE GEMEINSCHAFTEN •"
+    },
+    {
+      "title": "Natur und Schutzgebiete",
+      "text": "Wir fördern Ausflüge, die der Natur vor Ort zugutekommen, halten die Regeln von Schutzgebieten ein und ziehen weniger bekannte Orte überlaufenen vor.",
+      "ring": "AUSFLUGSRICHTLINIE • UMWELT & BIODIVERSITÄT •"
+    },
+    {
+      "title": "Kulturerbe und Bräuche",
+      "text": "Wir respektieren lokale Bräuche und Traditionen, beziehen Museen und Handwerksbetriebe ein und schließen illegale Souvenirs und Artefakte aus.",
+      "ring": "AUSFLUGSRICHTLINIE • KULTUR & KULTURERBE •"
+    },
+    {
+      "title": "Faire Arbeit",
+      "text": "Schriftliche Verträge und Löhne über dem offiziellen Durchschnitt für unser Team. Jeder Partner muss mindestens einen existenzsichernden Lohn oder den gesetzlichen Mindestlohn zahlen.",
+      "ring": "NACHHALTIGKEITSRICHTLINIE • MENSCHENRECHTE •"
+    },
+    {
+      "title": "Kinderschutz",
+      "text": "Jeder Partner muss Kinder vor Arbeit und sexueller Ausbeutung schützen und den Kinderschutzkodex einhalten – sonst endet die Partnerschaft.",
+      "ring": "PARTNERRICHTLINIEN • KINDERRECHTE •"
+    }
+  ],
+  "projects": {
+    "text": "Partnerprojekte werden hier angekündigt."
+  }
+}

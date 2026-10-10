@@ -1,6 +1,86 @@
 {
   "kicker": "Caucasus",
   "title": "Three countries. *One local host.*",
-  "intro": "Georgia is home; Armenia and Azerbaijan are next door. One team in Tbilisi plans and runs programmes across all three.",
-  "running": "Georgia · Armenia · Azerbaijan"
+  "intro": "Georgia is home; Armenia and Azerbaijan are next door. One team in Tbilisi designs and runs programmes in all three — one country at a time, or combined in a single journey with the border crossings arranged by us.",
+  "running": "Georgia · Armenia · Azerbaijan",
+  "countries": [
+    {
+      "tag": "Home · Tbilisi",
+      "summary": "Our home: a small country with huge variety, from the high Caucasus to the Black Sea and the wine valleys of Kakheti.",
+      "highlights": [
+        "Tbilisi, Mtskheta and the road to Kazbegi",
+        "Kakheti wine country and qvevri cellars",
+        "Svaneti and Tusheti in the high mountains"
+      ],
+      "photo": {
+        "alt": "Medieval stone defence towers rising between village houses in a green valley in Svaneti, with a snow-covered massif behind",
+        "caption": "Svan towers in Svaneti"
+      }
+    },
+    {
+      "tag": "Next door · Yerevan",
+      "summary": "A highland country of monasteries, volcanic tuff stone and views of Mount Ararat, with a lively capital in Yerevan.",
+      "highlights": [
+        "Yerevan, Garni Temple and Geghard",
+        "Khor Virap, facing Mount Ararat",
+        "Areni wine country and Lake Sevan"
+      ],
+      "photo": {
+        "alt": "Khor Virap monastery on a hill above the Ararat plain, with the snow-capped cone of Mount Ararat rising behind it under a blue sky",
+        "caption": "Khor Virap and Mount Ararat"
+      }
+    },
+    {
+      "tag": "Next door · Baku",
+      "summary": "The Land of Fire on the Caspian: a walled Old City, prehistoric rock art and mountain villages of silk and copper.",
+      "highlights": [
+        "Baku’s Old City and seaside boulevard",
+        "Gobustan rock art and the Absheron peninsula",
+        "Sheki, Lahij and the Greater Caucasus villages"
+      ],
+      "photo": {
+        "alt": "Rooftops of Baku’s Old City seen from above, with the Flame Towers and the TV tower on the skyline",
+        "caption": "Baku’s Old City and the Flame Towers"
+      }
+    }
+  ],
+  "cta": "Plan a trip here",
+  "credit": "Photo: {creator}, {license}",
+  "map": {
+    "fig": "Tbilisi, between two seas",
+    "note": "Schematic map. Outlines: Natural Earth.",
+    "label": "Schematic map of the South Caucasus",
+    "description": "Georgia, Armenia and Azerbaijan between the Black Sea in the west and the Caspian Sea in the east, with the Greater Caucasus range along their northern edge. Tbilisi, in eastern Georgia, is marked with the red sun. Lines lead from Tbilisi north to Kazbegi, west to Kutaisi and on to Batumi on the Black Sea, south to Yerevan in Armenia, and east to Sheki and on to Baku on the Caspian. Russia lies to the north, Turkey to the south-west and Iran to the south.",
+    "cities": {
+      "tbilisi": "Tbilisi",
+      "kutaisi": "Kutaisi",
+      "batumi": "Batumi",
+      "kazbegi": "Kazbegi",
+      "yerevan": "Yerevan",
+      "sheki": "Sheki",
+      "baku": "Baku"
+    },
+    "seas": {
+      "blackSea": "Black Sea",
+      "caspianSea": "Caspian Sea"
+    },
+    "neighbours": {
+      "RU": "Russia",
+      "TR": "Turkey",
+      "IR": "Iran"
+    },
+    "range": "Greater Caucasus",
+    "scale": "100 km",
+    "north": "N"
+  },
+  "aside": {
+    "kicker": "From Tbilisi",
+    "title": "Between two seas, *three capitals.*",
+    "text": "Tbilisi sits between the Black Sea and the Caspian, with Yerevan to the south and Baku to the east. When a programme combines two or three countries, our team arranges the transfers, the timings and the border crossings — so your group travels on one plan, with one team behind it.",
+    "timesLabel": "Approximate drive times",
+    "hours": "about {h} h",
+    "border": "incl. border",
+    "note": "By road. Traffic, weather and border queues can change them.",
+    "cta": "Draft a three-country route"
+  }
 }

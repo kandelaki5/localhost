@@ -1,0 +1,19 @@
+---
+/**
+ * TEMPORARY preview for the Caucasus section agent (noindex) — the main
+ * session deletes src/pages/preview/ after integration.
+ * /preview/caucasus-en/ · /preview/caucasus-ka/ · -pl · -it · -de
+ */
+import Base from '../../layouts/Base.astro';
+import Caucasus from '../../components/sections/Caucasus.astro';
+import { LANGS } from '../../i18n';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+---
+
+<Base title="Preview · Caucasus" noindex>
+  <Caucasus />
+  <div id="plan" style="height: 60vh"></div>
+</Base>

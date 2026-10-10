@@ -1,0 +1,28 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Z dumą należymy do",
+  "title": "W dobrym *towarzystwie.*",
+  "intro": "Stowarzyszenia i izby turystyczne, do których należymy, oraz instytucje krajowe, z którymi współpracujemy – w Gruzji i w Polsce.",
+  "running": "Członkostwa",
+  "spreadLabel": "Członkostwa według krajów",
+  "countries": {
+    "ge": "Gruzja",
+    "pl": "Polska"
+  },
+  "types": {
+    "administration": "Narodowa administracja turystyczna",
+    "association": "Stowarzyszenie turystyczne",
+    "bureau": "Biuro kongresów i wystaw",
+    "chamber": "Krajowa izba turystyki",
+    "regional": "Regionalna izba turystyki"
+  },
+  "orgs": {
+    "gnta": "Narodowa Administracja Turystyki Gruzji",
+    "gta": "Gruzińskie Stowarzyszenie Turystyczne",
+    "cebg": "Biuro Kongresów i Wystaw Gruzji",
+    "pit": "Polska Izba Turystyki",
+    "sit": "Śląska Izba Turystyki"
+  },
+  "official": "oficjalna strona",
+  "ring": "LOCAL HOST • TBILISI • OD 2015 •"
+}

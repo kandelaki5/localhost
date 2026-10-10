@@ -1,0 +1,112 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
+  "kicker": "Zrównoważony rozwój",
+  "title": "Dobry gospodarz *dba o swój dom.*",
+  "intro": "Pracujemy według kryteriów Travelife dla touroperatorów i biur podróży, a w naszym zespole działa przeszkolony koordynator ds. zrównoważonego rozwoju. Tych samych standardów oczekujemy od każdego partnera.",
+  "running": "Partner Travelife",
+  "recognition": {
+    "kicker": "Niezależna ocena",
+    "badgeLabel": "Travelife Partner: sprawdź nasz wpis w publicznym rejestrze Travelife",
+    "statement": "**Travelife Partner** — firma niezależnie oceniona według kryteriów Travelife Partner dla touroperatorów i biur podróży (status od listopada 2025 r.).",
+    "explain": "Partner to pierwszy z dwóch poziomów wyróżnienia Travelife: niezależna ocena tego, jak zarządzamy zrównoważonym rozwojem, według około 60 obowiązkowych kryteriów, odnawiana co dwa lata.",
+    "register": "Sprawdź nas w publicznym rejestrze Travelife"
+  },
+  "certificate": {
+    "kicker": "Certyfikat partnera",
+    "scope": "Kryteria Travelife dla touroperatorów i biur podróży",
+    "holderLabel": "Posiadacz",
+    "holder": "Local Host LLC, Gruzja",
+    "levelLabel": "Poziom",
+    "level": "Travelife Partner",
+    "firstLabel": "Pierwsze zatwierdzenie",
+    "validLabel": "Ważny do",
+    "pending": "Skan certyfikatu wkrótce",
+    "imageAlt": "Certyfikat Travelife Partner wystawiony dla Local Host LLC",
+    "register": "Sprawdź w rejestrze"
+  },
+  "figures": {
+    "kicker": "Zmierzone w naszym biurze",
+    "title": "Mniej energii, *dużo mniej gazu.*",
+    "period": "Styczeń–październik 2025 r. w porównaniu z tymi samymi miesiącami 2024 r.",
+    "items": [
+      {
+        "label": "Zużycie energii",
+        "text": "Po godzinach pracy i w nieużywanych pomieszczeniach wyłączamy światło i sprzęt."
+      },
+      {
+        "label": "Zużycie gazu",
+        "text": "Te same dziesięć miesięcy, to samo biuro: o ponad jedną trzecią mniej."
+      }
+    ],
+    "chartLabel": "{label}: indeks {after} w 2025 r. wobec 100 w 2024 r.",
+    "source": "Źródło: Polityka zrównoważonego rozwoju, „Ochrona środowiska”"
+  },
+  "quote": {
+    "translationLabel": "Tłumaczenie",
+    "translation": "Kochamy góry Swanetii, krajobrazy Samcche-Dżawachetii, widok na pasmo Kaukazu z Telawi, piękno kanionu Martwili, tajemniczość jeziora Parawani i autentyczność wiosek Adżarii.",
+    "source": "Polityka zrównoważonego rozwoju",
+    "photoAlt": "Wioska z kamiennymi wieżami swańskimi wśród zielonych pól i drzew, za nią zalesione stoki i ośnieżone pasmo górskie, Swanetia, Gruzja.",
+    "photoCaption": "Wieże swańskie u stóp Wielkiego Kaukazu, Swanetia"
+  },
+  "practice": {
+    "kicker": "W praktyce",
+    "title": "Czego *wymaga od nas* nasza polityka",
+    "items": [
+      {
+        "title": "Podróże służbowe z kompensacją",
+        "text": "Kompensujemy ślad węglowy wszystkich naszych zagranicznych podróży służbowych.",
+        "source": "Polityka zrównoważonego rozwoju"
+      },
+      {
+        "title": "Transport publiczny i praca zdalna",
+        "text": "Każdemu pracownikowi zwracamy koszt rocznego biletu komunikacji publicznej. Każdy pracuje z domu jeden dzień w tygodniu, a drugi, gdy obecność w biurze nie jest potrzebna.",
+        "source": "Polityka zrównoważonego rozwoju"
+      },
+      {
+        "title": "Noclegi i restauracje: najpierw certyfikaty",
+        "text": "Wybieramy przede wszystkim obiekty noclegowe i restauracje z uznanymi certyfikatami zrównoważonego rozwoju. Nasz cel na 2026 r.: co najmniej połowa obiektów noclegowych z potwierdzeniem działań na rzecz zrównoważonego rozwoju.",
+        "source": "Polityka zakwaterowania"
+      },
+      {
+        "title": "Żadnych szkodliwych wycieczek",
+        "text": "Żadnych wycieczek szkodzących ludziom, zwierzętom czy przyrodzie i żadnych, które obejmują handel zwierzętami, ich spożywanie, bliski kontakt z nimi lub pokazy z ich udziałem.",
+        "source": "Polityka wycieczek"
+      },
+      {
+        "title": "Zero tolerancji dla wykorzystywania dzieci",
+        "text": "Zero tolerancji dla wykorzystywania dzieci, pracy przymusowej i handlu ludźmi — w naszej pracy i w każdym partnerstwie.",
+        "source": "Polityka zrównoważonego rozwoju"
+      }
+    ],
+    "partnersTranslation": "Oczekujemy od wszystkich naszych partnerów i dostawców zaangażowania w te wartości i ich dalszego umacniania.",
+    "partnersSource": "Polityka zrównoważonego rozwoju"
+  },
+  "documents": {
+    "kicker": "Dokumenty",
+    "title": "Przeczytaj nasze polityki",
+    "note": "PDF · po angielsku",
+    "effective": "Obowiązuje od {date}",
+    "published": "Opublikowano {date}",
+    "pages": "{n} s.",
+    "size": "{n} KB",
+    "items": {
+      "sustainability": "Polityka zrównoważonego rozwoju",
+      "report": "Raport zrównoważonego rozwoju",
+      "excursions": "Polityka zrównoważonych wycieczek i destynacji",
+      "accommodations": "Polityka zrównoważonego zakwaterowania",
+      "inbound": "Polityka wobec partnerskich agencji incomingowych"
+    },
+    "reportNote": "Według kryteriów Travelife dla touroperatorów i biur podróży"
+  },
+  "ask": {
+    "kicker": "Laboratorium AI",
+    "title": "Zapytaj nasze polityki",
+    "text": "Zadaj pytanie w swoim języku. Odpowiedź cytuje te dokumenty słowo w słowo i podaje źródło.",
+    "examplesLabel": "Na przykład",
+    "examples": [
+      "Czy w programach są atrakcje ze zwierzętami?",
+      "Jak wybieracie hotele?"
+    ],
+    "cta": "Zadaj pytanie"
+  }
+}

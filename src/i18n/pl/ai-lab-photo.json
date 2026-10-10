@@ -1,0 +1,50 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Dopasowanie zdjęć",
+  "title": "Pokaż nam miejsce, *które kochasz.*",
+  "intro": "Winnica w Toskanii, dolina w Dolomitach, wybrzeże, którego nie zapomnisz — wyślij zdjęcie, a Claude znajdzie miejsce na Południowym Kaukazie o tym samym klimacie.",
+  "upload": {
+    "title": "Twoje zdjęcie",
+    "drop": "Upuść zdjęcie tutaj",
+    "or": "lub",
+    "choose": "Wybierz zdjęcie",
+    "camera": "Zrób zdjęcie",
+    "hint": "JPEG, PNG lub WebP. Przed wysłaniem zmniejszamy je w Twojej przeglądarce.",
+    "dragActive": "Upuść, aby dopasować"
+  },
+  "samples": {
+    "title": "Albo wypróbuj nasze",
+    "action": "Dopasuj to zdjęcie",
+    "credit": "„{title}”, autor: {creator}"
+  },
+  "screen": {
+    "label": "Wizjer",
+    "idle": "Czekamy na zdjęcie",
+    "idleHint": "Wybierz zdjęcie albo jedno z naszych — wynik pojawi się tutaj.",
+    "working": "Oglądamy Twoje zdjęcie…",
+    "steps": [
+      "Czytamy światło i krajobraz",
+      "Przeszukujemy 51 miejsc w Gruzji, Armenii i Azerbejdżanie",
+      "Wybieramy trzy dopasowania"
+    ],
+    "mood": "Nastrój",
+    "whatISee": "Co widzę",
+    "yourPhoto": "Twoje zdjęcie"
+  },
+  "result": {
+    "title": "Trzy miejsca o tym samym klimacie",
+    "match": "Dopasowanie {n}",
+    "tip": "Wskazówka",
+    "map": "Mapa: {place}",
+    "plan": "Zaplanuj tę podróż",
+    "again": "Spróbuj innego zdjęcia",
+    "notTravel": "Brak krajobrazu na tym zdjęciu"
+  },
+  "errors": {
+    "not_an_image": "Ten plik nie jest obrazem. Wybierz zdjęcie JPEG, PNG lub WebP.",
+    "file_too_large": "To zdjęcie jest za duże. Wybierz mniejsze.",
+    "decode_failed": "Nie udało się otworzyć zdjęcia. Spróbuj innego albo zapisz je najpierw jako JPEG.",
+    "encode_failed": "Przeglądarka nie mogła przygotować zdjęcia. Spróbuj innego.",
+    "refusal": "Nie możemy dopasować tego zdjęcia. Spróbuj krajobrazu lub zdjęcia z podróży."
+  }
+}

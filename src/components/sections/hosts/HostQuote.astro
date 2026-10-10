@@ -1,0 +1,108 @@
+---
+/**
+ * Pull-quote with a red hanging quotation mark and a small-caps source line.
+ *
+ *   <HostQuote text="…" source="From our Sustainability Policy" cite="/assets/policies/sustainability.pdf" />
+ *
+ * Sizes: l (featured hosts), xl (the section's statement quote), s (small
+ * host entries). The mark is decorative; the quotation is a <blockquote>
+ * with its source in the <figcaption>.
+ */
+interface Props {
+  text: string;
+  source?: string;
+  /** URL of the quoted document (machine-readable `cite`). */
+  cite?: string;
+  size?: 's' | 'l' | 'xl';
+  class?: string;
+}
+
+const { text, source, cite, size = 'l', class: className } = Astro.props;
+---
+
+<figure class:list={['hquote', `hquote--${size}`, className]}>
+  <span class="hquote__mark" aria-hidden="true">“</span>
+  <blockquote class="hquote__text" cite={cite}>
+    <p>{text}</p>
+  </blockquote>
+  {source && <figcaption class="hquote__source">{source}</figcaption>}
+</figure>
+
+<style>
+  .hquote {
+    --hq-size: var(--fs-xl);
+    position: relative;
+    margin: 0;
+    padding-left: calc(var(--hq-size) * 1.3);
+  }
+
+  .hquote--xl {
+    --hq-size: var(--fs-2xl);
+  }
+
+  .hquote--s {
+    --hq-size: var(--fs-md);
+  }
+
+  .hquote__mark {
+    position: absolute;
+    left: calc(var(--hq-size) * -0.1);
+    top: calc(var(--hq-size) * -0.22);
+    font-family: var(--font-display);
+    font-size: calc(var(--hq-size) * 2.5);
+    font-weight: var(--fw-display);
+    font-variation-settings: var(--fvs-display);
+    line-height: 1;
+    color: var(--color-accent);
+    user-select: none;
+  }
+
+  .hquote__text {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--hq-size);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-snug);
+    letter-spacing: -0.005em;
+    color: var(--color-text);
+    text-wrap: pretty;
+    hyphens: auto;
+  }
+
+  .hquote__text p {
+    max-width: var(--hq-measure, 32ch);
+  }
+
+  /* Georgian: no italic, Noto Serif Georgian, a step smaller (it reads larger). */
+  .hquote__text:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-size: calc(var(--hq-size) * 0.84);
+    font-weight: var(--fw-ka-text);
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+
+  .hquote__source {
+    margin-top: var(--space-s);
+    font-family: var(--font-text);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+    hyphens: auto;
+  }
+
+  .hquote__source:lang(ka) {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+  }
+
+  .hquote--s .hquote__source {
+    margin-top: var(--space-xs);
+  }
+</style>

@@ -1,0 +1,37 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Incontriamoci alle fiere",
+  "title": "Sei fiere, *due stagioni.*",
+  "intro": "Incontriamo i nostri partner alle fiere del turismo in Italia, Germania e Polonia. Parteciperete a una di queste? Scriveteci e fisseremo insieme un appuntamento.",
+  "running": "Fiere del turismo",
+  "cta": "Prenota un incontro allo stand",
+  "mail": {
+    "subject": "Incontro in fiera — Local Host",
+    "body": "Buongiorno Local Host,\n\nvorremmo incontrarvi durante una fiera.\n\nFiera:\nGiorni preferiti:\nAzienda:\nPaese:\n\nCordiali saluti"
+  },
+  "calendarLabel": "Calendario delle fiere",
+  "seasons": {
+    "spring": "Stagione primaverile",
+    "autumn": "Stagione autunnale"
+  },
+  "status": {
+    "next": "Prossima",
+    "now": "In corso",
+    "tba": "Prossime date da annunciare"
+  },
+  "summary": {
+    "next": "Prossima fiera",
+    "now": "In corso",
+    "until": "ultimo giorno: {date}"
+  },
+  "official": "sito ufficiale",
+  "note": "Date delle prossime edizioni secondo quanto pubblicato dagli organizzatori al momento della stesura. Vi preghiamo di verificarle sul sito della fiera prima di partire.",
+  "cities": {
+    "bit-milano": "Milano",
+    "bmt-napoli": "Napoli",
+    "itb-berlin": "Berlino",
+    "tour-salon": "Poznań",
+    "ttg-rimini": "Rimini",
+    "tt-warsaw": "Varsavia"
+  }
+}

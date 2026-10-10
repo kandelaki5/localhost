@@ -1,0 +1,298 @@
+---
+/**
+ * The office figures: energy −10.1 % and gas −36.3 % (January–October 2025
+ * vs the same months of 2024), each as a big green Fraunces figure with a
+ * two-bar index meter (2024 = 100). The bars are drawn from the published
+ * percentages only. The meters are decorative: each figure carries its value
+ * and an equivalent sentence for assistive tech. Bars draw in once, when
+ * scrolled into view and motion is allowed (script in Sustainability.astro).
+ */
+import { getLang, useStrings } from '../../../i18n';
+import { fmt, inline } from '../../../lib/markup';
+import { PERIOD, REDUCTIONS } from './data';
+import { formatNumber, indexValue, percentParts } from './format';
+
+interface Props {
+  headingId: string;
+  class?: string;
+}
+
+const { headingId, class: className } = Astro.props;
+const lang = getLang(Astro);
+const t = useStrings(lang, 'sustainability');
+const f = t.figures;
+const base = formatNumber(100, lang);
+
+const items = REDUCTIONS.map((r, i) => {
+  const copy = f.items[i];
+  const pct = percentParts(r.change, lang);
+  const after = indexValue(r.change, lang);
+  return {
+    key: r.key,
+    ratio: (100 + r.change) / 100,
+    pct,
+    after,
+    label: copy.label,
+    text: copy.text,
+    a11y: fmt(f.chartLabel, { label: copy.label, after }),
+  };
+});
+---
+
+<section class:list={['red', className]} aria-labelledby={headingId}>
+  <div class="red__head">
+    <p class="red__kicker kicker">{f.kicker}</p>
+    <h3 id={headingId} class="red__title display display--s" set:html={inline(f.title)} />
+    <p class="red__period">{f.period}</p>
+  </div>
+
+  {
+    items.map((it, i) => (
+      <div class:list={['red__item', `red__item--${it.key}`]} style={`--i:${i}`}>
+        <p class="red__figure">
+          <span class="red__value">
+            {it.pct.value.startsWith('\u2212') && <span class="red__sign">{'\u2212'}</span>}
+            {it.pct.value.replace('\u2212', '')}
+          </span>
+          <span class="red__unit">{it.pct.unit.trim()}</span>
+        </p>
+        <p class="red__label">{it.label}</p>
+        <div class="red__meter" data-reveal aria-hidden="true">
+          <span class="red__year">{PERIOD.before}</span>
+          <span class="red__track">
+            <span class="red__bar red__bar--before" />
+          </span>
+          <span class="red__num">{base}</span>
+          <span class="red__year">{PERIOD.after}</span>
+          <span class="red__track">
+            <span class="red__bar red__bar--after" style={`--ratio:${it.ratio.toFixed(3)}`} />
+          </span>
+          <span class="red__num red__num--after">{it.after}</span>
+        </div>
+        <p class="visually-hidden">{it.a11y}</p>
+        <p class="red__text">{it.text}</p>
+      </div>
+    ))
+  }
+
+  <p class="red__source fig-caption">{f.source}</p>
+</section>
+
+<style>
+  .red {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    column-gap: var(--layout-gap);
+    row-gap: var(--space-l);
+    padding-top: var(--space-l);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .red__head {
+    grid-column: 1 / span 4;
+    align-self: start;
+  }
+
+  .red__kicker {
+    margin-bottom: var(--space-s);
+    color: var(--color-text-muted);
+  }
+
+  .red__title {
+    margin: 0;
+    max-width: 12ch;
+  }
+
+  .red__title:lang(ka) {
+    max-width: 16ch;
+  }
+
+  .red__period {
+    margin-top: var(--space-s);
+    max-width: 30ch;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+  }
+
+  .red__item {
+    grid-column: span 4;
+    padding-left: var(--layout-gap);
+    border-left: var(--border-hair) solid var(--color-rule);
+  }
+
+  .red__figure {
+    display: flex;
+    align-items: baseline;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-4xl);
+    font-weight: var(--fw-display);
+    font-variation-settings: var(--fvs-display);
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+    color: var(--color-brand-green);
+    white-space: nowrap;
+  }
+
+  /* Fraunces' display minus is a hairline at this size: give it some weight. */
+  .red__sign {
+    font-weight: var(--fw-semibold);
+    font-variation-settings: var(--fvs-heading);
+    margin-right: 0.03em;
+  }
+
+  .red__unit {
+    margin-left: 0.06em;
+    font-size: 0.5em;
+    letter-spacing: 0;
+  }
+
+  .red__label {
+    margin-top: var(--space-xs);
+    font-family: var(--font-text);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+  }
+
+  /* ── index meter: two thin bars, 2024 = 100 ── */
+  .red__meter {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-xs);
+    row-gap: var(--space-2xs);
+    margin-top: var(--space-s);
+    max-width: 22rem;
+  }
+
+  .red__year,
+  .red__num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    line-height: 1;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .red__num {
+    min-width: 4ch;
+    text-align: end;
+  }
+
+  .red__num--after {
+    color: var(--color-text);
+    font-weight: var(--fw-semibold);
+  }
+
+  .red__track {
+    display: block;
+    height: calc(var(--space-3xs) * 1.5);
+  }
+
+  .red__bar {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-pill);
+    transform-origin: left center;
+  }
+
+  .red__bar--before {
+    width: 100%;
+    background: var(--color-rule-strong);
+    opacity: 0.55;
+  }
+
+  .red__bar--after {
+    width: calc(var(--ratio) * 100%);
+    background: var(--color-brand-green);
+  }
+
+  .red__text {
+    margin-top: var(--space-s);
+    max-width: 34ch;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+  }
+
+  .red__source {
+    grid-column: 5 / -1;
+    margin-top: calc(-1 * var(--space-xs));
+  }
+
+  /* Draw-in (once, motion allowed; the script arms only meters below the fold). */
+  @media (prefers-reduced-motion: no-preference) {
+    .red__bar {
+      transition: transform var(--dur-reveal) var(--ease-film);
+    }
+
+    .red__bar--after {
+      transition-delay: 180ms;
+    }
+
+    .red__meter[data-reveal='armed'] .red__bar {
+      transform: scaleX(0);
+    }
+  }
+
+  /* ── tablet ── */
+  @media (max-width: 63.99em) {
+    .red__head {
+      grid-column: 1 / -1;
+    }
+
+    .red__title {
+      max-width: none;
+    }
+
+    .red__period {
+      max-width: 52ch;
+    }
+
+    .red__item {
+      grid-column: span 6;
+    }
+
+    .red__item:first-of-type {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .red__source {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ── phone ── */
+  @media (max-width: 39.99em) {
+    .red {
+      row-gap: var(--space-m);
+    }
+
+    .red__item {
+      grid-column: 1 / -1;
+      padding: var(--space-m) 0 0;
+      border-left: 0;
+      border-top: var(--border-hair) solid var(--color-rule);
+    }
+
+    .red__item:first-of-type {
+      padding-top: var(--space-m);
+    }
+
+    .red__figure {
+      font-size: calc(var(--fs-4xl) * 1.25);
+    }
+
+    .red__meter {
+      max-width: none;
+    }
+
+    .red__source {
+      margin-top: 0;
+    }
+  }
+</style>

@@ -1,0 +1,430 @@
+---
+/**
+ * One plate of the Caucasus triptych: photo (Figure, "Fig. n" caption,
+ * coordinates, open-licence credit), country name with its Georgian gloss,
+ * a short summary, 2–3 highlights and a "Plan a trip here" link to #plan.
+ *
+ * Names come from the AI knowledge base (COUNTRIES) so the cards, the map
+ * and the AI planner always use the same names. Layout (staggered row,
+ * hover/focus widening, stacking) is set by the parent, Caucasus.astro.
+ */
+import Figure from '../../ui/Figure.astro';
+import Icon from '../../ui/Icon.astro';
+import MAP from '../../../data/caucasus-map.json';
+import { COUNTRIES } from '../../../lib/ai/knowledge';
+import { getLang, useStrings } from '../../../i18n';
+import { formatCoords } from '../../../lib/geo';
+import { CITIES, type CardData } from './data';
+
+interface Props {
+  card: CardData;
+  index: number;
+}
+
+const { card, index } = Astro.props;
+const lang = getLang(Astro);
+const t = useStrings(lang, 'caucasus');
+const copy = t.countries[index];
+const country = COUNTRIES[card.code];
+const name = country.name[lang];
+// The gloss is the Georgian name; on the Georgian page it is the English one.
+const gloss = lang === 'ka' ? { text: country.name.en, lang: 'en' } : { text: country.name.ka, lang: 'ka' };
+const headingId = `caucasus-${card.code.toLowerCase()}-title`;
+// Locator: the country's own outline (same Natural Earth data as Fig. 4) with its capital.
+const outline = MAP.countries[card.code];
+const PAD = 14;
+const b = outline.bounds;
+const locatorBox = `${b.x - PAD} ${b.y - PAD} ${b.width + 2 * PAD} ${b.height + 2 * PAD}`;
+const capital = CITIES.find((c) => c.key === card.capital)!;
+// "Photo: {creator}, {license}" → text, linked creator (source page), linked licence.
+const creditParts = t.credit.split(/(\{creator\}|\{license\})/).filter(Boolean);
+const sizes =
+  index === 0
+    ? '(min-width: 82em) 656px, (min-width: 64em) 50vw, 100vw'
+    : '(min-width: 82em) 656px, (min-width: 64em) 50vw, (min-width: 40em) 50vw, 100vw';
+---
+
+<article class:list={['ccard', `ccard--${card.code.toLowerCase()}`]} data-country={card.code} aria-labelledby={headingId}>
+  <Figure
+    photo={card.photo}
+    alt={copy.photo.alt}
+    focal={card.focal}
+    sizes={sizes}
+    fig={index + 1}
+    caption={copy.photo.caption}
+    coords={card.coords}
+    class="ccard__figure"
+  >
+    <span slot="overlay" class="ccard__plate" aria-hidden="true">{card.plate}</span>
+    {
+      card.credit && (
+        <span slot="caption" class="ccard__credit">
+          {creditParts.map((part) =>
+            part === '{creator}' ? (
+              <a href={card.credit!.sourceUrl}>{card.credit!.creator}</a>
+            ) : part === '{license}' ? (
+              <a href={card.credit!.licenseUrl} rel="license">
+                {card.credit!.license}
+              </a>
+            ) : (
+              part
+            ),
+          )}
+        </span>
+      )
+    }
+  </Figure>
+
+  <div class="ccard__lower">
+  <div class="ccard__body">
+    <header class="ccard__head">
+      <h3 id={headingId} class="ccard__name display display--s">{name}</h3>
+      <p class="ccard__meta">
+        <span class="ccard__gloss" lang={gloss.lang}>{gloss.text}</span>
+        <span class="ccard__tag kicker">{copy.tag}</span>
+      </p>
+    </header>
+    <p class="ccard__summary">{copy.summary}</p>
+    <ul class="ccard__list">
+      {copy.highlights.map((line) => <li>{line}</li>)}
+    </ul>
+    <a class="ccard__cta" href="#plan" data-plan-country={card.code}>
+      <span>{t.cta}<span class="visually-hidden"> — {name}</span></span>
+      <Icon name="arrow-right" size={16} />
+    </a>
+  </div>
+
+  <!-- Desktop only: revealed beside the text column while this plate is wide. -->
+  <div class="ccard__locator" aria-hidden="true">
+    <div class="ccard__locator-inner">
+      <svg viewBox={locatorBox} class="ccard__locator-map" focusable="false">
+        <path class="ccard__locator-shape" d={outline.d} />
+        <circle class="ccard__locator-cap" cx={capital.x} cy={capital.y} r={card.code === 'GE' ? 9 : 7} />
+      </svg>
+      <span class="ccard__locator-cap-lbl">
+        <b>{t.map.cities[card.capital]}</b>
+        {formatCoords([capital.lat, capital.lon], 'dm')}
+      </span>
+    </div>
+  </div>
+  </div>
+</article>
+
+<style>
+  .ccard {
+    position: relative;
+    min-width: 0;
+  }
+
+  /* ── photo ── */
+  .ccard :global(.figure__media) {
+    aspect-ratio: var(--ccard-ratio, 4 / 3);
+    height: var(--ccard-photo-h, auto);
+  }
+
+  .ccard__plate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: var(--z-raised);
+    min-width: 2.75rem;
+    padding: 0.3rem 0.7rem 0.35rem 0.55rem;
+    background: var(--color-bg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  /* Caption + credit keep the text column's width, so nothing reflows while
+     the card widens on desktop. */
+  .ccard :global(.figure__caption) {
+    width: var(--ccard-text-w, auto);
+    max-width: 100%;
+    row-gap: 0.15rem;
+  }
+
+  .ccard__credit {
+    flex-basis: 100%;
+    font-size: var(--fs-3xs);
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    color: var(--color-text-muted);
+  }
+
+  .ccard__credit a {
+    color: inherit;
+    text-decoration-color: var(--color-rule-strong);
+  }
+
+  .ccard__credit a:hover {
+    color: var(--color-link-hover);
+    text-decoration-color: currentColor;
+  }
+
+  /* ── text ── */
+  .ccard__body {
+    width: var(--ccard-text-w, auto);
+    max-width: 100%;
+    padding-top: var(--space-m);
+  }
+
+  .ccard__head {
+    position: relative;
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-s);
+  }
+
+  /* The rule under the name runs the card's full (changing) width. */
+  .ccard__head::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: var(--ccard-rule-w, 100%);
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .ccard__name {
+    margin: 0;
+  }
+
+  .ccard__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.15rem var(--space-s);
+    margin-top: var(--space-2xs);
+  }
+
+  .ccard__gloss {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-ka-text);
+    line-height: 1.2;
+    color: var(--color-text-muted);
+  }
+
+  .ccard__gloss:lang(en) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-caption);
+  }
+
+  .ccard__tag {
+    color: var(--color-text-muted);
+  }
+
+  .ccard__summary {
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+  }
+
+  .ccard__list {
+    margin-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .ccard__list li {
+    display: flex;
+    gap: var(--space-2xs);
+    padding-block: 0.45rem;
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-sm);
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+
+  .ccard__list li::before {
+    content: '';
+    flex: none;
+    width: 0.3rem;
+    height: 0.3rem;
+    margin-top: 0.5em;
+    border-radius: var(--radius-round);
+    background: var(--color-green-ink);
+  }
+
+  .ccard__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    margin-top: var(--space-2xs);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .ccard__cta:lang(ka) {
+    font-size: var(--fs-xs);
+  }
+
+  .ccard__cta > span {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    padding-bottom: 2px;
+    transition: background-size var(--dur-base) var(--ease-out);
+  }
+
+  .ccard__cta:hover > span,
+  .ccard__cta:focus-visible > span {
+    background-size: 100% 1px;
+  }
+
+  .ccard__cta :global(.icon) {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .ccard__cta:hover :global(.icon) {
+    transform: translateX(3px);
+  }
+
+  /* Tablet: Georgia runs across the page — set its text in two columns. */
+  @media (min-width: 40em) and (max-width: 63.99em) {
+    .ccard--ge .ccard__body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: auto auto 1fr;
+      column-gap: var(--layout-gap);
+    }
+
+    .ccard--ge .ccard__head {
+      grid-column: 1 / -1;
+    }
+
+    .ccard--ge .ccard__summary {
+      grid-column: 1;
+      grid-row: 2 / span 2;
+      padding-right: var(--space-m);
+    }
+
+    .ccard--ge .ccard__list {
+      grid-column: 2;
+      grid-row: 2;
+      margin-top: 0;
+    }
+
+    .ccard--ge .ccard__cta {
+      grid-column: 2;
+      grid-row: 3;
+      justify-self: start;
+    }
+  }
+
+  /* ── locator (desktop): a window beside the text column that opens as the
+     plate widens; nothing in it affects layout. ── */
+  .ccard__lower {
+    position: relative;
+  }
+
+  .ccard__locator {
+    display: none;
+  }
+
+  @media (min-width: 64em) {
+    .ccard__locator {
+      display: block;
+      position: absolute;
+      top: var(--space-m);
+      bottom: 0;
+      left: calc(var(--ccard-text-w) + var(--layout-gap));
+      right: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .ccard__locator-inner {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: grid;
+      justify-items: end;
+      gap: var(--space-2xs);
+      width: calc(var(--ccard-text-w) * 0.8);
+      padding-top: var(--space-2xs);
+      opacity: 0;
+      translate: 1.5rem 0;
+      transition:
+        opacity var(--dur-base) var(--ease-out),
+        translate var(--dur-slow) var(--ease-out);
+    }
+
+    /* Visible on the wide plate: Georgia at rest, any plate while hovered or
+       focused (plates only widen when motion is allowed). */
+    .ccard--ge .ccard__locator-inner {
+      opacity: 1;
+      translate: 0 0;
+    }
+
+    .ccard__locator-map {
+      width: 100%;
+      max-height: calc(var(--ccard-text-w) * 0.62);
+      overflow: visible;
+    }
+
+    .ccard__locator-shape {
+      fill: color-mix(in srgb, var(--color-text) 6.5%, var(--color-bg));
+      stroke: var(--color-text);
+      stroke-width: 1;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .ccard--ge .ccard__locator-shape {
+      fill: color-mix(in srgb, var(--color-brand-green) 13%, var(--color-bg));
+    }
+
+    .ccard__locator-cap {
+      fill: var(--color-bg);
+      stroke: var(--color-text);
+      stroke-width: 1.5;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .ccard--ge .ccard__locator-cap {
+      fill: var(--color-accent);
+      stroke: none;
+    }
+
+    .ccard__locator-cap-lbl {
+      display: flex;
+      gap: var(--space-2xs);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: var(--tracking-mono);
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      :global(.caucasus__triptych:has(.ccard:is(:hover, :focus-within))) .ccard--ge:not(:hover, :focus-within) .ccard__locator-inner {
+        opacity: 0;
+        translate: 1.5rem 0;
+        transition-delay: 0ms;
+      }
+
+      .ccard:is(:hover, :focus-within) .ccard__locator-inner {
+        opacity: 1;
+        translate: 0 0;
+        transition-delay: var(--dur-fast);
+      }
+    }
+
+    .ccard__locator-cap-lbl b {
+      font-family: var(--font-text);
+      font-weight: var(--fw-semibold);
+      letter-spacing: var(--tracking-caps);
+      text-transform: var(--case-caps);
+      color: var(--color-text);
+    }
+  }
+</style>

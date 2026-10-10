@@ -1,24 +1,190 @@
 ---
 /**
- * 05 · Connection (#connection) — STUB from the foundation.
- * Owned by the Connection section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/connection.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 05 · Connection (#connection) — the split-flap departure boards, by night.
+ *
+ * Two boards (Tbilisi TBS, Kutaisi KUT) behind a real tablist. Each board is a
+ * table of the 20 researched direct destinations from src/data/flights.json,
+ * set in split-flap tiles with a live Tbilisi clock. The first rows show;
+ * "All 20 cities" expands the rest. Tab switches re-flap the board.
+ *
+ * No JS: both boards, all rows, final characters (tabs and clock hidden).
+ * Reduced motion: final characters immediately, the clock just updates.
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
 import NightSurface from '../ui/NightSurface.astro';
-import { contentLang, getLang, useStrings } from '../../i18n';
+import Icon from '../ui/Icon.astro';
+import Board from './connection/Board.astro';
+import { BOARD_ORDER, glyphsFor } from './connection/data';
+import { contentLang, getLang, localeInfo, useStrings } from '../../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'connection');
+const bcp47 = localeInfo(lang).bcp47;
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'connection') === lang ? undefined : 'en';
 ---
 
 <NightSurface as="section" lang={textLang} id="connection" labelledby="connection-title" ridge ridgeSeed={15}>
-  <div class="container">
-    <SectionHead number={5} id="connection-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="board" count={6} note="Split-flap departure boards TBS / KUT with tabs and the seasonal note" />
+  <div class="container cn" data-cn-root data-glyphs={glyphsFor(lang)}>
+    <SectionHead number={5} id="connection-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running}>
+      <div class="cn__tabs" role="tablist" aria-label={t.tabsLabel} data-cn-tablist>
+        {
+          BOARD_ORDER.map((code, i) => (
+            <button
+              type="button"
+              class:list={['cn__tab', `cn__tab--${code.toLowerCase()}`]}
+              role="tab"
+              id={`cn-tab-${code.toLowerCase()}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-controls={`cn-panel-${code.toLowerCase()}`}
+              tabindex={i === 0 ? 0 : -1}
+              data-cn-tab={code}
+            >
+              <span class="cn__tab-code">{code}</span>
+              <span class="cn__tab-name">{t.airports[code].tab}</span>
+            </button>
+          ))
+        }
+      </div>
+    </SectionHead>
+
+    <div class="cn__boards" data-cn-boards>
+      {BOARD_ORDER.map((code, i) => <Board code={code} active={i === 0} t={t} bcp47={bcp47} />)}
+    </div>
+
+    <p class="cn__note">
+      <Icon name="plane" size={18} class="cn__note-icon" />
+      <span>{t.note}</span>
+      <a class="cn__note-link" href="#contact">{t.noteLink}<Icon name="arrow-right" size={14} /></a>
+    </p>
   </div>
 </NightSurface>
+
+<script>
+  import { initConnection } from './connection/client';
+
+  const root = document.querySelector<HTMLElement>('#connection [data-cn-root]');
+  if (root) initConnection(root);
+</script>
+
+<style>
+  /* ── tabs (in the SectionHead aside) ── */
+  .cn__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  :global(.no-js) .cn__tabs {
+    display: none;
+  }
+
+  .cn__tab {
+    --tab-lamp: var(--color-amber);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 2.75rem;
+    padding: 0 1.1rem 0 0.95rem;
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .cn__tab--kut {
+    --tab-lamp: var(--color-led);
+  }
+
+  .cn__tab::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-round);
+    background: var(--tab-lamp);
+    opacity: 0.45;
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  .cn__tab:hover {
+    border-color: var(--color-text);
+  }
+
+  .cn__tab[aria-selected='true'] {
+    border-color: var(--color-bg-inverse);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .cn__tab[aria-selected='true']::before {
+    opacity: 1;
+    box-shadow: 0 0 0 0.2rem color-mix(in oklab, var(--tab-lamp) 30%, transparent);
+  }
+
+  .cn__tab-code {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-mono);
+  }
+
+  /* ── boards ── */
+  .cn__boards {
+    display: grid;
+    gap: var(--space-2xl);
+    margin-top: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+
+  :global(.js) .cn__boards :global([data-cn-panel]:not([data-active])) {
+    display: none;
+  }
+
+  /* ── seasonal note ── */
+  .cn__note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--space-s);
+    row-gap: var(--space-2xs);
+    margin-top: var(--space-l);
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .cn__note :global(.cn__note-icon) {
+    flex: none;
+    color: var(--color-amber);
+  }
+
+  .cn__note > span {
+    flex: 1 1 20rem;
+  }
+
+  .cn__note-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .cn__note-link:hover {
+    color: var(--color-link);
+  }
+</style>

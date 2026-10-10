@@ -1,24 +1,317 @@
 ---
 /**
- * 11 · Plan (#plan) — STUB from the foundation.
- * Owned by the Plan section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/plan.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 11 · Plan with AI (#plan) — the AI Trip Designer on the night surface,
+ * "mission control by night".
+ *
+ * Left: a travel document to fill in (country + experience stamps that get
+ * postmarked when chosen, length, month, travellers, pace, a "Dear Local
+ * Host, …" letter), which collapses into a one-line summary once a plan is
+ * running; below it the streamed, typeset itinerary and its actions (refine,
+ * send by email, copy, read aloud). Right (sticky): the night map, where the
+ * route draws itself stop by stop and then zooms in.
+ *
+ * Performance: only the small boot script below is in the page bundle. The
+ * planner (plan client, place index, voice, map drawing) is a separate chunk,
+ * imported when the section comes within ~900 px of the viewport or the
+ * visitor interacts with it.
+ *
+ * Other sections can preset it:
+ *   window.dispatchEvent(new CustomEvent('lh:plan-preset', { detail: { interests: ['wine'], countries: ['GE'] } }))
+ * selects those stamps and scrolls the form into view.
+ *
+ * Without JS a short explanation and a mailto link replace the planner.
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
 import NightSurface from '../ui/NightSurface.astro';
+import Button from '../ui/Button.astro';
+import TravelDocument from './plan/TravelDocument.astro';
+import PlanOutput from './plan/PlanOutput.astro';
+import NightMap from './plan/NightMap.astro';
 import { contentLang, getLang, useStrings } from '../../i18n';
+import { uid } from '../../lib/uid';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'plan');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'plan') === lang ? undefined : 'en';
+
+const arcId = uid('plan-pm-arc');
+// Strings for the lazy planner chunk (static copy from our own JSON; `<` escaped for the script context).
+const clientConfig = JSON.stringify({ lang, t }).replace(/</g, '\\u003c');
+const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.nojs.subject)}`;
 ---
 
 <NightSurface as="section" lang={textLang} id="plan" labelledby="plan-title" ridge ridgeSeed={33}>
-  <div class="container">
+  <div class="container plan">
     <SectionHead number={11} id="plan-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="form" count={2} note="AI trip designer: stamp choices, a letter to Local Host, streamed itinerary" />
+
+    <noscript>
+      <style is:inline>
+        #plan [data-planner] {
+          display: none !important;
+        }
+      </style>
+      <div class="plan__nojs">
+        <h3 class="plan__nojs-title">{t.nojs.title}</h3>
+        <p class="plan__nojs-text">{t.nojs.text}</p>
+        <Button href={mailto} icon="arrow-right">{t.nojs.cta}</Button>
+      </div>
+    </noscript>
+
+    <div class="planner" data-planner data-state="idle">
+      <div class="planner__main">
+        <TravelDocument lang={lang} t={t} arcId={arcId} />
+        <PlanOutput t={t} />
+      </div>
+      <div class="planner__aside">
+        <NightMap lang={lang} t={t.map} />
+        <div class="how">
+          <h3 class="how__title kicker">{t.how.title}</h3>
+          <ol class="how__steps">
+            {
+              t.how.steps.map((step, i) => (
+                <li class="how__step">
+                  <span class="how__n" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span class="how__text">
+                    <b class="how__step-title">{step.title}</b> {step.text}
+                  </span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+      <script type="application/json" data-plan-strings set:html={clientConfig} />
+      <svg class="plan__defs" width="0" height="0" aria-hidden="true" focusable="false">
+        <defs>
+          <path id={arcId} d="M50,50 m-30.5,0 a30.5,30.5 0 1,1 61,0 a30.5,30.5 0 1,1 -61,0" />
+        </defs>
+      </svg>
+    </div>
   </div>
 </NightSurface>
+
+<script>
+  import type { PlannerApi } from './plan/planner';
+
+  const section = document.getElementById('plan');
+  const planner = section?.querySelector<HTMLElement>('[data-planner]');
+  const form = planner?.querySelector<HTMLFormElement>('[data-plan-form]');
+
+  if (section && planner && form) {
+    let api: Promise<PlannerApi> | null = null;
+    const load = () => (api ??= import('./plan/planner').then((m) => m.mount(planner)));
+    const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sync = (reveal = false) => planner.dispatchEvent(new CustomEvent('plan:sync', { detail: { reveal } }));
+
+    // Load the planner chunk shortly before the section scrolls into view…
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            io.disconnect();
+            void load();
+          }
+        },
+        { rootMargin: '900px 0px' },
+      );
+      io.observe(section);
+    } else {
+      void load();
+    }
+    // …or as soon as someone reaches for it.
+    planner.addEventListener('pointerenter', () => void load(), { once: true });
+    planner.addEventListener('focusin', () => void load(), { once: true });
+
+    // Stamps are toggle buttons: flip them instantly, even before the chunk has loaded.
+    planner.addEventListener('click', (event) => {
+      const stamp = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-stamp]');
+      if (!stamp || !planner.contains(stamp)) return;
+      stamp.removeAttribute('data-replay');
+      stamp.setAttribute('aria-pressed', stamp.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      sync();
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      void load().then((planner) => planner.submit());
+    });
+
+    // Presets from other sections ("Plan this with AI" on Experiences / Caucasus).
+    const NAMES: Record<string, string> = { georgia: 'GE', armenia: 'AM', azerbaijan: 'AZ' };
+    window.addEventListener('lh:plan-preset', (event) => {
+      const detail = ((event as CustomEvent).detail ?? {}) as { interests?: unknown; countries?: unknown };
+      const list = (value: unknown) => (Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : null);
+      const stamps = (kind: string) => [...planner.querySelectorAll<HTMLButtonElement>(`[data-stamp="${kind}"]`)];
+      const pressedNow: HTMLButtonElement[] = [];
+      const apply = (kind: string, wanted: string[] | null) => {
+        if (!wanted) return;
+        const valid = stamps(kind).filter((s) => wanted.includes(s.value));
+        if (kind === 'country' && !valid.length) return; // never leave the trip without a country
+        for (const stamp of stamps(kind)) {
+          const on = valid.includes(stamp);
+          if (on && stamp.getAttribute('aria-pressed') !== 'true') pressedNow.push(stamp);
+          stamp.setAttribute('aria-pressed', String(on));
+        }
+      };
+      const countries = list(detail.countries)?.map((c) => NAMES[c.toLowerCase()] ?? c.toUpperCase()) ?? null;
+      const interests = list(detail.interests)?.map((i) => i.toLowerCase()) ?? null;
+      apply('country', countries);
+      apply('experience', interests);
+      sync(true);
+      void load().then((p) => p.sync({ reveal: true }));
+
+      // After the page's own jump to #plan, bring the stamps into view and focus the form.
+      setTimeout(() => {
+        form.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+        form.querySelector<HTMLElement>('#plan-doc-title')?.focus({ preventScroll: true });
+        // Re-run the postmark once the stamps are on screen.
+        setTimeout(() => {
+          pressedNow.forEach((s) => s.setAttribute('data-replay', ''));
+        }, reduced() ? 0 : 650);
+      }, 0);
+    });
+  }
+</script>
+
+<style>
+  .plan {
+    position: relative;
+  }
+
+  .planner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: 'main aside';
+    column-gap: clamp(1.5rem, 1rem + 2.2vw, 3.5rem);
+    align-items: start;
+  }
+
+  .planner__main {
+    grid-area: main;
+    min-width: 0;
+  }
+
+  .planner__aside {
+    grid-area: aside;
+    position: sticky;
+    top: calc(var(--layout-header-h) + var(--space-s));
+    min-width: 0;
+  }
+
+  .how {
+    margin-top: var(--space-l);
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .planner[data-started] .how {
+    display: none;
+  }
+
+  .how__title {
+    color: var(--color-text-muted);
+  }
+
+  .how__steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-m);
+    margin-top: var(--space-s);
+  }
+
+  .how__step {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .how__n {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: 1;
+    color: var(--color-emphasis);
+  }
+
+  .how__step-title {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+  }
+
+  .plan__defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .plan__nojs {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+    max-width: 40rem;
+    padding: var(--space-l);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-sunken);
+  }
+
+  .plan__nojs-title {
+    font-size: var(--fs-xl);
+  }
+
+  .plan__nojs-text {
+    color: var(--color-text-body);
+  }
+
+  @media (max-width: 63.99em) {
+    .planner {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: none;
+    }
+
+    /* The map sits between the form and the itinerary on narrow screens. */
+    .planner__main {
+      display: contents;
+    }
+
+    .planner__main > :global(.doc) {
+      order: 1;
+    }
+
+    .planner__aside {
+      grid-area: auto;
+      position: static;
+      order: 2;
+      margin-top: var(--space-l);
+    }
+
+    .planner__main > :global(.out) {
+      order: 3;
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .how__steps {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-s);
+    }
+
+    .how__step {
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      gap: var(--space-xs);
+    }
+  }
+</style>

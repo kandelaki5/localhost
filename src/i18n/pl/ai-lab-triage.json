@@ -1,0 +1,99 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Segregacja zapytań",
+  "title": "Posegreguj skrzynkę *przed kawą.*",
+  "intro": "Wklej e-mail od partnera: Claude przeczyta go w każdym języku, skieruje do właściwego działu, wyciągnie fakty o podróży, wypisze, czego brakuje, i przygotuje szkic odpowiedzi w języku nadawcy do sprawdzenia przez nasz zespół.",
+  "staffLabel": "Narzędzie zespołu — demo",
+  "staffNote": "Zbudowane dla zespołu Local Host. Prawdziwe e-maile zawierają dane osobowe, dlatego wersja na żywo wymaga klucza dostępu.",
+  "inbox": {
+    "title": "Wypróbuj przykładowy e-mail",
+    "samples": {
+      "it-wine-group": "Włoska agencja — 9-dniowa wycieczka winiarska, 30 osób",
+      "pl-family-hiking": "Polska rodzina — wędrówki po Gruzji i Armenii",
+      "de-transfer-complaint": "Niemiecka agencja — reklamacja spóźnionego transferu"
+    }
+  },
+  "form": {
+    "label": "Wklej e-mail",
+    "placeholder": "Temat, treść i podpis…",
+    "count": "{n} / {max}",
+    "submit": "Posegreguj e-mail",
+    "clear": "Wyczyść",
+    "notesLanguage": "Notatki dla zespołu w języku strony; szkic odpowiedzi zawsze w języku nadawcy."
+  },
+  "key": {
+    "label": "Klucz dostępu zespołu",
+    "prompt": "Podaj klucz dostępu zespołu, aby segregować własne e-maile.",
+    "remember": "Zapamiętaj na tym urządzeniu",
+    "wrong": "Ten klucz nie zadziałał. Sprawdź go i spróbuj ponownie.",
+    "submit": "Odblokuj i posegreguj",
+    "forget": "Zapomnij klucz"
+  },
+  "empty": {
+    "title": "Karta zapytania",
+    "text": "Wybierz przykładowy e-mail lub wklej własny — wynik pojawi się tutaj."
+  },
+  "working": "Czytamy e-mail…",
+  "card": {
+    "label": "Wynik segregacji",
+    "routeTo": "Przekaż do",
+    "urgency": "Pilność",
+    "language": "Język",
+    "market": "Rynek",
+    "sender": "Nadawca",
+    "intent": "Cel",
+    "summary": "Podsumowanie",
+    "extracted": "Wyciągnięte fakty",
+    "missing": "Brakujące informacje",
+    "nothingMissing": "Niczego nie brakuje — gotowe dla działu.",
+    "reply": "Szkic odpowiedzi",
+    "replyIn": "— {language}",
+    "subject": "Temat",
+    "copy": "Kopiuj odpowiedź",
+    "open": "Otwórz w poczcie",
+    "fields": {
+      "travelDates": "Terminy",
+      "groupSize": "Wielkość grupy",
+      "countries": "Kraje",
+      "interests": "Zainteresowania",
+      "budgetHints": "Budżet",
+      "hotelCategory": "Hotele",
+      "specialNeeds": "Szczególne potrzeby"
+    }
+  },
+  "senderTypes": {
+    "agency": "Agencja",
+    "traveller": "Podróżny",
+    "supplier": "Dostawca",
+    "other": "Inny"
+  },
+  "intents": {
+    "new-request": "Nowe zapytanie",
+    "quote-follow-up": "Dopytanie o ofertę",
+    "booking-change": "Zmiana rezerwacji",
+    "complaint": "Reklamacja",
+    "partnership": "Współpraca",
+    "other": "Inne"
+  },
+  "urgency": {
+    "low": "Niska",
+    "normal": "Normalna",
+    "high": "Wysoka"
+  },
+  "routes": {
+    "Italy desk": "Dział Włochy",
+    "Poland desk": "Dział Polska",
+    "DACH desk": "Dział DACH",
+    "CIS & Ukraine desk": "Dział WNP i Ukraina",
+    "UK, US & Nordics desk": "Dział UK, USA i Skandynawia",
+    "Western Europe & Asia desk": "Dział Europa Zachodnia i Azja",
+    "Reservations": "Rezerwacje",
+    "Finance": "Finanse",
+    "Management": "Zarząd"
+  },
+  "sample": {
+    "exact": "Przykładowy e-mail — przygotowany wynik.",
+    "other": "Demo — to przygotowany wynik podobnego przykładu („{label}”). Po podłączeniu AI Claude posegreguje dokładnie Twój e-mail.",
+    "englishNote": "Notatki demo są po angielsku."
+  }
+}

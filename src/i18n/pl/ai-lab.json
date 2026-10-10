@@ -2,75 +2,105 @@
   "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
   "meta": {
     "title": "Laboratorium AI",
-    "description": "Siedem eksperymentów Local Host z gościnnością wspieraną przez AI: projektant podróży, głosowy konsjerż, dopasowanie zdjęć, oferty dla agencji, odpowiedzi o politykach, segregacja zapytań i konektor AI."
+    "description": "Wypróbuj eksperymenty AI Local Host, zbudowane z Claude od Anthropic: projektant podróży z obsługą głosu, dopasowanie zdjęć, oferty dla agencji, odpowiedzi z naszych polityk, segregacja zapytań dla zespołu i konektor dla Twojego asystenta AI."
   },
-  "kicker": "Eksperymenty z gościnnością",
-  "title": "Local Host *AI Lab*",
-  "lead": "Tu sprawdzamy, jak AI może pomóc nam lepiej gościć — podróżnych marzących o Kaukazie, agencje, które ich do nas wysyłają, i nasz zespół w Tbilisi. Każde narzędzie przekazuje sprawę prawdziwemu człowiekowi z Local Host.",
-  "note": "Wersja eksperymentalna. Odpowiedzi to szkice — każdy szczegół potwierdza nasz zespół.",
-  "cardsLabel": "Siedem eksperymentów",
-  "status": {
-    "soon": "W warsztacie",
-    "live": "Wypróbuj",
-    "staff": "Dla naszego zespołu"
+  "hero": {
+    "kicker": "Local Host · Laboratorium AI",
+    "title": "Local Host *AI Lab*",
+    "lead": "Sześć działających eksperymentów z gościnnością wspieraną przez AI — a na końcu każdej odpowiedzi czeka prawdziwy człowiek w Tbilisi.",
+    "note": "Wersja eksperymentalna. Odpowiedzi to szkice — każdy szczegół potwierdza nasz zespół.",
+    "cta": "Zacznij od zdjęcia",
+    "back": "Wróć na stronę główną"
+  },
+  "console": {
+    "label": "Status laboratorium AI",
+    "title": "Local Host · AI Lab",
+    "coords": "TBS 41°43′N 44°47′E",
+    "system": "System",
+    "online": "Online",
+    "model": "Model",
+    "modelValue": "Claude · Anthropic",
+    "mode": "Tryb",
+    "demo": "Demo",
+    "live": "Na żywo",
+    "demoNote": "Tryb demo — przykładowe odpowiedzi, dopóki klucz AI nie zostanie podłączony.",
+    "liveNote": "Na żywo — Claude pisze każdą odpowiedź dla Twojego zapytania.",
+    "index": "Eksperymenty",
+    "ready": "Gotowe",
+    "staff": "Zespół"
   },
   "audience": {
-    "travellers": "Podróżni",
-    "agencies": "Agencje",
-    "staff": "Zespół",
-    "developers": "Deweloperzy"
+    "travellers": "Dla podróżnych",
+    "agencies": "Dla agencji",
+    "staff": "Narzędzie zespołu",
+    "developers": "Dla asystentów AI"
   },
-  "cards": [
-    {
-      "id": "trip-designer",
-      "icon": "sparkle",
-      "audience": "travellers",
-      "title": "Projektant podróży",
-      "text": "Wybierz kraje, zainteresowania i miesiąc, napisz kilka słów — i zobacz, jak powstaje szkic planu dzień po dniu, gotowy do wysłania naszemu zespołowi."
-    },
-    {
-      "id": "voice-concierge",
-      "icon": "mic",
-      "audience": "travellers",
-      "title": "Głosowy konsjerż",
-      "text": "Zapytaj na głos o pory roku, regiony i czas przejazdów i posłuchaj odpowiedzi w swoim języku."
-    },
-    {
-      "id": "photo-match",
-      "icon": "image",
-      "audience": "travellers",
-      "title": "Dopasowanie zdjęć",
-      "text": "Pokaż nam ulubione miejsce gdziekolwiek na świecie, a podpowiemy, gdzie na Kaukazie poczujesz się podobnie."
-    },
-    {
-      "id": "proposal-builder",
-      "icon": "pdf",
-      "audience": "agencies",
-      "title": "Kreator ofert dla agencji",
-      "text": "Zamień brief klienta w uporządkowaną propozycję programu, którą Twoja agencja może dopasować i wycenić."
-    },
-    {
-      "id": "policy-qa",
-      "icon": "leaf",
-      "audience": "agencies",
-      "title": "Pytania o polityki",
-      "text": "Zadaj pytanie o nasze polityki zrównoważonego rozwoju, wycieczek i zakwaterowania i otrzymaj odpowiedź z cytatem źródła."
-    },
-    {
-      "id": "inquiry-triage",
-      "icon": "mail",
-      "audience": "staff",
-      "title": "Segregacja zapytań",
-      "text": "Porządkuje przychodzące zapytania według kraju, terminu i wielkości grupy oraz szkicuje pierwszą odpowiedź do sprawdzenia przez nasz zespół."
-    },
-    {
-      "id": "mcp",
-      "icon": "globe",
-      "audience": "developers",
-      "title": "Konektor AI (MCP)",
-      "text": "Serwer Model Context Protocol, dzięki któremu asystent AI partnera może sprawdzać nasze doświadczenia, regiony i polityki."
-    }
-  ],
-  "cta": "Wróć na stronę główną",
-  "poweredBy": "Zbudowane z Claude od Anthropic"
+  "teaser": {
+    "kicker": "Projektant podróży i głos",
+    "title": "Zaplanuj podróż *na głos.*",
+    "intro": "Nasze główne narzędzie jest na stronie głównej. Wybierz kraje i zainteresowania, napisz — albo powiedz — kilka słów i zobacz, jak na mapie powstaje szkic planu dzień po dniu.",
+    "points": [
+      "Szkic dzień po dniu, w Twoim języku",
+      "Powiedz, czego szukasz, i posłuchaj planu",
+      "Wyślij szkic naszemu zespołowi jednym kliknięciem"
+    ],
+    "cta": "Otwórz projektanta podróży",
+    "mapCaption": "Przykładowa trasa — Tbilisi, Mccheta, Ananuri, Kazbegi, Signagi i Telawi.",
+    "voiceNote": "Głos działa w przeglądarkach z obsługą mowy; przetwarza go usługa rozpoznawania mowy Twojej przeglądarki.",
+    "days": [
+      "Dzień 1 — Tbilisi",
+      "Dzień 2 — Mccheta i Ananuri",
+      "Dzień 3 — Kazbegi",
+      "Dzień 4 — Signagi i Telawi"
+    ],
+    "ticket": "Szkic planu"
+  },
+  "how": {
+    "kicker": "Jak to działa",
+    "title": "Mądre szkice, *ludzkie odpowiedzi.*",
+    "items": [
+      {
+        "title": "Claude od Anthropic",
+        "text": "Każdy eksperyment działa na Claude, modelu AI firmy Anthropic, i opiera się na własnych doświadczeniach, miejscach i politykach Local Host."
+      },
+      {
+        "title": "Co jest wysyłane",
+        "text": "Tylko to, co wpiszesz, wybrane zdjęcie lub wklejony e-mail. Trafia to do Anthropic, by powstała odpowiedź; ta strona niczego nie przechowuje."
+      },
+      {
+        "title": "Bez cen i rezerwacji",
+        "text": "AI nigdy nie podaje cen, nie blokuje pokoi i niczego nie rezerwuje. Ceny i dostępność zawsze podaje nasz zespół."
+      },
+      {
+        "title": "Nasz zespół potwierdza",
+        "text": "Każda odpowiedź to szkic. Osoba z Local Host w Tbilisi sprawdza każdy szczegół, zanim cokolwiek ustalimy."
+      }
+    ],
+    "contact": "Pytania o laboratorium AI? Napisz do nas:"
+  },
+  "ui": {
+    "demoBadge": "Demo — przykładowa odpowiedź",
+    "liveBadge": "Na żywo — napisał Claude",
+    "cancel": "Anuluj",
+    "cancelled": "Anulowano.",
+    "elapsed": "{s} s",
+    "noScript": "Włącz JavaScript, aby wypróbować ten eksperyment.",
+    "copied": "Skopiowano",
+    "copyFailed": "Nie udało się skopiować — zaznacz tekst ręcznie.",
+    "newTab": "otwiera się w nowej karcie"
+  },
+  "errors": {
+    "network": "Nie udało się połączyć z usługą AI. Sprawdź połączenie i spróbuj ponownie.",
+    "rateLimited": "Za dużo zapytań w krótkim czasie. Możesz spróbować ponownie za {time}.",
+    "rateLimitedNow": "Możesz już spróbować ponownie.",
+    "dailyCap": "Laboratorium AI osiągnęło dzisiejszy limit. Spróbuj jutro — albo napisz na info@localhost.ge.",
+    "refusal": "AI nie może pomóc w tej sprawie. Spróbuj sformułować to inaczej albo napisz do nas na info@localhost.ge.",
+    "truncated": "Odpowiedź wyszła za długa i została ucięta. Spróbuj prostszego zapytania.",
+    "timeout": "To trwało zbyt długo. Spróbuj krótszego zapytania.",
+    "busy": "Usługa AI jest teraz zajęta. Spróbuj za chwilę.",
+    "tooLarge": "To za dużo, by wysłać. Spróbuj czegoś krótszego lub mniejszego.",
+    "badRequest": "Coś w zapytaniu się nie zgadza. Sprawdź formularz.",
+    "unauthorized": "To narzędzie wymaga klucza dostępu zespołu.",
+    "generic": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę."
+  }
 }

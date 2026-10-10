@@ -1,0 +1,762 @@
+---
+/**
+ * The planner's output column: a console bar (status lamp, live status,
+ * progress, Stop), the itinerary sheet with the red "SAMPLE ITINERARY — DEMO"
+ * rubber stamp, error/refusal/truncated notes, and the actions (refine, send
+ * by email, copy, read aloud). Hidden until the first run; filled by
+ * planner.ts. The itinerary nodes are created at runtime, so their styles
+ * live here under :global().
+ */
+import Button from '../../ui/Button.astro';
+import Icon from '../../ui/Icon.astro';
+import Seal from '../../ui/Seal.astro';
+import type enPlan from '../../../i18n/en/plan.json';
+
+interface Props {
+  t: typeof enPlan;
+}
+
+const { t } = Astro.props;
+---
+
+<div class="out" data-output hidden>
+  <div class="out__console">
+    <span class="out__led" data-led aria-hidden="true"></span>
+    <p class="out__status" data-status role="status"></p>
+    <span class="out__badge" data-demo-badge hidden>{t.output.demoBadge}</span>
+    <button type="button" class="out__stop" data-stop hidden>
+      <span class="out__stop-icon" aria-hidden="true"></span>
+      {t.output.stop}
+    </button>
+    <span class="out__progress" aria-hidden="true"><span data-progress></span></span>
+  </div>
+
+  <article class="out__sheet" aria-labelledby="plan-out-title" aria-busy="false" data-sheet>
+    <header class="out__head">
+      <p class="out__draft" data-draft></p>
+      <h3 id="plan-out-title" class="out__title" tabindex="-1">{t.output.title}</h3>
+      <div class="out__stamp" data-demo-stamp hidden>
+        <Seal variant="permit" tone="red" top={t.output.demoStampTop} main={t.output.demoStampMain} rotate={-2} label={t.output.demoStampLabel} />
+      </div>
+    </header>
+
+    <div class="out__body" data-itinerary></div>
+
+    <p class="out__truncated" data-truncated hidden></p>
+    <div class="out__alert" data-alert hidden>
+      <p class="out__alert-text" data-alert-text role="alert"></p>
+      <Button variant="secondary" size="sm" data-retry icon="arrow-right">{t.output.retry}</Button>
+    </div>
+  </article>
+
+  <div class="out__actions" data-actions hidden>
+    <form class="out__refine" data-refine-form novalidate>
+      <label class="kicker out__refine-label" for="plan-refine">{t.actions.refineLabel}</label>
+      <div class="out__refine-row">
+        <input
+          class="out__refine-input"
+          id="plan-refine"
+          type="text"
+          name="change"
+          maxlength="1500"
+          autocomplete="off"
+          placeholder={t.actions.refinePlaceholder}
+          aria-describedby="plan-refine-msg"
+          data-refine-input
+        />
+        <Button type="submit" variant="secondary" iconStart="sparkle">{t.actions.refine}</Button>
+      </div>
+      <p class="out__refine-msg" id="plan-refine-msg" data-refine-msg aria-live="polite"></p>
+    </form>
+
+    <div class="out__buttons">
+      <Button href="mailto:info@localhost.ge" icon="send" data-send>{t.actions.send}</Button>
+      <Button variant="secondary" data-copy>{t.actions.copy}</Button>
+      <Button variant="secondary" iconStart="speaker" data-read aria-pressed="false" hidden>{t.actions.read}</Button>
+    </div>
+    <p class="out__msg" data-action-msg aria-live="polite">{t.actions.sendHint}</p>
+    <p class="out__notice" data-demo-notice hidden>{t.output.demoNotice}</p>
+    <button type="button" class="out__restart" data-restart>
+      <Icon name="arrow-up" size={14} />
+      {t.actions.restart}
+    </button>
+  </div>
+</div>
+
+<style>
+  .out {
+    display: grid;
+    gap: var(--space-m);
+    margin-top: var(--space-l);
+  }
+
+  /* ── console ── */
+  .out__console {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: 3.25rem;
+    padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-s);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-sunken);
+    overflow: hidden;
+  }
+
+  .out__led {
+    width: 0.55rem;
+    height: 0.55rem;
+    flex: none;
+    border-radius: var(--radius-round);
+    background: color-mix(in srgb, var(--color-led) 35%, transparent);
+  }
+
+  .out__led[data-phase='connecting'],
+  .out__led[data-phase='streaming'],
+  .out__led[data-phase='done'] {
+    background: var(--color-led);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .out__led[data-phase='error'],
+  .out__led[data-phase='stopped'] {
+    background: var(--color-amber);
+    box-shadow: var(--shadow-glow-amber);
+  }
+
+  .out__status {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+  }
+
+  .out__status:lang(ka) {
+    font-family: var(--font-ka-text);
+  }
+
+  .out__badge {
+    flex: none;
+    padding: 0.2rem 0.55rem;
+    border: var(--border-hair) solid var(--color-amber);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-amber);
+  }
+
+  .out__stop {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    flex: none;
+    min-height: 2.5rem;
+    padding: 0 var(--space-s);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+  }
+
+  .out__stop:hover {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .out__stop-icon {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 1px;
+    background: currentColor;
+  }
+
+  .out__progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+  }
+
+  .out__progress span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--color-glow);
+    box-shadow: 0 0 8px var(--color-glow);
+    transform: scaleX(var(--p, 0));
+    transform-origin: left;
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+
+  /* ── sheet ── */
+  .out__sheet {
+    position: relative;
+    padding: clamp(1.25rem, 1rem + 1.4vw, 2.25rem);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-bg-raised) 85%, transparent), color-mix(in srgb, var(--color-bg-raised) 40%, transparent));
+  }
+
+  .out__head {
+    position: relative;
+    padding-bottom: var(--space-s);
+    margin-bottom: var(--space-m);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    padding-right: 11rem;
+  }
+
+  .out__draft {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-green-ink);
+  }
+
+  .out__title {
+    margin-top: var(--space-3xs);
+    font-size: calc(var(--fs-2xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+  }
+
+  .out__stamp {
+    position: absolute;
+    top: -0.35rem;
+    right: -0.25rem;
+    z-index: var(--z-seal);
+    pointer-events: none;
+  }
+
+  .out__stamp :global(.seal__main) {
+    font-family: var(--font-text);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.22em;
+    margin-right: -0.22em;
+    text-transform: uppercase;
+  }
+
+  .out__stamp :global(.permit__inner) {
+    padding: var(--space-2xs) var(--space-s) var(--space-xs);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .out__stamp:not([hidden]) {
+      animation: out-stamp 520ms var(--ease-overshoot) 150ms both;
+    }
+  }
+
+  @keyframes out-stamp {
+    0% {
+      opacity: 0;
+      transform: scale(1.8) rotate(-8deg);
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  .out__truncated,
+  .out__notice {
+    margin-top: var(--space-m);
+    padding: var(--space-xs) var(--space-s);
+    border-left: var(--border-thick) solid var(--color-amber);
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+    background: color-mix(in srgb, var(--color-amber) 7%, transparent);
+  }
+
+  .out__alert {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+    padding: var(--space-s);
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-red-ink) 60%, transparent);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  }
+
+  .out__alert[data-tone='quiet'] {
+    border-color: var(--color-rule-strong);
+    background: transparent;
+  }
+
+  .out__alert-text {
+    flex: 1 1 22rem;
+    font-size: var(--fs-sm);
+    color: var(--color-text);
+  }
+
+  .out__alert-text:empty {
+    display: none;
+  }
+
+  /* ── actions ── */
+  .out__actions {
+    display: grid;
+    gap: var(--space-m);
+    padding: clamp(1.25rem, 1rem + 1.4vw, 2rem);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-bg-sunken) 70%, transparent);
+  }
+
+  .out__refine {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .out__refine-label {
+    color: var(--color-text);
+  }
+
+  .out__refine-row {
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  .out__refine-input {
+    flex: 1;
+    min-width: 0;
+    min-height: 2.875rem;
+    padding: 0 var(--space-s);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-bg-raised) 70%, transparent);
+    font-size: var(--fs-sm);
+    color: var(--color-text);
+  }
+
+  .out__refine-input::placeholder {
+    color: color-mix(in srgb, var(--color-text-muted) 80%, transparent);
+  }
+
+  .out__refine-msg {
+    font-size: var(--fs-xs);
+    color: var(--color-red-ink);
+  }
+
+  .out__refine-msg:empty {
+    display: none;
+  }
+
+  .out__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    padding-top: var(--space-m);
+    border-top: var(--border-hair) dashed var(--color-rule);
+  }
+
+  .out__msg {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    margin-top: calc(-1 * var(--space-xs));
+  }
+
+  .out__restart {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .out__restart:hover {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 39.99em) {
+    .out__head {
+      padding-right: 0;
+    }
+
+    .out__stamp {
+      position: relative;
+      top: auto;
+      right: auto;
+      margin-top: var(--space-s);
+    }
+
+    .out__refine-row {
+      flex-direction: column;
+    }
+
+    .out__buttons :global(.btn) {
+      width: 100%;
+    }
+
+    .out__buttons :global(.btn__label) {
+      flex: 1;
+    }
+  }
+
+  /* ── itinerary (nodes created by itinerary.ts) ── */
+  .out__body {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .out__body :global(.it-note) {
+    display: flex;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-s);
+    border-left: var(--border-thick) solid var(--color-amber);
+    background: color-mix(in srgb, var(--color-amber) 7%, transparent);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .out__body :global(.it-note:lang(ka)) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+  }
+
+  .out__body :global(.it-intro) {
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1.45;
+    color: var(--color-text);
+    max-width: 58ch;
+  }
+
+  .out__body :global(.it-intro:lang(ka)),
+  .out__body :global(:lang(ka) > .it-intro) {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-md);
+  }
+
+  .out__body :global(.it-closing) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-md);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text);
+    max-width: 58ch;
+  }
+
+  .out__body :global(.it-list) {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-left: var(--space-m);
+    list-style: disc;
+    color: var(--color-text-body);
+  }
+
+  /* a day: rail with the number, then heading, bullets, overnight */
+  .out__body :global(.it-day) {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    column-gap: var(--space-s);
+  }
+
+  .out__body :global(.it-day__rail) {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .out__body :global(.it-day__rail)::after {
+    content: '';
+    position: absolute;
+    top: 2.75rem;
+    bottom: calc(-1 * var(--space-m));
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-glow) 60%, transparent), var(--color-rule));
+  }
+
+  .out__body :global(.it-day:last-of-type .it-day__rail)::after {
+    bottom: 0;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-glow) 60%, transparent), transparent);
+  }
+
+  .out__body :global(.it-day__dot) {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: var(--border-thin) solid var(--color-glow);
+    border-radius: var(--radius-round);
+    background: var(--color-bg-sunken);
+    box-shadow: 0 0 14px -2px color-mix(in srgb, var(--color-glow) 60%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-bold);
+    color: var(--color-text);
+  }
+
+  .out__body :global(.it-day__head) {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0;
+  }
+
+  .out__body :global(.it-day__kicker) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    padding-top: 0.15rem;
+    font-family: var(--font-text);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-green-ink);
+  }
+
+  .out__body :global(.it-day__ka) {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-ka-text);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-text-muted);
+  }
+
+  .out__body :global(.it-day__stops) {
+    display: inline-flex;
+    gap: 0.25rem;
+    margin-left: auto;
+  }
+
+  .out__body :global(.it-day__stop) {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 0.3rem;
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-glow) 75%, transparent);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0;
+    color: var(--color-text);
+  }
+
+  .out__body :global(.it-day__title-text) {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-heading);
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text);
+    text-wrap: balance;
+  }
+
+  .out__body :global(.it-day__title-text:lang(ka)),
+  .out__body :global(:lang(ka) .it-day__title-text) {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-lg);
+  }
+
+  .out__body :global(.it-day__list) {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-top: var(--space-s);
+  }
+
+  .out__body :global(.it-day__list li),
+  .out__body :global(.it-why__list li) {
+    position: relative;
+    padding-left: 1.35rem;
+    font-size: var(--fs-base);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+    max-width: 64ch;
+  }
+
+  .out__body :global(.it-day__list li)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.8em;
+    width: 0.7rem;
+    height: 1px;
+    background: var(--color-green-ink);
+  }
+
+  .out__body :global(.it-day__list strong),
+  .out__body :global(.it-why__list strong) {
+    color: var(--color-text);
+  }
+
+  .out__body :global(.it-day__p) {
+    margin-top: var(--space-xs);
+    color: var(--color-text-body);
+    max-width: 64ch;
+  }
+
+  .out__body :global(.it-day__overnight) {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: var(--space-s);
+    padding: 0.35rem 0.75rem 0.35rem 0.6rem;
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    font-size: var(--fs-sm);
+    color: var(--color-text);
+  }
+
+  .out__body :global(.it-day__moon) {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-amber);
+  }
+
+  .out__body :global(.it-day__on-label) {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .out__body :global(.it-day__on-place) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: var(--fvs-caption);
+  }
+
+  .out__body :global(:lang(ka) .it-day__on-place),
+  .out__body :global(.it-day__on-place:lang(ka)) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+  }
+
+  .out__body :global(.it-why) {
+    margin-top: var(--space-s);
+    padding: var(--space-m);
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-glow) 35%, transparent);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-glow) 5%, transparent);
+  }
+
+  .out__body :global(.it-why__title) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+  }
+
+  .out__body :global(.it-why__spark) {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: none;
+    color: var(--color-accent);
+  }
+
+  .out__body :global(.it-why__list) {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-top: var(--space-s);
+  }
+
+  .out__body :global(.it-why__list li)::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-size: 0.8em;
+    color: var(--color-green-ink);
+  }
+
+  .out__body :global(code) {
+    font-size: 0.9em;
+  }
+
+  /* streaming caret */
+  .out__body :global([data-caret])::after {
+    content: '';
+    display: inline-block;
+    width: 0.55em;
+    height: 1.05em;
+    margin-left: 0.15em;
+    vertical-align: -0.15em;
+    background: var(--color-glow);
+    box-shadow: 0 0 8px var(--color-glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .out__body :global([data-caret])::after {
+      animation: out-caret 1s steps(2, start) infinite;
+    }
+
+    .out__body :global(.it-day.is-new),
+    .out__body :global(.it-why.is-new),
+    .out__body :global(.it-intro.is-new),
+    .out__body :global(.it-note.is-new) {
+      animation: out-rise var(--dur-slow) var(--ease-out) both;
+    }
+
+    .out__body :global(li.is-new) {
+      animation: out-fade var(--dur-base) var(--ease-out) both;
+    }
+  }
+
+  @keyframes out-caret {
+    to {
+      visibility: hidden;
+    }
+  }
+
+  @keyframes out-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+  }
+
+  @keyframes out-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .out__body :global(.it-day) {
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      column-gap: var(--space-xs);
+    }
+
+    .out__body :global(.it-day__dot) {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .out__body :global(.it-day__rail)::after {
+      top: 2.5rem;
+    }
+  }
+</style>

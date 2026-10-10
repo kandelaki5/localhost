@@ -1,0 +1,685 @@
+---
+/**
+ * 03 · Agency Proposal Builder (#proposal). A B2B brief form → a typeset
+ * programme proposal on "paper" (title, summary, highlights, route map, day
+ * table, inclusions, sustainability, next steps, pricing note), with
+ * Print / Save as PDF (print stylesheet shows only the sheet) and a
+ * "Request final quote" mailto. Script: client/proposal.ts (lazy-loaded).
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import Logo from '../ui/Logo.astro';
+import LabIcon from './LabIcon.astro';
+import { COUNTRY_CODES, EXPERIENCE_IDS, type Locale } from '../../lib/ai/types';
+import {
+  HOTEL_CATEGORIES,
+  PROPOSAL_DAYS_MAX,
+  PROPOSAL_DAYS_MIN,
+  PROPOSAL_GROUP_MAX,
+  PROPOSAL_GROUP_MIN,
+  PROPOSAL_PACES,
+  PROPOSAL_SPECIAL_REQUESTS_MAX,
+  SEASONS,
+} from '../../lib/ai/client/proposal';
+import { PROPOSAL_FIXTURES } from '../../lib/ai/fixtures/proposals';
+import { experienceName } from '../../lib/ai/knowledge';
+import { fmt } from '../../lib/markup';
+import { getLang, localeInfo, useStrings } from '../../i18n';
+import { blockLang, labSection, labStrings, proposalStrings, scriptJson } from './data';
+
+const lang = getLang(Astro);
+const t = proposalStrings(lang);
+const lab = labStrings(lang);
+const common = useStrings(lang, 'common');
+const s = labSection('proposal');
+const bcp47 = localeInfo(lang).bcp47;
+
+const monthFormat = new Intl.DateTimeFormat(bcp47, { month: 'long' });
+const months = Array.from({ length: 12 }, (_, i) => {
+  const name = monthFormat.format(new Date(Date.UTC(2026, i, 15)));
+  return { value: `m-${i + 1}`, label: name.charAt(0).toLocaleUpperCase(bcp47) + name.slice(1) };
+});
+const countries = COUNTRY_CODES.map((code) => ({ code, name: common.countries[code.toLowerCase() as 'ge' | 'am' | 'az'] }));
+const interests = EXPERIENCE_IDS.map((id) => ({ id, name: experienceName(id, lang as Locale) }));
+const samples = PROPOSAL_FIXTURES.map((f) => ({
+  id: f.id,
+  label: (t.form.sampleLabels as Record<string, string>)[f.id] ?? f.id,
+  brief: f.brief,
+}));
+
+const clientStrings = {
+  lang,
+  bcp47,
+  errors: lab.errors,
+  fieldErrors: t.fieldErrors,
+  cancelled: lab.ui.cancelled,
+  elapsed: lab.ui.elapsed,
+  daysValue: t.form.daysValue,
+  travellers: t.form.travellers,
+  count: t.form.count,
+  doc: t.doc,
+  mail: t.mail,
+  months: Object.fromEntries(months.map((m) => [m.value, m.label])),
+  seasons: t.form.seasons,
+  hotels: t.form.hotels,
+  paces: t.form.paces,
+  countries: Object.fromEntries(countries.map((c) => [c.code, c.name])),
+  interests: Object.fromEntries(interests.map((i) => [i.id, i.name])),
+  samples: samples.map((x) => ({ id: x.id, brief: x.brief })),
+  contact: common.contact,
+};
+---
+
+<section
+  id="proposal"
+  class="lab-section lab-prop"
+  aria-labelledby="proposal-title"
+  data-lab-feature="proposal"
+  lang={blockLang(lang, 'ai-lab-proposal')}
+  style="--lab-glow-x: 15%; --lab-glow-y: 25%"
+>
+  <div class="container">
+    <SectionHead number={s.n} id="proposal-title" kicker={t.kicker} title={t.title} intro={t.intro} running={lab.audience.agencies} size="m" />
+    <p class="lab-nojs">{lab.ui.noScript}</p>
+
+    <div class="lab-prop__grid" data-layout="brief">
+      <!-- Brief -->
+      <form class="lab-panel lab-prop__brief no-print" data-form novalidate aria-labelledby="proposal-brief-title">
+        <div class="lab-panel__bar">
+          <h3 class="lab-mono lab-mono--green" id="proposal-brief-title">{t.form.title}</h3>
+          <span class="lab-mono" aria-hidden="true">B2B · DMC</span>
+        </div>
+        <div class="lab-panel__body lab-prop__fields">
+          <div class="lab-prop__samples">
+            <span class="lab-label">{t.form.samples}</span>
+            <div class="lab-prop__sample-btns">
+              {
+                samples.map((x) => (
+                  <button type="button" class="lab-textbtn" data-fill={x.id}>
+                    <Icon name="arrow-down" size={16} />
+                    <span>{x.label}</span>
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="lab-prop__pair">
+            <div class="lab-field" data-field="agency">
+              <label class="lab-label" for="prop-agency">{t.form.agency}</label>
+              <input id="prop-agency" class="lab-input" name="agency" maxlength="120" autocomplete="organization" placeholder={t.form.agencyPlaceholder} />
+              <p class="lab-field__error" data-field-error hidden></p>
+            </div>
+            <div class="lab-field" data-field="market">
+              <label class="lab-label" for="prop-market">{t.form.market}</label>
+              <input id="prop-market" class="lab-input" name="market" maxlength="80" placeholder={t.form.marketPlaceholder} />
+              <p class="lab-field__error" data-field-error hidden></p>
+            </div>
+          </div>
+
+          <div class="lab-prop__pair">
+            <div class="lab-field" data-field="groupSize">
+              <label class="lab-label" for="prop-group">{t.form.groupSize}</label>
+              <div class="lab-prop__suffix">
+                <input
+                  id="prop-group"
+                  class="lab-input"
+                  name="groupSize"
+                  type="number"
+                  inputmode="numeric"
+                  min={PROPOSAL_GROUP_MIN}
+                  max={PROPOSAL_GROUP_MAX}
+                  value="20"
+                  required
+                />
+                <span aria-hidden="true">{t.form.travellers}</span>
+              </div>
+              <p class="lab-field__error" data-field-error hidden></p>
+            </div>
+            <div class="lab-field" data-field="month">
+              <label class="lab-label" for="prop-when">{t.form.when}</label>
+              <select id="prop-when" class="lab-select" name="when">
+                <optgroup label={t.form.months}>
+                  {months.map((m) => <option value={m.value} selected={m.value === 'm-9'}>{m.label}</option>)}
+                </optgroup>
+                <optgroup label={t.form.seasonsLabel}>
+                  {SEASONS.map((x) => <option value={`s-${x}`}>{t.form.seasons[x]}</option>)}
+                </optgroup>
+              </select>
+              <p class="lab-field__error" data-field-error hidden></p>
+            </div>
+          </div>
+
+          <div class="lab-field" data-field="days">
+            <label class="lab-label" for="prop-days">
+              {t.form.days}
+              <output class="lab-label__aside" for="prop-days" data-days-out>{fmt(t.form.daysValue, { n: 8 })}</output>
+            </label>
+            <div class="lab-range">
+              <span class="lab-mono" aria-hidden="true">{PROPOSAL_DAYS_MIN}</span>
+              <input id="prop-days" name="days" type="range" min={PROPOSAL_DAYS_MIN} max={PROPOSAL_DAYS_MAX} value="8" step="1" />
+              <span class="lab-mono" aria-hidden="true">{PROPOSAL_DAYS_MAX}</span>
+            </div>
+            <p class="lab-field__error" data-field-error hidden></p>
+          </div>
+
+          <fieldset class="lab-field" data-field="countries">
+            <legend class="lab-label">{t.form.countries}</legend>
+            <div class="lab-chips">
+              {
+                countries.map((c) => (
+                  <label class="lab-chip">
+                    <input type="checkbox" name="countries" value={c.code} checked={c.code === 'GE'} />
+                    <span class="lab-chip__face">
+                      {c.name}
+                      <span class="lab-chip__code" aria-hidden="true">{c.code}</span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+            <p class="lab-field__error" data-field-error hidden></p>
+          </fieldset>
+
+          <fieldset class="lab-field" data-field="interests">
+            <legend class="lab-label">
+              {t.form.interests}
+              <span class="lab-label__aside">{t.form.interestsHint}</span>
+            </legend>
+            <div class="lab-chips">
+              {
+                interests.map((x) => (
+                  <label class="lab-chip">
+                    <input type="checkbox" name="interests" value={x.id} checked={x.id === 'culture' || x.id === 'wine'} />
+                    <span class="lab-chip__face">{x.name}</span>
+                  </label>
+                ))
+              }
+            </div>
+            <p class="lab-field__error" data-field-error hidden></p>
+          </fieldset>
+
+          <div class="lab-prop__pair lab-prop__pair--seg">
+            <fieldset class="lab-field" data-field="hotelCategory">
+              <legend class="lab-label">{t.form.hotel}</legend>
+              <div class="lab-seg">
+                {
+                  HOTEL_CATEGORIES.map((h) => (
+                    <label class="lab-chip">
+                      <input type="radio" name="hotelCategory" value={h} checked={h === '4*'} />
+                      <span class="lab-chip__face">{t.form.hotels[h]}</span>
+                    </label>
+                  ))
+                }
+              </div>
+            </fieldset>
+            <fieldset class="lab-field" data-field="pace">
+              <legend class="lab-label">{t.form.pace}</legend>
+              <div class="lab-seg">
+                {
+                  PROPOSAL_PACES.map((p) => (
+                    <label class="lab-chip">
+                      <input type="radio" name="pace" value={p} checked={p === 'balanced'} />
+                      <span class="lab-chip__face">{t.form.paces[p]}</span>
+                    </label>
+                  ))
+                }
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="lab-field" data-field="specialRequests">
+            <label class="lab-label" for="prop-requests">
+              {t.form.requests}
+              <span class="lab-label__aside" data-count aria-live="off">{fmt(t.form.count, { n: 0, max: PROPOSAL_SPECIAL_REQUESTS_MAX })}</span>
+            </label>
+            <textarea
+              id="prop-requests"
+              class="lab-textarea"
+              name="specialRequests"
+              rows="3"
+              maxlength={PROPOSAL_SPECIAL_REQUESTS_MAX}
+              placeholder={t.form.requestsPlaceholder}></textarea>
+            <p class="lab-field__error" data-field-error hidden></p>
+          </div>
+
+          <div class="lab-prop__submit">
+            <Button type="submit" variant="ai" size="lg" data-submit>{t.form.submit}</Button>
+          </div>
+          <p class="lab-error" role="alert" data-error hidden></p>
+        </div>
+      </form>
+
+      <!-- Output -->
+      <div class="lab-prop__output" data-output>
+        <div class="lab-prop__summary no-print" data-summary hidden>
+          <p class="lab-prop__summary-text">
+            <span class="lab-mono lab-mono--green">{t.form.title}</span>
+            <span data-slot="brief"></span>
+          </p>
+          <button type="button" class="lab-textbtn" data-edit aria-controls="proposal-brief-title">
+            <Icon name="arrow-left" size={16} />
+            <span>{t.actions.edit}</span>
+          </button>
+        </div>
+
+        <div class="lab-prop__empty no-print" data-empty>
+          <div class="lab-prop__ghost" aria-hidden="true">
+            <span class="lab-prop__ghost-logo"></span>
+            <span class="w-60 h-l"></span>
+            <span class="w-40"></span>
+            <span class="w-90"></span>
+            <span class="w-80"></span>
+            <span class="w-70"></span>
+            <span class="lab-prop__ghost-table"></span>
+            <span class="w-50"></span>
+            <span class="w-85"></span>
+          </div>
+          <div class="lab-prop__empty-text">
+            <p class="lab-panel__title">{t.empty.title}</p>
+            <p>{t.empty.text}</p>
+          </div>
+        </div>
+
+        <div class="lab-panel lab-prop__progress no-print" data-progress hidden>
+          <div class="lab-panel__bar">
+            <span class="lab-mono lab-mono--amber"><span class="lab-lamp lab-lamp--amber lab-lamp--pulse" aria-hidden="true"></span> {t.progress.title}</span>
+            <span class="lab-mono" data-elapsed></span>
+          </div>
+          <div class="lab-panel__body">
+            <p class="lab-panel__title">{t.progress.title}<span class="lab-dots" aria-hidden="true"><i></i><i></i><i></i></span></p>
+            <ol class="lab-steps lab-prop__steps" data-steps>
+              {t.progress.steps.map((step) => <li>{step}</li>)}
+            </ol>
+            <div class="lab-bar" aria-hidden="true"></div>
+            <div class="lab-prop__progress-foot">
+              <p class="lab-field__hint">{t.progress.note}</p>
+              <button type="button" class="lab-textbtn" data-cancel>{lab.ui.cancel}</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lab-prop__result" data-result hidden>
+          <div class="lab-prop__toolbar no-print">
+            <p class="lab-notice" data-notice></p>
+            <div class="lab-prop__actions">
+              <button type="button" class="lab-textbtn" data-print>
+                <LabIcon name="print" size={18} />
+                <span>{t.actions.print}</span>
+              </button>
+              <a class="lab-textbtn lab-prop__quote" data-quote href="mailto:info@localhost.ge">
+                <Icon name="mail" size={18} />
+                <span>{t.actions.quote}</span>
+              </a>
+            </div>
+          </div>
+          <div data-sheet-slot></div>
+        </div>
+
+        <p class="visually-hidden" role="status" aria-live="polite" data-status></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- The proposal document (filled by client/proposal.ts with textContent only) -->
+  <template data-tpl="sheet">
+    <article class="lab-sheet" data-sheet aria-labelledby="proposal-doc-title">
+      <header class="lab-sheet__head">
+        <Logo variant="horizontal" tone="light" height="2.5rem" class="lab-sheet__logo" />
+        <div class="lab-sheet__meta">
+          <p class="lab-sheet__kind">{t.doc.kind}</p>
+          <p><span data-slot="date"></span></p>
+        </div>
+        <p class="lab-sheet__stamp" aria-hidden="true"><span data-slot="stamp">{t.doc.draft}</span></p>
+      </header>
+
+      <p class="lab-sheet__for" data-for hidden><span class="lab-sheet__label">{t.doc.preparedFor}</span> <span data-slot="for"></span></p>
+      <h4 class="lab-sheet__title" id="proposal-doc-title" tabindex="-1" data-slot="title"></h4>
+      <p class="lab-sheet__subtitle" data-slot="subtitle"></p>
+
+      <div class="lab-sheet__intro">
+        <div>
+          <h5 class="lab-sheet__h">{t.doc.summary}</h5>
+          <p class="lab-sheet__summary" data-slot="summary"></p>
+        </div>
+        <aside class="lab-sheet__pricing">
+          <p class="lab-sheet__label lab-sheet__label--red">{t.doc.pricing}</p>
+          <p data-slot="pricing"></p>
+        </aside>
+      </div>
+
+      <div class="lab-sheet__overview">
+        <section>
+          <h5 class="lab-sheet__h">{t.doc.highlights}</h5>
+          <ol class="lab-sheet__highlights" data-list="highlights"></ol>
+        </section>
+        <section>
+          <h5 class="lab-sheet__h">{t.doc.route}</h5>
+          <div class="lab-sheet__map" data-map></div>
+          <p class="lab-sheet__route" data-slot="route"></p>
+        </section>
+      </div>
+
+      <section class="lab-sheet__days">
+        <h5 class="lab-sheet__h">{t.doc.days}</h5>
+        <table class="lab-sheet__table">
+          <thead>
+            <tr>
+              <th scope="col">{t.doc.day}</th>
+              <th scope="col">{t.doc.programme}</th>
+              <th scope="col">{t.doc.places}</th>
+              <th scope="col">{t.doc.meals}</th>
+              <th scope="col">{t.doc.overnight}</th>
+            </tr>
+          </thead>
+          <tbody data-days></tbody>
+        </table>
+      </section>
+
+      <div class="lab-sheet__lists">
+        <section>
+          <h5 class="lab-sheet__h">{t.doc.included}</h5>
+          <ul class="lab-sheet__list lab-sheet__list--yes" data-list="included"></ul>
+        </section>
+        <section>
+          <h5 class="lab-sheet__h">{t.doc.notIncluded}</h5>
+          <ul class="lab-sheet__list lab-sheet__list--no" data-list="notIncluded"></ul>
+        </section>
+        <section>
+          <h5 class="lab-sheet__h">{t.doc.sustainability}</h5>
+          <ul class="lab-sheet__list lab-sheet__list--leaf" data-list="sustainability"></ul>
+        </section>
+        <section>
+          <h5 class="lab-sheet__h">{t.doc.nextSteps}</h5>
+          <ol class="lab-sheet__list lab-sheet__list--steps" data-list="nextSteps"></ol>
+        </section>
+      </div>
+
+      <p class="lab-sheet__disclaimer" data-slot="disclaimer"></p>
+      <footer class="lab-sheet__foot">
+        <span>Local Host LLC</span>
+        <span>{common.contact.addressLines.join(', ')}</span>
+        <span>{common.contact.email}</span>
+        <span>{common.contact.phone}</span>
+        <span>{common.contact.web}</span>
+      </footer>
+    </article>
+  </template>
+
+  <template data-tpl="day">
+    <tr>
+      <th scope="row" class="lab-sheet__dayno"><span data-slot="day"></span></th>
+      <td class="lab-sheet__prog">
+        <p class="lab-sheet__daytitle" data-slot="title"></p>
+        <ul class="lab-sheet__acts" data-acts></ul>
+      </td>
+      <td class="lab-sheet__places" data-label={t.doc.places}><span data-slot="places"></span></td>
+      <td data-label={t.doc.meals}><span data-slot="meals"></span></td>
+      <td data-label={t.doc.overnight}><span data-slot="overnight"></span></td>
+    </tr>
+  </template>
+  <template data-tpl="badge-demo"><span class="lab-badge lab-badge--demo">{lab.ui.demoBadge}</span></template>
+  <template data-tpl="badge-live"><span class="lab-badge lab-badge--live">{lab.ui.liveBadge}</span></template>
+  <script type="application/json" data-lab-strings set:html={scriptJson(clientStrings)} />
+</section>
+
+<style>
+  .lab-prop__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  .lab-prop__grid[data-layout='result'] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lab-prop__grid[data-layout='result'] .lab-prop__brief {
+    display: none;
+  }
+
+  .lab-prop__grid[data-layout='result'] .lab-prop__output {
+    width: 100%;
+    max-width: 64rem;
+    margin-inline: auto;
+  }
+
+  /* ── form ── */
+  .lab-prop__fields {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .lab-prop__samples {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-bottom: var(--space-m);
+    border-bottom: var(--border-hair) dashed var(--color-rule);
+  }
+
+  .lab-prop__sample-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .lab-prop__pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-m) var(--space-s);
+  }
+
+  .lab-prop__pair--seg {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lab-prop__suffix {
+    position: relative;
+  }
+
+  .lab-prop__suffix input {
+    padding-right: 6.5rem;
+  }
+
+  .lab-prop__suffix span {
+    position: absolute;
+    right: var(--space-xs);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  .lab-prop__submit {
+    padding-top: var(--space-2xs);
+  }
+
+  /* ── output: summary strip ── */
+  .lab-prop__summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    margin-bottom: var(--space-m);
+    padding: var(--space-xs) var(--space-s) var(--space-xs) var(--space-m);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-pill);
+  }
+
+  .lab-prop__summary-text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-s);
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+  }
+
+  /* ── empty state ── */
+  .lab-prop__empty {
+    position: relative;
+    display: grid;
+    min-height: 34rem;
+    padding: var(--space-xl);
+    border: var(--border-hair) dashed var(--color-rule-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .lab-prop__ghost {
+    display: grid;
+    align-content: start;
+    gap: var(--space-s);
+    opacity: 0.55;
+  }
+
+  .lab-prop__ghost > span {
+    display: block;
+    height: 0.6rem;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, var(--color-rule), color-mix(in srgb, var(--color-glow) 14%, transparent), var(--color-rule));
+    background-size: 200% 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-prop__ghost > span {
+      animation: lab-shimmer var(--dur-draw) linear infinite;
+    }
+  }
+
+  @keyframes lab-shimmer {
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  .lab-prop__ghost .lab-prop__ghost-logo {
+    width: 9rem;
+    height: 1.75rem;
+    margin-bottom: var(--space-m);
+    border-radius: var(--radius-sm);
+  }
+
+  .lab-prop__ghost .h-l {
+    height: 1.6rem;
+  }
+
+  .lab-prop__ghost .lab-prop__ghost-table {
+    height: 9rem;
+    margin-block: var(--space-s);
+    border-radius: var(--radius-sm);
+  }
+
+  .w-40 { width: 40%; }
+  .w-50 { width: 50%; }
+  .w-60 { width: 60%; }
+  .w-70 { width: 70%; }
+  .w-80 { width: 80%; }
+  .w-85 { width: 85%; }
+  .w-90 { width: 90%; }
+
+  .lab-prop__empty-text {
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    width: min(26rem, 80%);
+    padding: var(--space-l);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-bg-sunken) 92%, transparent);
+    box-shadow: var(--shadow-board);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .lab-prop__empty-text .lab-panel__title {
+    margin-bottom: var(--space-2xs);
+    color: var(--color-text);
+  }
+
+  /* ── progress ── */
+  .lab-prop__progress .lab-panel__body {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .lab-prop__progress .lab-panel__title {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+  }
+
+  .lab-prop__steps {
+    gap: var(--space-xs);
+  }
+
+  .lab-prop__progress-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  /* ── result toolbar ── */
+  .lab-prop__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-m);
+    margin-bottom: var(--space-m);
+  }
+
+  .lab-prop__toolbar .lab-notice {
+    flex: 1 1 22rem;
+  }
+
+  .lab-prop__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .lab-prop__quote {
+    border-color: var(--color-bg-inverse);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .lab-prop__quote:hover {
+    border-color: var(--color-bg-inverse);
+    background: color-mix(in srgb, var(--color-bg-inverse) 86%, var(--color-accent));
+    color: var(--color-text-inverse);
+  }
+
+  @media (max-width: 63.99em) {
+    .lab-prop__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-prop__empty {
+      min-height: 24rem;
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .lab-prop__pair {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-prop__empty {
+      padding: var(--space-m);
+    }
+
+    .lab-prop__summary {
+      border-radius: var(--radius-md);
+    }
+  }
+</style>

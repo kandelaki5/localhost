@@ -44,15 +44,15 @@
       "Send the draft to our team in one click"
     ],
     "cta": "Open the Trip Designer",
-    "mapLabel": "Sample route",
-    "mapCaption": "A sample route — Kazbegi, Ananuri, Mtskheta, Tbilisi, Sighnaghi and Telavi.",
+    "mapCaption": "A sample route — Tbilisi, Mtskheta, Ananuri, Kazbegi, Sighnaghi and Telavi.",
     "voiceNote": "Voice works in browsers with speech support; your browser's speech service processes it.",
     "days": [
       "Day 1 — Tbilisi",
       "Day 2 — Mtskheta & Ananuri",
       "Day 3 — Kazbegi",
-      "Day 5 — Sighnaghi"
-    ]
+      "Day 4 — Sighnaghi & Telavi"
+    ],
+    "ticket": "Draft itinerary"
   },
   "how": {
     "kicker": "How it works",
@@ -82,10 +82,8 @@
     "liveBadge": "Live — written by Claude",
     "cancel": "Cancel",
     "cancelled": "Cancelled.",
-    "retry": "Try again",
     "elapsed": "{s} s",
     "noScript": "Turn on JavaScript to try this experiment.",
-    "copy": "Copy",
     "copied": "Copied",
     "copyFailed": "Couldn't copy — select the text instead.",
     "newTab": "opens in a new tab"

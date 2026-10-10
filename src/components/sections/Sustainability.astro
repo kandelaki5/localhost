@@ -1,23 +1,519 @@
 ---
 /**
- * 09 · Sustainability (#sustainability) — STUB from the foundation.
- * Owned by the Sustainability section agent: replace the <Placeholder> with the real
- * section. Strings: src/i18n/<lang>/sustainability.json (English is canonical).
- * See docs/ARCHITECTURE.md.
+ * 09 · Sustainability (#sustainability) — the section a European buyer reads
+ * to decide whether to trust us.
+ *
+ *   1. Recognition: the typeset "Travelife · Partner" badge (official logo to
+ *      come), the exact Partner wording and a link to the public register,
+ *      beside the certificate as a document card (image to come).
+ *   2. The office figures: energy −10.1 %, gas −36.3 % with index meters.
+ *   3. A verbatim line from the Sustainability Policy next to a Svaneti photo.
+ *   4. The policy in practice (five rules, each with its source document),
+ *      the five PDFs, and "Ask our policies ✦" → AI Lab Policy Q&A.
+ *
+ * Wording rules (docs/DESIGN.md): "Travelife Partner" only — never "certified",
+ * "certified sustainable" or "carbon-neutral". Quotes stay verbatim, in English
+ * (the language of the documents); other languages add a marked translation.
  */
 import SectionHead from '../ui/SectionHead.astro';
-import Placeholder from '../ui/Placeholder.astro';
+import Figure from '../ui/Figure.astro';
+import Icon from '../ui/Icon.astro';
+import Badge from './sustainability/Badge.astro';
+import CertificateCard from './sustainability/CertificateCard.astro';
+import Reductions from './sustainability/Reductions.astro';
+import PolicyIndex from './sustainability/PolicyIndex.astro';
+import AskPolicies from './sustainability/AskPolicies.astro';
+import { POLICY_DATE, QUOTES, QUOTE_PHOTO, TRAVELIFE_REGISTER_URL } from './sustainability/data';
+import { formatDate, formatNumber } from './sustainability/format';
 import { contentLang, getLang, useStrings } from '../../i18n';
+import { inline } from '../../lib/markup';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'sustainability');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'sustainability') === lang ? undefined : 'en';
+// The documents (and so the quotes) are in English; mark them when the page is not.
+const quoteLang = lang === 'en' ? undefined : 'en';
+const policyDate = formatDate(POLICY_DATE, lang);
+const r = t.recognition;
+const p = t.practice;
+const q = t.quote;
 ---
 
-<section lang={textLang} id="sustainability" class="section" aria-labelledby="sustainability-title">
+<section lang={textLang} id="sustainability" class="section sus" aria-labelledby="sustainability-title">
   <div class="container">
     <SectionHead number={9} id="sustainability-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
-    <Placeholder shape="columns" count={4} note="Travelife Partner badge, the figures, and four policy PDFs" />
+
+    <div class="sus__grid">
+      <!-- 1 · recognition -->
+      <section class="sus__recognition" aria-labelledby="sus-recognition-title">
+        <h3 id="sus-recognition-title" class="sus__kicker kicker">{r.kicker}</h3>
+        <Badge label={r.badgeLabel} newTab={common.aria.newTab} class="sus__badge" />
+        <p class="sus__statement" set:html={inline(r.statement)} />
+        <p class="sus__explain">{r.explain}</p>
+        <a class="sus__register" href={TRAVELIFE_REGISTER_URL} target="_blank" rel="noopener noreferrer">
+          <span>{r.register}</span>
+          <Icon name="arrow-up-right" size={16} />
+          <span class="visually-hidden">({common.aria.newTab})</span>
+        </a>
+      </section>
+
+      <CertificateCard headingId="sus-certificate-title" class="sus__cert" />
+
+      <!-- 2 · figures -->
+      <Reductions headingId="sus-figures-title" class="sus__figures" />
+
+      <!-- 3 · the policy, in its own words -->
+      <Figure
+        photo={QUOTE_PHOTO.name}
+        alt={q.photoAlt}
+        ratio="16/10"
+        focal={QUOTE_PHOTO.focal}
+        sizes="(min-width: 64em) 56vw, 100vw"
+        fig={1}
+        caption={q.photoCaption}
+        zoom
+        class="sus__photo"
+      />
+      <figure class="sus__pull">
+        <blockquote class="sus__quote" lang={quoteLang}>
+          <p>{QUOTES.landscapes}</p>
+        </blockquote>
+        {
+          q.translation && (
+            <p class="sus__translation">
+              <span class="sus__translation-label">{q.translationLabel}</span> {q.translation}
+            </p>
+          )
+        }
+        <figcaption class="sus__cite">
+          <span class="sus__cite-rule" aria-hidden="true"></span>
+          {q.source}, <time datetime={POLICY_DATE}>{policyDate}</time>
+        </figcaption>
+      </figure>
+
+      <!-- 4 · in practice -->
+      <section class="sus__practice" aria-labelledby="sus-practice-title">
+        <p class="sus__kicker kicker">{p.kicker}</p>
+        <h3 id="sus-practice-title" class="sus__practice-title display display--s" set:html={inline(p.title)} />
+        <ol class="sus__ledger">
+          {
+            p.items.map((item, i) => (
+              <li class="sus__rule">
+                <span class="sus__no" aria-hidden="true">
+                  {formatNumber(i + 1, lang).padStart(2, '0')}
+                </span>
+                <div class="sus__rule-body">
+                  <h4 class="sus__rule-title">{item.title}</h4>
+                  <p class="sus__rule-text">{item.text}</p>
+                  <p class="sus__rule-src">{item.source}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <figure class="sus__partners">
+          <blockquote class="sus__partners-quote" lang={quoteLang}>
+            <p>{QUOTES.partners}</p>
+          </blockquote>
+          {
+            p.partnersTranslation && (
+              <p class="sus__translation">
+                <span class="sus__translation-label">{q.translationLabel}</span> {p.partnersTranslation}
+              </p>
+            )
+          }
+          <figcaption class="sus__cite">
+            <span class="sus__cite-rule" aria-hidden="true"></span>
+            {p.partnersSource}, <time datetime={POLICY_DATE}>{policyDate}</time>
+          </figcaption>
+        </figure>
+      </section>
+
+      <div class="sus__side">
+        <PolicyIndex headingId="sus-documents-title" class="sus__docs" />
+        <AskPolicies headingId="sus-ask-title" class="sus__ask" />
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  // Index meters draw in once when they scroll into view. Only meters that
+  // start below the fold are armed, so nothing visible ever jumps; with
+  // reduced motion (or no JS) they simply show their final state.
+  const root = document.getElementById('sustainability');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (root && !reduce && 'IntersectionObserver' in window) {
+    const pending = Array.from(root.querySelectorAll<HTMLElement>('[data-reveal]')).filter(
+      (el) => el.getBoundingClientRect().top > window.innerHeight,
+    );
+    if (pending.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            (entry.target as HTMLElement).dataset.reveal = 'in';
+            io.unobserve(entry.target);
+          }
+        },
+        { rootMargin: '0px 0px -12% 0px' },
+      );
+      for (const el of pending) {
+        el.dataset.reveal = 'armed';
+        io.observe(el);
+      }
+    }
+  }
+</script>
+
+<style>
+  .sus__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    column-gap: var(--layout-gap);
+    row-gap: var(--space-section-sm);
+  }
+
+  .sus__kicker {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  /* ── 1 · recognition ── */
+  .sus__recognition {
+    grid-column: 1 / span 6;
+    align-self: start;
+    padding-top: var(--space-m);
+    display: grid;
+    justify-items: start;
+    gap: var(--space-m);
+  }
+
+  .sus__recognition :global(.sus__badge) {
+    margin-top: var(--space-2xs);
+  }
+
+  .sus__statement {
+    font-family: var(--font-display);
+    font-size: calc(var(--fs-xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1.28;
+    letter-spacing: -0.006em;
+    color: var(--color-text);
+    max-width: 30ch;
+    text-wrap: pretty;
+  }
+
+  .sus__statement:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-lg);
+    line-height: var(--lh-heading);
+    max-width: 38ch;
+  }
+
+  .sus__statement :global(strong) {
+    font-weight: var(--fw-medium);
+    color: var(--color-emphasis);
+  }
+
+  .sus__explain {
+    max-width: 52ch;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+  }
+
+  .sus__register {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-link);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+    text-underline-offset: 0.4em;
+  }
+
+  .sus__register:lang(ka) {
+    font-size: var(--fs-xs);
+  }
+
+  .sus__register:hover {
+    color: var(--color-link-hover);
+    text-decoration-color: currentColor;
+  }
+
+  .sus__grid > :global(.sus__cert) {
+    grid-column: 8 / -1;
+    align-self: start;
+  }
+
+  /* ── 2 · figures ── */
+  .sus__grid > :global(.sus__figures) {
+    grid-column: 1 / -1;
+  }
+
+  /* ── 3 · quote ── */
+  .sus__grid > :global(.sus__photo) {
+    grid-column: 1 / span 7;
+    align-self: start;
+  }
+
+  .sus__pull {
+    grid-column: 8 / -1;
+    align-self: center;
+    margin: 0;
+    padding-left: var(--space-l);
+  }
+
+  .sus__quote {
+    position: relative;
+    margin: 0;
+  }
+
+  .sus__quote p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1.32;
+    letter-spacing: -0.005em;
+    color: var(--color-text);
+    text-wrap: pretty;
+  }
+
+  .sus__quote::before,
+  .sus__partners-quote::before {
+    content: '\201C';
+    position: absolute;
+    left: -0.62em;
+    top: -0.12em;
+    font-family: var(--font-display);
+    font-style: normal;
+    font-size: calc(var(--fs-xl) * 2.2);
+    font-weight: var(--fw-display-sm);
+    line-height: 1;
+    color: var(--color-accent);
+  }
+
+  .sus__translation {
+    margin-top: var(--space-s);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+    max-width: 48ch;
+  }
+
+  .sus__translation-label {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+    margin-right: 0.25rem;
+  }
+
+  .sus__cite {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs);
+    margin-top: var(--space-m);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .sus__cite:lang(ka) {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+  }
+
+  .sus__cite-rule {
+    width: 1.75rem;
+    border-top: var(--border-hair) solid var(--color-accent);
+  }
+
+  /* ── 4 · in practice ── */
+  .sus__practice {
+    grid-column: 1 / span 7;
+  }
+
+  .sus__practice-title {
+    margin: var(--space-s) 0 0;
+  }
+
+  .sus__ledger {
+    margin: var(--space-l) 0 0;
+    border-top: var(--border-hair) solid var(--color-text);
+  }
+
+  .sus__rule {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    column-gap: var(--space-s);
+    padding-block: var(--space-m);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .sus__no {
+    padding-top: 0.2em;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1;
+    color: var(--color-emphasis);
+  }
+
+  .sus__rule-title {
+    font-size: calc(var(--fs-lg) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    line-height: var(--lh-heading);
+  }
+
+  .sus__rule-title:lang(ka) {
+    font-size: var(--fs-md);
+  }
+
+  .sus__rule-text {
+    margin-top: var(--space-2xs);
+    max-width: 58ch;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+  }
+
+  .sus__rule-src {
+    margin-top: var(--space-2xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text-muted);
+  }
+
+  .sus__rule-src::before {
+    content: '— ';
+  }
+
+  .sus__rule-src:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+  }
+
+  .sus__partners {
+    position: relative;
+    margin: var(--space-xl) 0 0 var(--space-xl);
+  }
+
+  .sus__partners-quote {
+    position: relative;
+    margin: 0;
+  }
+
+  .sus__partners-quote p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-snug);
+    color: var(--color-text);
+    max-width: 34ch;
+  }
+
+  .sus__partners-quote::before {
+    font-size: calc(var(--fs-lg) * 2.2);
+  }
+
+  /* ── side: documents + ask ── */
+  .sus__side {
+    grid-column: 9 / -1;
+    display: grid;
+    align-content: start;
+    gap: var(--space-xl);
+  }
+
+  /* ── laptop ── */
+  @media (min-width: 64em) and (max-width: 79.99em) {
+    .sus__recognition {
+      grid-column: 1 / span 7;
+    }
+
+    .sus__grid > :global(.sus__cert) {
+      grid-column: 8 / -1;
+    }
+
+    .sus__practice {
+      grid-column: 1 / span 7;
+    }
+
+    .sus__side {
+      grid-column: 8 / -1;
+      padding-left: var(--space-m);
+    }
+  }
+
+  /* ── tablet ── */
+  @media (max-width: 63.99em) {
+    .sus__recognition,
+    .sus__grid > :global(.sus__photo),
+    .sus__pull,
+    .sus__practice,
+    .sus__side {
+      grid-column: 1 / -1;
+    }
+
+    .sus__grid > :global(.sus__cert) {
+      grid-column: 1 / -1;
+    }
+
+    .sus__pull {
+      padding-left: var(--space-l);
+      margin-top: calc(-0.5 * var(--space-section-sm));
+    }
+
+    .sus__side {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--layout-gap);
+      align-items: start;
+    }
+  }
+
+  /* ── phone ── */
+  @media (max-width: 39.99em) {
+    .sus__grid > :global(.sus__cert) {
+      grid-column: 1 / -1;
+    }
+
+    .sus__pull {
+      padding-left: var(--space-m);
+    }
+
+    .sus__rule {
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      column-gap: var(--space-2xs);
+    }
+
+    .sus__partners {
+      margin-left: var(--space-m);
+    }
+
+    .sus__side {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+    }
+  }
+</style>

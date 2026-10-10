@@ -1,0 +1,537 @@
+---
+/**
+ * One trade fair as a visa ink stamp: country, city (italic serif), fair name
+ * (small caps), the dates of the edition on show and the organiser's domain.
+ * The whole stamp is the link to the official site (stretched link).
+ *
+ * `data-state` (now · next · upcoming · held) drives the look: the next fair
+ * is a solid "inked" stamp with a tag, a running fair gets an "On now" tag,
+ * a fair whose dates are all past is cancelled with wavy postmark lines.
+ * The client script in MeetUs.astro re-checks the state against today.
+ */
+import Icon from '../../ui/Icon.astro';
+import { encodeEdition, type FairState } from './schedule';
+import type { Fair } from './data';
+
+interface Props {
+  fair: Fair;
+  city: string;
+  state: FairState;
+  /** Formatted dates of the edition on show, e.g. "14–16 Oct 2026". */
+  when: string;
+  /** ISO start of that edition (for <time datetime>). */
+  whenIso: string;
+  /** Pre-formatted labels of both known editions, so the client re-check never formats dates itself. */
+  labels: { last?: { range: string; until: string }; next?: { range: string; until: string } };
+  tag: string;
+  tba: string;
+  official: string;
+  newTab: string;
+  index: number;
+}
+
+const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, index } = Astro.props;
+---
+
+<li
+  class="fair"
+  data-stamp
+  data-fair={fair.id}
+  data-state={state}
+  data-shape={fair.shape}
+  data-ink={fair.ink}
+  data-name={fair.name}
+  data-city={city}
+  data-last={encodeEdition(fair.last)}
+  data-last-range={labels.last?.range}
+  data-last-until={labels.last?.until}
+  data-next={encodeEdition(fair.next)}
+  data-next-range={labels.next?.range}
+  data-next-until={labels.next?.until}
+  style={`--tilt:${fair.tilt}deg;--i:${index}`}
+>
+  <div class="fair__stamp">
+    <span class="fair__frame" aria-hidden="true"></span>
+    <svg class="fair__cancel" viewBox="0 0 240 70" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M2 12q15-9 30 0t30 0 30 0 30 0 30 0 30 0 30 0 30 0" />
+      <path d="M2 28q15-9 30 0t30 0 30 0 30 0 30 0 30 0 30 0 30 0" />
+      <path d="M2 44q15-9 30 0t30 0 30 0 30 0 30 0 30 0 30 0 30 0" />
+      <path d="M2 60q15-9 30 0t30 0 30 0 30 0 30 0 30 0 30 0 30 0" />
+    </svg>
+
+    <span class="fair__tag" data-role="tag" hidden={!tag}>{tag}</span>
+
+    <h4 class="fair__name">
+      <a class="fair__link" href={fair.url} target="_blank" rel="noopener">
+        {fair.name}<span class="visually-hidden"> — {official} ({newTab})</span>
+      </a>
+    </h4>
+    <p class="fair__city">{city}</p>
+    <p class="fair__cc" aria-hidden="true">
+      <Icon name="plane" size={11} class="fair__plane" />
+      {fair.countryCode}
+    </p>
+    <p class="fair__when">
+      <time data-role="when" datetime={whenIso}>{when}</time>
+    </p>
+    <p class="fair__tba" data-role="tba" hidden={state !== 'held'}>{tba}</p>
+    <p class="fair__domain" aria-hidden="true">
+      {fair.domain}
+      <Icon name="arrow-up-right" size={11} strokeWidth={1.75} />
+    </p>
+  </div>
+</li>
+
+<style>
+  .fair {
+    --_ink: var(--color-text);
+    --_fg: var(--color-text);
+    --_radius: var(--radius-sm);
+    --_pad: clamp(0.5rem, 0.2rem + 0.8vw, 0.875rem);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-inline: var(--_pad);
+  }
+
+  .fair[data-ink='green'] {
+    --_ink: var(--color-green-ink);
+    --_fg: var(--color-green-ink);
+  }
+
+  /* ── the stamp ── */
+  .fair__stamp {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 13.5rem;
+    min-height: 12.75rem;
+    padding: var(--space-m) var(--space-s) var(--space-s);
+    color: var(--_fg);
+    text-align: center;
+    transform: rotate(var(--tilt));
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .fair:hover .fair__stamp,
+  .fair:focus-within .fair__stamp {
+    transform: rotate(0deg) translateY(-3px);
+  }
+
+  /* Rubber-stamp frame: its own layer, so the ink texture never touches the text. */
+  .fair__frame {
+    position: absolute;
+    inset: 0;
+    border: var(--border-heavy) solid var(--_ink);
+    border-radius: var(--_radius);
+    -webkit-mask-image: var(--texture-ink);
+    mask-image: var(--texture-ink);
+    -webkit-mask-size: 160px;
+    mask-size: 160px;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: var(--z-below);
+  }
+
+  .fair__frame::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: var(--border-hair) solid var(--_ink);
+    border-radius: inherit;
+  }
+
+  /* shapes */
+  .fair[data-shape='rect'] {
+    --_radius: var(--radius-xs);
+  }
+
+  .fair[data-shape='double'] .fair__frame {
+    border-style: double;
+    border-width: 7px;
+    border-radius: var(--radius-md);
+  }
+
+  .fair[data-shape='double'] .fair__frame::after {
+    display: none;
+  }
+
+  .fair[data-shape='dashed'] .fair__frame {
+    border-style: dashed;
+    border-width: var(--border-thick);
+  }
+
+  .fair[data-shape='dashed'] .fair__frame::after {
+    inset: 6px;
+  }
+
+  .fair[data-shape='oval'] .fair__stamp,
+  .fair[data-shape='round'] .fair__stamp {
+    --_radius: var(--radius-round);
+    padding-inline: var(--space-m);
+  }
+
+  .fair[data-shape='round'] .fair__stamp {
+    aspect-ratio: 1;
+    min-height: 0;
+    padding-block: var(--space-s);
+  }
+
+  .fair[data-shape='round'] .fair__when {
+    max-width: 10rem;
+    padding-inline: 0.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .fair[data-shape='oval'] .fair__stamp {
+    aspect-ratio: 0.86;
+    min-height: 0;
+  }
+
+  .fair[data-shape='round'] .fair__frame::after {
+    inset: 6px;
+  }
+
+  .fair[data-shape='arch'] .fair__stamp {
+    --_radius: 50% 50% var(--radius-sm) var(--radius-sm) / 34% 34% var(--radius-sm) var(--radius-sm);
+    padding-top: var(--space-xl);
+  }
+
+  /* ── face (DOM order: name first for assistive tech; shown city first) ── */
+  .fair__cc {
+    order: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--latin-tracking-caps);
+    line-height: 1;
+  }
+
+  .fair__city {
+    order: 2;
+    margin-top: var(--space-2xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.625rem, 1.25rem + 0.9vw, 2.125rem);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .fair__city:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-size: clamp(1.25rem, 1rem + 0.6vw, 1.5rem);
+    font-weight: var(--fw-ka-text);
+    line-height: 1.2;
+  }
+
+  .fair__name {
+    order: 3;
+    color: inherit;
+    margin-top: 0.45rem;
+    font-family: var(--font-text);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-bold);
+    line-height: 1.25;
+    /* fair names are Latin brand names: Latin small caps on every page */
+    letter-spacing: var(--latin-tracking-caps);
+    text-transform: uppercase;
+  }
+
+  .fair__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Stretched link: the whole stamp opens the official site. */
+  .fair__link::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    z-index: var(--z-raised);
+    border-radius: var(--_radius);
+  }
+
+  .fair__link:focus-visible {
+    outline: none;
+  }
+
+  .fair__link:focus-visible::after {
+    outline: var(--border-thick) solid var(--color-focus);
+    outline-offset: 4px;
+  }
+
+  .fair__when {
+    order: 4;
+    width: 100%;
+    max-width: 10.5rem;
+    margin-top: var(--space-xs);
+    padding-top: var(--space-xs);
+    border-top: var(--border-hair) solid color-mix(in srgb, currentColor 45%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-mono);
+    line-height: 1.3;
+    text-transform: var(--case-caps);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fair__when:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-weight: var(--fw-semibold);
+  }
+
+  .fair__tba {
+    order: 5;
+    max-width: 12rem;
+    margin-top: 0.3rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1.25;
+  }
+
+  .fair__tba:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+  }
+
+  .fair__domain {
+    order: 6;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-top: var(--space-2xs);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.02em;
+    opacity: 0.78;
+  }
+
+  .fair:hover .fair__domain {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* ── state tags ── */
+  .fair__tag {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: var(--z-raised);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.55rem;
+    transform: translate(-50%, -55%);
+    background: var(--color-bg);
+    font-family: var(--font-text);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .fair__tag::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: var(--radius-round);
+    background: currentColor;
+  }
+
+  .fair__tag:lang(ka) {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+  }
+
+  .fair[data-state='next'] .fair__tag {
+    color: var(--color-red-ink);
+  }
+
+  .fair[data-state='next'] .fair__tag::before {
+    background: var(--color-accent);
+  }
+
+  .fair[data-state='now'] .fair__tag {
+    color: var(--color-green-ink);
+  }
+
+  .fair[data-state='now'] .fair__tag::before {
+    background: var(--color-led);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-led) 25%, transparent);
+  }
+
+  /* next: a solid, freshly inked stamp */
+  .fair[data-state='next'] .fair__stamp {
+    color: var(--color-text-inverse);
+  }
+
+  .fair[data-state='next'] .fair__frame::after {
+    display: none;
+  }
+
+  .fair[data-state='next'] .fair__stamp::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    z-index: var(--z-below);
+    border-radius: var(--_radius);
+    background: var(--_ink);
+  }
+
+  .fair[data-state='next'][data-shape='double'] .fair__stamp::before {
+    inset: 9px;
+    border-radius: calc(var(--radius-md) - 6px);
+  }
+
+  .fair[data-state='next'] .fair__domain {
+    opacity: 0.85;
+  }
+
+  /* held: dates are past and the next ones aren't out yet — cancelled */
+  .fair__cancel {
+    display: none;
+  }
+
+  .fair[data-state='held'] .fair__stamp {
+    opacity: 0.72;
+  }
+
+  .fair[data-state='held'] .fair__cancel {
+    display: block;
+    position: absolute;
+    top: 12%;
+    left: -6%;
+    width: 112%;
+    height: 30%;
+    fill: none;
+    stroke: var(--color-text);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    z-index: var(--z-raised);
+    opacity: 0.42;
+    mix-blend-mode: multiply;
+    transform: rotate(-8deg);
+    pointer-events: none;
+  }
+
+  /* ── entrance: each stamp is pressed onto the page once it scrolls in ── */
+  @media screen and (prefers-reduced-motion: no-preference) {
+    :global([data-reveal='ready']) .fair:not([data-revealed]) .fair__stamp {
+      opacity: 0;
+    }
+
+    :global([data-reveal='ready']) .fair[data-revealed] .fair__stamp {
+      animation: fair-press var(--dur-base) var(--ease-overshoot) backwards;
+      animation-delay: calc(var(--i, 0) * var(--dur-stagger));
+    }
+  }
+
+  @keyframes fair-press {
+    from {
+      opacity: 0;
+      transform: rotate(calc(var(--tilt) - 5deg)) scale(1.22);
+    }
+    55% {
+      opacity: 1;
+    }
+  }
+
+  /* ── phone: landscape stamps ── */
+  @media (max-width: 39.99em) {
+    .fair {
+      display: block;
+      padding-inline: 0;
+    }
+
+    .fair__stamp,
+    .fair[data-shape] .fair__stamp {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'cc when'
+        'city when'
+        'name domain'
+        'tba tba';
+      align-items: center;
+      column-gap: var(--space-s);
+      max-width: none;
+      min-height: 0;
+      aspect-ratio: auto;
+      padding: var(--space-m) var(--space-m) var(--space-s);
+      text-align: start;
+    }
+
+    .fair[data-shape='oval'] .fair__stamp,
+    .fair[data-shape='round'] .fair__stamp {
+      --_radius: var(--radius-pill);
+      padding-inline: var(--space-l);
+    }
+
+    .fair[data-shape='arch'] .fair__stamp {
+      --_radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-sm);
+      padding-top: var(--space-m);
+    }
+
+    .fair__cc {
+      grid-area: cc;
+    }
+
+    .fair__city {
+      grid-area: city;
+      margin-top: 0.3rem;
+    }
+
+    .fair__name {
+      grid-area: name;
+      margin-top: 0.35rem;
+    }
+
+    .fair__when {
+      grid-area: when;
+      align-self: stretch;
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      width: auto;
+      max-width: 8.5rem;
+      margin: 0;
+      padding: 0.15rem 0 0.15rem var(--space-s);
+      border-top: 0;
+      border-left: var(--border-hair) solid color-mix(in srgb, currentColor 45%, transparent);
+      text-align: start;
+    }
+
+    .fair__domain {
+      grid-area: domain;
+      justify-self: end;
+      margin: 0.35rem 0 0;
+    }
+
+    .fair__tba {
+      grid-area: tba;
+      max-width: none;
+      margin-top: var(--space-2xs);
+    }
+
+    .fair__tag {
+      left: var(--space-l);
+      transform: translate(0, -55%);
+    }
+  }
+</style>

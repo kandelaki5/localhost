@@ -1,6 +1,111 @@
 {
   "kicker": "Sustainability",
   "title": "Good hosts look after *the house.*",
-  "intro": "We work to the Travelife Partner criteria for tour operators, with a trained sustainability coordinator on our team — and we ask every partner to share these standards.",
-  "running": "Travelife Partner"
+  "intro": "We work to the Travelife criteria for tour operators and travel agents, with a trained sustainability coordinator on our team — and we ask every partner to share these standards.",
+  "running": "Travelife Partner",
+  "recognition": {
+    "kicker": "Independent recognition",
+    "badgeLabel": "Travelife Partner: check our entry in the public Travelife register",
+    "statement": "**Travelife Partner** — independently assessed against the Travelife Partner criteria for tour operators and travel agents (recognised since November 2025).",
+    "explain": "Partner is the first of Travelife’s two recognition levels: an independent assessment of how we manage sustainability against about 60 mandatory criteria, renewed every two years.",
+    "register": "Check us in the public Travelife register"
+  },
+  "certificate": {
+    "kicker": "Partner certificate",
+    "scope": "Travelife criteria for tour operators and travel agents",
+    "holderLabel": "Holder",
+    "holder": "Local Host LLC, Georgia",
+    "levelLabel": "Level",
+    "level": "Travelife Partner",
+    "firstLabel": "First approved",
+    "validLabel": "Valid until",
+    "pending": "Certificate image to come",
+    "imageAlt": "Travelife Partner certificate issued to Local Host LLC",
+    "register": "Verify in the register"
+  },
+  "figures": {
+    "kicker": "Measured at our office",
+    "title": "Less energy, *far less gas.*",
+    "period": "January–October 2025, compared with the same months of 2024.",
+    "items": [
+      {
+        "label": "Energy use",
+        "text": "Lights and equipment are switched off after hours and whenever a room is not in use."
+      },
+      {
+        "label": "Gas use",
+        "text": "Same ten months, same office: down by more than a third."
+      }
+    ],
+    "chartLabel": "{label}: index {after} in 2025, against 100 in 2024",
+    "source": "Source: Sustainability Policy, “Environmental Protection”"
+  },
+  "quote": {
+    "translationLabel": "",
+    "translation": "",
+    "source": "Sustainability Policy",
+    "photoAlt": "A village of stone Svan towers among green fields and trees, with forested slopes and a snow-capped range behind it, in Svaneti, Georgia.",
+    "photoCaption": "Svan towers below the Greater Caucasus, Svaneti"
+  },
+  "practice": {
+    "kicker": "In practice",
+    "title": "What our policy *asks of us*",
+    "items": [
+      {
+        "title": "Business travel, offset",
+        "text": "We offset the carbon footprint of all our international business travel.",
+        "source": "Sustainability Policy"
+      },
+      {
+        "title": "Public transport and remote days",
+        "text": "We reimburse every employee’s yearly public-transport pass. Everyone works from home one day a week, and a second day when the office isn’t needed.",
+        "source": "Sustainability Policy"
+      },
+      {
+        "title": "Accommodation and restaurants: certificates first",
+        "text": "We prefer accommodation and restaurants with acknowledged sustainability certificates. Our target for 2026: at least half of our accommodation with sustainability credentials.",
+        "source": "Accommodations Policy"
+      },
+      {
+        "title": "No excursions that do harm",
+        "text": "No excursions that harm people, animals or nature, and none involving the trade, consumption, close contact or performances of animals.",
+        "source": "Excursion and Destination Policy"
+      },
+      {
+        "title": "Zero tolerance on child exploitation",
+        "text": "Zero tolerance for child exploitation, forced labour and human trafficking — in our own work and in every partnership.",
+        "source": "Sustainability Policy"
+      }
+    ],
+    "partnersTranslation": "",
+    "partnersSource": "Sustainability Policy"
+  },
+  "documents": {
+    "kicker": "The documents",
+    "title": "Read the policies",
+    "note": "PDF · in English",
+    "effective": "Effective {date}",
+    "published": "Published {date}",
+    "pages": "{n} pp.",
+    "size": "{n} KB",
+    "items": {
+      "sustainability": "Sustainability Policy",
+      "report": "Sustainability Report",
+      "excursions": "Sustainable Excursion and Destination Policy",
+      "accommodations": "Sustainable Accommodations Policy",
+      "inbound": "Inbound Partner Agency Policy"
+    },
+    "reportNote": "Against the Travelife criteria for tour operators and travel agents"
+  },
+  "ask": {
+    "kicker": "AI Lab",
+    "title": "Ask our policies",
+    "text": "Ask a question in your own language. The answer quotes these documents word for word and names the source.",
+    "examplesLabel": "For example",
+    "examples": [
+      "Do you include animal attractions in tours?",
+      "How do you choose hotels?"
+    ],
+    "cta": "Ask a question"
+  }
 }

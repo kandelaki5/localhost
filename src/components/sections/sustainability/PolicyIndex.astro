@@ -1,0 +1,173 @@
+---
+/**
+ * The five policy PDFs as a magazine index: title, the date printed on the
+ * document, pages and size. URLs are the historical ones (/assets/policies/*.pdf,
+ * including the "accomodations" spelling) — old links keep working.
+ */
+import Icon from '../../ui/Icon.astro';
+import { getLang, useStrings } from '../../../i18n';
+import { fmt } from '../../../lib/markup';
+import { POLICY_FILES } from './data';
+import { formatDate, formatNumber, kilobytes } from './format';
+
+interface Props {
+  headingId: string;
+  class?: string;
+}
+
+const { headingId, class: className } = Astro.props;
+const lang = getLang(Astro);
+const t = useStrings(lang, 'sustainability');
+const d = t.documents;
+
+const rows = POLICY_FILES.map((file) => {
+  const date = formatDate(file.date, lang);
+  return {
+    ...file,
+    title: d.items[file.key],
+    note: file.key === 'report' ? d.reportNote : undefined,
+    when: fmt(file.dateKind === 'published' ? d.published : d.effective, { date }),
+    pages: fmt(d.pages, { n: formatNumber(file.pages, lang) }),
+    size: fmt(d.size, { n: kilobytes(file.bytes, lang) }),
+  };
+});
+---
+
+<section class:list={['docs', className]} aria-labelledby={headingId}>
+  <div class="docs__head">
+    <p class="docs__kicker kicker">{d.kicker}</p>
+    <span class="docs__lang kicker">{d.note}</span>
+  </div>
+  <h3 id={headingId} class="docs__title">{d.title}</h3>
+  <ol class="docs__list">
+    {
+      rows.map((r, i) => (
+        <li class="docs__item">
+          <a class="docs__link" href={r.href} type="application/pdf" hreflang="en">
+            <span class="docs__no" aria-hidden="true">
+              {formatNumber(i + 1, lang).padStart(2, '0')}
+            </span>
+            <span class="docs__body">
+              <span class="docs__name">{r.title}</span>
+              {r.note && <span class="docs__note">{r.note}</span>}
+              <span class="docs__meta">
+                <time datetime={r.date}>{r.when}</time>
+                <span aria-hidden="true"> · </span>
+                <span>{r.pages}</span>
+                <span aria-hidden="true"> · </span>
+                <span>PDF, {r.size}</span>
+              </span>
+            </span>
+            <Icon name="pdf" size={20} class="docs__icon" />
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .docs__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  .docs__kicker {
+    color: var(--color-text-muted);
+  }
+
+  .docs__lang {
+    color: var(--color-text-muted);
+    text-align: end;
+  }
+
+  .docs__title {
+    margin-top: var(--space-xs);
+    font-size: calc(var(--fs-xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+  }
+
+  .docs__list {
+    margin: var(--space-m) 0 0;
+    border-top: var(--border-hair) solid var(--color-text);
+  }
+
+  .docs__item {
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .docs__link {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: var(--space-s);
+    padding: var(--space-s) 0;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .docs__no {
+    padding-top: 0.15em;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text-muted);
+    min-width: 1.5rem;
+  }
+
+  .docs__body {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .docs__name {
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    line-height: 1.3;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color var(--dur-fast) var(--ease-out);
+  }
+
+  .docs__note {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text-body);
+  }
+
+  .docs__note:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+  }
+
+  .docs__meta {
+    font-size: var(--fs-xs);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .docs__link :global(.docs__icon) {
+    margin-top: 0.1em;
+    color: var(--color-text-muted);
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+
+  .docs__link:hover .docs__name {
+    text-decoration-color: currentColor;
+  }
+
+  .docs__link:hover :global(.docs__icon) {
+    color: var(--color-green-ink);
+    transform: translateY(-2px);
+  }
+</style>

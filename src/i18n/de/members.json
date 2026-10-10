@@ -1,0 +1,28 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Stolzes Mitglied bei",
+  "title": "In guter *Gesellschaft.*",
+  "intro": "Die Tourismusverbände und -kammern, denen wir angehören, und die nationalen Institutionen, mit denen wir zusammenarbeiten – in Georgien und in Polen.",
+  "running": "Mitgliedschaften",
+  "spreadLabel": "Mitgliedschaften nach Ländern",
+  "countries": {
+    "ge": "Georgien",
+    "pl": "Polen"
+  },
+  "types": {
+    "administration": "Nationale Tourismusbehörde",
+    "association": "Tourismusverband",
+    "bureau": "Kongress- und Messebüro",
+    "chamber": "Nationale Tourismuskammer",
+    "regional": "Regionale Tourismuskammer"
+  },
+  "orgs": {
+    "gnta": "Nationale Tourismusbehörde Georgiens",
+    "gta": "Georgischer Tourismusverband",
+    "cebg": "Kongress- und Messebüro Georgiens",
+    "pit": "Polnische Tourismuskammer",
+    "sit": "Schlesische Tourismuskammer"
+  },
+  "official": "offizielle Website",
+  "ring": "LOCAL HOST • TBILISI • SEIT 2015 •"
+}

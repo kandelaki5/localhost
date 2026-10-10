@@ -1,0 +1,537 @@
+---
+/**
+ * 04 · Policy Q&A (#policy-qa). Ask the five policy documents; answers carry
+ * numbered footnotes that quote the exact passage and link to the PDF.
+ * Follow-up questions keep the last three exchanges as history.
+ * Script: client/policy-qa.ts (lazy-loaded).
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { POLICY_DOCUMENTS, POLICY_QUESTION_MAX, SUGGESTED_POLICY_QUESTIONS } from '../../lib/ai/client/policy';
+import { fmt } from '../../lib/markup';
+import { getLang, useStrings } from '../../i18n';
+import { blockLang, labSection, labStrings, policyStrings, scriptJson } from './data';
+
+const lang = getLang(Astro);
+const t = policyStrings(lang);
+const lab = labStrings(lang);
+const common = useStrings(lang, 'common');
+const s = labSection('policy-qa');
+
+const NAME_KEY = {
+  sustainability: 'sustainability',
+  report: 'report',
+  excursions: 'excursions',
+  accomodations: 'accommodations',
+  inbound: 'inbound',
+} as const;
+const docs = POLICY_DOCUMENTS.map((d) => ({
+  ...d,
+  name: common.policies[NAME_KEY[d.id]],
+  date: d.title.match(/\(([^)]+)\)/)?.[1] ?? null,
+}));
+const questions = SUGGESTED_POLICY_QUESTIONS.map((q) => ({
+  id: q.id,
+  english: q.question,
+  label: (t.suggested.questions as Record<string, string>)[q.id] ?? q.question,
+}));
+
+const clientStrings = {
+  lang,
+  errors: lab.errors,
+  cancelled: lab.ui.cancelled,
+  chat: t.chat,
+  count: t.composer.count,
+  docNames: Object.fromEntries(docs.map((d) => [d.url, d.name])),
+  questions,
+  pdf: t.library.pdf,
+};
+---
+
+<section
+  id="policy-qa"
+  class="lab-section lab-policy"
+  aria-labelledby="policy-qa-title"
+  data-lab-feature="policy-qa"
+  lang={blockLang(lang, 'ai-lab-policy')}
+  style="--lab-glow-x: 85%; --lab-glow-y: 45%"
+>
+  <div class="container">
+    <SectionHead number={s.n} id="policy-qa-title" kicker={t.kicker} title={t.title} intro={t.intro} running={lab.audience.agencies} size="m" />
+    <p class="lab-nojs">{lab.ui.noScript}</p>
+
+    <div class="lab-policy__grid">
+      <aside class="lab-policy__side">
+        <div class="lab-panel">
+          <div class="lab-panel__bar">
+            <h3 class="lab-mono lab-mono--green">{t.library.title}</h3>
+            <span class="lab-mono" aria-hidden="true">5 × PDF</span>
+          </div>
+          <div class="lab-panel__body">
+            <p class="lab-policy__lib-text">{t.library.text}</p>
+            <ol class="lab-policy__docs" role="list">
+              {
+                docs.map((d, i) => (
+                  <li>
+                    <a href={d.url} class="lab-policy__doc" target="_blank" rel="noopener">
+                      <span class="lab-policy__doc-no lab-mono" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                      <span class="lab-policy__doc-name">
+                        {d.name}
+                        <span class="lab-policy__doc-meta lab-mono">
+                          {t.library.pdf} · {t.library.lang}
+                          {d.date && <> · <span lang="en">{d.date}</span></>}
+                        </span>
+                      </span>
+                      <Icon name="pdf" size={20} />
+                      <span class="visually-hidden">({lab.ui.newTab})</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ol>
+          </div>
+        </div>
+      </aside>
+
+      <div class="lab-panel lab-policy__chat">
+        <div class="lab-panel__bar">
+          <span class="lab-mono">{t.kicker} · {t.chat.label}</span>
+          <button type="button" class="lab-textbtn lab-textbtn--ghost" data-new hidden>
+            <Icon name="x" size={16} />
+            <span>{t.composer.newChat}</span>
+          </button>
+        </div>
+
+        <div class="lab-policy__log" data-log-wrap>
+          <p class="lab-policy__empty" data-empty>
+            <Icon name="leaf" size={28} />
+            <span>{t.chat.empty}</span>
+          </p>
+          <ol class="lab-policy__turns" role="log" aria-label={t.chat.label} data-log></ol>
+        </div>
+
+        <form class="lab-policy__composer" data-form novalidate>
+          <div class="lab-policy__chips" role="group" aria-label={t.suggested.title}>
+            <span class="lab-mono">{t.suggested.title}</span>
+            {
+              questions.map((q) => (
+                <button type="button" class="lab-policy__chip" data-ask={q.id}>
+                  {q.label}
+                </button>
+              ))
+            }
+          </div>
+          <div class="lab-field">
+            <label class="lab-label" for="policy-question">
+              {t.composer.label}
+              <span class="lab-label__aside" data-count>{fmt(t.composer.count, { n: 0, max: POLICY_QUESTION_MAX })}</span>
+            </label>
+            <div class="lab-policy__inputrow">
+              <textarea
+                id="policy-question"
+                class="lab-textarea"
+                name="question"
+                rows="2"
+                maxlength={POLICY_QUESTION_MAX}
+                placeholder={t.composer.placeholder}
+                required></textarea>
+              <Button type="submit" variant="primary" size="lg" icon="send" data-submit>{t.composer.submit}</Button>
+            </div>
+          </div>
+          <p class="lab-field__hint">{t.composer.memory}</p>
+          <p class="visually-hidden" role="status" aria-live="polite" data-status></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <template data-tpl="turn">
+    <li class="lab-turn" data-turn>
+      <div class="lab-turn__q">
+        <span class="lab-mono">{t.chat.you}</span>
+        <p data-slot="q"></p>
+      </div>
+      <div class="lab-turn__a">
+        <p class="lab-turn__who">
+          <span class="lab-turn__avatar" aria-hidden="true"><Icon name="leaf" size={14} /></span>
+          <span class="lab-mono lab-mono--green">{t.chat.ai}</span>
+          <span data-badge></span>
+        </p>
+        <div class="lab-turn__pending" data-pending>
+          <span class="lab-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>{t.chat.working}</span>
+          <button type="button" class="lab-textbtn lab-textbtn--ghost" data-cancel>{lab.ui.cancel}</button>
+        </div>
+        <div class="lab-turn__answer" data-answer hidden></div>
+        <p class="lab-error" data-error hidden></p>
+        <p class="lab-turn__note" data-note hidden></p>
+        <div class="lab-turn__sources" data-sources hidden>
+          <p class="lab-mono">{t.chat.sources}</p>
+          <ol class="lab-notes" data-notes></ol>
+        </div>
+      </div>
+    </li>
+  </template>
+  <template data-tpl="note">
+    <li class="lab-note">
+      <span class="lab-note__n" data-slot="n"></span>
+      <div class="lab-note__body">
+        <blockquote lang="en" data-slot="quote"></blockquote>
+        <a class="lab-note__doc" data-doc target="_blank" rel="noopener">
+          <Icon name="pdf" size={16} />
+          <span data-slot="doc"></span>
+          <span class="visually-hidden">({lab.ui.newTab})</span>
+        </a>
+      </div>
+    </li>
+  </template>
+  <template data-tpl="badge-demo"><span class="lab-badge lab-badge--demo">{lab.ui.demoBadge}</span></template>
+  <template data-tpl="badge-live"><span class="lab-badge lab-badge--live">{lab.ui.liveBadge}</span></template>
+  <script type="application/json" data-lab-strings set:html={scriptJson(clientStrings)} />
+</section>
+
+<style>
+  .lab-policy__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  .lab-policy__side {
+    position: sticky;
+    top: calc(var(--layout-header-h) + var(--space-s));
+  }
+
+  .lab-policy__lib-text {
+    margin-bottom: var(--space-s);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .lab-policy__docs {
+    margin: 0;
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .lab-policy__doc {
+    display: grid;
+    grid-template-columns: 2.5ch minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: 3.5rem;
+    padding: var(--space-xs) var(--space-2xs);
+    margin-inline: calc(-1 * var(--space-2xs));
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-xs);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .lab-policy__doc:hover {
+    background: color-mix(in srgb, var(--color-glow) 9%, transparent);
+    color: var(--color-text);
+  }
+
+  .lab-policy__doc :global(.icon) {
+    color: var(--color-green-ink);
+  }
+
+  .lab-policy__doc-name {
+    display: grid;
+    gap: var(--space-3xs);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+  }
+
+  .lab-policy__doc-meta {
+    font-weight: var(--fw-medium);
+  }
+
+  /* ── chat ── */
+  .lab-policy__chat {
+    display: flex;
+    flex-direction: column;
+    min-height: 36rem;
+  }
+
+  .lab-policy__log {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-m) clamp(1rem, 0.5rem + 1.6vw, 2rem);
+  }
+
+  .lab-policy__empty {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-s);
+    margin: auto;
+    max-width: 34ch;
+    padding-block: var(--space-xl);
+    text-align: center;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .lab-policy__empty :global(.icon) {
+    color: var(--color-green-ink);
+    filter: var(--filter-glow);
+  }
+
+  .lab-policy__turns {
+    display: grid;
+    gap: var(--space-xl);
+    margin: 0;
+  }
+
+  .lab-policy__turns:empty {
+    display: none;
+  }
+
+  .lab-policy__composer {
+    display: grid;
+    gap: var(--space-s);
+    padding: var(--space-m) clamp(1rem, 0.5rem + 1.6vw, 2rem);
+    border-top: var(--border-hair) solid var(--color-rule);
+    background: color-mix(in srgb, var(--color-bg-sunken) 55%, transparent);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+
+  .lab-policy__chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .lab-policy__chips > .lab-mono {
+    margin-right: var(--space-2xs);
+  }
+
+  .lab-policy__chip {
+    min-height: 2.75rem;
+    padding: var(--space-3xs) var(--space-s);
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-green-ink) 45%, transparent);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+    text-align: start;
+    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .lab-policy__chip:hover {
+    border-color: var(--color-green-ink);
+    background: color-mix(in srgb, var(--color-glow) 12%, transparent);
+  }
+
+  .lab-policy__chip[disabled] {
+    opacity: var(--opacity-disabled);
+    cursor: not-allowed;
+  }
+
+  .lab-policy__inputrow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: var(--space-xs);
+  }
+
+  .lab-policy__inputrow .lab-textarea {
+    min-height: 3.25rem;
+  }
+
+  /* ── turns (built at runtime from templates) ── */
+  .lab-policy__turns :global(.lab-turn) {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-policy__turns :global(.lab-turn) {
+      animation: lab-rise var(--dur-base) var(--ease-out) both;
+    }
+  }
+
+  .lab-policy__turns :global(.lab-turn__q) {
+    justify-self: end;
+    display: grid;
+    gap: var(--space-3xs);
+    max-width: min(34rem, 88%);
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--radius-md) var(--radius-md) var(--radius-xs) var(--radius-md);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .lab-policy__turns :global(.lab-turn__q .lab-mono) {
+    color: color-mix(in srgb, var(--color-text-inverse) 70%, transparent);
+  }
+
+  .lab-policy__turns :global(.lab-turn__a) {
+    display: grid;
+    gap: var(--space-s);
+    max-width: 46rem;
+  }
+
+  .lab-policy__turns :global(.lab-turn__who) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .lab-policy__turns :global(.lab-turn__avatar) {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-glow) 55%, transparent);
+    border-radius: var(--radius-round);
+    color: var(--color-green-ink);
+  }
+
+  .lab-policy__turns :global(.lab-turn__pending) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .lab-policy__turns :global(.lab-turn__answer) {
+    font-size: var(--fs-base);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+    white-space: pre-line;
+  }
+
+  .lab-policy__turns :global(.lab-cited) {
+    background: linear-gradient(transparent 62%, color-mix(in srgb, var(--color-glow) 22%, transparent) 62%);
+    color: var(--color-text);
+  }
+
+  .lab-policy__turns :global(.lab-ref) {
+    margin-left: 0.1em;
+    font-family: var(--font-mono);
+    font-size: 0.68em;
+    line-height: 0;
+    vertical-align: super;
+  }
+
+  .lab-policy__turns :global(.lab-ref a) {
+    display: inline-block;
+    min-width: 1.35em;
+    padding: 0.15em 0.3em;
+    border-radius: var(--radius-xs);
+    background: color-mix(in srgb, var(--color-glow) 18%, transparent);
+    color: var(--color-green-ink);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .lab-policy__turns :global(.lab-ref a:hover),
+  .lab-policy__turns :global(.lab-ref a:focus-visible) {
+    background: var(--color-green-ink);
+    color: var(--color-text-inverse);
+  }
+
+  .lab-policy__turns :global(.lab-turn__note) {
+    font-size: var(--fs-xs);
+    color: var(--color-amber);
+  }
+
+  .lab-policy__turns :global(.lab-turn__sources) {
+    display: grid;
+    gap: var(--space-xs);
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) dashed var(--color-rule-strong);
+  }
+
+  .lab-policy__turns :global(.lab-notes) {
+    display: grid;
+    gap: var(--space-s);
+    margin: 0;
+  }
+
+  .lab-policy__turns :global(.lab-note) {
+    display: grid;
+    grid-template-columns: 1.75rem minmax(0, 1fr);
+    gap: var(--space-xs);
+    padding: var(--space-2xs);
+    margin: calc(-1 * var(--space-2xs));
+    border-radius: var(--radius-sm);
+    transition: background-color var(--dur-base) var(--ease-out);
+  }
+
+  .lab-policy__turns :global(.lab-note:target),
+  .lab-policy__turns :global(.lab-note.is-lit) {
+    background: color-mix(in srgb, var(--color-glow) 12%, transparent);
+  }
+
+  .lab-policy__turns :global(.lab-note__n) {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: var(--border-hair) solid var(--color-green-ink);
+    border-radius: var(--radius-round);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    color: var(--color-green-ink);
+  }
+
+  .lab-policy__turns :global(.lab-note__body) {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .lab-policy__turns :global(.lab-note blockquote) {
+    margin: 0;
+    padding-left: var(--space-s);
+    border-left: var(--border-thick) solid var(--color-green-ink);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--lh-snug);
+    color: var(--color-text);
+  }
+
+  .lab-policy__turns :global(.lab-note__doc) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    justify-self: start;
+    min-height: 2rem;
+    padding-left: var(--space-s);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+  }
+
+  @media (max-width: 63.99em) {
+    .lab-policy__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-policy__side {
+      position: static;
+      order: 2;
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .lab-policy__inputrow {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-policy__chat {
+      min-height: 0;
+    }
+  }
+</style>

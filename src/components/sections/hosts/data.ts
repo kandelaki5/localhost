@@ -26,7 +26,7 @@ export const HOSTS: readonly Host[] = [
   // Marika (მარიკა) & Enry (ენრი) — Sisatura ethno-village, Chkhoria (Samegrelo).
   { id: 'sisatura', monogram: ['მ', 'ე'], photo: 'adjara-2', focal: '45% 60%', featured: true },
   // Leila (ლეილა). Crop to the carved-balcony house; the kvevri stays at the edge.
-  { id: 'leila', monogram: ['ლ'], photo: 'kvevri-1', focal: '12% 45%', featured: true },
+  { id: 'leila', monogram: ['ლ'], photo: 'kvevri-1', focal: '0% 45%', featured: true },
   // Vacheishvili (ვაჩეიშვილი). Pastoral, no wine imagery (link unconfirmed).
   { id: 'vacheishvili', monogram: ['ვ'], photo: 'kazbegi', focal: '50% 72%' },
   // Samvel (სამველი). Neutral scene with no landmark.

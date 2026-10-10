@@ -1,0 +1,828 @@
+---
+/**
+ * One split-flap departure board (a tabpanel of 05 · Connection).
+ *
+ * Accessibility: the board is a real <table> with explicit ARIA roles (kept
+ * even though CSS turns the rows into grids), a caption, column headers, a
+ * row header per destination and an aria-label per row. Every flap is inside
+ * an aria-hidden wrapper; screen readers read the plain text beside it, so
+ * they never hear the spinning characters.
+ *
+ * Without JS the final characters are rendered and all 20 rows show; the
+ * client script (./client.ts) collapses to the first rows and animates.
+ */
+import Icon from '../../ui/Icon.astro';
+import type { Sections } from '../../../i18n';
+import { fmt } from '../../../lib/markup';
+import {
+  airport,
+  boardCase,
+  boardChars,
+  boardLines,
+  cityName,
+  formatUpdated,
+  isGeorgian,
+  VISIBLE_ROWS,
+  type AirportCode,
+} from './data';
+
+interface Props {
+  code: AirportCode;
+  active: boolean;
+  t: Sections['connection'];
+  bcp47: string;
+}
+
+const { code, active, t, bcp47 } = Astro.props;
+const ap = airport(code);
+const strings = t.airports[code];
+const key = code.toLowerCase();
+const total = ap.destinations.length;
+const shown = Math.min(VISIBLE_ROWS, total);
+const list = new Intl.ListFormat(bcp47, { style: 'long', type: 'conjunction' });
+
+const rows = ap.destinations.map((d, i) => {
+  const name = cityName(t.cities, d.city);
+  const label = boardCase(name, bcp47);
+  const status = d.seasonal === true ? `${t.board.direct} · ${t.board.seasonal}` : t.board.direct;
+  return {
+    name,
+    lines: boardLines(label),
+    geo: isGeorgian(label),
+    code: d.iata,
+    codeChars: boardChars(d.iata, 3),
+    airlines: d.airlines,
+    airports: d.airports && d.airports.length > 1 ? d.airports : null,
+    seasonal: d.seasonal === true,
+    extra: i >= shown,
+    label: fmt(t.board.row, { city: name, code: d.iata, airlines: list.format(d.airlines), status }),
+  };
+});
+
+const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
+---
+
+<div
+  class:list={['bd', `bd--${key}`]}
+  id={`cn-panel-${key}`}
+  data-cn-panel={code}
+  data-tab={`cn-tab-${key}`}
+  data-active={active ? '' : undefined}
+>
+  <div class="bd__housing">
+    <div class="bd__top">
+      <p class="bd__title">
+        <span class="bd__dep">{t.board.title}</span>
+        <span class="bd__flourish" lang={t.board.flourishLang}>{t.board.flourish}</span>
+      </p>
+      <p class="bd__ap">{strings.name} · <span class="bd__ap-code">{code}</span></p>
+      <p class="bd__clock" data-clock>
+        <span class="bd__clock-label">{t.board.clock}</span>
+        <span class="bd__flaps bd__flaps--clock" aria-hidden="true">
+          <span class="fl" data-fl="digit"> </span><span class="fl" data-fl="digit"> </span><span
+            class="fl fl--colon">:</span
+          ><span class="fl" data-fl="digit"> </span><span class="fl" data-fl="digit"> </span>
+        </span>
+        <span class="visually-hidden">{t.board.clockLabel} <time data-clock-text></time></span>
+      </p>
+    </div>
+
+    <table class="bd__table" role="table">
+      <caption class="visually-hidden">{strings.caption}</caption>
+      <thead class="bd__head" role="rowgroup">
+        <tr class="bd__row bd__row--head" role="row">
+          <th class="bd__h bd__h--city" role="columnheader" scope="col">{t.board.columns.city}</th>
+          <th class="bd__h bd__h--code" role="columnheader" scope="col">{t.board.columns.code}</th>
+          <th class="bd__h bd__h--air" role="columnheader" scope="col">{t.board.columns.airline}</th>
+          <th class="bd__h bd__h--status" role="columnheader" scope="col">{t.board.columns.status}</th>
+        </tr>
+      </thead>
+      <tbody class="bd__body" role="rowgroup" id={`cn-rows-${key}`}>
+        {
+          rows.map((r) => (
+            <tr class="bd__row" role="row" aria-label={r.label} data-row data-extra={r.extra ? '' : undefined}>
+              <th class="bd__city" role="rowheader" scope="row">
+                <span class="visually-hidden">{r.name}</span>
+                <span class:list={['bd__flaps', 'bd__flaps--city', r.geo && 'bd__flaps--geo']} aria-hidden="true">
+                  {r.lines.map((line) => (
+                    <span class="bd__line">
+                      {line.map((ch) => (
+                        <span class="fl" data-fl="city">{ch}</span>
+                      ))}
+                    </span>
+                  ))}
+                </span>
+              </th>
+              <td class="bd__code" role="cell">
+                <span class="visually-hidden">{r.code}</span>
+                <span class="bd__flaps bd__flaps--code" aria-hidden="true">
+                  {r.codeChars.map((ch) => (
+                    <span class="fl" data-fl="code">{ch}</span>
+                  ))}
+                </span>
+              </td>
+              <td class="bd__air" role="cell">
+                <span class="bd__carriers" lang="en">
+                  {r.airlines.map((a, k) => (
+                    <span class="bd__carrier">
+                      {k > 0 && <span class="visually-hidden">, </span>}
+                      {a}
+                    </span>
+                  ))}
+                </span>
+                {r.airports && <span class="bd__ports">{r.airports.join(' · ')}</span>}
+              </td>
+              <td class="bd__status" role="cell">
+                <span class="bd__lamp" data-lamp>
+                  {t.board.direct}
+                </span>
+                {r.seasonal && <span class="bd__tag">{t.board.seasonal}</span>}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <div class="bd__foot">
+      <p class="bd__count">
+        <span
+          data-count
+          data-collapsed={fmt(t.board.showing, { shown, total })}
+          data-expanded={fmt(t.board.showing, { shown: total, total })}
+          >{fmt(t.board.showing, { shown, total })}</span
+        >
+        <button
+          type="button"
+          class="bd__more"
+          aria-expanded="false"
+          aria-controls={`cn-rows-${key}`}
+          data-more
+          data-label-more={fmt(t.board.more, { total })}
+          data-label-less={fmt(t.board.less, { shown })}
+        >
+          <span data-more-label>{fmt(t.board.more, { total })}</span>
+          <Icon name="chevron" size={16} class="bd__more-icon" />
+        </button>
+      </p>
+      <p class="bd__checked">{checked}</p>
+    </div>
+  </div>
+  <p class="bd__footnote">{strings.footnote}</p>
+</div>
+
+<style>
+  /* ── housing ── */
+  .bd {
+    --lamp: var(--color-amber);
+    --lamp-glow: var(--shadow-glow-amber);
+    --flap-top: color-mix(in oklab, var(--color-bg-sunken), var(--color-text) 10%);
+    --flap-bottom: color-mix(in oklab, var(--color-bg-sunken), var(--color-text) 6.5%);
+    --flap-hinge: var(--color-bg-sunken);
+    --flap-ink: var(--color-amber);
+    --board-rule: color-mix(in oklab, var(--color-text) 8%, transparent);
+    border-radius: var(--radius-md);
+  }
+
+  .bd--kut {
+    --lamp: var(--color-led);
+    --lamp-glow: var(--shadow-glow);
+  }
+
+  .bd:focus-visible {
+    outline-offset: 0.75rem;
+  }
+
+  .bd__housing {
+    container: board / inline-size;
+    position: relative;
+    padding: clamp(1rem, 0.6rem + 1.4vw, 1.75rem) clamp(0.75rem, 0.2rem + 2.2vw, 2.25rem) clamp(0.75rem, 0.4rem + 1.2vw, 1.5rem);
+    border-radius: var(--radius-md);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--color-bg-sunken), var(--color-text) 4.5%) 0%,
+      var(--color-bg-sunken) 100%
+    );
+    box-shadow:
+      var(--shadow-board),
+      0 0 0 0.5rem var(--color-bg-sunken),
+      0 0 0 calc(0.5rem + var(--border-hair)) var(--color-rule);
+  }
+
+  /* screws */
+  .bd__housing::before,
+  .bd__housing::after {
+    content: '';
+    position: absolute;
+    top: 0.7rem;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: var(--radius-round);
+    background: radial-gradient(
+      circle at 35% 35%,
+      color-mix(in oklab, var(--color-bg-sunken), var(--color-text) 34%),
+      var(--color-bg-sunken)
+    );
+  }
+
+  .bd__housing::before {
+    left: 0.7rem;
+  }
+
+  .bd__housing::after {
+    right: 0.7rem;
+  }
+
+  /* ── board head: DEPARTURES · გაფრენა · airport · clock ── */
+  .bd__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'title clock'
+      'ap ap';
+    align-items: center;
+    gap: var(--space-2xs) var(--space-m);
+    padding-bottom: clamp(0.75rem, 2cqi, 1.125rem);
+    margin-bottom: clamp(0.5rem, 1.5cqi, 1rem);
+    border-bottom: var(--border-hair) solid var(--board-rule);
+  }
+
+  .bd__title {
+    grid-area: title;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: clamp(0.625rem, 1.6cqi, 1.125rem);
+    row-gap: var(--space-3xs);
+    min-width: 0;
+  }
+
+  @container board (min-width: 40rem) {
+    .bd__top {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas: 'title ap clock';
+      column-gap: clamp(0.75rem, 1.6cqi, 1.125rem);
+    }
+
+    .bd__ap {
+      align-self: center;
+      padding-top: 0.2em;
+    }
+  }
+
+  .bd__dep {
+    font-family: var(--font-mono);
+    font-size: clamp(1.0625rem, 0.6rem + 2.2cqi, 1.75rem);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .bd__dep:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.04em;
+  }
+
+  .bd__flourish {
+    font-family: var(--font-ka-text);
+    font-size: clamp(0.9375rem, 0.6rem + 1.4cqi, 1.25rem);
+    font-weight: var(--fw-medium);
+    line-height: 1;
+    color: var(--lamp);
+    transition: color var(--dur-base) var(--ease-out);
+  }
+
+  .bd__flourish:not(:lang(ka)) {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .bd__ap {
+    grid-area: ap;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-medium);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .bd__ap-code {
+    font-family: var(--font-mono);
+    color: var(--color-text);
+  }
+
+  .bd__clock {
+    grid-area: clock;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .bd__clock-label {
+    text-align: end;
+  }
+
+  @container board (max-width: 29.99rem) {
+    .bd__clock {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--space-2xs);
+    }
+  }
+
+  :global(.no-js) .bd__clock {
+    visibility: hidden;
+  }
+
+  /* ── flaps ── */
+  .bd__flaps {
+    display: flex;
+    gap: var(--g);
+  }
+
+  .bd__flaps--city {
+    flex-direction: column;
+    row-gap: calc(var(--g) * 2);
+  }
+
+  .bd__line {
+    display: flex;
+    gap: var(--g);
+  }
+
+  .fl {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: var(--fw);
+    height: var(--fh);
+    overflow: hidden;
+    border-radius: calc(var(--fw) * 0.12);
+    background: linear-gradient(
+      180deg,
+      var(--flap-top) 0%,
+      var(--flap-top) 49%,
+      var(--flap-hinge) 49%,
+      var(--flap-hinge) 51%,
+      var(--flap-bottom) 51%,
+      var(--flap-bottom) 100%
+    );
+    box-shadow:
+      inset 0 var(--border-hair) 0 color-mix(in oklab, var(--color-text) 9%, transparent),
+      0 0.125rem 0.1875rem var(--color-bg-sunken);
+    font-family: var(--font-mono);
+    font-size: calc(var(--fh) * 0.6);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    color: var(--flap-ink);
+    text-shadow: 0 0 0.45em color-mix(in oklab, var(--flap-ink) 32%, transparent);
+    white-space: pre;
+  }
+
+  /* hinge line across the character */
+  .fl::after {
+    content: '';
+    position: absolute;
+    inset: calc(50% - 0.0625rem) 0 auto;
+    height: 0.125rem;
+    background: var(--flap-hinge);
+    opacity: 0.85;
+  }
+
+  /* lighter top leaf */
+  .fl::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 50%;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--color-text) 5%, transparent), transparent);
+    pointer-events: none;
+  }
+
+  /* Mkhedruli has no capitals: a larger size, lifted so the x-height sits on the hinge */
+  .bd__flaps--geo .fl {
+    padding-bottom: calc(var(--fh) * 0.1);
+    font-family: var(--font-ka-text);
+    font-size: calc(var(--fh) * 0.56);
+    font-weight: var(--fw-semibold);
+  }
+
+  .fl--colon {
+    width: calc(var(--fw) * 0.42);
+    background: none;
+    box-shadow: none;
+  }
+
+  .fl--colon::before,
+  .fl--colon::after {
+    display: none;
+  }
+
+  /* one tick of the mechanism; two names so a restart needs no reflow */
+  .fl[data-t='a'] {
+    animation: fl-tick-a var(--dur-instant) linear;
+  }
+
+  .fl[data-t='b'] {
+    animation: fl-tick-b var(--dur-instant) linear;
+  }
+
+  @keyframes fl-tick-a {
+    0% {
+      transform: scaleY(0.82);
+      filter: brightness(1.45);
+    }
+  }
+
+  @keyframes fl-tick-b {
+    0% {
+      transform: scaleY(0.82);
+      filter: brightness(1.45);
+    }
+  }
+
+  .bd__flaps--clock {
+    --fw: clamp(1.125rem, 0.7rem + 1.5cqi, 1.625rem);
+    --fh: calc(var(--fw) * 1.42);
+    --g: 0.15rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global([data-cn-live]) .fl--colon {
+      animation: fl-colon 2s steps(1, end) infinite;
+    }
+  }
+
+  @keyframes fl-colon {
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  /* ── the table (narrow: 2 lines per row) ── */
+  .bd__table {
+    --g: 0.125rem;
+    --fw: min(2.25rem, calc((100cqi - 11 * var(--g)) / 12));
+    --fh: calc(var(--fw) * 1.42);
+    display: block;
+    width: 100%;
+  }
+
+  .bd__head,
+  .bd__body {
+    display: block;
+  }
+
+  /* column headers are for wide boards; narrow boards keep them for screen readers */
+  .bd__head {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .bd__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'city city city'
+      'code air status';
+    align-items: center;
+    column-gap: var(--space-xs);
+    row-gap: var(--space-2xs);
+    padding-block: var(--space-xs);
+    border-top: var(--border-hair) solid var(--board-rule);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .bd__body .bd__row:first-child {
+    border-top: 0;
+  }
+
+  .bd__body .bd__row:hover {
+    background: linear-gradient(90deg, color-mix(in oklab, var(--lamp) 7%, transparent), transparent 75%);
+  }
+
+  .bd__city,
+  .bd__code,
+  .bd__air,
+  .bd__status,
+  .bd__h {
+    padding: 0;
+    text-align: start;
+    font-weight: inherit;
+  }
+
+  .bd__city {
+    grid-area: city;
+  }
+
+  .bd__code {
+    grid-area: code;
+  }
+
+  .bd__flaps--code {
+    --fw: calc(min(2.25rem, calc((100cqi - 11 * var(--g)) / 12)) * 0.78);
+  }
+
+  .bd__air {
+    grid-area: air;
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .bd__carriers {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    color: var(--color-text);
+  }
+
+  .bd__carrier {
+    display: block;
+  }
+
+  @container board (min-width: 30rem) {
+    .bd__carrier {
+      display: inline;
+      white-space: nowrap;
+    }
+
+    .bd__carrier + .bd__carrier::before {
+      content: '·' / '';
+      margin-inline: 0.55em;
+      color: var(--color-amber-dim);
+    }
+  }
+
+  .bd__ports {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-amber-dim);
+  }
+
+  .bd__status {
+    grid-area: status;
+    display: grid;
+    justify-items: end;
+    gap: 0.35rem;
+  }
+
+  /* the DIRECT lamp */
+  .bd__lamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.45em 0.75em 0.45em 0.6em;
+    border-radius: var(--radius-xs);
+    background: color-mix(in oklab, var(--lamp) 7%, transparent);
+    box-shadow: inset 0 0 0 var(--border-hair) color-mix(in oklab, var(--lamp) 20%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--lamp);
+    text-shadow: 0 0 0.7em color-mix(in oklab, var(--lamp) 60%, transparent);
+    white-space: nowrap;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      text-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .bd__lamp:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.02em;
+  }
+
+  .bd__lamp::before {
+    content: '';
+    flex: none;
+    width: 0.62em;
+    height: 0.62em;
+    border-radius: var(--radius-round);
+    background: var(--lamp);
+    box-shadow: var(--lamp-glow);
+    transition: box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .bd__lamp[data-off] {
+    opacity: 0.28;
+    text-shadow: none;
+  }
+
+  .bd__lamp[data-off]::before {
+    box-shadow: none;
+  }
+
+  .bd__tag {
+    padding: 0.2em 0.5em;
+    border: var(--border-hair) solid color-mix(in oklab, var(--lamp) 55%, transparent);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  /* collapsed board (JS only — without JS every row shows) */
+  :global(.js [data-cn-root]:not([data-expanded])) .bd__row[data-extra] {
+    display: none;
+  }
+
+  /* ── medium boards: city + code, then airline + lamp ── */
+  @container board (min-width: 30rem) {
+    .bd__table {
+      --fw: min(2.125rem, calc((100cqi - var(--space-m) - 14 * var(--g)) / 15));
+      --g: 0.1875rem;
+    }
+
+    .bd__row {
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas:
+        'city code'
+        'air status';
+      column-gap: var(--space-m);
+      row-gap: var(--space-xs);
+      padding-block: var(--space-s);
+    }
+
+    .bd__code {
+      align-self: start;
+      justify-self: start;
+    }
+
+    .bd__flaps--code {
+      --fw: min(2.125rem, calc((100cqi - var(--space-m) - 14 * var(--g)) / 15));
+    }
+  }
+
+  /* ── wide boards: one line per destination, column headers ── */
+  @container board (min-width: 52rem) {
+    .bd__table {
+      --fw: clamp(1.125rem, calc((100cqi - 27rem - 15 * var(--g)) / 15), 2.125rem);
+    }
+
+    .bd__flaps--code {
+      --fw: clamp(1.125rem, calc((100cqi - 27rem - 15 * var(--g)) / 15), 2.125rem);
+    }
+
+    .bd__head {
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip-path: none;
+      white-space: normal;
+    }
+
+    .bd__row {
+      grid-template-columns:
+        calc(12 * var(--fw) + 11 * var(--g))
+        calc(3 * var(--fw) + 2 * var(--g))
+        minmax(0, 1fr)
+        auto;
+      grid-template-areas: 'city code air status';
+      column-gap: clamp(1rem, 2.4cqi, 1.75rem);
+      padding-block: 0.4375rem;
+    }
+
+    .bd__row--head {
+      padding-block: 0 0.625rem;
+      border-top: 0;
+    }
+
+    .bd__h {
+      font-size: var(--fs-3xs);
+      font-weight: var(--fw-semibold);
+      line-height: 1;
+      letter-spacing: var(--tracking-caps-wide);
+      text-transform: var(--case-caps);
+      color: var(--color-amber-dim);
+    }
+
+    .bd__h--status {
+      text-align: end;
+    }
+
+    .bd__city,
+    .bd__code {
+      align-self: start;
+    }
+
+    .bd__air,
+    .bd__status {
+      align-self: start;
+      align-content: center;
+      min-height: var(--fh);
+    }
+
+    .bd__carriers {
+      font-size: var(--fs-sm);
+    }
+  }
+
+  /* ── foot: count + expand · checked ── */
+  .bd__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-m);
+    margin-top: clamp(0.5rem, 1.5cqi, 1rem);
+    padding-top: clamp(0.75rem, 1.8cqi, 1rem);
+    border-top: var(--border-hair) solid var(--board-rule);
+  }
+
+  .bd__count {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs) var(--space-s);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .bd__count:lang(ka) {
+    font-family: var(--font-ka-text);
+    letter-spacing: 0.02em;
+  }
+
+  :global(.no-js) .bd__count {
+    display: none;
+  }
+
+  .bd__more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    padding: 0 var(--space-s);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-text);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text);
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .bd__more:hover {
+    border-color: var(--lamp);
+    background: color-mix(in oklab, var(--lamp) 10%, transparent);
+  }
+
+  .bd__more :global(.bd__more-icon) {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .bd__more[aria-expanded='true'] :global(.bd__more-icon) {
+    transform: rotate(180deg);
+  }
+
+  .bd__checked {
+    font-size: var(--fs-3xs);
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  .bd__footnote {
+    margin-top: var(--space-m);
+    max-width: 75ch;
+    font-size: var(--fs-xs);
+    line-height: 1.55;
+    color: var(--color-text-muted);
+  }
+</style>

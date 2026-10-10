@@ -1,0 +1,23 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Riconoscimenti",
+  "title": "Apprezzati *a casa nostra.*",
+  "intro": "Nomination ai premi nazionali del turismo della Georgia, a dieci anni di distanza.",
+  "running": "Welcome to Georgia!",
+  "programme": {
+    "kicker": "I premi",
+    "text": "I premi nazionali del turismo della Georgia, assegnati ogni anno dal 2015.",
+    "link": "sito ufficiale"
+  },
+  "nominee": "Nomination",
+  "listLabel": "Nomination",
+  "items": {
+    "fastest-growing-2016": {
+      "category": "L’azienda con la crescita più rapida dell’anno",
+      "detail": "Segmento PMI"
+    },
+    "inbound-2026": {
+      "category": "Tour operator incoming dell’anno"
+    }
+  }
+}

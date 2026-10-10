@@ -1,0 +1,26 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Compagnie aeree",
+  "title": "Dodici compagnie, *un breve volo.*",
+  "intro": "Compagnie tradizionali e low cost collegano la Georgia al resto d’Europa. I voli diretti variano a seconda della stagione — chiedeteci l’orario aggiornato.",
+  "running": "Come arrivare",
+  "wallLabel": "Compagnie aeree con voli diretti per Tbilisi e Kutaisi",
+  "airports": {
+    "TBS": "Tbilisi",
+    "KUT": "Kutaisi"
+  },
+  "caption": {
+    "group": "gruppo Air France–KLM",
+    "to": {
+      "TBS": "Diretto a Tbilisi",
+      "KUT": "Diretto a Kutaisi"
+    },
+    "more": "+ altre {count}",
+    "notes": {
+      "transavia": "Air France ha cessato i propri voli Parigi–Tbilisi nella primavera 2026."
+    }
+  },
+  "legend": "L’esponente indica l’aeroporto: **TBS** Tbilisi · **KUT** Kutaisi.",
+  "hint": "Passate il cursore su un nome o toccatelo per vedere alcune rotte.",
+  "boards": "Vedi i tabelloni delle partenze"
+}

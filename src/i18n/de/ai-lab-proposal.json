@@ -1,0 +1,114 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Angebots-Baukasten",
+  "title": "Vom Kundenbriefing *zum Programmentwurf.*",
+  "intro": "Beschreiben Sie Ihre Gruppe, und Claude entwirft einen Programmvorschlag — Tag für Tag, mit Orten, Leistungen und Hinweisen zur Nachhaltigkeit — bereit für die Kalkulation durch unser Team.",
+  "form": {
+    "title": "Das Briefing",
+    "samples": "Beispielbriefing laden",
+    "sampleLabels": {
+      "it-georgia-wine-8d": "Italien · 8 Tage · Wein & Kultur",
+      "pl-ge-am-trek-10d": "Polen · 10 Tage · Trekking"
+    },
+    "agency": "Agentur",
+    "agencyPlaceholder": "Optional",
+    "market": "Quellmarkt",
+    "marketPlaceholder": "z. B. Deutschland",
+    "groupSize": "Gruppengröße",
+    "travellers": "Reisende",
+    "when": "Wann",
+    "months": "Monat",
+    "seasonsLabel": "Oder eine Jahreszeit",
+    "seasons": {
+      "spring": "Frühling",
+      "summer": "Sommer",
+      "autumn": "Herbst",
+      "winter": "Winter",
+      "flexible": "Flexible Termine"
+    },
+    "days": "Dauer",
+    "daysValue": "{n} Tage",
+    "countries": "Länder",
+    "interests": "Interessen",
+    "interestsHint": "Nichts gewählt = ausgewogene Mischung",
+    "hotel": "Hotels",
+    "hotels": {
+      "boutique": "Boutique",
+      "3*": "3★",
+      "4*": "4★",
+      "5*": "5★",
+      "mixed": "Gemischt"
+    },
+    "pace": "Tempo",
+    "paces": {
+      "relaxed": "Entspannt",
+      "balanced": "Ausgewogen",
+      "active": "Aktiv"
+    },
+    "requests": "Besondere Wünsche",
+    "requestsPlaceholder": "Sprache der Reiseleitung, Ernährung, Pflichtprogramm, Anlässe…",
+    "count": "{n} / {max}",
+    "submit": "Vorschlag entwerfen"
+  },
+  "fieldErrors": {
+    "groupSize": "Bitte eine Gruppengröße von 1 bis 200 angeben.",
+    "month": "Bitte einen Monat oder eine Jahreszeit wählen.",
+    "season": "Bitte einen Monat oder eine Jahreszeit wählen.",
+    "days": "Bitte eine Dauer von 3 bis 21 Tagen wählen.",
+    "countries": "Bitte mindestens ein Land wählen.",
+    "interests": "Bitte die Interessen prüfen.",
+    "hotelCategory": "Bitte eine Hotelkategorie wählen.",
+    "pace": "Bitte ein Tempo wählen.",
+    "specialRequests": "Besondere Wünsche dürfen höchstens 1.500 Zeichen lang sein.",
+    "agency": "Der Agenturname darf höchstens 120 Zeichen lang sein.",
+    "market": "Der Markt darf höchstens 80 Zeichen lang sein."
+  },
+  "empty": {
+    "title": "Hier wird Ihr Vorschlag gesetzt",
+    "text": "Füllen Sie das Briefing aus — oder laden Sie ein Beispiel — und klicken Sie auf „Vorschlag entwerfen“."
+  },
+  "progress": {
+    "title": "Ihr Vorschlag entsteht",
+    "steps": [
+      "Briefing lesen",
+      "Route wählen",
+      "Tage schreiben",
+      "Leistungen und Hinweise ergänzen"
+    ],
+    "note": "Im Live-Modus kann der Entwurf ein bis zwei Minuten dauern."
+  },
+  "doc": {
+    "kind": "Programmvorschlag",
+    "draft": "Entwurf",
+    "preparedFor": "Erstellt für",
+    "summary": "Überblick",
+    "highlights": "Höhepunkte",
+    "route": "Route",
+    "routeMap": "Routenkarte: {places}",
+    "days": "Tag für Tag",
+    "day": "Tag",
+    "programme": "Programm",
+    "places": "Orte",
+    "meals": "Mahlzeiten",
+    "overnight": "Übernachtung",
+    "included": "Inklusive",
+    "notIncluded": "Nicht inklusive",
+    "sustainability": "Nachhaltigkeit",
+    "nextSteps": "Nächste Schritte",
+    "pricing": "Preise"
+  },
+  "actions": {
+    "print": "Drucken / als PDF speichern",
+    "quote": "Endgültiges Angebot anfragen",
+    "edit": "Briefing bearbeiten"
+  },
+  "mail": {
+    "subject": "Anfrage endgültiges Angebot — {title}",
+    "greeting": "Hallo Local-Host-Team,",
+    "intro": "bitte erstellen Sie ein endgültiges Angebot für diesen Programmentwurf aus Ihrem KI-Labor:",
+    "brief": "Unser Briefing",
+    "programme": "Programm",
+    "contact": "Unsere Agentur und Kontaktdaten:",
+    "signoff": "Vielen Dank,"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Connettore AI (MCP)",
+  "title": "Collega il tuo *assistente AI.*",
+  "intro": "Sempre più agenti pianificano viaggi con un assistente AI come Claude. Collegagli il catalogo di Local Host e ottieni risposte dai nostri dati — non da pagine web qualsiasi.",
+  "why": [
+    {
+      "title": "Risposte dalla fonte",
+      "text": "Esperienze, luoghi, voli diretti, date delle fiere e dati sulla sostenibilità, con le stesse regole di correttezza di questo sito."
+    },
+    {
+      "title": "Richieste più ordinate, più veloci",
+      "text": "Chiedi una richiesta di viaggio e ottieni un’email pronta per il nostro team: paesi, interessi, durata, mese e dimensione del gruppo."
+    },
+    {
+      "title": "Sostenibilità in pochi secondi",
+      "text": "La nostra dichiarazione approvata Travelife Partner e i link a tutte e cinque le politiche sono sempre a una domanda di distanza."
+    }
+  ],
+  "endpoint": {
+    "label": "URL del connettore",
+    "note": "Nessun accesso, nessuna chiave API, niente da installare.",
+    "copy": "Copia URL"
+  },
+  "steps": {
+    "title": "Aggiungilo a Claude",
+    "items": [
+      "Apri Claude (claude.ai o l’app desktop) e vai su **Settings → Connectors**.",
+      "Scegli **Add custom connector**.",
+      "Chiamalo **Local Host** e incolla l’URL qui sopra. Lascia vuoti i campi di accesso (OAuth).",
+      "Clicca **Add**, attiva il connettore Local Host in una chat — e chiedi pure."
+    ],
+    "teams": "Con i piani Claude Team ed Enterprise, il proprietario o un amministratore potrebbe dover aggiungere prima il connettore per l’organizzazione.",
+    "other": "Usi Claude Code o un altro client MCP?",
+    "otherText": "Qualsiasi client che supporta server MCP remoti via Streamable HTTP può usare lo stesso URL.",
+    "copyCommand": "Copia il comando"
+  },
+  "tools": {
+    "title": "Che cosa può consultare il tuo assistente",
+    "count": "{n} strumenti di sola lettura",
+    "readOnly": "Sola lettura",
+    "descriptions": {
+      "list_experiences": "Le sei esperienze: cultura, vino, trekking, gastronomia, pellegrinaggio e relax.",
+      "get_experience": "Un’esperienza nel dettaglio: punti salienti, luoghi migliori, stagioni e a chi si adatta.",
+      "list_places": "Luoghi in Georgia, Armenia e Azerbaigian, per paese o esperienza.",
+      "get_place": "Un luogo: regione, coordinate approssimative, cosa c’è nei dintorni e tempi di viaggio indicativi.",
+      "list_flight_connections": "Voli diretti per Tbilisi (TBS) e Kutaisi (KUT) e le compagnie che li operano.",
+      "get_trade_fairs": "Le fiere dove puoi incontrarci, con le prossime date note.",
+      "get_sustainability_commitments": "Il nostro status Travelife Partner, gli impegni e i cinque PDF delle politiche.",
+      "get_contact": "Indirizzo, telefono ed email — e cosa includere in una richiesta di preventivo.",
+      "draft_trip_request": "Prepara un’email di richiesta pronta da inviare al nostro team. Niente prezzi, nessuna prenotazione."
+    },
+    "params": "Parametri",
+    "noParams": "Nessun parametro"
+  },
+  "examples": {
+    "title": "Prova a chiedere",
+    "items": [
+      "Da quali città ci sono voli diretti per Kutaisi?",
+      "Che cosa può vedere un gruppo di pellegrini in Armenia?",
+      "Prepara una richiesta per un tour del vino di 9 giorni per 20 persone a settembre."
+    ]
+  },
+  "limits": "Non prenota, non blocca, non quota e non invia nulla, e non raccoglie dati personali. Inviare l’email di richiesta è sempre un tuo clic.",
+  "diagram": {
+    "label": "Come funziona il connettore",
+    "assistant": "Il tuo assistente AI",
+    "connector": "Connettore Local Host",
+    "catalogue": "Il nostro catalogo"
+  }
+}

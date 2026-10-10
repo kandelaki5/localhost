@@ -1,0 +1,356 @@
+---
+/**
+ * A nominee seal: an ink medallion (double rim, the programme's name on the
+ * ring, a fine foil engraving, "Nominee" and the year) inside a foil laurel wreath
+ * with a small star at the crown. Typeset and drawn by us — never the award
+ * body's logo. Decorative (aria-hidden): the category and year are in the
+ * heading next to it.
+ *
+ *   <LaurelSeal year={2016} label="Nominee" ringTop="WELCOME TO GEORGIA!" ringBottom="NATIONAL TOURISM AWARDS" />
+ */
+import { uid } from '../../../lib/uid';
+
+interface Props {
+  year: number;
+  /** "Nominee", in the page's language. */
+  label: string;
+  /** Text on the upper arc of the ring (reads left to right). */
+  ringTop: string;
+  /** Text on the lower arc of the ring (reads left to right). */
+  ringBottom: string;
+  ink?: 'ink' | 'green';
+  /** Degrees, clamped to ±2. */
+  tilt?: number;
+  class?: string;
+}
+
+const { year, label, ringTop, ringBottom, ink = 'ink', tilt = 0, class: className } = Astro.props;
+const deg = Math.max(-2, Math.min(2, tilt));
+const foilId = uid('foil');
+const topId = uid('lring-top');
+const bottomId = uid('lring-bottom');
+
+// ── geometry (280-unit viewBox) ───────────────────────────────────────────────
+const C = 140;
+const RAD = Math.PI / 180;
+type Pt = readonly [number, number];
+const polar = (r: number, a: number): Pt => [C + r * Math.cos(a * RAD), C + r * Math.sin(a * RAD)];
+const add = (p: Pt, v: Pt, k = 1): Pt => [p[0] + v[0] * k, p[1] + v[1] * k];
+const f = (p: Pt) => `${p[0].toFixed(2)},${p[1].toFixed(2)}`;
+
+/** An almond leaf from `base` along unit vector `dir`. */
+function leaf(base: Pt, dir: Pt, length: number): { body: string; rib: string } {
+  const perp: Pt = [-dir[1], dir[0]];
+  const w = length * 0.34;
+  const tip = add(base, dir, length);
+  const q1 = add(add(base, dir, length * 0.22), perp, w);
+  const q2 = add(add(base, dir, length * 0.72), perp, w * 0.78);
+  const q3 = add(add(base, dir, length * 0.72), perp, -w * 0.78);
+  const q4 = add(add(base, dir, length * 0.22), perp, -w);
+  return {
+    body: `M${f(base)}C${f(q1)} ${f(q2)} ${f(tip)}C${f(q3)} ${f(q4)} ${f(base)}Z`,
+    rib: `M${f(add(base, dir, length * 0.12))}L${f(add(base, dir, length * 0.78))}`,
+  };
+}
+
+const STEM_R = 101;
+const SPREAD = 27; // leaf angle away from the stem, degrees
+
+/** One branch from the bottom (crossing the other) up to the shoulder. */
+function branch(from: number, to: number) {
+  const sign = Math.sign(to - from);
+  const nodes = 13;
+  const leaves: { body: string; rib: string }[] = [];
+  const berries: Pt[] = [];
+  const c = Math.cos(SPREAD * RAD);
+  const s = Math.sin(SPREAD * RAD);
+  const at = (k: number) => from + (to - from) * (k / (nodes + 0.5));
+  for (let k = 0.6; k <= nodes; k++) {
+    // outer leaf at the node, inner leaf half a step on: an alternate, overlapping wreath
+    for (const [kk, side, scale] of [
+      [k, 1, 1],
+      [k + 0.5, -1, 0.92],
+    ] as const) {
+      const a = at(kk);
+      const p = polar(STEM_R, a);
+      const t: Pt = [-Math.sin(a * RAD) * sign, Math.cos(a * RAD) * sign];
+      const n: Pt = [Math.cos(a * RAD), Math.sin(a * RAD)];
+      const len = (31 - 14 * (kk / nodes)) * scale;
+      leaves.push(leaf(p, [t[0] * c + side * n[0] * s, t[1] * c + side * n[1] * s], len));
+    }
+    if (Math.round(k) % 4 === 2) {
+      const a = at(k + 0.25);
+      berries.push(add(polar(STEM_R, a), [Math.cos(a * RAD), Math.sin(a * RAD)], 9));
+    }
+  }
+  const end = polar(STEM_R, to);
+  const tEnd: Pt = [-Math.sin(to * RAD) * sign, Math.cos(to * RAD) * sign];
+  leaves.push(leaf(end, tEnd, 16));
+  const start = polar(STEM_R + 6, from - sign * 6);
+  const sweep = sign > 0 ? 1 : 0;
+  const stem = `M${f(start)}A${STEM_R},${STEM_R} 0 0 ${sweep} ${f(end)}`;
+  return { stem, leaves, berries };
+}
+
+const branches = [branch(84, 246), branch(96, -66)];
+
+// A five-point star at the crown.
+const star = Array.from({ length: 10 }, (_, i) => {
+  const r = i % 2 === 0 ? 7 : 2.9;
+  const a = -90 + i * 36;
+  return f([C + r * Math.cos(a * RAD), 31 + r * Math.sin(a * RAD)]);
+}).join(' ');
+
+// Foil engraving framing the centre: a fine scalloped ring.
+const scallop = (() => {
+  const pts: string[] = [];
+  for (let i = 0; i <= 720; i++) {
+    const a = (i / 2) * RAD;
+    const r = 50.5 + 1.8 * Math.sin(40 * a);
+    pts.push(f([C + r * Math.cos(a), C + r * Math.sin(a)]));
+  }
+  return `M${pts.join('L')}Z`;
+})();
+
+// Ring text: upper arc left→right over the top (glyphs outward), lower arc
+// left→right under the bottom (glyphs inward), so both read upright.
+const TOP_R = 66.5;
+const BOTTOM_R = 74;
+const topArc = `M${C - TOP_R},${C} A${TOP_R},${TOP_R} 0 0 1 ${C + TOP_R},${C}`;
+const bottomArc = `M${C - BOTTOM_R},${C} A${BOTTOM_R},${BOTTOM_R} 0 0 0 ${C + BOTTOM_R},${C}`;
+const style = [`--lseal-tilt:${deg}deg`].join(';');
+---
+
+<div class:list={['lseal', `lseal--${ink}`, className]} style={style} aria-hidden="true">
+  <svg class="lseal__laurel" viewBox="0 0 280 280" focusable="false">
+    <defs>
+      <linearGradient id={foilId} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" class="lseal__foil-light"></stop>
+        <stop offset="0.45" class="lseal__foil"></stop>
+        <stop offset="0.55" class="lseal__foil-light"></stop>
+        <stop offset="1" class="lseal__foil-deep"></stop>
+      </linearGradient>
+    </defs>
+    {
+      branches.map((b) => (
+        <g>
+          <path class="lseal__stem" d={b.stem} />
+          {b.leaves.map((l) => (
+            <>
+              <path class="lseal__leaf" d={l.body} fill={`url(#${foilId})`} />
+              <path class="lseal__rib" d={l.rib} />
+            </>
+          ))}
+          {b.berries.map((p) => (
+            <circle class="lseal__berry" cx={p[0].toFixed(2)} cy={p[1].toFixed(2)} r="2.6" />
+          ))}
+        </g>
+      ))
+    }
+    <polygon class="lseal__star" points={star} fill={`url(#${foilId})`}></polygon>
+  </svg>
+
+  <div class="lseal__medal">
+    <svg viewBox="0 0 280 280" focusable="false">
+      <defs>
+        <path id={topId} d={topArc} />
+        <path id={bottomId} d={bottomArc} />
+      </defs>
+      <circle cx={C} cy={C} r="86" class="lseal__rim" />
+      <circle cx={C} cy={C} r="81.5" class="lseal__rim lseal__rim--thin" />
+      <circle cx={C} cy={C} r="57" class="lseal__rim lseal__rim--inner" />
+      <text class="lseal__ring" lang="en">
+        <textPath href={`#${topId}`} startOffset="50%" text-anchor="middle">{ringTop}</textPath>
+      </text>
+      <text class="lseal__ring" lang="en">
+        <textPath href={`#${bottomId}`} startOffset="50%" text-anchor="middle">{ringBottom}</textPath>
+      </text>
+      <circle cx={C - 70} cy={C} r="2.2" class="lseal__pip" />
+      <circle cx={C + 70} cy={C} r="2.2" class="lseal__pip" />
+    </svg>
+  </div>
+
+  <svg class="lseal__engraving" viewBox="0 0 280 280" focusable="false">
+    <path d={scallop} />
+    <circle cx={C} cy={C} r="46" class="lseal__engraving-dots" />
+  </svg>
+
+  <div class="lseal__center">
+    <span class="lseal__label">{label}</span>
+    <span class="lseal__year">{year}</span>
+    <span class="lseal__dots"><i></i><i></i><i></i></span>
+  </div>
+</div>
+
+<style>
+  .lseal {
+    --_ink: var(--color-text);
+    --_foil: var(--color-foil);
+    --_foil-deep: color-mix(in oklab, var(--color-foil) 58%, var(--color-ink));
+    --_foil-light: color-mix(in oklab, var(--color-foil) 55%, var(--color-bg-raised));
+    position: relative;
+    width: var(--lseal-size, 16rem);
+    aspect-ratio: 1;
+    flex: none;
+    transform: rotate(var(--lseal-tilt, 0deg));
+  }
+
+  .lseal--green {
+    --_ink: var(--color-green-ink);
+  }
+
+  .lseal svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* ── foil laurel ── */
+  .lseal__foil-light {
+    stop-color: var(--_foil-light);
+  }
+
+  .lseal__foil {
+    stop-color: var(--_foil);
+  }
+
+  .lseal__foil-deep {
+    stop-color: var(--_foil-deep);
+  }
+
+  .lseal__stem {
+    fill: none;
+    stroke: var(--_foil-deep);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  .lseal__leaf {
+    stroke: var(--_foil-deep);
+    stroke-width: 0.6;
+  }
+
+  .lseal__rib {
+    fill: none;
+    stroke: var(--_foil-deep);
+    stroke-width: 0.55;
+    stroke-linecap: round;
+    opacity: 0.8;
+  }
+
+  .lseal__berry {
+    fill: var(--_foil-deep);
+  }
+
+  .lseal__star {
+    stroke: var(--_foil-deep);
+    stroke-width: 0.6;
+  }
+
+  /* ── ink medallion (rubber-stamp texture on rims and ring only) ── */
+  .lseal__medal {
+    position: absolute;
+    inset: 0;
+    color: var(--_ink);
+    -webkit-mask-image: var(--texture-ink);
+    mask-image: var(--texture-ink);
+    -webkit-mask-size: 160px;
+    mask-size: 160px;
+    mix-blend-mode: multiply;
+  }
+
+  .lseal__rim {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+  }
+
+  .lseal__rim--thin {
+    stroke-width: 1;
+  }
+
+  .lseal__rim--inner {
+    stroke-width: 1.4;
+  }
+
+  .lseal__ring {
+    fill: currentColor;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.16em;
+  }
+
+  .lseal__pip {
+    fill: currentColor;
+  }
+
+  .lseal__engraving {
+    fill: none;
+    stroke: var(--_foil-deep);
+    stroke-width: 0.7;
+  }
+
+  .lseal__engraving-dots {
+    stroke-width: 1.4;
+    stroke-dasharray: 0.1 3.2;
+    stroke-linecap: round;
+  }
+
+  /* ── centre ── */
+  .lseal__center {
+    position: absolute;
+    inset: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    color: var(--_ink);
+    text-align: center;
+    font-size: calc(var(--lseal-size, 16rem) / 16);
+    line-height: 1;
+  }
+
+  .lseal__label {
+    font-family: var(--font-text);
+    font-size: 0.62em;
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+  }
+
+  .lseal__label:lang(ka) {
+    font-size: 0.66em;
+    font-weight: var(--fw-semibold);
+  }
+
+  .lseal__year {
+    margin-top: 0.08em;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 2.35em;
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    letter-spacing: -0.02em;
+  }
+
+  .lseal__dots {
+    display: flex;
+    gap: 0.28em;
+    margin-top: 0.3em;
+  }
+
+  .lseal__dots i {
+    width: 0.22em;
+    height: 0.22em;
+    border-radius: var(--radius-round);
+    background: var(--_foil-deep);
+  }
+
+  .lseal__dots i:nth-child(2) {
+    background: var(--color-accent);
+  }
+</style>

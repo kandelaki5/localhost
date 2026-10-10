@@ -1,0 +1,183 @@
+---
+/**
+ * Host monogram seal: an ink roundel with the host's Georgian initials
+ * (მ&ე, ლ, ს …), a double paper rim, a small sun dot and, on the large size,
+ * the host's name repeated around the ring. Cut out of the photo by a paper
+ * ring, so it can overlap a picture's edge.
+ *
+ *   <HostSeal monogram={['მ', 'ე']} ring="Marika & Enry" size="l" />
+ *
+ * Decorative (aria-hidden): the host's name is always in the heading next to it.
+ * We never show portraits of the hosts; the monogram stands in for them.
+ */
+import { uid } from '../../../lib/uid';
+
+interface Props {
+  /** One or two Mkhedruli letters. */
+  monogram: readonly string[];
+  /** Name set around the ring (large size only). Repeated to fill the circle. */
+  ring?: string;
+  size?: 'l' | 's';
+  /** Degrees, clamped to ±2 (hand-stamped, never crooked). */
+  rotate?: number;
+  class?: string;
+}
+
+const { monogram, ring = '', size = 'l', rotate = 0, class: className } = Astro.props;
+
+const deg = Math.max(-2, Math.min(2, rotate));
+const pathId = uid('host-seal');
+
+// Ring geometry in the 200-unit viewBox.
+const R = 77;
+const CIRCUMFERENCE = 2 * Math.PI * R;
+
+// Georgian has no capitals (toUpperCase would turn Mkhedruli into Mtavruli).
+const isGeorgian = /[Ⴀ-ჿᲐ-Ჿ]/.test(ring);
+const unit = `${isGeorgian ? ring : ring.toUpperCase()} • `;
+
+// Repeat the name until it fills the ring, then let textLength close it
+// evenly. Average advance of a letter-spaced semibold cap ≈ 0.8 em.
+const FONT = 14;
+const capacity = CIRCUMFERENCE / (FONT * 0.8);
+const reps = ring ? Math.max(1, Math.round(capacity / unit.length)) : 0;
+const ringText = unit.repeat(reps).trimEnd() + ' ';
+const fontSize = Math.min(FONT, (FONT * capacity) / Math.max(ringText.length, 1));
+const showRing = size === 'l' && ring.length > 0;
+---
+
+<span
+  class:list={['hseal', `hseal--${size}`, className]}
+  style={deg ? `--hseal-rotate:${deg}deg` : undefined}
+  aria-hidden="true"
+>
+  <svg class="hseal__svg" viewBox="0 0 200 200" focusable="false">
+    {
+      showRing && (
+        <defs>
+          <path id={pathId} d={`M100,100 m-${R},0 a${R},${R} 0 1,1 ${2 * R},0 a${R},${R} 0 1,1 -${2 * R},0`} />
+        </defs>
+      )
+    }
+    <circle class="hseal__rim" cx="100" cy="100" r="93" />
+    {showRing && <circle class="hseal__rim hseal__rim--inner" cx="100" cy="100" r="62" />}
+    {
+      showRing && (
+        <text class="hseal__ring" lang={isGeorgian ? 'ka' : undefined} font-size={fontSize.toFixed(2)}>
+          <textPath href={`#${pathId}`} textLength={CIRCUMFERENCE.toFixed(1)} lengthAdjust="spacing">
+            {ringText}
+          </textPath>
+        </text>
+      )
+    }
+    <circle class="hseal__sun" cx="100" cy={showRing ? 52 : 40} r={showRing ? 4.5 : 7} />
+  </svg>
+  <span class:list={['hseal__mono', monogram.length > 1 && 'hseal__mono--pair']} lang="ka">
+    {
+      monogram.length > 1 ? (
+        <>
+          {monogram[0]}
+          <span class="hseal__amp" lang="en">&amp;</span>
+          {monogram[1]}
+        </>
+      ) : (
+        monogram[0]
+      )
+    }
+  </span>
+</span>
+
+<style>
+  .hseal {
+    --hseal-size: clamp(5.75rem, 4.6rem + 3.4vw, 7.75rem);
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--hseal-size);
+    aspect-ratio: 1;
+    border-radius: var(--radius-round);
+    background: var(--color-ink);
+    color: var(--color-paper);
+    box-shadow:
+      0 0 0 var(--space-2xs) var(--color-bg),
+      var(--shadow-md);
+    transform: rotate(var(--hseal-rotate, 0deg));
+  }
+
+  .hseal--s {
+    --hseal-size: clamp(3.5rem, 3rem + 1.6vw, 4.25rem);
+    box-shadow:
+      0 0 0 var(--space-3xs) var(--color-bg),
+      var(--shadow-sm);
+  }
+
+  .hseal__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .hseal__rim {
+    fill: none;
+    stroke: color-mix(in srgb, var(--color-paper) 55%, transparent);
+    stroke-width: 1.25;
+  }
+
+  .hseal--s .hseal__rim {
+    stroke-width: 2.5;
+  }
+
+  .hseal__rim--inner {
+    stroke: color-mix(in srgb, var(--color-paper) 35%, transparent);
+    stroke-width: 1;
+  }
+
+  .hseal__ring {
+    fill: var(--color-paper);
+    font-family: var(--font-text);
+    font-weight: var(--fw-semibold);
+  }
+
+  .hseal__ring:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-weight: var(--fw-medium);
+  }
+
+  /* The sun over the monogram — the one red mark on the seal. */
+  .hseal__sun {
+    fill: var(--color-accent);
+  }
+
+  .hseal__mono {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    margin-top: 0.12em;
+    font-family: var(--font-ka-display);
+    font-size: calc(var(--hseal-size) * 0.36);
+    font-weight: var(--fw-ka-text);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .hseal__mono--pair {
+    font-size: calc(var(--hseal-size) * 0.27);
+  }
+
+  .hseal--s .hseal__mono {
+    margin-top: 0.22em;
+    font-size: calc(var(--hseal-size) * 0.42);
+  }
+
+  .hseal__amp {
+    margin-inline: 0.04em;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.78em;
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    opacity: 0.8;
+  }
+</style>

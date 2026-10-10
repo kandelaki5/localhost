@@ -1,0 +1,358 @@
+---
+/**
+ * The template's "certificate screen", designed as a document card: a
+ * double-ruled sheet with the certificate preview, the register facts and a
+ * link to verify them. Until the owner sends the certificate image
+ * (CERTIFICATE_IMAGE in ./data.ts), the preview is a quiet wireframe of a
+ * certificate with a small "certificate image to come" note — clearly a
+ * placeholder, never a fake document.
+ */
+import { Picture } from 'astro:assets';
+import Icon from '../../ui/Icon.astro';
+import { getLang, useStrings } from '../../../i18n';
+import { CERTIFICATE_IMAGE, TRAVELIFE, TRAVELIFE_REGISTER_URL } from './data';
+import { formatDate } from './format';
+
+interface Props {
+  /** id for the card heading (the section is the landmark; this is a sub-heading). */
+  headingId: string;
+  class?: string;
+}
+
+const { headingId, class: className } = Astro.props;
+const lang = getLang(Astro);
+const t = useStrings(lang, 'sustainability');
+const common = useStrings(lang, 'common');
+const c = t.certificate;
+const first = formatDate(TRAVELIFE.firstApproval, lang);
+const valid = formatDate(TRAVELIFE.validUntil, lang);
+const span = `${TRAVELIFE.firstApproval.slice(0, 4)}–${TRAVELIFE.validUntil.slice(0, 4)}`;
+---
+
+<article class:list={['cert', className]} aria-labelledby={headingId}>
+  <header class="cert__head">
+    <h4 id={headingId} class="cert__kicker kicker">{c.kicker}</h4>
+    <span class="cert__span" aria-hidden="true">{span}</span>
+  </header>
+
+  <div class="cert__sheet">
+    {
+      CERTIFICATE_IMAGE ? (
+        <Picture
+          src={CERTIFICATE_IMAGE}
+          alt={c.imageAlt}
+          formats={['avif', 'webp']}
+          widths={[480, 720, 960]}
+          sizes="(min-width: 64em) 30vw, 90vw"
+          class="cert__img"
+        />
+      ) : (
+        <div class="cert__wire" aria-hidden="true">
+          <span class="cert__wire-frame">
+            <span class="cert__bar cert__bar--xs" />
+            <span class="cert__bar cert__bar--title" />
+            <span class="cert__bar cert__bar--s" />
+            <span class="cert__bar cert__bar--m" />
+            <span class="cert__bar cert__bar--s" />
+            <span class="cert__wire-foot">
+              <span class="cert__sign" />
+              <span class="cert__ring" />
+            </span>
+          </span>
+        </div>
+      )
+    }
+    {
+      !CERTIFICATE_IMAGE && (
+        <p class="cert__pending">
+          <Icon name="image" size={14} />
+          {c.pending}
+        </p>
+      )
+    }
+  </div>
+
+  <dl class="cert__facts">
+    <div class="cert__row">
+      <dt>{c.holderLabel}</dt>
+      <dd>{c.holder}</dd>
+    </div>
+    <div class="cert__row">
+      <dt>{c.levelLabel}</dt>
+      <dd>{c.level}</dd>
+    </div>
+    <div class="cert__row">
+      <dt>{c.firstLabel}</dt>
+      <dd><time datetime={TRAVELIFE.firstApproval}>{first}</time></dd>
+    </div>
+    <div class="cert__row">
+      <dt>{c.validLabel}</dt>
+      <dd><time datetime={TRAVELIFE.validUntil}>{valid}</time></dd>
+    </div>
+  </dl>
+
+  <footer class="cert__foot">
+    <span class="cert__scope">{c.scope}</span>
+    <a class="cert__verify" href={TRAVELIFE_REGISTER_URL} target="_blank" rel="noopener noreferrer">
+      {c.register}
+      <Icon name="arrow-up-right" size={14} />
+      <span class="visually-hidden">({common.aria.newTab})</span>
+    </a>
+  </footer>
+</article>
+
+<style>
+  .cert {
+    position: relative;
+    display: grid;
+    gap: var(--space-s);
+    padding: var(--space-m);
+    background: var(--color-bg-raised);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    outline: var(--border-hair) solid var(--color-rule-strong);
+    outline-offset: calc(-1 * var(--space-2xs));
+    box-shadow: var(--shadow-md);
+  }
+
+  .cert__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-inline: var(--space-3xs);
+  }
+
+  .cert__kicker {
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .cert__span {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  /* ── preview sheet ── */
+  .cert__sheet {
+    position: relative;
+    aspect-ratio: 1.414 / 1;
+    background: var(--color-bg-sunken);
+    overflow: hidden;
+  }
+
+  .cert__sheet :global(.cert__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .cert__wire {
+    position: absolute;
+    inset: 9% 11% 18%;
+    display: flex;
+    background: var(--color-bg-raised);
+    box-shadow: var(--shadow-xs);
+    padding: 4%;
+  }
+
+  .cert__wire-frame {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7%;
+    padding: 6% 10%;
+    border: var(--border-hair) solid var(--color-rule);
+    outline: var(--border-hair) solid var(--color-rule);
+    outline-offset: calc(-1 * var(--space-3xs));
+  }
+
+  .cert__bar {
+    display: block;
+    height: 0.3rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-rule);
+  }
+
+  .cert__bar--xs {
+    width: 22%;
+  }
+
+  .cert__bar--title {
+    width: 58%;
+    height: 0.6rem;
+    background: var(--color-rule-strong);
+    opacity: 0.55;
+  }
+
+  .cert__bar--s {
+    width: 44%;
+  }
+
+  .cert__bar--m {
+    width: 66%;
+  }
+
+  .cert__wire-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 2%;
+  }
+
+  .cert__sign {
+    width: 30%;
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+    opacity: 0.6;
+  }
+
+  .cert__ring {
+    width: 2.25rem;
+    aspect-ratio: 1;
+    border-radius: var(--radius-round);
+    border: var(--border-hair) dashed var(--color-rule-strong);
+    opacity: 0.7;
+  }
+
+  .cert__pending {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  .cert__pending:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+  }
+
+  /* ── facts ── */
+  .cert__facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-m);
+    margin: 0;
+    padding-inline: var(--space-3xs);
+  }
+
+  .cert__row {
+    display: grid;
+    align-content: start;
+    gap: 0.15rem;
+    padding-block: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .cert__row dt {
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .cert__row dt:lang(ka) {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-medium);
+  }
+
+  .cert__row dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    line-height: 1.35;
+    color: var(--color-text);
+  }
+
+  /* ── foot ── */
+  .cert__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-m);
+    padding: var(--space-xs) var(--space-3xs) 0;
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+  }
+
+  .cert__scope {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text-muted);
+  }
+
+  .cert__verify {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.75rem;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .cert__verify:hover {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+  }
+
+  .cert__scope:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-style: normal;
+    font-weight: var(--fw-ka-text);
+  }
+
+  .cert__verify:lang(ka) {
+    font-size: var(--fs-xs);
+  }
+
+  /* Tablet: the card runs the full width, so set it as a landscape spread —
+     preview on the left, the register facts on the right. */
+  @media (min-width: 40em) and (max-width: 63.99em) {
+    .cert {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      column-gap: var(--space-l);
+      align-items: start;
+    }
+
+    .cert__head,
+    .cert__foot {
+      grid-column: 1 / -1;
+    }
+
+    .cert__facts {
+      grid-template-columns: 1fr;
+      align-self: center;
+    }
+
+    .cert__row:last-child {
+      border-bottom: var(--border-hair) solid var(--color-rule);
+    }
+  }
+
+  @media (max-width: 23.99em) {
+    .cert__facts {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

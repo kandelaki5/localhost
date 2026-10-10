@@ -1,0 +1,87 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Caucaso",
+  "title": "Tre paesi. *Un solo padrone di casa.*",
+  "intro": "La Georgia è casa nostra; Armenia e Azerbaigian sono i vicini. Un unico team a Tbilisi progetta e gestisce programmi in tutti e tre i paesi, singolarmente o combinati in un solo viaggio, con i passaggi di frontiera organizzati da noi.",
+  "running": "Georgia · Armenia · Azerbaigian",
+  "countries": [
+    {
+      "tag": "Casa · Tbilisi",
+      "summary": "Casa nostra: un piccolo paese dalla grande varietà, dall’alto Caucaso al Mar Nero e alle valli del vino della Cachezia.",
+      "highlights": [
+        "Tbilisi, Mtskheta e la strada per Kazbegi",
+        "La Cachezia del vino e le cantine con i qvevri",
+        "Svanezia e Tuscezia, in alta montagna"
+      ],
+      "photo": {
+        "alt": "Torri difensive medievali in pietra tra le case di un villaggio in una verde valle della Svanezia, con un massiccio innevato sullo sfondo",
+        "caption": "Torri svane in Svanezia"
+      }
+    },
+    {
+      "tag": "Qui accanto · Erevan",
+      "summary": "Un paese di altopiani, monasteri, tufo vulcanico e viste sul monte Ararat, con una capitale vivace: Erevan.",
+      "highlights": [
+        "Erevan, il tempio di Garni e Geghard",
+        "Khor Virap, di fronte all’Ararat",
+        "Il vino di Areni e il lago Sevan"
+      ],
+      "photo": {
+        "alt": "Il monastero di Khor Virap su una collina sopra la piana dell’Ararat; alle sue spalle il cono innevato del monte Ararat sotto un cielo azzurro",
+        "caption": "Khor Virap e il monte Ararat"
+      }
+    },
+    {
+      "tag": "Qui accanto · Baku",
+      "summary": "La Terra del Fuoco sul Caspio: una Città Vecchia cinta da mura, arte rupestre preistorica e villaggi di montagna della seta e del rame.",
+      "highlights": [
+        "La Città Vecchia di Baku e il lungomare",
+        "L’arte rupestre del Gobustan e la penisola di Absheron",
+        "Shaki, Lahıc e i villaggi del Grande Caucaso"
+      ],
+      "photo": {
+        "alt": "I tetti della Città Vecchia di Baku visti dall’alto, con le Flame Towers e la torre della TV sullo skyline",
+        "caption": "La Città Vecchia di Baku e le Flame Towers"
+      }
+    }
+  ],
+  "cta": "Pianifica un viaggio qui",
+  "credit": "Foto: {creator}, {license}",
+  "map": {
+    "fig": "Tbilisi, tra due mari",
+    "note": "Mappa schematica. Contorni: Natural Earth.",
+    "label": "Mappa schematica del Caucaso meridionale",
+    "description": "Georgia, Armenia e Azerbaigian tra il Mar Nero a ovest e il Mar Caspio a est, con la catena del Grande Caucaso lungo il loro margine settentrionale. Tbilisi, nella Georgia orientale, è segnata dal sole rosso. Da Tbilisi partono linee verso nord fino a Kazbegi, verso ovest fino a Kutaisi e poi a Batumi sul Mar Nero, verso sud fino a Erevan in Armenia e verso est fino a Shaki e poi a Baku sul Caspio. A nord si trova la Russia, a sud-ovest la Turchia e a sud l’Iran.",
+    "cities": {
+      "tbilisi": "Tbilisi",
+      "kutaisi": "Kutaisi",
+      "batumi": "Batumi",
+      "kazbegi": "Kazbegi",
+      "yerevan": "Erevan",
+      "sheki": "Shaki",
+      "baku": "Baku"
+    },
+    "seas": {
+      "blackSea": "Mar Nero",
+      "caspianSea": "Mar Caspio"
+    },
+    "neighbours": {
+      "RU": "Russia",
+      "TR": "Turchia",
+      "IR": "Iran"
+    },
+    "range": "Grande Caucaso",
+    "scale": "100 km",
+    "north": "N"
+  },
+  "aside": {
+    "kicker": "Da Tbilisi",
+    "title": "Tra due mari, *tre capitali.*",
+    "text": "Tbilisi si trova tra il Mar Nero e il Caspio, con Erevan a sud e Baku a est. Quando un programma combina due o tre paesi, il nostro team organizza trasferimenti, tempi e passaggi di frontiera: così il vostro gruppo viaggia con un solo piano e un solo team alle spalle.",
+    "timesLabel": "Tempi di guida indicativi",
+    "hours": "circa {h} ore",
+    "border": "frontiera inclusa",
+    "note": "In auto. Traffico, meteo e code alla frontiera possono cambiarli.",
+    "cta": "Bozza di un itinerario in tre paesi"
+  }
+}

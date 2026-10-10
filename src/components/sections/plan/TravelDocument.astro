@@ -1,0 +1,913 @@
+---
+/**
+ * The planner's input, set as a travel document: country and experience
+ * stamps (toggle buttons, aria-pressed), length, month, travellers, pace and a
+ * "Dear Local Host, …" letter with optional dictation. A passport-style
+ * machine-readable zone at the bottom mirrors the choices (decorative).
+ *
+ * Works only with JS (Plan.astro shows a mailto fallback without it). The
+ * stamps toggle in Plan.astro's small boot script; everything else is wired by
+ * planner.ts once it has loaded.
+ */
+import Button from '../../ui/Button.astro';
+import Icon from '../../ui/Icon.astro';
+import StampToggle from './StampToggle.astro';
+import { localeInfo, type Lang } from '../../../i18n';
+import { inline } from '../../../lib/markup';
+import { PACES, PLAN_DAYS_MAX, PLAN_DAYS_MIN, PLAN_NOTES_MAX, TRAVELLER_TYPES } from '../../../lib/ai/client/plan-format';
+import { COUNTRY_CODES, EXPERIENCE_IDS } from '../../../lib/ai/types';
+import type enPlan from '../../../i18n/en/plan.json';
+import { EXPERIENCE_GLYPHS } from './glyphs';
+import { countryOutline } from './data';
+
+interface Props {
+  lang: Lang;
+  t: typeof enPlan;
+  arcId: string;
+}
+
+const { lang, t, arcId } = Astro.props;
+const bcp47 = localeInfo(lang).bcp47;
+const DEFAULT_DAYS = 7;
+const DEFAULT_PACE = 'balanced';
+const capitalise = (s: string) => s.charAt(0).toLocaleUpperCase(bcp47) + s.slice(1);
+const months = Array.from({ length: 12 }, (_, i) => ({
+  value: String(i + 1),
+  name: capitalise(new Intl.DateTimeFormat(bcp47, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, i, 15)))),
+}));
+const countryRotate = [-1.2, 0.8, -0.5];
+const experienceRotate = [0.9, -1.1, 0.5, -0.7, 1.2, -0.4];
+const mrz = [
+  `P<LHT<GE<<ANY<${String(DEFAULT_DAYS).padStart(2, '0')}D`.padEnd(44, '<'),
+  `MIX<<<${DEFAULT_PACE.toUpperCase()}`.padEnd(44, '<'),
+].join('\n');
+---
+
+<form class="doc" id="plan-form" data-plan-form novalidate aria-labelledby="plan-doc-title">
+  <div class="doc__head">
+    <p class="doc__serial">
+      <span class="kicker doc__serial-label">{t.form.label}</span>
+      <span class="doc__serial-no">{t.form.serial}</span>
+    </p>
+    <h3 id="plan-doc-title" class="doc__title display" tabindex="-1" set:html={inline(t.form.title)} />
+    <p class="doc__hint">{t.form.hint}</p>
+    <div class="doc__summary" data-summary hidden>
+      <p class="doc__summary-text">
+        <span class="kicker doc__summary-label">{t.form.summaryLabel}</span>
+        <span data-summary-text></span>
+      </p>
+      <button type="button" class="doc__edit" data-edit aria-controls="plan-doc-body" aria-expanded="true">
+        {t.form.edit}
+      </button>
+    </div>
+  </div>
+
+  <div class="doc__body" id="plan-doc-body" data-doc-body>
+    <!-- 01 countries -->
+    <fieldset class="doc__row" aria-describedby="plan-countries-hint">
+      <legend class="doc__legend">
+        <span class="doc__step" aria-hidden="true">01</span>
+        <span class="kicker">{t.form.countries}</span>
+      </legend>
+      <p class="doc__note" id="plan-countries-hint">{t.form.countriesHint}</p>
+      <div class="doc__stamps">
+        {
+          COUNTRY_CODES.map((code, i) => (
+            <StampToggle
+              kind="country"
+              value={code}
+              label={t.countries[code]}
+              code={code}
+              no={String(i + 1).padStart(2, '0')}
+              pressed={code === 'GE'}
+              tint="green"
+              rotate={countryRotate[i] ?? 0}
+              outline={countryOutline(code)}
+              arcId={arcId}
+            />
+          ))
+        }
+      </div>
+      <p class="doc__error" id="plan-countries-error" data-countries-error role="alert" hidden>
+        {t.form.countriesError}
+      </p>
+    </fieldset>
+
+    <!-- 02 experiences -->
+    <fieldset class="doc__row" aria-describedby="plan-experiences-hint">
+      <legend class="doc__legend">
+        <span class="doc__step" aria-hidden="true">02</span>
+        <span class="kicker">{t.form.experiences}</span>
+      </legend>
+      <p class="doc__note" id="plan-experiences-hint">{t.form.experiencesHint}</p>
+      <div class="doc__stamps doc__stamps--six">
+        {
+          EXPERIENCE_IDS.map((id, i) => (
+            <StampToggle
+              kind="experience"
+              value={id}
+              label={t.experiences[id]}
+              no={String(i + 1).padStart(2, '0')}
+              tint={i % 2 ? 'red' : 'green'}
+              rotate={experienceRotate[i] ?? 0}
+              glyph={EXPERIENCE_GLYPHS[id]}
+              arcId={arcId}
+            />
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <!-- 03 length -->
+    <div class="doc__row doc__days">
+        <div class="doc__legend">
+          <span class="doc__step" aria-hidden="true">03</span>
+          <label class="kicker" for="plan-days">{t.form.length}</label>
+        </div>
+        <div class="days">
+          <p class="days__readout" aria-hidden="true">
+            <output class="days__n" for="plan-days" data-days-out>{DEFAULT_DAYS}</output>
+            <span class="days__unit">{t.form.daysUnit}</span>
+          </p>
+          <div class="days__control">
+            <button type="button" class="days__step" data-days-step="-1" aria-label={t.form.fewer} aria-controls="plan-days">
+              <span aria-hidden="true">−</span>
+            </button>
+            <div class="days__track">
+              <input
+                class="days__range"
+                type="range"
+                id="plan-days"
+                name="days"
+                min={PLAN_DAYS_MIN}
+                max={PLAN_DAYS_MAX}
+                step="1"
+                value={DEFAULT_DAYS}
+                aria-valuetext={t.form.daysValue.replace('{n}', String(DEFAULT_DAYS))}
+                style={`--fill:${((DEFAULT_DAYS - PLAN_DAYS_MIN) / (PLAN_DAYS_MAX - PLAN_DAYS_MIN)) * 100}%`}
+                data-days
+              />
+              <span class="days__ticks" aria-hidden="true">
+                {Array.from({ length: PLAN_DAYS_MAX - PLAN_DAYS_MIN + 1 }, (_, i) => <span class:list={['days__tick', (i + PLAN_DAYS_MIN) % 7 === 0 && 'days__tick--week']} />)}
+              </span>
+              <span class="days__scale" aria-hidden="true">
+                <span>{PLAN_DAYS_MIN}</span>
+                <span>{PLAN_DAYS_MAX}</span>
+              </span>
+            </div>
+            <button type="button" class="days__step" data-days-step="1" aria-label={t.form.more} aria-controls="plan-days">
+              <span aria-hidden="true">+</span>
+            </button>
+          </div>
+        </div>
+    </div>
+
+    <!-- 04 when -->
+    <div class="doc__row doc__month">
+      <div class="doc__legend">
+        <span class="doc__step" aria-hidden="true">04</span>
+        <label class="kicker" for="plan-month">{t.form.month}</label>
+      </div>
+      <div class="select">
+        <Icon name="calendar" size={18} class="select__icon" />
+        <select id="plan-month" name="month" class="select__input" data-month aria-label={t.form.monthLabel}>
+          <option value="">{t.form.monthAny}</option>
+          {months.map((m) => <option value={m.value}>{m.name}</option>)}
+        </select>
+        <Icon name="chevron" size={18} class="select__chevron" />
+      </div>
+    </div>
+
+    <!-- 05 travellers -->
+    <fieldset class="doc__row">
+      <legend class="doc__legend">
+        <span class="doc__step" aria-hidden="true">05</span>
+        <span class="kicker">{t.form.travellers}</span>
+        <span class="doc__optional">({t.form.optional})</span>
+      </legend>
+      <div class="chips">
+        {
+          TRAVELLER_TYPES.map((type) => (
+            <label class="chip">
+              <input class="chip__input" type="radio" name="travellers" value={type} />
+              <span class="chip__face">{t.travellers[type]}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <!-- 06 pace -->
+    <fieldset class="doc__row">
+      <legend class="doc__legend">
+        <span class="doc__step" aria-hidden="true">06</span>
+        <span class="kicker">{t.form.pace}</span>
+      </legend>
+      <div class="chips">
+        {
+          PACES.map((pace) => (
+            <label class="chip">
+              <input class="chip__input" type="radio" name="pace" value={pace} checked={pace === DEFAULT_PACE} />
+              <span class="chip__face">{t.pace[pace]}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <!-- 07 letter -->
+    <div class="doc__row doc__letter">
+      <div class="doc__legend">
+        <span class="doc__step" aria-hidden="true">07</span>
+        <label class="kicker" for="plan-notes">
+          {t.form.letter}<span class="visually-hidden"> — {t.form.letterLabel}</span>
+        </label>
+      </div>
+      <div class="letter">
+        <p class="letter__salutation" aria-hidden="true">{t.form.salutation}</p>
+        <textarea
+          class="letter__input"
+          id="plan-notes"
+          name="notes"
+          rows="4"
+          maxlength={PLAN_NOTES_MAX}
+          placeholder={t.form.letterPlaceholder}
+          aria-describedby="plan-notes-hint"
+          data-notes></textarea>
+        <div class="letter__foot">
+          <button type="button" class="letter__mic" data-mic aria-pressed="false" aria-describedby="plan-mic-note" hidden>
+            <Icon name="mic" size={18} />
+            <span data-mic-label>{t.form.dictate}</span>
+          </button>
+          <span class="letter__status" data-mic-status aria-live="polite"></span>
+          <span class="letter__count" data-count aria-hidden="true">0 / {PLAN_NOTES_MAX}</span>
+        </div>
+      </div>
+      <p class="doc__note" id="plan-notes-hint">{t.form.letterHint}</p>
+      <p class="doc__note doc__note--mic" id="plan-mic-note" data-mic-note hidden>{t.form.micPrivacy}</p>
+    </div>
+
+    <div class="doc__go">
+      <Button type="submit" variant="ai" size="lg" class="doc__submit">{t.form.submit}</Button>
+      <div class="doc__fine">
+        <p>{t.form.privacy}</p>
+        <p>{t.form.disclaimer}</p>
+      </div>
+    </div>
+
+    <p class="doc__mrz" aria-hidden="true" data-mrz>{mrz}</p>
+  </div>
+</form>
+
+<style>
+  .doc {
+    position: relative;
+    padding: clamp(1.25rem, 1rem + 1.4vw, 2.25rem);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--color-bg-raised) 55%, transparent), transparent 40%),
+      color-mix(in srgb, var(--color-bg-sunken) 82%, transparent);
+    box-shadow: var(--shadow-board);
+  }
+
+  /* ── head ── */
+  .doc__serial {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--border-hair) dashed var(--color-rule-strong);
+  }
+
+  .doc__serial-label {
+    color: var(--color-green-ink);
+  }
+
+  .doc__serial-no {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  .doc__title {
+    margin-top: var(--space-m);
+    font-size: calc(var(--fs-2xl) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+  }
+
+  .doc__title :global(em) {
+    font-weight: var(--fw-display-sm);
+  }
+
+  .doc__hint {
+    margin-top: var(--space-xs);
+    max-width: 52ch;
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+  }
+
+  .doc__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    margin-top: var(--space-s);
+    padding: var(--space-xs) var(--space-s);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-bg-raised) 70%, transparent);
+  }
+
+  .doc__summary-text {
+    display: grid;
+    gap: 0.2rem;
+    font-size: var(--fs-sm);
+    color: var(--color-text);
+  }
+
+  .doc__summary-label {
+    color: var(--color-text-muted);
+  }
+
+  .doc__edit {
+    flex: none;
+    min-height: 2.75rem;
+    padding: 0 var(--space-s);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .doc__edit:hover {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .doc[data-collapsed] .doc__hint {
+    display: none;
+  }
+
+  /* ── rows ── */
+  .doc__body {
+    display: grid;
+    gap: 0;
+  }
+
+  .doc__row {
+    min-width: 0;
+    margin: 0;
+    padding: var(--space-l) 0 0;
+    border: 0;
+  }
+
+  .doc__row + .doc__row,
+  .doc__go {
+    margin-top: var(--space-l);
+    border-top: var(--border-hair) dashed var(--color-rule);
+  }
+
+  .doc__body > .doc__row:first-child {
+    padding-top: var(--space-m);
+  }
+
+  .doc__legend {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+    float: left;
+    width: 100%;
+    margin-bottom: var(--space-2xs);
+    padding: 0;
+  }
+
+  .doc__legend + * {
+    clear: both;
+  }
+
+  .doc__legend .kicker {
+    color: var(--color-text);
+  }
+
+  .doc__step {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-green-ink);
+  }
+
+  .doc__optional {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .doc__note {
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    max-width: 60ch;
+  }
+
+  .doc__error {
+    margin-top: var(--space-s);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-red-ink);
+  }
+
+  /* ── stamps ── */
+  .doc__stamps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-m) var(--space-s);
+    margin-top: var(--space-s);
+    padding-right: var(--space-xs);
+  }
+
+  /* ── length + month ── */
+  .days {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--space-m);
+    margin-top: var(--space-xs);
+  }
+
+  .days__readout {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .days__n {
+    font-family: var(--font-display);
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-display-m);
+    font-variation-settings: var(--fvs-display);
+    font-variant-numeric: lining-nums tabular-nums;
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .days__unit {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-variation-settings: var(--fvs-accent);
+    color: var(--color-emphasis);
+  }
+
+  .days__unit:lang(ka) {
+    font-style: normal;
+  }
+
+  .days__control {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .days__step {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-round);
+    font-size: var(--fs-lg);
+    line-height: 1;
+    color: var(--color-text);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .days__step:hover:not(:disabled) {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .days__step:disabled {
+    opacity: var(--opacity-disabled);
+    cursor: default;
+  }
+
+  .days__track {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    padding-bottom: 1.1rem;
+  }
+
+  .days__range {
+    --thumb: 1.375rem;
+    display: block;
+    width: 100%;
+    height: 2.75rem;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .days__range::-webkit-slider-runnable-track {
+    height: 3px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, var(--color-glow) var(--fill, 20%), var(--color-rule-strong) var(--fill, 20%));
+  }
+
+  .days__range::-moz-range-track {
+    height: 3px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, var(--color-glow) var(--fill, 20%), var(--color-rule-strong) var(--fill, 20%));
+  }
+
+  .days__range::-webkit-slider-thumb {
+    width: var(--thumb);
+    height: var(--thumb);
+    margin-top: calc((3px - var(--thumb)) / 2);
+    border: var(--border-thick) solid var(--color-glow);
+    border-radius: var(--radius-round);
+    background: var(--color-bg-sunken);
+    box-shadow: var(--shadow-glow);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .days__range::-moz-range-thumb {
+    width: var(--thumb);
+    height: var(--thumb);
+    border: var(--border-thick) solid var(--color-glow);
+    border-radius: var(--radius-round);
+    background: var(--color-bg-sunken);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .days__range:focus-visible {
+    outline-offset: 2px;
+  }
+
+  .days__ticks {
+    position: absolute;
+    left: calc(var(--thumb, 1.375rem) / 2);
+    right: calc(var(--thumb, 1.375rem) / 2);
+    top: 2.15rem;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+
+  .days__tick {
+    width: 1px;
+    height: 0.3rem;
+    background: var(--color-rule-strong);
+  }
+
+  .days__tick--week {
+    height: 0.55rem;
+    background: var(--color-text-muted);
+  }
+
+  .days__scale {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.15rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    color: var(--color-text-muted);
+  }
+
+  .select {
+    position: relative;
+    max-width: 22rem;
+    margin-top: var(--space-s);
+  }
+
+  .select__input {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0 2.75rem 0 2.75rem;
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-bg-raised) 70%, transparent);
+    font-size: var(--fs-base);
+    color: var(--color-text);
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .select__input:hover {
+    border-color: var(--color-text-muted);
+  }
+
+  .select__input option {
+    background: var(--color-bg-raised);
+    color: var(--color-text);
+  }
+
+  .select :global(.select__icon),
+  .select :global(.select__chevron) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--color-green-ink);
+  }
+
+  .select :global(.select__icon) {
+    left: var(--space-s);
+  }
+
+  .select :global(.select__chevron) {
+    right: var(--space-s);
+    color: var(--color-text-muted);
+  }
+
+  /* ── chips ── */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin-top: var(--space-xs);
+  }
+
+  .chip {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .chip__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .chip__face {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0 var(--space-s);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-text-body);
+    pointer-events: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .chip__face::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: var(--radius-round);
+    border: var(--border-hair) solid var(--color-text-muted);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  .chip:hover .chip__face {
+    border-color: var(--color-text-muted);
+    color: var(--color-text);
+  }
+
+  .chip__input:checked + .chip__face {
+    border-color: var(--color-green-ink);
+    background: color-mix(in srgb, var(--color-green-ink) 10%, transparent);
+    color: var(--color-text);
+  }
+
+  .chip__input:checked + .chip__face::before {
+    border-color: var(--color-led);
+    background: var(--color-led);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .chip__input:focus-visible + .chip__face {
+    outline: var(--border-thick) solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  @media (forced-colors: active) {
+    .chip__input:checked + .chip__face {
+      border-width: var(--border-heavy);
+    }
+  }
+
+  /* ── letter ── */
+  .letter {
+    --line: 1.9rem;
+    position: relative;
+    margin-top: var(--space-s);
+    padding: var(--space-s) var(--space-m) var(--space-xs) calc(var(--space-m) + var(--space-s));
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(90deg, transparent calc(var(--space-m) - 1px), color-mix(in srgb, var(--color-accent) 55%, transparent) calc(var(--space-m) - 1px), color-mix(in srgb, var(--color-accent) 55%, transparent) var(--space-m), transparent var(--space-m)),
+      color-mix(in srgb, var(--color-bg-raised) 75%, transparent);
+  }
+
+  .letter__salutation {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-variation-settings: var(--fvs-accent);
+    line-height: var(--line);
+    color: var(--color-emphasis);
+  }
+
+  .letter__salutation:lang(ka) {
+    font-style: normal;
+    font-family: var(--font-ka-display);
+  }
+
+  .letter__input {
+    display: block;
+    width: 100%;
+    min-height: calc(var(--line) * 4);
+    padding: 0;
+    border: 0;
+    background: repeating-linear-gradient(180deg, transparent 0, transparent calc(var(--line) - 1px), var(--color-rule) calc(var(--line) - 1px), var(--color-rule) var(--line));
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-variation-settings: var(--fvs-caption);
+    line-height: var(--line);
+    color: var(--color-text);
+    resize: vertical;
+    background-attachment: local;
+  }
+
+  .letter__input:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-base);
+  }
+
+  .letter__input::placeholder {
+    color: color-mix(in srgb, var(--color-text-muted) 75%, transparent);
+    font-style: italic;
+  }
+
+  .letter__input:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .letter__foot {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+    min-height: 2.75rem;
+  }
+
+  .letter__mic {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    padding: 0 var(--space-s) 0 var(--space-xs);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .letter__mic:hover {
+    border-color: var(--color-text-muted);
+  }
+
+  .letter__mic[aria-pressed='true'] {
+    border-color: var(--color-red-ink);
+    background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  }
+
+  .letter__mic[aria-pressed='true'] :global(.icon) {
+    color: var(--color-red-ink);
+  }
+
+  .letter__status {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .letter__count {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  .doc__note--mic {
+    margin-top: var(--space-3xs);
+  }
+
+  .doc__letter .doc__note:first-of-type {
+    margin-top: var(--space-xs);
+  }
+
+  /* ── submit ── */
+  .doc__go {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-m);
+    padding-top: var(--space-l);
+  }
+
+  .doc__go :global(.doc__submit) {
+    --btn-h: 3.75rem;
+    --btn-px: 2rem;
+    font-size: var(--fs-md);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-glow) 30%, transparent), 0 10px 40px -12px color-mix(in srgb, var(--color-glow) 70%, transparent);
+  }
+
+  .doc__fine {
+    display: grid;
+    gap: var(--space-3xs);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .doc__mrz {
+    margin-top: var(--space-l);
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    line-height: 1.6;
+    letter-spacing: 0.18em;
+    white-space: pre;
+    overflow: hidden;
+    color: color-mix(in srgb, var(--color-text-muted) 55%, transparent);
+    user-select: none;
+  }
+
+  /* ── tablet & phone ── */
+  @media (max-width: 47.99em) {
+    .doc__go {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .doc__go :global(.doc__submit) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .days {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-2xs);
+    }
+
+    .select {
+      max-width: none;
+    }
+
+    .doc__stamps--six {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .doc__stamps:not(.doc__stamps--six) {
+      gap: var(--space-s) var(--space-xs);
+    }
+
+    .doc__summary {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .doc__mrz {
+      letter-spacing: 0.06em;
+    }
+  }
+</style>

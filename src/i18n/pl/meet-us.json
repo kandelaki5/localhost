@@ -1,0 +1,37 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Spotkajmy się na targach",
+  "title": "Sześć targów, *dwa sezony.*",
+  "intro": "Z partnerami spotykamy się na europejskich targach turystycznych – we Włoszech, w Niemczech i w Polsce. Wybierają się Państwo na któreś z nich? Prosimy o wiadomość – umówimy dogodny termin rozmowy.",
+  "running": "Targi turystyczne",
+  "cta": "Umów spotkanie na stoisku",
+  "mail": {
+    "subject": "Spotkanie na targach — Local Host",
+    "body": "Dzień dobry,\n\nchcielibyśmy umówić się z Państwem na spotkanie podczas targów.\n\nTargi:\nPreferowane dni:\nFirma:\nKraj:\n\nZ pozdrowieniami"
+  },
+  "calendarLabel": "Kalendarz targów",
+  "seasons": {
+    "spring": "Sezon wiosenny",
+    "autumn": "Sezon jesienny"
+  },
+  "status": {
+    "next": "Najbliższe",
+    "now": "Trwają",
+    "tba": "Kolejne terminy zostaną ogłoszone"
+  },
+  "summary": {
+    "next": "Najbliższe targi",
+    "now": "Trwają teraz",
+    "until": "do {date}"
+  },
+  "official": "oficjalna strona",
+  "note": "Terminy kolejnych edycji według informacji opublikowanych przez organizatorów w chwili przygotowania strony. Przed wyjazdem prosimy sprawdzić je na stronie targów.",
+  "cities": {
+    "bit-milano": "Mediolan",
+    "bmt-napoli": "Neapol",
+    "itb-berlin": "Berlin",
+    "tour-salon": "Poznań",
+    "ttg-rimini": "Rimini",
+    "tt-warsaw": "Warszawa"
+  }
+}

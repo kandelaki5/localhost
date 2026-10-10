@@ -14,11 +14,10 @@
   "samples": {
     "title": "Or try one of ours",
     "action": "Match this photo",
-    "credit": "“{title}” by {creator}",
-    "via": "via Wikimedia Commons"
+    "credit": "“{title}” by {creator}"
   },
   "screen": {
-    "label": "Photo Match screen",
+    "label": "Viewfinder",
     "idle": "Waiting for a photo",
     "idleHint": "Choose a photo, or one of ours — the match appears here.",
     "working": "Looking at your photo…",

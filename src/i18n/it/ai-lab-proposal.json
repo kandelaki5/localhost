@@ -1,0 +1,114 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Proposte per agenzie",
+  "title": "Dal brief del cliente *alla bozza di programma.*",
+  "intro": "Descrivi il tuo gruppo e Claude prepara una proposta di programma — giorno per giorno, con luoghi, servizi inclusi e note sulla sostenibilità — pronta perché il nostro team la quoti.",
+  "form": {
+    "title": "Il brief",
+    "samples": "Carica un brief di esempio",
+    "sampleLabels": {
+      "it-georgia-wine-8d": "Italia · 8 giorni · vino e cultura",
+      "pl-ge-am-trek-10d": "Polonia · 10 giorni · trekking"
+    },
+    "agency": "Agenzia",
+    "agencyPlaceholder": "Facoltativo",
+    "market": "Mercato di provenienza",
+    "marketPlaceholder": "es. Italia",
+    "groupSize": "Dimensione del gruppo",
+    "travellers": "viaggiatori",
+    "when": "Quando",
+    "months": "Mese",
+    "seasonsLabel": "Oppure una stagione",
+    "seasons": {
+      "spring": "Primavera",
+      "summer": "Estate",
+      "autumn": "Autunno",
+      "winter": "Inverno",
+      "flexible": "Date flessibili"
+    },
+    "days": "Durata",
+    "daysValue": "{n} giorni",
+    "countries": "Paesi",
+    "interests": "Interessi",
+    "interestsHint": "Nessuna scelta = un mix equilibrato",
+    "hotel": "Hotel",
+    "hotels": {
+      "boutique": "Boutique",
+      "3*": "3★",
+      "4*": "4★",
+      "5*": "5★",
+      "mixed": "Misti"
+    },
+    "pace": "Ritmo",
+    "paces": {
+      "relaxed": "Rilassato",
+      "balanced": "Equilibrato",
+      "active": "Attivo"
+    },
+    "requests": "Richieste particolari",
+    "requestsPlaceholder": "Lingua della guida, esigenze alimentari, tappe imperdibili, ricorrenze…",
+    "count": "{n} / {max}",
+    "submit": "Prepara la proposta"
+  },
+  "fieldErrors": {
+    "groupSize": "Inserisci una dimensione del gruppo da 1 a 200.",
+    "month": "Scegli un mese o una stagione.",
+    "season": "Scegli un mese o una stagione.",
+    "days": "Scegli una durata da 3 a 21 giorni.",
+    "countries": "Scegli almeno un paese.",
+    "interests": "Controlla gli interessi.",
+    "hotelCategory": "Scegli una categoria di hotel.",
+    "pace": "Scegli un ritmo.",
+    "specialRequests": "Le richieste particolari possono avere al massimo 1.500 caratteri.",
+    "agency": "Il nome dell’agenzia può avere al massimo 120 caratteri.",
+    "market": "Il mercato può avere al massimo 80 caratteri."
+  },
+  "empty": {
+    "title": "Qui verrà impaginata la tua proposta",
+    "text": "Compila il brief — o carica un esempio — e premi “Prepara la proposta”."
+  },
+  "progress": {
+    "title": "Stiamo preparando la proposta",
+    "steps": [
+      "Leggiamo il brief",
+      "Scegliamo il percorso",
+      "Scriviamo le giornate",
+      "Aggiungiamo servizi e note"
+    ],
+    "note": "In modalità live la preparazione può richiedere un paio di minuti."
+  },
+  "doc": {
+    "kind": "Proposta di programma",
+    "draft": "Bozza",
+    "preparedFor": "Preparata per",
+    "summary": "Sintesi",
+    "highlights": "Punti salienti",
+    "route": "Percorso",
+    "routeMap": "Mappa del percorso: {places}",
+    "days": "Giorno per giorno",
+    "day": "Giorno",
+    "programme": "Programma",
+    "places": "Luoghi",
+    "meals": "Pasti",
+    "overnight": "Pernottamento",
+    "included": "Incluso",
+    "notIncluded": "Non incluso",
+    "sustainability": "Sostenibilità",
+    "nextSteps": "Prossimi passi",
+    "pricing": "Preventivo"
+  },
+  "actions": {
+    "print": "Stampa / Salva in PDF",
+    "quote": "Richiedi il preventivo finale",
+    "edit": "Modifica il brief"
+  },
+  "mail": {
+    "subject": "Richiesta di preventivo finale — {title}",
+    "greeting": "Buongiorno team di Local Host,",
+    "intro": "vi chiediamo un preventivo finale per questa bozza di programma del vostro AI Lab:",
+    "brief": "Il nostro brief",
+    "programme": "Programma",
+    "contact": "La nostra agenzia e i nostri contatti:",
+    "signoff": "Grazie,"
+  }
+}

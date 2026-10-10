@@ -1,0 +1,71 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "KI-Connector (MCP)",
+  "title": "Verbinden Sie Ihren *KI-Assistenten.*",
+  "intro": "Immer mehr Reiseprofis planen mit einem KI-Assistenten wie Claude. Binden Sie den Katalog von Local Host ein und erhalten Sie Antworten aus unseren Daten — nicht von beliebigen Webseiten.",
+  "why": [
+    {
+      "title": "Antworten aus erster Hand",
+      "text": "Erlebnisse, Orte, Direktflüge, Messetermine und Fakten zur Nachhaltigkeit — mit denselben Ehrlichkeitsregeln wie diese Website."
+    },
+    {
+      "title": "Sauberere Anfragen, schneller",
+      "text": "Bitten Sie um eine Reiseanfrage und erhalten Sie eine versandfertige E-Mail an unser Team: Länder, Interessen, Dauer, Monat und Gruppengröße."
+    },
+    {
+      "title": "Nachhaltigkeit in Sekunden",
+      "text": "Unsere freigegebene Travelife-Partner-Aussage und die Links zu allen fünf Richtlinien sind immer nur eine Frage entfernt."
+    }
+  ],
+  "endpoint": {
+    "label": "Connector-URL",
+    "note": "Keine Anmeldung, kein API-Schlüssel, nichts zu installieren.",
+    "copy": "URL kopieren"
+  },
+  "steps": {
+    "title": "So fügen Sie ihn in Claude hinzu",
+    "items": [
+      "Öffnen Sie Claude (claude.ai oder die Desktop-App) und gehen Sie zu **Settings → Connectors**.",
+      "Wählen Sie **Add custom connector**.",
+      "Nennen Sie ihn **Local Host** und fügen Sie die URL oben ein. Lassen Sie die Anmeldefelder (OAuth) leer.",
+      "Klicken Sie auf **Add**, schalten Sie den Local-Host-Connector im Chat ein — und fragen Sie los."
+    ],
+    "teams": "In den Tarifen Claude Team und Enterprise muss eventuell zuerst ein Owner oder Admin den Connector für die Organisation hinzufügen.",
+    "other": "Nutzen Sie Claude Code oder einen anderen MCP-Client?",
+    "otherText": "Jeder Client, der entfernte MCP-Server über Streamable HTTP unterstützt, kann dieselbe URL verwenden.",
+    "copyCommand": "Befehl kopieren"
+  },
+  "tools": {
+    "title": "Was Ihr Assistent nachschlagen kann",
+    "count": "{n} Werkzeuge, nur lesend",
+    "readOnly": "Nur lesend",
+    "descriptions": {
+      "list_experiences": "Die sechs Erlebnisse: Kultur, Wein, Trekking, Gastronomie, Pilgerreisen und Erholung.",
+      "get_experience": "Ein Erlebnis im Detail: Höhepunkte, beste Orte, Reisezeiten und für wen es passt.",
+      "list_places": "Orte in Georgien, Armenien und Aserbaidschan, nach Land oder Erlebnis.",
+      "get_place": "Ein Ort: Region, ungefähre Koordinaten, was in der Nähe liegt und grobe Fahrzeiten.",
+      "list_flight_connections": "Direktflüge nach Tiflis (TBS) und Kutaissi (KUT) und welche Airlines sie fliegen.",
+      "get_trade_fairs": "Die Messen, auf denen Sie uns treffen können, mit den nächsten bekannten Terminen.",
+      "get_sustainability_commitments": "Unser Travelife-Partner-Status, unsere Verpflichtungen und die fünf Richtlinien als PDF.",
+      "get_contact": "Adresse, Telefon und E-Mail — und was in eine Angebotsanfrage gehört.",
+      "draft_trip_request": "Entwirft eine versandfertige Anfrage-E-Mail an unser Team. Keine Preise, keine Buchung."
+    },
+    "params": "Eingaben",
+    "noParams": "Keine Eingaben"
+  },
+  "examples": {
+    "title": "Fragen Sie zum Beispiel",
+    "items": [
+      "Welche Städte fliegen direkt nach Kutaissi?",
+      "Was könnte eine Pilgergruppe in Armenien sehen?",
+      "Entwirf eine Anfrage für eine 9-tägige Weinreise für 20 Personen im September."
+    ]
+  },
+  "limits": "Er bucht, reserviert, kalkuliert oder versendet nichts und erhebt keine personenbezogenen Daten. Das Absenden einer Anfrage-E-Mail ist immer Ihr eigener Klick.",
+  "diagram": {
+    "label": "So funktioniert der Connector",
+    "assistant": "Ihr KI-Assistent",
+    "connector": "Local-Host-Connector",
+    "catalogue": "Unser Katalog"
+  }
+}

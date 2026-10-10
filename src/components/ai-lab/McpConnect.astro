@@ -1,0 +1,531 @@
+---
+/**
+ * 06 · Connect your AI assistant (#mcp). Plain-English pitch, the endpoint
+ * with a copy button, the Claude setup steps, and the tool list rendered at
+ * BUILD time from createMcpServer() (src/pages/api/mcp.ts) through the SDK's
+ * in-memory transport — exactly as /ai-lab/dev/mcp does — so the list always
+ * matches what the endpoint serves. Script: client/mcp.ts (copy buttons).
+ */
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import SectionHead from '../ui/SectionHead.astro';
+import Icon from '../ui/Icon.astro';
+import LabIcon from './LabIcon.astro';
+import type { IconName } from '../ui/icons';
+import { MCP_ENDPOINT, createMcpServer } from '../../pages/api/mcp';
+import { fmt, inline } from '../../lib/markup';
+import { getLang } from '../../i18n';
+import { blockLang, labSection, labStrings, mcpStrings, scriptJson } from './data';
+
+const lang = getLang(Astro);
+const t = mcpStrings(lang);
+const lab = labStrings(lang);
+const s = labSection('mcp');
+
+const server = createMcpServer();
+const [clientSide, serverSide] = InMemoryTransport.createLinkedPair();
+await server.connect(serverSide);
+const client = new Client({ name: 'ai-lab-page', version: '1.0.0' });
+await client.connect(clientSide);
+const { tools } = await client.listTools();
+await client.close();
+await server.close();
+
+const descriptions = t.tools.descriptions as Record<string, string>;
+const toolCards = tools.map((tool) => {
+  const props = Object.keys((tool.inputSchema.properties ?? {}) as Record<string, unknown>);
+  const required = new Set(tool.inputSchema.required ?? []);
+  return {
+    name: tool.name,
+    text: descriptions[tool.name] ?? tool.title ?? tool.name,
+    descLang: descriptions[tool.name] ? undefined : 'en',
+    readOnly: tool.annotations?.readOnlyHint === true,
+    params: props.map((p) => ({ name: p, required: required.has(p) })),
+  };
+});
+
+const command = `claude mcp add --transport http local-host ${MCP_ENDPOINT}`;
+const whyIcons: IconName[] = ['check', 'send', 'leaf'];
+
+const clientStrings = { copied: lab.ui.copied, copyFailed: lab.ui.copyFailed };
+---
+
+<section
+  id="mcp"
+  class="lab-section lab-mcp"
+  aria-labelledby="mcp-title"
+  data-lab-feature="mcp"
+  lang={blockLang(lang, 'ai-lab-mcp')}
+  style="--lab-glow-x: 70%; --lab-glow-y: 35%"
+>
+  <div class="container">
+    <SectionHead number={s.n} id="mcp-title" kicker={t.kicker} title={t.title} intro={t.intro} running={lab.audience.developers} size="m" />
+
+    <div class="lab-mcp__grid">
+      <div class="lab-mcp__pitch">
+        <ul class="lab-mcp__why" role="list">
+          {
+            t.why.map((w, i) => (
+              <li>
+                <span class="lab-mcp__why-icon" aria-hidden="true">
+                  <Icon name={whyIcons[i] ?? 'check'} size={18} />
+                </span>
+                <div>
+                  <h3 class="lab-mcp__why-title">{w.title}</h3>
+                  <p>{w.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="lab-mcp__ask">
+          <p class="lab-mono lab-mono--green">{t.examples.title}</p>
+          <ul role="list">
+            {t.examples.items.map((q) => <li>“{q}”</li>)}
+          </ul>
+        </div>
+
+        <p class="lab-mcp__limits">
+          <Icon name="x" size={16} />
+          <span>{t.limits}</span>
+        </p>
+      </div>
+
+      <div class="lab-panel lab-mcp__console">
+        <div class="lab-panel__bar">
+          <span class="lab-mono lab-mono--green lab-mcp__proto"><LabIcon name="plug" size={14} /> MCP · Streamable HTTP</span>
+          <span class="lab-mono">{fmt(t.tools.count, { n: toolCards.length })}</span>
+        </div>
+        <div class="lab-panel__body lab-mcp__body">
+          <figure class="lab-mcp__diagram" role="group" aria-label={t.diagram.label}>
+            <div class="lab-mcp__node"><span class="lab-mcp__dot" aria-hidden="true"></span>{t.diagram.assistant}</div>
+            <div class="lab-mcp__wire" aria-hidden="true"><i></i></div>
+            <div class="lab-mcp__node lab-mcp__node--hub"><span class="lab-mcp__dot" aria-hidden="true"></span>{t.diagram.connector}</div>
+            <div class="lab-mcp__wire" aria-hidden="true"><i></i></div>
+            <div class="lab-mcp__node"><span class="lab-mcp__dot" aria-hidden="true"></span>{t.diagram.catalogue}</div>
+          </figure>
+
+          <div class="lab-field">
+            <p class="lab-label" id="mcp-url-label">{t.endpoint.label}</p>
+            <div class="lab-mcp__url">
+              <code id="mcp-url">{MCP_ENDPOINT}</code>
+              <button type="button" class="lab-textbtn" data-copy-from="mcp-url">
+                <LabIcon name="copy" size={16} />
+                <span data-label>{t.endpoint.copy}</span>
+              </button>
+            </div>
+            <p class="lab-field__hint">{t.endpoint.note}</p>
+          </div>
+
+          <div class="lab-mcp__steps">
+            <h3 class="lab-mono lab-mono--green">{t.steps.title}</h3>
+            <ol role="list">
+              {t.steps.items.map((step) => <li set:html={inline(step)} />)}
+            </ol>
+            <p class="lab-field__hint">{t.steps.teams}</p>
+          </div>
+
+          <div class="lab-mcp__other">
+            <p class="lab-mcp__other-title">{t.steps.other}</p>
+            <p class="lab-field__hint">{t.steps.otherText}</p>
+            <div class="lab-mcp__url lab-mcp__url--cmd">
+              <code id="mcp-cmd" lang="en">{command}</code>
+              <button type="button" class="lab-textbtn" data-copy-from="mcp-cmd">
+                <LabIcon name="copy" size={16} />
+                <span data-label>{t.steps.copyCommand}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lab-mcp__tools">
+      <h3 class="lab-mcp__tools-title">{t.tools.title}</h3>
+      <ul class="lab-mcp__toolgrid" role="list">
+        {
+          toolCards.map((tool) => (
+            <li class="lab-tool">
+              <p class="lab-tool__head">
+                <code class="lab-tool__name">{tool.name}</code>
+                {tool.readOnly && <span class="lab-badge lab-badge--live">{t.tools.readOnly}</span>}
+              </p>
+              <p class="lab-tool__text" lang={tool.descLang}>{tool.text}</p>
+              <p class="lab-tool__params">
+                <span class="visually-hidden">{t.tools.params}: </span>
+                {tool.params.length ? (
+                  tool.params.map((p) => (
+                    <code class:list={['lab-tool__param', p.required && 'lab-tool__param--req']}>
+                      {p.name}
+                      {p.required ? '' : '?'}
+                    </code>
+                  ))
+                ) : (
+                  <span class="lab-tool__none">{t.tools.noParams}</span>
+                )}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+  <script type="application/json" data-lab-strings set:html={scriptJson(clientStrings)} />
+</section>
+
+<style>
+  .lab-mcp__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-xl) var(--layout-gap);
+    align-items: start;
+  }
+
+  /* ── pitch ── */
+  .lab-mcp__why {
+    display: grid;
+    gap: var(--space-l);
+    margin: 0;
+  }
+
+  .lab-mcp__why li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-s);
+  }
+
+  .lab-mcp__why-icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-glow) 55%, transparent);
+    border-radius: var(--radius-round);
+    color: var(--color-green-ink);
+    box-shadow: 0 0 24px -6px color-mix(in srgb, var(--color-glow) 55%, transparent);
+  }
+
+  .lab-mcp__why-title {
+    margin-bottom: var(--space-3xs);
+    font-size: calc(var(--fs-lg) * var(--fs-scale, 1));
+  }
+
+  .lab-mcp__why p {
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+  }
+
+  .lab-mcp__ask {
+    display: grid;
+    gap: var(--space-xs);
+    margin-top: var(--space-xl);
+  }
+
+  .lab-mcp__ask ul {
+    display: grid;
+    gap: var(--space-2xs);
+    margin: 0;
+  }
+
+  .lab-mcp__ask li {
+    justify-self: start;
+    max-width: 30rem;
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--radius-md) var(--radius-md) var(--radius-md) var(--radius-xs);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-snug);
+  }
+
+  .lab-mcp__ask li:nth-child(2) {
+    margin-left: var(--space-l);
+  }
+
+  .lab-mcp__limits {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2xs);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .lab-mcp__limits :global(.icon) {
+    margin-top: 0.2em;
+    color: var(--color-red-ink);
+  }
+
+  /* ── console ── */
+  .lab-mcp__proto {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .lab-mcp__body {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .lab-mcp__diagram {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(1.5rem, 0.6fr) minmax(0, 1fr) minmax(1.5rem, 0.6fr) minmax(0, 1fr);
+    align-items: center;
+    margin: 0;
+    padding: var(--space-m) var(--space-s);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-sunken);
+  }
+
+  .lab-mcp__node {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.25;
+    text-align: center;
+    color: var(--color-text);
+  }
+
+  .lab-mcp__dot {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: var(--radius-round);
+    background: var(--color-text);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-glow) 20%, transparent);
+  }
+
+  .lab-mcp__node--hub .lab-mcp__dot {
+    width: 1.25rem;
+    height: 1.25rem;
+    background: var(--color-led);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .lab-mcp__wire {
+    position: relative;
+    height: 2px;
+    margin-bottom: 1.6rem;
+    overflow: hidden;
+    background: repeating-linear-gradient(90deg, var(--color-rule-strong) 0 4px, transparent 4px 8px);
+  }
+
+  .lab-mcp__wire i {
+    position: absolute;
+    inset: 0;
+    width: 35%;
+    background: linear-gradient(90deg, transparent, var(--color-glow), transparent);
+    filter: var(--filter-glow);
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-mcp__wire i {
+      opacity: 1;
+      animation: lab-sweep var(--dur-draw) var(--ease-in-out) infinite;
+    }
+
+    .lab-mcp__wire + .lab-mcp__node + .lab-mcp__wire i {
+      animation-direction: reverse;
+    }
+  }
+
+  .lab-mcp__url {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-s);
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-green-ink) 55%, transparent);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-sunken);
+    box-shadow: 0 0 24px -12px color-mix(in srgb, var(--color-glow) 70%, transparent);
+  }
+
+  .lab-mcp__url code {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-green-ink);
+  }
+
+  .lab-mcp__url--cmd {
+    box-shadow: none;
+    border-color: var(--color-rule-strong);
+  }
+
+  .lab-mcp__url--cmd code {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-text);
+    color: var(--color-text);
+  }
+
+  .lab-mcp__url :global(.lab-textbtn) {
+    flex: none;
+  }
+
+  .lab-mcp__steps {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .lab-mcp__steps ol {
+    display: grid;
+    gap: var(--space-xs);
+    margin: 0;
+    counter-reset: step;
+  }
+
+  .lab-mcp__steps li {
+    position: relative;
+    padding-left: var(--space-xl);
+    counter-increment: step;
+    color: var(--color-text-body);
+  }
+
+  .lab-mcp__steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: var(--border-hair) solid var(--color-green-ink);
+    border-radius: var(--radius-round);
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    color: var(--color-green-ink);
+  }
+
+  .lab-mcp__steps li :global(strong) {
+    color: var(--color-text);
+  }
+
+  .lab-mcp__other {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-top: var(--space-m);
+    border-top: var(--border-hair) dashed var(--color-rule);
+  }
+
+  .lab-mcp__other-title {
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+  }
+
+  /* ── tools ── */
+  .lab-mcp__tools {
+    margin-top: var(--space-2xl);
+  }
+
+  .lab-mcp__tools-title {
+    margin-bottom: var(--space-m);
+    padding-top: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-rule-strong);
+    font-size: calc(var(--fs-2xl) * var(--fs-scale, 1));
+  }
+
+  .lab-mcp__toolgrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2xs);
+    margin: 0;
+  }
+
+  .lab-tool {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xs);
+    padding: var(--space-m);
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-bg-raised) 60%, transparent);
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .lab-tool:hover {
+    border-color: color-mix(in srgb, var(--color-green-ink) 55%, transparent);
+  }
+
+  .lab-tool__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+  }
+
+  .lab-tool__name {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    color: var(--color-text);
+  }
+
+  .lab-tool__text {
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+  }
+
+  .lab-tool__params {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+  }
+
+  .lab-tool__param {
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--radius-xs);
+    background: var(--color-bg-sunken);
+    font-size: var(--fs-3xs);
+    color: var(--color-text-muted);
+  }
+
+  .lab-tool__param--req {
+    color: var(--color-green-ink);
+    box-shadow: inset 0 0 0 var(--border-hair) color-mix(in srgb, var(--color-green-ink) 45%, transparent);
+  }
+
+  .lab-tool__none {
+    font-size: var(--fs-3xs);
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 63.99em) {
+    .lab-mcp__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-mcp__toolgrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .lab-mcp__toolgrid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lab-mcp__url {
+      flex-wrap: wrap;
+      padding: var(--space-xs);
+    }
+
+    .lab-mcp__ask li:nth-child(2) {
+      margin-left: var(--space-s);
+    }
+
+    .lab-mcp__node {
+      font-size: var(--fs-3xs);
+    }
+  }
+</style>

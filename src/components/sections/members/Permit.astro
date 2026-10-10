@@ -1,0 +1,330 @@
+---
+/**
+ * One organisation as a residence-permit stamp: a double-ruled card with a
+ * type line and serial, a "photo" box holding the acronym (the official logo
+ * goes there once supplied — see members/data.ts), the full name in small
+ * caps, the native name, the official domain and a decorative MRZ line.
+ * The whole card is the link to the organisation's site (stretched link).
+ */
+import { Image } from 'astro:assets';
+import Icon from '../../ui/Icon.astro';
+import type { Org } from './data';
+
+interface Props {
+  org: Org;
+  name: string;
+  type: string;
+  serial: string;
+  mrz: string;
+  /** Page language, to decide whether the native name adds anything. */
+  lang: string;
+  official: string;
+  newTab: string;
+}
+
+const { org, name, type, serial, mrz, lang, official, newTab } = Astro.props;
+const showNative = org.native && org.native.lang !== lang;
+---
+
+<li class="permit" data-stamp data-country={org.country} style={`--tilt:${org.tilt}deg`}>
+  <div class="permit__card">
+    <span class="permit__frame" aria-hidden="true"></span>
+
+    <p class="permit__head">
+      <span class="permit__type">{type}</span>
+      <span class="permit__serial" aria-hidden="true">{serial}</span>
+    </p>
+
+    <div class="permit__body">
+      <div class:list={['permit__photo', org.logo && 'permit__photo--logo']} aria-hidden="true">
+        {
+          org.logo ? (
+            <Image src={org.logo} alt="" class="permit__logo" widths={[160, 320]} sizes="7rem" />
+          ) : (
+            <span class="permit__acr">{org.acronym}</span>
+          )
+        }
+      </div>
+
+      <div class="permit__fields">
+        <h4 class="permit__title">
+          <a class="permit__link" href={org.url} target="_blank" rel="noopener">
+            {org.logo && <span class="permit__acr-inline">{org.acronym}</span>}
+            {!org.logo && <span class="visually-hidden">{org.acronym} — </span>}
+            <span class="permit__name">{name}</span>
+            <span class="visually-hidden"> — {official} ({newTab})</span>
+          </a>
+        </h4>
+        {
+          showNative && org.native && (
+            <p class="permit__native" lang={org.native.lang}>
+              {org.native.text}
+            </p>
+          )
+        }
+        <p class="permit__site" aria-hidden="true">
+          {org.domain}
+          <Icon name="arrow-up-right" size={11} strokeWidth={1.75} />
+        </p>
+      </div>
+    </div>
+
+    <p class="permit__mrz" aria-hidden="true">{mrz}</p>
+  </div>
+</li>
+
+<style>
+  .permit {
+    --_ink: var(--color-green-ink);
+    position: relative;
+  }
+
+  .permit[data-country='pl'] {
+    --_ink: var(--color-text);
+  }
+
+  .permit__card {
+    position: relative;
+    display: grid;
+    gap: 0.6rem;
+    padding: var(--space-s) var(--space-m) var(--space-xs);
+    color: var(--_ink);
+    transform: rotate(var(--tilt));
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .permit:hover .permit__card,
+  .permit:focus-within .permit__card {
+    transform: rotate(0deg) translateY(-2px);
+  }
+
+  .permit__frame {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-below);
+    border: var(--border-heavy) solid var(--_ink);
+    border-radius: var(--radius-sm);
+    -webkit-mask-image: var(--texture-ink);
+    mask-image: var(--texture-ink);
+    -webkit-mask-size: 160px;
+    mask-size: 160px;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .permit__frame::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: var(--border-hair) solid var(--_ink);
+    border-radius: var(--radius-xs);
+  }
+
+  /* ── head: type · serial ── */
+  .permit__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-s);
+    padding-bottom: 0.45rem;
+    border-bottom: var(--border-hair) solid color-mix(in srgb, currentColor 40%, transparent);
+  }
+
+  .permit__type {
+    font-family: var(--font-text);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    line-height: 1.3;
+  }
+
+  .permit__type:lang(ka) {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+  }
+
+  .permit__serial {
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    white-space: nowrap;
+  }
+
+  /* ── body: photo box + fields ── */
+  .permit__body {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-m);
+    align-items: center;
+  }
+
+  .permit__photo {
+    display: grid;
+    place-items: center;
+    width: clamp(4.75rem, 4.25rem + 1.4vw, 5.75rem);
+    aspect-ratio: 4 / 5;
+    border: var(--border-hair) solid color-mix(in srgb, currentColor 55%, transparent);
+    background:
+      repeating-linear-gradient(
+        -45deg,
+        color-mix(in srgb, currentColor 7%, transparent) 0 1px,
+        transparent 1px 6px
+      );
+  }
+
+  .permit__photo--logo {
+    background: var(--color-bg-raised);
+    padding: var(--space-2xs);
+  }
+
+  .permit__logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .permit__acr {
+    padding: 0.15em 0.2em;
+    background: var(--color-bg-raised);
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.875rem);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+
+  .permit__fields {
+    display: grid;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .permit__title {
+    color: inherit;
+    font-family: var(--font-text);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-bold);
+    line-height: 1.3;
+    letter-spacing: 0.12em;
+    text-transform: var(--case-caps);
+    text-wrap: balance;
+  }
+
+  .permit__title:lang(ka) {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0;
+  }
+
+  .permit__acr-inline {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+
+  .permit__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .permit__link::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    z-index: var(--z-raised);
+    border-radius: var(--radius-sm);
+  }
+
+  .permit__link:focus-visible {
+    outline: none;
+  }
+
+  .permit__link:focus-visible::after {
+    outline: var(--border-thick) solid var(--color-focus);
+    outline-offset: 4px;
+  }
+
+  .permit__native {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    font-variation-settings: var(--fvs-caption);
+    line-height: 1.3;
+    color: color-mix(in srgb, currentColor 88%, transparent);
+  }
+
+  .permit__native:lang(ka) {
+    font-family: var(--font-ka-display);
+    font-style: normal;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-ka-text);
+    line-height: 1.45;
+  }
+
+  .permit__site {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.02em;
+    opacity: 0.8;
+  }
+
+  .permit:hover .permit__site {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* ── machine-readable zone ── */
+  .permit__mrz {
+    overflow: hidden;
+    padding-top: 0.35rem;
+    border-top: var(--border-hair) dashed color-mix(in srgb, currentColor 35%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.14em;
+    line-height: 1;
+    white-space: nowrap;
+    opacity: 0.55;
+  }
+
+  /* ── entrance: pressed onto the page once scrolled into view (see meet-us/reveal.ts) ── */
+  @media screen and (prefers-reduced-motion: no-preference) {
+    :global([data-reveal='ready']) .permit:not([data-revealed]) .permit__card {
+      opacity: 0;
+    }
+
+    :global([data-reveal='ready']) .permit[data-revealed] .permit__card {
+      animation: permit-press var(--dur-base) var(--ease-overshoot) backwards;
+    }
+  }
+
+  @keyframes permit-press {
+    from {
+      opacity: 0;
+      transform: rotate(calc(var(--tilt) + 4deg)) scale(1.14);
+    }
+    55% {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .permit__card {
+      padding-inline: var(--space-s);
+    }
+
+    .permit__body {
+      gap: var(--space-s);
+    }
+  }
+</style>

@@ -1,0 +1,71 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Gli host che amiamo",
+  "title": "Le persone di cui i vostri viaggiatori *parleranno al ritorno.*",
+  "intro": "I nostri itinerari passano dai cancelli di famiglie che conosciamo per nome. Inserirle nel vostro programma fa restare il denaro del turismo dove deve stare: nei villaggi, con le persone che cucinano, ospitano e raccontano le storie.",
+  "running": "Comunità locali",
+  "photo": {
+    "label": "Foto del luogo",
+    "portraits": "Ritratti degli host in arrivo"
+  },
+  "note": "Tutte le foto di questa sezione mostrano paesaggi georgiani, non gli host né le loro case. I ritratti arriveranno, con il permesso dei nostri host.",
+  "quoteSource": "Dalla nostra Politica di sostenibilità",
+  "factsTitle": "In breve",
+  "hosts": {
+    "sisatura": {
+      "name": "Sisatura",
+      "people": "Marika ed Enry",
+      "seal": "Sisatura • Marika ed Enry",
+      "quote": "Cosa c’è di meglio di Marika ed Enry che vi accolgono al cancello di Sisatura con un bicchierino di chacha e un grande sorriso?",
+      "alt": "Vecchie case di legno su un ripido pendio verde, con il fumo che sale da un camino",
+      "facts": [
+        {
+          "term": "Dove",
+          "text": "Chkhoria, vicino a Zugdidi, in Mingrelia (Samegrelo)"
+        },
+        {
+          "term": "Il luogo",
+          "text": "Un villaggio etnografico mingrelio a gestione familiare, con case tradizionali, un lago e un vecchio mulino ad acqua"
+        },
+        {
+          "term": "A tavola",
+          "text": "Cucina mingrelia (ghomi, elarji, gebzhalia) e una supra, il banchetto georgiano, guidata da un tamada"
+        }
+      ]
+    },
+    "leila": {
+      "name": "Leila",
+      "tag": "Khinkali e storie",
+      "seal": "Leila",
+      "quote": "Leila prepara i khinkali migliori mentre racconta la storia della sua vita, che potrebbe tranquillamente diventare un film da Oscar.",
+      "alt": "Una casa di famiglia con un balcone in legno intagliato, oltre un prato soleggiato"
+    },
+    "vacheishvili": {
+      "name": "Famiglia Vacheishvili",
+      "line": "Una famiglia che siamo orgogliosi di chiamare amica, e una porta a cui bussiamo sempre volentieri.",
+      "alt": "Cavalli al pascolo in un’ampia valle verde di montagna"
+    },
+    "samvel": {
+      "name": "Samvel e famiglia",
+      "quote": "Samvel e la sua famiglia, con la loro ospitalità calorosissima, vi fanno ridere tutto il tempo mentre servono deliziosi piatti dell’orto di casa.",
+      "alt": "Un lago calmo in cui si specchiano colline boscose sotto un cielo azzurro"
+    },
+    "aluda": {
+      "name": "Aluda",
+      "line": "Ogni viaggio è più bello con un amico lungo la strada. Aluda è uno dei nostri.",
+      "alt": "Un alpeggio d’alta quota sotto cime rocciose frastagliate"
+    },
+    "maia": {
+      "name": "Maia",
+      "line": "Certe accoglienze non hanno bisogno di traduzione. Quella di Maia è una di queste.",
+      "alt": "Una cittadina in una gola profonda e boscosa"
+    }
+  },
+  "more": {
+    "kicker": "Altri host che amiamo",
+    "title": "Porte a cui *torniamo sempre.*",
+    "quote": "In Georgia ci sono innumerevoli persone e famiglie che regalano un livello impareggiabile di emozioni positive — emozioni che non si possono mai comprare. La nostra missione è sostenerle."
+  },
+  "cta": "Pianifica una visita dagli host",
+  "policyLink": "Leggi la Politica di sostenibilità"
+}

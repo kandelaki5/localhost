@@ -1,0 +1,71 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Konektor AI (MCP)",
+  "title": "Podłącz swojego *asystenta AI.*",
+  "intro": "Coraz więcej agentów planuje podróże z asystentem AI, takim jak Claude. Podłącz do niego katalog Local Host i otrzymuj odpowiedzi z naszych danych — a nie z przypadkowych stron.",
+  "why": [
+    {
+      "title": "Odpowiedzi u źródła",
+      "text": "Doświadczenia, miejsca, loty bezpośrednie, terminy targów i fakty o zrównoważonym rozwoju — z tymi samymi zasadami rzetelności co ta strona."
+    },
+    {
+      "title": "Porządniejsze zapytania, szybciej",
+      "text": "Poproś o zapytanie ofertowe i otrzymaj gotowy e-mail do naszego zespołu: kraje, zainteresowania, długość, miesiąc i wielkość grupy."
+    },
+    {
+      "title": "Zrównoważony rozwój w kilka sekund",
+      "text": "Nasze zatwierdzone oświadczenie Travelife Partner i linki do wszystkich pięciu polityk są zawsze o jedno pytanie stąd."
+    }
+  ],
+  "endpoint": {
+    "label": "Adres konektora",
+    "note": "Bez logowania, bez klucza API, bez instalacji.",
+    "copy": "Kopiuj adres"
+  },
+  "steps": {
+    "title": "Dodaj do Claude",
+    "items": [
+      "Otwórz Claude (claude.ai lub aplikację desktopową) i przejdź do **Settings → Connectors**.",
+      "Wybierz **Add custom connector**.",
+      "Nazwij go **Local Host** i wklej powyższy adres. Pola logowania (OAuth) zostaw puste.",
+      "Kliknij **Add**, włącz konektor Local Host w czacie — i pytaj śmiało."
+    ],
+    "teams": "W planach Claude Team i Enterprise właściciel lub administrator może najpierw musieć dodać konektor dla organizacji.",
+    "other": "Korzystasz z Claude Code lub innego klienta MCP?",
+    "otherText": "Każdy klient obsługujący zdalne serwery MCP przez Streamable HTTP może użyć tego samego adresu.",
+    "copyCommand": "Kopiuj polecenie"
+  },
+  "tools": {
+    "title": "Co Twój asystent może sprawdzić",
+    "count": "{n} narzędzi tylko do odczytu",
+    "readOnly": "Tylko odczyt",
+    "descriptions": {
+      "list_experiences": "Sześć doświadczeń: kultura, wino, trekking, gastronomia, pielgrzymki i wypoczynek.",
+      "get_experience": "Jedno doświadczenie w szczegółach: atrakcje, najlepsze miejsca, pory roku i dla kogo.",
+      "list_places": "Miejsca w Gruzji, Armenii i Azerbejdżanie — według kraju lub doświadczenia.",
+      "get_place": "Jedno miejsce: region, przybliżone współrzędne, co jest w pobliżu i orientacyjne czasy przejazdu.",
+      "list_flight_connections": "Loty bezpośrednie do Tbilisi (TBS) i Kutaisi (KUT) oraz linie, które je obsługują.",
+      "get_trade_fairs": "Targi, na których możesz nas spotkać, z najbliższymi znanymi terminami.",
+      "get_sustainability_commitments": "Nasz status Travelife Partner, zobowiązania i pięć polityk w PDF.",
+      "get_contact": "Nasz adres, telefon i e-mail — oraz co zawrzeć w zapytaniu ofertowym.",
+      "draft_trip_request": "Przygotowuje gotowy e-mail z zapytaniem do naszego zespołu. Bez cen, bez rezerwacji."
+    },
+    "params": "Parametry",
+    "noParams": "Bez parametrów"
+  },
+  "examples": {
+    "title": "Zapytaj na przykład",
+    "items": [
+      "Z jakich miast są loty bezpośrednie do Kutaisi?",
+      "Co może zobaczyć grupa pielgrzymkowa w Armenii?",
+      "Przygotuj zapytanie o 9-dniową wycieczkę winiarską dla 20 osób we wrześniu."
+    ]
+  },
+  "limits": "Niczego nie rezerwuje, nie blokuje, nie wycenia ani nie wysyła i nie zbiera danych osobowych. Wysłanie e-maila z zapytaniem to zawsze Twoje kliknięcie.",
+  "diagram": {
+    "label": "Jak działa konektor",
+    "assistant": "Twój asystent AI",
+    "connector": "Konektor Local Host",
+    "catalogue": "Nasz katalog"
+  }
+}

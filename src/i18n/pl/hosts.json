@@ -1,0 +1,71 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Gospodarze, których kochamy",
+  "title": "Ludzie, o których Państwa podróżni *opowiedzą po powrocie.*",
+  "intro": "Nasze trasy prowadzą przez bramy rodzin, które znamy z imienia. Gdy włączają je Państwo do programu, pieniądze z turystyki zostają tam, gdzie powinny: we wsiach, u ludzi, którzy gotują, goszczą i opowiadają historie.",
+  "running": "Społeczności lokalne",
+  "photo": {
+    "label": "Zdjęcie miejsca",
+    "portraits": "Portrety gospodarzy wkrótce"
+  },
+  "note": "Wszystkie zdjęcia w tej części przedstawiają gruzińskie krajobrazy, a nie gospodarzy ani ich domy. Portrety gospodarzy dodamy za ich zgodą.",
+  "quoteSource": "Z naszej Polityki zrównoważonego rozwoju",
+  "factsTitle": "W skrócie",
+  "hosts": {
+    "sisatura": {
+      "name": "Sisatura",
+      "people": "Marika i Enry",
+      "seal": "Sisatura • Marika i Enry",
+      "quote": "Co może być lepszego niż Marika i Enry witający Państwa u bramy Sisatury kieliszkiem czaczy i szerokim uśmiechem?",
+      "alt": "Stare drewniane domy na stromym zielonym zboczu, z komina unosi się dym",
+      "facts": [
+        {
+          "term": "Gdzie",
+          "text": "Chkhoria koło Zugdidi, Megrelia (Samegrelo)"
+        },
+        {
+          "term": "Miejsce",
+          "text": "Rodzinna megrelska wioska etnograficzna z tradycyjnymi domami, jeziorem i starym młynem wodnym"
+        },
+        {
+          "term": "Przy stole",
+          "text": "Kuchnia megrelska (ghomi, elardżi, gebżalia) i supra, gruzińska uczta, prowadzona przez tamadę"
+        }
+      ]
+    },
+    "leila": {
+      "name": "Leila",
+      "tag": "Chinkali i opowieści",
+      "seal": "Leila",
+      "quote": "Leila przygotowuje najlepsze chinkali, opowiadając przy tym historię swojego życia, z której śmiało mógłby powstać film nagrodzony Oscarem.",
+      "alt": "Rodzinny dom z rzeźbionym drewnianym balkonem za nasłonecznionym trawnikiem"
+    },
+    "vacheishvili": {
+      "name": "Rodzina Vacheishvili",
+      "line": "Rodzina, którą z dumą nazywamy przyjaciółmi, i drzwi, do których zawsze chętnie pukamy.",
+      "alt": "Konie pasące się w szerokiej zielonej dolinie górskiej"
+    },
+    "samvel": {
+      "name": "Samvel z rodziną",
+      "quote": "Samvel i jego rodzina, z ich niezwykle serdeczną gościnnością, przez cały czas Państwa rozśmieszają, serwując pyszne jedzenie z własnych upraw.",
+      "alt": "Spokojne jezioro, w którym odbijają się zalesione wzgórza pod błękitnym niebem"
+    },
+    "aluda": {
+      "name": "Aluda",
+      "line": "Każda podróż jest lepsza, gdy po drodze czeka przyjaciel. Aluda jest jednym z naszych.",
+      "alt": "Wysokogórskie pastwisko pod poszarpanymi skalnymi szczytami"
+    },
+    "maia": {
+      "name": "Maia",
+      "line": "Niektóre powitania nie potrzebują tłumaczenia. Powitanie Mai jest właśnie takie.",
+      "alt": "Małe miasteczko w głębokim, zalesionym wąwozie"
+    }
+  },
+  "more": {
+    "kicker": "Więcej gospodarzy, których kochamy",
+    "title": "Drzwi, do których *wciąż wracamy.*",
+    "quote": "W Gruzji jest niezliczenie wielu ludzi i rodzin, którzy dają niezrównaną dawkę pozytywnych emocji — emocji, których nigdy nie da się kupić. Naszą misją jest ich wspierać."
+  },
+  "cta": "Zaplanuj wizytę u gospodarzy",
+  "policyLink": "Przeczytaj Politykę zrównoważonego rozwoju"
+}

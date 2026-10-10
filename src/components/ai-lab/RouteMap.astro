@@ -1,0 +1,70 @@
+---
+/**
+ * Static route map (build time) on the shared base map — the same markup
+ * client/map.ts buildMap() produces in the browser, so both share lab.css.
+ *
+ *   <RouteMap route={['tbilisi', 'mtskheta']} label="Sample route" numbered />
+ */
+import { placeInfo } from '../../lib/ai/client/place-info';
+import type { Locale, PlaceId } from '../../lib/ai/types';
+import { getLang } from '../../i18n';
+import { fitViewBox, placeStops, uniqueStops, MAP_H, MAP_W } from './client/map';
+
+interface Props {
+  route: PlaceId[];
+  label: string;
+  aspect?: number;
+  pad?: number;
+  numbered?: boolean;
+  /** Draw the line in when the map scrolls into view (motion allowed only). */
+  draw?: boolean;
+  /** Move the view by a fraction of its size, e.g. [0.15, 0] puts the route left of centre. */
+  shift?: [number, number];
+  class?: string;
+}
+
+const { route, label, aspect = 1.6, pad = 60, numbered = false, draw = false, shift = [0, 0], class: className } = Astro.props;
+const lang = getLang(Astro) as Locale;
+const stopsAll = route
+  .map((id) => placeInfo(id, lang))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p))
+  .map((p) => ({ x: p.x, y: p.y, name: p.name }));
+const stops = uniqueStops(stopsAll);
+const fitted = fitViewBox(stops, aspect, pad);
+const vb: typeof fitted = [fitted[0] + fitted[2] * shift[0], fitted[1] + fitted[3] * shift[1], fitted[2], fitted[3]];
+const placed = placeStops(stops, vb);
+const points = stopsAll.map((s) => `${s.x},${s.y}`).join(' ');
+---
+
+<figure class:list={['lab-map', draw && 'lab-map--draw', className]} style={`aspect-ratio:${vb[2]} / ${vb[3]}`} role="group" aria-label={label} data-lab-draw={draw ? '' : undefined}>
+  <svg class="lab-map__svg" viewBox={vb.join(' ')} aria-hidden="true" focusable="false">
+    <use href="#lab-map" width={MAP_W} height={MAP_H}></use>
+    {
+      stopsAll.length > 1 && (
+        <>
+          <polyline class="lab-map__glow" points={points} vector-effect="non-scaling-stroke" pathLength="1" />
+          <polyline class="lab-map__route" points={points} vector-effect="non-scaling-stroke" pathLength="1" />
+        </>
+      )
+    }
+  </svg>
+  <ol class="lab-map__stops">
+    {
+      placed.map((s, i) => (
+        <li
+          class:list={[
+            'lab-map__stop',
+            !s.labelled && 'lab-map__stop--quiet',
+            s.flip && 'lab-map__stop--flip',
+            i === 0 && 'lab-map__stop--first',
+          ]}
+          style={`left:${s.left}%;top:${s.top}%`}
+        >
+          <span class="lab-map__pin" aria-hidden="true">{numbered ? i + 1 : ''}</span>
+          <span class="lab-map__name">{s.name}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <slot />
+</figure>

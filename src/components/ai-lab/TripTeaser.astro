@@ -1,0 +1,235 @@
+---
+/**
+ * 01 · Trip Designer & Voice — a teaser for the planner on the home page
+ * (#plan, built by the Plan section). Static: a sample route drawn on the
+ * night map, a "draft itinerary" ticket and a voice waveform.
+ */
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import RouteMap from './RouteMap.astro';
+import { getLang, localizePath } from '../../i18n';
+import { labSection, labStrings } from './data';
+
+const lang = getLang(Astro);
+const t = labStrings(lang);
+const s = labSection('trip-designer');
+---
+
+<section id="trip-designer" class="lab-section lab-teaser" aria-labelledby="trip-designer-title" style="--lab-glow-x: 20%; --lab-glow-y: 60%">
+  <div class="container">
+    <SectionHead
+      number={s.n}
+      id="trip-designer-title"
+      kicker={t.teaser.kicker}
+      title={t.teaser.title}
+      intro={t.teaser.intro}
+      running={t.audience.travellers}
+      size="m"
+    />
+
+    <div class="lab-panel lab-teaser__panel">
+      <div class="lab-teaser__copy">
+        <ul class="lab-teaser__points" role="list">
+          {
+            t.teaser.points.map((p) => (
+              <li>
+                <Icon name="check" size={18} />
+                <span>{p}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="lab-teaser__cta">
+          <Button href={localizePath('/#plan', lang)} variant="ai" size="lg" icon="arrow-right">{t.teaser.cta}</Button>
+        </div>
+        <p class="lab-teaser__voice">
+          <span class="lab-teaser__mic" aria-hidden="true"><Icon name="mic" size={18} /></span>
+          <span>{t.teaser.voiceNote}</span>
+        </p>
+      </div>
+
+      <div class="lab-teaser__visual">
+        <RouteMap
+          route={['tbilisi', 'mtskheta', 'ananuri', 'stepantsminda', 'ananuri', 'tbilisi', 'sighnaghi', 'telavi']}
+          label={t.teaser.mapCaption}
+          aspect={1.25}
+          pad={70}
+          shift={[0.16, 0.06]}
+          numbered
+          draw
+          class="lab-teaser__map"
+        />
+        <div class="lab-teaser__ticket" aria-hidden="true">
+          <p class="lab-mono lab-mono--green">
+            <span class="lab-lamp lab-lamp--pulse"></span>{t.teaser.ticket}
+          </p>
+          <ol role="list">
+            {t.teaser.days.map((d) => <li>{d}</li>)}
+          </ol>
+          <div class="lab-teaser__wave">
+            {Array.from({ length: 22 }, (_, i) => <i style={`--h:${[30, 55, 80, 45, 95, 60, 35, 70, 100, 65, 40, 85, 50, 75, 30, 90, 55, 40, 70, 45, 25, 50][i]}%;--d:${i}`} />)}
+          </div>
+        </div>
+        <p class="lab-teaser__caption fig-caption">{t.teaser.mapCaption}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lab-teaser__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-xl);
+    padding: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+    align-items: center;
+  }
+
+  .lab-teaser__points {
+    display: grid;
+    gap: var(--space-s);
+    margin: 0;
+  }
+
+  .lab-teaser__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: calc(var(--fs-lg) * var(--fs-scale, 1));
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-snug);
+    color: var(--color-text);
+  }
+
+  .lab-teaser__points :global(.icon) {
+    margin-top: 0.3em;
+    color: var(--color-green-ink);
+  }
+
+  .lab-teaser__cta {
+    margin-top: var(--space-xl);
+  }
+
+  .lab-teaser__voice {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    margin-top: var(--space-l);
+    max-width: 44ch;
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .lab-teaser__mic {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-glow) 55%, transparent);
+    border-radius: var(--radius-round);
+    color: var(--color-green-ink);
+  }
+
+  .lab-teaser__visual {
+    position: relative;
+    display: grid;
+  }
+
+  .lab-teaser__visual :global(.lab-teaser__map) {
+    border: var(--border-hair) solid var(--color-rule);
+  }
+
+  .lab-teaser__ticket {
+    position: absolute;
+    right: var(--space-s);
+    bottom: calc(var(--space-2xl) + var(--space-xs));
+    width: min(15rem, 46%);
+    padding: var(--space-s);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-bg-sunken) 88%, transparent);
+    box-shadow: var(--shadow-board);
+  }
+
+  .lab-teaser__ticket p {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .lab-teaser__ticket ol {
+    display: grid;
+    gap: var(--space-3xs);
+    margin: var(--space-xs) 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text);
+  }
+
+  .lab-teaser__ticket ol:lang(ka) {
+    font-family: var(--font-ka-text);
+    font-size: var(--fs-2xs);
+  }
+
+  .lab-teaser__wave {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 1.75rem;
+  }
+
+  .lab-teaser__wave i {
+    flex: 1;
+    height: var(--h);
+    border-radius: var(--radius-pill);
+    background: var(--color-led);
+    opacity: 0.8;
+    box-shadow: 0 0 6px color-mix(in srgb, var(--color-glow) 60%, transparent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-teaser__wave i {
+      transform-origin: center;
+      animation: lab-wave 1.4s var(--ease-in-out) infinite alternate;
+      animation-delay: calc(var(--d) * -90ms);
+    }
+  }
+
+  @keyframes lab-wave {
+    from {
+      transform: scaleY(0.35);
+    }
+
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  .lab-teaser__caption {
+    margin-top: var(--space-xs);
+  }
+
+  @media (max-width: 63.99em) {
+    .lab-teaser__panel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .lab-teaser__ticket {
+      position: static;
+      width: auto;
+      margin-top: var(--space-s);
+      order: 2;
+    }
+
+    .lab-teaser__caption {
+      order: 1;
+    }
+  }
+</style>

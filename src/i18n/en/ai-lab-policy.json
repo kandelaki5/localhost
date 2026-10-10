@@ -33,7 +33,6 @@
     "empty": "Your conversation appears here. Every answer comes with its sources.",
     "sources": "Sources",
     "source": "Source {n}",
-    "open": "Open PDF",
     "noSources": "No passage quoted — our policies may not cover this question. Our team is happy to answer it at info@localhost.ge.",
     "englishNote": "Demo answers are prepared in English.",
     "otherQuestion": "You asked something else — this is the prepared answer to: “{q}”",

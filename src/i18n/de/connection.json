@@ -1,0 +1,83 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). City names use German exonyms (Tiflis, Kutaissi, Kattowitz, Posen, Breslau).",
+  "kicker": "Verbindungen",
+  "title": "Europa ist nur\n*wenige Stunden* entfernt.",
+  "intro": "Tiflis und Kutaissi sind per Direktflug mit Städten in ganz Europa verbunden — Ihre Reisenden kommen ausgeruht an, bereit für ihre erste Supra.",
+  "running": "Tiflis TBS · Kutaissi KUT",
+  "tabsLabel": "Flughafen",
+  "airports": {
+    "TBS": {
+      "tab": "Tiflis",
+      "name": "Flughafen Tiflis",
+      "caption": "Direktflüge ab dem internationalen Flughafen Tiflis (TBS)",
+      "footnote": "Hat eine Stadt zwei Flughäfen, stehen beide Codes unter den Airlines."
+    },
+    "KUT": {
+      "tab": "Kutaissi",
+      "name": "Flughafen Kutaissi",
+      "caption": "Direktflüge ab dem internationalen Flughafen Kutaissi (KUT)",
+      "footnote": "Einige dieser Flughäfen liegen außerhalb der Stadt in ihrem Namen: Paris-Beauvais ist rund 85 km von Paris entfernt, Brüssel-Charleroi 55 km von Brüssel, Frankfurt-Hahn 120 km von Frankfurt und Memmingen 110 km von München."
+    }
+  },
+  "board": {
+    "title": "Abflug",
+    "flourish": "გაფრენა",
+    "flourishLang": "ka",
+    "clock": "Ortszeit Tiflis",
+    "clockLabel": "Aktuelle Uhrzeit in Tiflis:",
+    "columns": {
+      "city": "Ziel",
+      "code": "Code",
+      "airline": "Airline",
+      "status": "Hinweis"
+    },
+    "direct": "Direkt",
+    "seasonal": "Saisonal",
+    "row": "{city} ({code}): {airlines}. {status}.",
+    "showing": "{shown} von {total} angezeigt",
+    "more": "Alle {total} Städte",
+    "less": "Nur die ersten {shown}",
+    "checked": "Abgeglichen mit dem offiziellen Flugplan des Flughafens · {date}"
+  },
+  "note": "Direktverbindungen wechseln je nach Saison — fragen Sie uns nach dem aktuellen Flugplan.",
+  "noteLink": "Fragen Sie uns",
+  "cities": {
+    "warsaw": "Warschau",
+    "berlin": "Berlin",
+    "munich": "München",
+    "milan": "Mailand",
+    "rome": "Rom",
+    "vienna": "Wien",
+    "paris": "Paris",
+    "amsterdam": "Amsterdam",
+    "athens": "Athen",
+    "riga": "Riga",
+    "london": "London",
+    "copenhagen": "Kopenhagen",
+    "istanbul": "Istanbul",
+    "dubai": "Dubai",
+    "doha": "Doha",
+    "tel-aviv": "Tel Aviv",
+    "almaty": "Almaty",
+    "tashkent": "Taschkent",
+    "baku": "Baku",
+    "yerevan": "Jerewan",
+    "katowice": "Kattowitz",
+    "poznan": "Posen",
+    "wroclaw": "Breslau",
+    "dortmund": "Dortmund",
+    "hamburg": "Hamburg",
+    "memmingen": "Memmingen",
+    "frankfurt-hahn": "Frankfurt-Hahn",
+    "venice": "Venedig",
+    "budapest": "Budapest",
+    "prague": "Prag",
+    "bratislava": "Bratislava",
+    "vilnius": "Vilnius",
+    "paris-beauvais": "Paris-Beauvais",
+    "brussels-charleroi": "Brüssel-Charleroi",
+    "madrid": "Madrid",
+    "antalya": "Antalya",
+    "geneva": "Genf"
+  }
+}

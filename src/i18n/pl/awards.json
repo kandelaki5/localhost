@@ -1,0 +1,23 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Nagrody",
+  "title": "Docenieni *u siebie.*",
+  "intro": "Nominacje do krajowych nagród turystycznych Gruzji – w odstępie dziesięciu lat.",
+  "running": "Welcome to Georgia!",
+  "programme": {
+    "kicker": "O nagrodach",
+    "text": "Krajowe nagrody turystyczne Gruzji, przyznawane co roku od 2015 r.",
+    "link": "oficjalna strona"
+  },
+  "nominee": "Nominacja",
+  "listLabel": "Nominacje",
+  "items": {
+    "fastest-growing-2016": {
+      "category": "Najszybciej rozwijająca się firma roku",
+      "detail": "Segment MŚP"
+    },
+    "inbound-2026": {
+      "category": "Firma roku w turystyce przyjazdowej"
+    }
+  }
+}
