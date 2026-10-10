@@ -22,7 +22,7 @@ The last one comes back as a ready-to-send email to **info@localhost.ge**. The a
 - **Sustainability checks in seconds.** The approved *Travelife Partner* statement and links to all five policies are always one question away.
 - **A talking point at fairs.** Very few DMCs can say "connect us to your AI assistant". It is a concrete, modern reason to remember Local Host at BIT, ITB or TT Warsaw.
 
-**What it costs:** nothing per use. It needs **no Claude API key**, makes no AI calls and only serves data that is already on the website. It runs inside the same Vercel deployment as the site.
+**What it costs:** nothing per use beyond ordinary Vercel function time (a few milliseconds per call). It needs **no Claude API key**, makes no AI calls and only serves data that is already on the website. It runs inside the same Vercel deployment as the site, and works the same whether the website's AI features are in demo or live mode.
 
 **What it does not do:** it does not book, hold, price or send anything, and it collects no personal data. Sending the email is always the agent's own click.
 
@@ -103,7 +103,7 @@ curl -s "${H[@]}" -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"n
 
 ## Limitations
 
-- **A snapshot, not live inventory.** The data is bundled at build time. After editing `src/data/*.json` or `knowledge.ts`, redeploy. Flights were researched on 10 Oct 2026. Routes, days and frequencies change, so the tool always adds "Direct connections vary by season — ask us for the current schedule."
+- **A snapshot, not live inventory.** The data is bundled at build time (`import.meta.glob` of `src/data/*.json`; a malformed file fails the build, not the live site). After editing `src/data/*.json` or `knowledge.ts`, redeploy. Flights were researched on 10 Oct 2026. Routes, days and frequencies change, so the tool always adds "Direct connections vary by season — ask us for the current schedule."
 - **Fair dates are the organisers' published dates.** Whether the team attends a given edition is confirmed by email.
 - **No prices, availability or bookings, by design.** `draft_trip_request` only prepares an email; the agent sends it.
 - **English output.** Place and experience names come in en/ka/pl/it/de; the assistant can translate the rest.
@@ -115,7 +115,7 @@ curl -s "${H[@]}" -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"n
 ## Security notes
 
 - **Public, unauthenticated, read-only.** It serves only data that is already public on the website. There are no secrets, no API key, no database and no stored personal data. It makes no outbound network calls and no LLM calls.
-- **CORS `Access-Control-Allow-Origin: *` without credentials.** This is safe because no reply depends on who is asking.
+- **CORS `Access-Control-Allow-Origin: *` without credentials.** This is safe because no reply depends on who is asking, and the route never imports the Claude client (`src/lib/ai/config.ts` / `claude.ts`), so open CORS cannot spend Claude money. The Claude-backed endpoints send no CORS headers at all.
 - **Origin check.** A present but malformed `Origin` header gets a `403`. DNS-rebinding protection matters for local servers with private data, and this server has none.
 - **Input validation:**
   - Zod schemas on every tool: enums, integer ranges, array and string lengths.
