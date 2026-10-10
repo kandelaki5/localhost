@@ -1,0 +1,161 @@
+{
+ "1": {
+  "slug": "option-1",
+  "name": "Modern & Confident",
+  "note": "Light-green front-left hill, deep green right hill, darker overlap; bold wordmark.",
+  "sun": [
+   "#F2643B",
+   "#D9381F",
+   "#B6161B"
+  ],
+  "left": [
+   "#6AA758",
+   "#57994D",
+   "#458A45"
+  ],
+  "right": [
+   "#2A7B46",
+   "#156B3D",
+   "#055A36"
+  ],
+  "overlap": [
+   "#0F653C",
+   "#0A5A37",
+   "#044C31"
+  ],
+  "ink": "#122726",
+  "accent": "#C93226",
+  "word_w": 700,
+  "geo_w": 620,
+  "track": 0.008,
+  "geo_track": 0.36,
+  "reverse": {
+   "left": [
+    "#74B460",
+    "#60A655",
+    "#4E974E"
+   ],
+   "right": [
+    "#4AA566",
+    "#38945D",
+    "#2C8257"
+   ],
+   "overlap": [
+    "#308A5A",
+    "#2C7F55",
+    "#26704F"
+   ],
+   "ink": "#F7F3EA",
+   "accent": "#F2704A"
+  }
+ },
+ "2": {
+  "slug": "option-2",
+  "name": "Balanced & Versatile",
+  "note": "Dark left hill, bright right hill, mid-green overlap; heavier wordmark. Used on the website.",
+  "sun": [
+   "#F57045",
+   "#DC341F",
+   "#BC171D"
+  ],
+  "left": [
+   "#126A42",
+   "#0E643D",
+   "#0A5836"
+  ],
+  "right": [
+   "#2AA563",
+   "#189659",
+   "#0F884F"
+  ],
+  "overlap": [
+   "#178A53",
+   "#138450",
+   "#0F7848"
+  ],
+  "ink": "#0D2524",
+  "accent": "#C72F25",
+  "word_w": 650,
+  "geo_w": 600,
+  "track": 0.015,
+  "geo_track": 0.38,
+  "reverse": {
+   "left": [
+    "#2E9462",
+    "#2B8D5C",
+    "#298055"
+   ],
+   "right": [
+    "#41C77C",
+    "#32B872",
+    "#2CA968"
+   ],
+   "overlap": [
+    "#24A566",
+    "#219F63",
+    "#1F925B"
+   ],
+   "ink": "#F7F3EA",
+   "accent": "#F57A52"
+  }
+ },
+ "3": {
+  "slug": "option-3",
+  "name": "Refined & Distinctive",
+  "note": "Earthy olive and pine greens, terracotta GEORGIA; lighter, more open wordmark.",
+  "sun": [
+   "#F7804B",
+   "#E0552C",
+   "#BC2F1C"
+  ],
+  "left": [
+   "#8AAB61",
+   "#789E56",
+   "#64904B"
+  ],
+  "right": [
+   "#3D7340",
+   "#265F37",
+   "#164F2D"
+  ],
+  "overlap": [
+   "#2A6237",
+   "#1C532F",
+   "#124527"
+  ],
+  "ink": "#0B1F17",
+  "accent": "#A15F3F",
+  "word_w": 500,
+  "geo_w": 520,
+  "track": 0.045,
+  "geo_track": 0.42,
+  "reverse": {
+   "left": [
+    "#92B566",
+    "#80A85B",
+    "#6B9A51"
+   ],
+   "right": [
+    "#609F63",
+    "#498A5A",
+    "#397950"
+   ],
+   "overlap": [
+    "#4A8A57",
+    "#3C7A4F",
+    "#326B47"
+   ],
+   "ink": "#F7F3EA",
+   "accent": "#E39A71"
+  }
+ },
+ "geometry": {
+  "slope_deg": 45.0,
+  "v_height": 4.0,
+  "sun_gap": 0.854,
+  "tangent": [
+   4.966,
+   6.966
+  ]
+ }
+}

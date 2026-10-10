@@ -24,8 +24,11 @@ FONT_SOURCES = {
     'unbounded': '@fontsource-variable/unbounded/files/unbounded-latin-wght-normal.woff2',
     'jakarta': '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2',
     'notosansgeo': '@fontsource-variable/noto-sans-georgian/files/noto-sans-georgian-georgian-wght-normal.woff2',
+    'dmsans': '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2',
+    'spacegrotesk': '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2',
+    'inter': '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2',
 }
-FONTS = os.path.join(tempfile.gettempdir(), 'localhost-logo-fonts')
+FONTS = os.environ.get('LOGO_FONT_CACHE') or os.path.join(tempfile.gettempdir(), 'localhost-logo-fonts')
 
 
 def _font_file(name):
