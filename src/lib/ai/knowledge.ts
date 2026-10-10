@@ -471,6 +471,14 @@ type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 const isObj = (v: unknown): v is Record<string, Json> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const str = (v: unknown): string | undefined => (typeof v === 'string' && v.trim() ? v.trim() : undefined);
 
+/** First sentence of a research note, without parentheses that only hold sources/URLs. */
+function firstSentence(value: unknown): string | undefined {
+  const s = str(value)?.replace(/\s*\([^()]*(https?:|www\.)[^()]*\)/g, '');
+  if (!s) return undefined;
+  const cut = s.search(/[.;]\s|\s\(/);
+  return (cut === -1 ? s : s.slice(0, cut)).replace(/[.;]$/, '').trim();
+}
+
 /** Keys never worth tokens in a prompt. */
 const SKIP_KEYS = /^(_.*|source|sources|url|urls|href|link|links|logo|logos|image|images|photo|photos|icon|svg|file|credit|credits|license)$/i;
 const MAX_GENERIC_CHARS = 8000;
@@ -516,7 +524,7 @@ function renderResearchOrgs(data: unknown): string[] {
     lines.push('Verified memberships (Local Host is a member of):');
     for (const m of verified) {
       const native = str(m.nativeName) && str(m.nativeName) !== str(m.name) ? ` (${str(m.nativeName)})` : '';
-      const desc = str(m.description) ? ` — ${str(m.description)}` : '';
+      const desc = firstSentence(m.description) ? ` — ${firstSentence(m.description)}.` : '';
       lines.push(`- ${str(m.acronym) ?? ''} — ${str(m.name) ?? ''}${native}${desc}`);
     }
   }
@@ -531,7 +539,7 @@ function renderResearchOrgs(data: unknown): string[] {
   if (shown.length) {
     lines.push('Awards (state exactly; a nomination is never a win):');
     for (const a of shown) {
-      const category = (str(a.category) ?? '').replace(/\s*\(.*\)\s*$/, '');
+      const category = firstSentence(a.category) ?? '';
       lines.push(`- ${String(a.year ?? '')} — ${str(a.result) ?? ''}: "${category}", ${str(a.title) ?? ''}`);
     }
   }

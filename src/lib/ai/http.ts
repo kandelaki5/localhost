@@ -292,19 +292,22 @@ export type BodyResult<T> = { ok: true; data: T } | { ok: false; response: Respo
  */
 export async function readJson<T = Record<string, unknown>>(
   request: Request,
-  options: { maxBytes?: number } = {},
+  options: { maxBytes?: number; mode?: AiMode } = {},
 ): Promise<BodyResult<T>> {
   const maxBytes = options.maxBytes ?? MAX_BODY_BYTES;
-  const tooLarge = () =>
-    error(413, 'payload_too_large', `Request body is larger than ${Math.round(maxBytes / 1024)} KB.`);
+  const fail = (status: number, code: AiErrorCode, message: string): BodyResult<T> => ({
+    ok: false,
+    response: error(status, code, message, options.mode ? { mode: options.mode } : {}),
+  });
+  const tooLarge = () => fail(413, 'payload_too_large', `Request body is larger than ${Math.round(maxBytes / 1024)} KB.`);
 
   const contentType = request.headers.get('content-type') ?? '';
   if (!/^application\/(.+\+)?json\b/i.test(contentType.trim())) {
-    return { ok: false, response: error(415, 'unsupported_media_type', 'Send the request body as application/json.') };
+    return fail(415, 'unsupported_media_type', 'Send the request body as application/json.');
   }
   const declared = Number(request.headers.get('content-length'));
-  if (Number.isFinite(declared) && declared > maxBytes) return { ok: false, response: tooLarge() };
-  if (!request.body) return { ok: false, response: error(400, 'invalid_json', 'Request body is empty.') };
+  if (Number.isFinite(declared) && declared > maxBytes) return tooLarge();
+  if (!request.body) return fail(400, 'invalid_json', 'Request body is empty.');
 
   const reader = request.body.getReader();
   const chunks: Uint8Array[] = [];
@@ -316,12 +319,12 @@ export async function readJson<T = Record<string, unknown>>(
       received += value.byteLength;
       if (received > maxBytes) {
         await reader.cancel().catch(() => undefined);
-        return { ok: false, response: tooLarge() };
+        return tooLarge();
       }
       chunks.push(value);
     }
   } catch {
-    return { ok: false, response: error(400, 'bad_request', 'Could not read the request body.') };
+    return fail(400, 'bad_request', 'Could not read the request body.');
   }
 
   const bytes = new Uint8Array(received);
@@ -331,16 +334,16 @@ export async function readJson<T = Record<string, unknown>>(
     offset += chunk.byteLength;
   }
   const text = new TextDecoder('utf-8').decode(bytes).trim();
-  if (!text) return { ok: false, response: error(400, 'invalid_json', 'Request body is empty.') };
+  if (!text) return fail(400, 'invalid_json', 'Request body is empty.');
 
   let parsed: unknown;
   try {
     parsed = JSON.parse(text);
   } catch {
-    return { ok: false, response: error(400, 'invalid_json', 'Request body is not valid JSON.') };
+    return fail(400, 'invalid_json', 'Request body is not valid JSON.');
   }
   if (!isPlainObject(parsed)) {
-    return { ok: false, response: error(400, 'bad_request', 'Request body must be a JSON object.') };
+    return fail(400, 'bad_request', 'Request body must be a JSON object.');
   }
   return { ok: true, data: parsed as T };
 }
@@ -417,11 +420,8 @@ export async function guard<T = Record<string, unknown>>(
     };
   }
 
-  const body = await readJson<T>(request, options.maxBytes !== undefined ? { maxBytes: options.maxBytes } : {});
-  if (!body.ok) {
-    body.response.headers.set('X-AI-Mode', mode);
-    return body;
-  }
+  const body = await readJson<T>(request, { mode, ...(options.maxBytes !== undefined ? { maxBytes: options.maxBytes } : {}) });
+  if (!body.ok) return body;
   return { ok: true, body: body.data, ip, mode, headers };
 }
 
