@@ -611,6 +611,13 @@ export function describeUpstreamError(err: unknown): UpstreamErrorInfo {
     // 500 / 529 overloaded and other 5xx.
     return { status: 503, code: 'upstream_overloaded', message: BUSY, retryAfter: 30 };
   }
+  if (err instanceof Anthropic.APIError && err.type === 'overloaded_error') {
+    // e.g. an SSE `error` event mid-stream (no HTTP status) — typed via err.type.
+    return { status: 503, code: 'upstream_overloaded', message: BUSY, retryAfter: 30 };
+  }
+  if (err instanceof Anthropic.APIError && err.type === 'rate_limit_error') {
+    return { status: 503, code: 'upstream_rate_limited', message: BUSY, retryAfter: 30 };
+  }
   if (err instanceof Anthropic.APIError || err instanceof Anthropic.AnthropicError) {
     return { status: 502, code: 'upstream_error', message: UNAVAILABLE };
   }

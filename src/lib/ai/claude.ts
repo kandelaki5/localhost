@@ -50,11 +50,23 @@ export interface ClaudeRequest {
   /** Include the knowledge base block (default true). */
   knowledge?: boolean;
   /**
-   * Escape hatch for extra params (tools, metadata, stop_sequences...). Do NOT
-   * pass thinking/temperature here.
+   * Escape hatch for extra params (tools, metadata, stop_sequences, betas...).
+   * thinking / temperature / top_p / top_k / fallbacks are excluded on purpose.
    */
-  extra?: Partial<Omit<MessageCreateParamsBase, 'model' | 'messages' | 'system' | 'max_tokens' | 'stream'>>;
+  extra?: Partial<
+    Omit<
+      MessageCreateParamsBase,
+      'model' | 'messages' | 'system' | 'max_tokens' | 'stream' | 'thinking' | 'temperature' | 'top_p' | 'top_k' | 'fallbacks'
+    >
+  >;
 }
+
+/**
+ * Hard ceiling for max_tokens on public endpoints (thinking counts towards it).
+ * Georgian (Mkhedruli) text costs considerably more tokens than the same
+ * text in English — size `ka` answers generously, but never above this.
+ */
+export const MAX_TOKENS_CEILING = 16_000;
 
 /** System blocks: [knowledge base (cached), feature instructions (cached), volatile (not cached)]. */
 export function buildSystem(req: Pick<ClaudeRequest, 'instructions' | 'locale' | 'context' | 'knowledge'>): BetaTextBlockParam[] {
@@ -75,10 +87,12 @@ export function messageParams(req: ClaudeRequest): MessageCreateParamsBase {
     throw new Error(`[ai] ${req.feature}: messages must end with a user message (no assistant prefill on ${model()}).`);
   }
   const { output_config: extraOutput, ...extra } = req.extra ?? {};
+  const maxTokens = Math.max(256, Math.min(MAX_TOKENS_CEILING, Math.round(req.maxTokens)));
+  if (maxTokens !== req.maxTokens) console.warn(`[ai] ${req.feature}: max_tokens ${req.maxTokens} clamped to ${maxTokens}`);
   return {
     ...extra,
     model: model(),
-    max_tokens: req.maxTokens,
+    max_tokens: maxTokens,
     system: buildSystem(req),
     messages: req.messages,
     output_config: { ...extraOutput, effort: req.effort },
