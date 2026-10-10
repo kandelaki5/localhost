@@ -1,0 +1,105 @@
+---
+/**
+ * Postage stamp: a perforated frame cut with a CSS mask (the heritage motif
+ * from the old site's tour tiles).
+ *
+ *   <Stamp><img …></Stamp>                     paper stamp
+ *   <Stamp tint="green">…</Stamp>              thin green perforated border
+ *   <Stamp tint="red" rotate={-1.5}>…</Stamp>  red, slightly askew (max ±2°)
+ *
+ * Tinted stamps are NOT solid fills: only a thin band at the perforated edge
+ * carries the colour, plus a hairline frame inside the paper.
+ */
+interface Props {
+  tint?: 'paper' | 'green' | 'red';
+  /** Perforation hole radius (CSS length). Default: --stamp-perf. */
+  perf?: string;
+  /** Paper margin inside the frame (CSS length). Default: --stamp-pad. */
+  pad?: string;
+  shadow?: boolean;
+  /** Degrees, clamped to ±2. */
+  rotate?: number;
+  as?: 'div' | 'figure' | 'li' | 'span' | 'a';
+  href?: string;
+  class?: string;
+  [key: `data-${string}`]: string | undefined;
+}
+
+const { tint = 'paper', perf, pad, shadow = true, rotate = 0, as: Tag = 'div', class: className, ...rest } = Astro.props;
+const deg = Math.max(-2, Math.min(2, rotate));
+const style = [
+  perf && `--stamp-perf:${perf}`,
+  pad && `--stamp-pad:${pad}`,
+  deg && `--stamp-rotate:${deg}deg`,
+]
+  .filter(Boolean)
+  .join(';');
+---
+
+<Tag class:list={['stamp', `stamp--${tint}`, shadow && 'stamp--shadow', className]} style={style || undefined} {...rest}>
+  <span class="stamp__edge">
+    <span class="stamp__paper">
+      <slot />
+    </span>
+  </span>
+</Tag>
+
+<style>
+  .stamp {
+    --_r: var(--stamp-perf);
+    --_edge: var(--color-stamp-paper);
+    --_band: calc(var(--_r) + 1px);
+    --_frame: transparent;
+    display: block;
+    transform: rotate(var(--stamp-rotate, 0deg));
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .stamp--shadow {
+    filter: var(--filter-stamp);
+  }
+
+  .stamp--green {
+    --_edge: var(--color-stamp-green);
+    --_band: calc(var(--_r) + var(--stamp-band));
+    --_frame: color-mix(in srgb, var(--color-stamp-green) 45%, transparent);
+  }
+
+  .stamp--red {
+    --_edge: var(--color-stamp-red);
+    --_band: calc(var(--_r) + var(--stamp-band));
+    --_frame: color-mix(in srgb, var(--color-stamp-red) 45%, transparent);
+  }
+
+  .stamp__edge {
+    display: block;
+    padding: var(--_band);
+    background: var(--_edge);
+    /* Holes along every edge: a grid of transparent circles, with the middle
+       filled back in by a solid rectangle. `round` fits a whole number of holes. */
+    -webkit-mask:
+      radial-gradient(var(--_r), #0000 97%, #000) round calc(-1.5 * var(--_r)) calc(-1.5 * var(--_r)) /
+        calc(3 * var(--_r)) calc(3 * var(--_r)),
+      linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--_r)) calc(100% - 3 * var(--_r));
+    mask:
+      radial-gradient(var(--_r), #0000 97%, #000) round calc(-1.5 * var(--_r)) calc(-1.5 * var(--_r)) /
+        calc(3 * var(--_r)) calc(3 * var(--_r)),
+      linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--_r)) calc(100% - 3 * var(--_r));
+  }
+
+  .stamp__paper {
+    position: relative;
+    display: block;
+    padding: var(--stamp-pad);
+    background: var(--color-stamp-paper);
+  }
+
+  .stamp__paper::after {
+    content: '';
+    position: absolute;
+    inset: calc(var(--stamp-pad) / 2);
+    border: var(--border-hair) solid var(--_frame);
+    pointer-events: none;
+  }
+</style>

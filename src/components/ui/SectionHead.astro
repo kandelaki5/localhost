@@ -1,0 +1,187 @@
+---
+/**
+ * Magazine running head + section title.
+ *
+ *   ─────────────────────────────────────────────────────── (green-ink rule)
+ *   04  დ  AIRLINES                                   GETTING HERE
+ *   Twelve airlines,                       Full-service and low-cost
+ *   one short hop.                         carriers link Georgia …
+ *
+ *   <SectionHead number={4} id="airlines-title" kicker={t.kicker}
+ *                title={t.title} intro={t.intro} running={t.running} />
+ *
+ * `title` and `intro` accept *italic accent* markup (see src/lib/markup.ts).
+ * Extra content for the intro column (tabs, buttons) goes in the default slot.
+ */
+import { inline } from '../../lib/markup';
+import { georgianNumeral, latinNumber } from '../../lib/sections';
+
+interface Props {
+  /** Section number (1–12). Omit for unnumbered heads. */
+  number?: number;
+  kicker: string;
+  title: string;
+  intro?: string;
+  /** Small-caps running title at the right end of the rule. */
+  running?: string;
+  /** id for the heading, to use with aria-labelledby on the section. */
+  id?: string;
+  level?: 1 | 2 | 3;
+  /** Title size: l (section, default) · m (sub-section) · xl (page hero). */
+  size?: 'xl' | 'l' | 'm';
+  /** split = title left, intro right (default) · stack = intro under the title. */
+  layout?: 'split' | 'stack';
+  class?: string;
+}
+
+const {
+  number,
+  kicker,
+  title,
+  intro,
+  running,
+  id,
+  level = 2,
+  size = 'l',
+  layout = 'split',
+  class: className,
+} = Astro.props;
+
+const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
+const hasExtra = Astro.slots.has('default');
+---
+
+<header class:list={['shead', `shead--${layout}`, className]}>
+  <div class="shead__run">
+    {
+      number !== undefined && number > 0 && (
+        <>
+          <span class="shead__no">{latinNumber(number)}</span>
+          <span class="shead__ka" lang="ka" aria-hidden="true">
+            {georgianNumeral(number)}
+          </span>
+        </>
+      )
+    }
+    <span class="shead__kicker kicker">{kicker}</span>
+    {running && <span class="shead__running kicker">{running}</span>}
+  </div>
+  <div class="shead__body">
+    <Heading id={id} class:list={['shead__title', 'display', `display--${size}`]} set:html={inline(title)} />
+    {
+      (intro || hasExtra) && (
+        <div class="shead__aside">
+          {intro && <p class="shead__intro" set:html={inline(intro)} />}
+          <slot />
+        </div>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .shead {
+    margin-bottom: var(--space-block);
+  }
+
+  .shead__run {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-s);
+    padding-top: var(--space-xs);
+    border-top: var(--border-hair) solid var(--color-rule-section);
+    margin-bottom: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+  }
+
+  .shead__no {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: 'opsz' 30, 'WONK' 1;
+    line-height: 1;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .shead__ka {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-ka-text);
+    line-height: 1;
+    color: var(--color-text-muted);
+    margin-left: calc(-1 * var(--space-2xs));
+  }
+
+  .shead__kicker {
+    color: var(--color-text);
+  }
+
+  .shead__running {
+    margin-left: auto;
+    color: var(--color-text-muted);
+    text-align: end;
+  }
+
+  .shead__body {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    column-gap: var(--layout-gap);
+    row-gap: var(--space-m);
+    align-items: end;
+  }
+
+  .shead__title {
+    grid-column: 1 / span 7;
+    margin: 0;
+  }
+
+  .shead__aside {
+    grid-column: 9 / -1;
+    display: grid;
+    gap: var(--space-m);
+    justify-items: start;
+    padding-bottom: 0.35em;
+  }
+
+  .shead__intro {
+    font-size: var(--fs-md);
+    line-height: var(--lh-body);
+    color: var(--color-text-body);
+    max-width: 44ch;
+  }
+
+  .shead__intro :global(em) {
+    font-family: var(--font-display);
+    font-variation-settings: var(--fvs-caption);
+  }
+
+  .shead--stack .shead__title,
+  .shead--stack .shead__aside {
+    grid-column: 1 / span 9;
+  }
+
+  .shead--stack .shead__aside {
+    padding-bottom: 0;
+  }
+
+  @media (max-width: 63.99em) {
+    .shead__title {
+      grid-column: 1 / -1;
+    }
+
+    .shead__aside {
+      grid-column: 1 / span 10;
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .shead__running {
+      display: none;
+    }
+
+    .shead__aside {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

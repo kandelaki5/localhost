@@ -45,7 +45,7 @@
           "seasonal": false,
           "confidence": "high",
           "source": "https://tbilisiairport.com/en-EN/flights/departures",
-          "note": "Daily, year-round."
+          "note": "Year-round: daily in summer 2026, 6 weekly filed for winter 2026/27."
         },
         {
           "city": "Milan",
@@ -177,7 +177,7 @@
           "seasonal": null,
           "confidence": "medium",
           "source": "https://tbilisiairport.com/en-EN/flights/departures",
-          "note": "New in June 2026, operated by Norwegian Air Sweden. On the live board in Oct 2026 and filed for winter 2026/27; Georgian officials say it is year-round, but it has not yet flown a winter."
+          "note": "New since 27 Jun 2026, operated by Norwegian Air Sweden. On the live board in Oct 2026 and filed for winter 2026/27, but it has not yet flown a winter. Reports that it is year-round are unconfirmed."
         },
         {
           "city": "Istanbul",
@@ -196,7 +196,7 @@
             "IST",
             "SAW"
           ],
-          "note": "Turkish Airlines flies to Istanbul Airport (IST); Pegasus and AJet to Sabiha Gokcen (SAW)."
+          "note": "Turkish Airlines flies to Istanbul Airport (IST); Pegasus and AJet to Sabiha Gökçen (SAW)."
         },
         {
           "city": "Dubai",
@@ -461,7 +461,7 @@
           "source": "https://tbilisiairport.com/en-EN/flights/departures"
         },
         {
-          "city": "Chisinau",
+          "city": "Chișinău",
           "iata": "RMO",
           "country": "Moldova",
           "countryCode": "MD",
@@ -531,7 +531,7 @@
           "source": "https://www.kutaisi.aero/en/flight/schedule"
         },
         {
-          "city": "Poznan",
+          "city": "Poznań",
           "iata": "POZ",
           "country": "Poland",
           "countryCode": "PL",
@@ -540,11 +540,10 @@
           ],
           "seasonal": false,
           "confidence": "high",
-          "source": "https://www.kutaisi.aero/en/flight/schedule",
-          "note": "Display as 'Poznań'."
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
         },
         {
-          "city": "Wroclaw",
+          "city": "Wrocław",
           "iata": "WRO",
           "country": "Poland",
           "countryCode": "PL",
@@ -553,8 +552,7 @@
           ],
           "seasonal": false,
           "confidence": "high",
-          "source": "https://www.kutaisi.aero/en/flight/schedule",
-          "note": "Display as 'Wrocław'."
+          "source": "https://www.kutaisi.aero/en/flight/schedule"
         },
         {
           "city": "Berlin",
@@ -772,7 +770,7 @@
           "seasonal": false,
           "confidence": "high",
           "source": "https://www.kutaisi.aero/en/flight/schedule",
-          "note": "Sabiha Gokcen; year-round."
+          "note": "Sabiha Gökçen; year-round."
         },
         {
           "city": "Almaty",
@@ -885,7 +883,7 @@
       ],
       "confidence": "high",
       "source": "https://tbilisiairport.com/en-EN/flights/departures",
-      "note": "Several daily flights, year-round. Its subsidiary AJet (VF) also flies Istanbul-Sabiha Gokcen and Ankara to TBS. Turkish Airlines is not among Kutaisi's airlines."
+      "note": "Year-round. Its subsidiary AJet (VF) also flies Istanbul-Sabiha Gökçen and Ankara to TBS. Turkish Airlines is not among Kutaisi's airlines."
     },
     {
       "name": "Georgian Airways",
@@ -906,13 +904,13 @@
         "Tel Aviv (TLV) → TBS",
         "Vienna (VIE) → TBS",
         "Yerevan (EVN) → TBS",
-        "Forli (FRL) → TBS (listed, status unclear)",
+        "Forlì (FRL) → TBS (listed, status unclear)",
         "Novosibirsk (OVB) → TBS",
         "Batumi (BUS) → TBS (domestic)"
       ],
       "confidence": "high",
       "source": "https://georgian-airways.com/en/flight/schedule",
-      "note": "Tbilisi-based national carrier. Its official schedule lists 13 international routes. On the live board 10-12 Oct 2026 we saw all of them except Tel Aviv and Forli. Doha ended in Feb 2026."
+      "note": "Tbilisi-based national carrier. Its official schedule lists 13 international routes. On the live board 10-12 Oct 2026 we saw all of them except Tel Aviv and Forlì. Doha ended in Feb 2026."
     },
     {
       "name": "airBaltic",
@@ -958,9 +956,9 @@
       "servesTBS": true,
       "servesKUT": true,
       "routes": [
-        "Istanbul-Sabiha Gokcen (SAW) → TBS",
+        "Istanbul-Sabiha Gökçen (SAW) → TBS",
         "Antalya (AYT) → TBS",
-        "Istanbul-Sabiha Gokcen (SAW) → KUT"
+        "Istanbul-Sabiha Gökçen (SAW) → KUT"
       ],
       "confidence": "high",
       "source": "https://www.kutaisi.aero/en/flight/schedule",
@@ -989,14 +987,14 @@
         "Memmingen (FMM) → KUT",
         "Milan-Malpensa (MXP) → KUT",
         "Paris-Beauvais (BVA) → KUT",
-        "Poznan (POZ) → KUT",
+        "Poznań (POZ) → KUT",
         "Prague (PRG) → KUT",
         "Rome (FCO) → KUT",
         "Thessaloniki (SKG) → KUT",
         "Venice (VCE) → KUT (Wizz Air Malta, W4)",
         "Vilnius (VNO) → KUT",
         "Warsaw (WAW) → KUT",
-        "Wroclaw (WRO) → KUT"
+        "Wrocław (WRO) → KUT"
       ],
       "confidence": "high",
       "source": "https://www.kutaisi.aero/en/flight/schedule",
@@ -1028,7 +1026,7 @@
       ],
       "confidence": "high",
       "source": "https://tbilisiairport.com/en-EN/flights/departures",
-      "note": "Daily, year-round. No Lufthansa Frankfurt-Tbilisi flight was found. Condor (not Lufthansa Group) plans Frankfurt-Tbilisi from 2 May 2027."
+      "note": "Year-round: daily in summer 2026, 6 weekly filed for winter 2026/27. No Lufthansa Frankfurt-Tbilisi flight was found. Condor (not Lufthansa Group) plans Frankfurt-Tbilisi from 2 May 2027."
     },
     {
       "name": "LOT Polish Airlines",

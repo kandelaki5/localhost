@@ -1,0 +1,172 @@
+---
+/**
+ * Editorial figure: an optimised photo (astro:assets <Picture>, AVIF + WebP,
+ * responsive widths) cropped to a ratio around a focal point, with an italic
+ * "Fig." caption and optional coordinates.
+ *
+ *   <Figure photo="kazbegi-gergeti" alt="…" ratio="4/5" focal="45% 55%"
+ *           fig={1} caption="Gergeti Trinity Church, Kazbegi, 2,170 m"
+ *           coords={[42.6622, 44.6203]} sizes="(min-width: 64em) 33vw, 100vw" />
+ *
+ * `photo` is a file name in src/assets/photos (no extension); or pass an
+ * imported `src`. Overlays (seals, numbers) go in the "overlay" slot; extra
+ * caption content (an "Explore →" link) in the "caption" slot.
+ */
+import type { ImageMetadata } from 'astro';
+import { Picture } from 'astro:assets';
+import { getPhoto } from '../../lib/photos';
+import { formatCoords, type Coords } from '../../lib/geo';
+import { getLang, useStrings } from '../../i18n';
+
+interface Props {
+  photo?: string;
+  src?: ImageMetadata;
+  /** Required. Use "" only for purely decorative images. */
+  alt: string;
+  /** CSS aspect-ratio of the crop, e.g. "4/5", "21/9". Default: the photo's own. */
+  ratio?: string;
+  /** CSS object-position of the subject, e.g. "45% 55%". */
+  focal?: string;
+  widths?: number[];
+  sizes?: string;
+  /** Figure number: renders "Fig. 1 —". */
+  fig?: number | string;
+  caption?: string;
+  coords?: Coords;
+  /** Photo credit line (openly licensed photos). */
+  credit?: string;
+  /** Above the fold: eager loading + high fetch priority. */
+  priority?: boolean;
+  /** Slow zoom on hover. */
+  zoom?: boolean;
+  /** Caption alignment. */
+  align?: 'start' | 'end';
+  class?: string;
+  [key: `data-${string}`]: string | undefined;
+}
+
+const {
+  photo,
+  src,
+  alt,
+  ratio,
+  focal = '50% 50%',
+  widths,
+  sizes = '100vw',
+  fig,
+  caption,
+  coords,
+  credit,
+  priority = false,
+  zoom = false,
+  align = 'start',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const image = src ?? (photo ? getPhoto(photo) : undefined);
+if (!image) throw new Error('[Figure] pass `photo` (a name in src/assets/photos) or `src` (an imported image).');
+
+const lang = getLang(Astro);
+const common = useStrings(lang, 'common');
+const candidates = widths ?? [400, 640, 860, 1100, 1440, 1920, 2400];
+const usable = candidates.filter((w) => w <= image.width);
+const finalWidths = usable.length ? usable : [image.width];
+const hasCaption = Boolean(fig !== undefined || caption || coords || credit || Astro.slots.has('caption'));
+---
+
+<figure class:list={['figure', zoom && 'figure--zoom', `figure--${align}`, className]} {...rest}>
+  <div class="figure__media" style={ratio ? `aspect-ratio:${ratio}` : undefined}>
+    <Picture
+      src={image}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={finalWidths}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding={priority ? 'sync' : 'async'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      class="figure__img"
+      style={`object-position:${focal}`}
+    />
+    <slot name="overlay" />
+  </div>
+  {
+    hasCaption && (
+      <figcaption class="figure__caption">
+        <span class="figure__text fig-caption">
+          {fig !== undefined && <span class="figure__no">{common.figure.label} {fig}</span>}
+          {fig !== undefined && caption && <span aria-hidden="true"> — </span>}
+          {caption}
+          {credit && <span class="figure__credit"> · {credit}</span>}
+        </span>
+        {coords && (
+          <span class="figure__coords">
+            <span class="visually-hidden">{common.aria.coordinates}: </span>
+            {formatCoords(coords)}
+          </span>
+        )}
+        <slot name="caption" />
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .figure {
+    position: relative;
+    margin: 0;
+  }
+
+  .figure__media {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg-sunken);
+  }
+
+  .figure__media :global(picture) {
+    display: contents;
+  }
+
+  .figure__media :global(.figure__img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .figure--zoom .figure__media :global(.figure__img) {
+    transition: transform var(--dur-reveal) var(--ease-out);
+  }
+
+  .figure--zoom:hover .figure__media :global(.figure__img) {
+    transform: scale(1.035);
+  }
+
+  .figure__caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3xs) var(--space-m);
+    padding-top: var(--space-xs);
+  }
+
+  .figure--end .figure__caption {
+    flex-direction: row-reverse;
+  }
+
+  .figure__no {
+    font-style: normal;
+    font-weight: var(--fw-medium);
+    font-variation-settings: var(--fvs-caption);
+  }
+
+  .figure__coords {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+</style>

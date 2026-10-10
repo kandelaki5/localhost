@@ -1,0 +1,124 @@
+---
+/**
+ * The "mission control by night" surface (Connection board, AI planner, AI Lab):
+ * a Forest-night gradient with a faint survey grid and a soft green glow.
+ * Sets data-surface="night", so every role token inside is remapped and
+ * components need no dark-mode styles of their own.
+ *
+ *   <NightSurface as="section" id="connection" labelledby="connection-title" ridge>
+ *     …
+ *   </NightSurface>
+ */
+import RidgeDivider from './RidgeDivider.astro';
+
+interface Props {
+  as?: 'section' | 'div' | 'aside' | 'article' | 'main';
+  id?: string;
+  /** id of the heading that names this region. */
+  labelledby?: string;
+  /** Survey grid behind the content. */
+  grid?: boolean;
+  /** Where the green glow sits. */
+  glow?: 'top' | 'center' | 'bottom' | 'none';
+  /** Glowing ridge line along the top edge. */
+  ridge?: boolean;
+  ridgeSeed?: number;
+  /** Section padding (top/bottom). */
+  padded?: boolean;
+  class?: string;
+}
+
+const {
+  as: Tag = 'div',
+  id,
+  labelledby,
+  grid = true,
+  glow = 'center',
+  ridge = false,
+  ridgeSeed = 11,
+  padded = true,
+  class: className,
+} = Astro.props;
+---
+
+<Tag
+  id={id}
+  aria-labelledby={labelledby}
+  data-surface="night"
+  class:list={['night', padded && 'night--padded', grid && 'night--grid', `night--glow-${glow}`, className]}
+>
+  <div class="night__bg" aria-hidden="true"></div>
+  {ridge && <RidgeDivider variant="night" seed={ridgeSeed} class="night__ridge" />}
+  <div class="night__content">
+    <slot />
+  </div>
+</Tag>
+
+<style>
+  .night {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    background: var(--gradient-night);
+    color: var(--color-text);
+  }
+
+  .night--padded {
+    padding-block: var(--space-section);
+  }
+
+  .night__bg {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-below);
+    pointer-events: none;
+  }
+
+  .night--grid .night__bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--color-night-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-night-grid) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    background-position: center top;
+    -webkit-mask-image: radial-gradient(120% 90% at 50% 40%, #000 30%, transparent 85%);
+    mask-image: radial-gradient(120% 90% at 50% 40%, #000 30%, transparent 85%);
+  }
+
+  .night__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(60% 55% at var(--glow-x, 50%) var(--glow-y, 55%), var(--color-night-glow), transparent 72%);
+  }
+
+  .night--glow-top {
+    --glow-y: 0%;
+  }
+
+  .night--glow-bottom {
+    --glow-y: 100%;
+  }
+
+  .night--glow-none .night__bg::after {
+    display: none;
+  }
+
+  .night > :global(.night__ridge) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    --ridge-h: clamp(3rem, 6vw, 5.5rem);
+  }
+
+  .night--padded:has(> :global(.night__ridge)) {
+    padding-top: calc(var(--space-section) + clamp(1.5rem, 3vw, 3rem));
+  }
+
+  .night__content {
+    position: relative;
+  }
+</style>

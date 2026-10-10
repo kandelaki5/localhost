@@ -1,0 +1,131 @@
+[
+  {
+    "id": "bit-milano",
+    "name": "BIT Milano",
+    "fullName": "BIT – Borsa Internazionale del Turismo",
+    "city": "Milan",
+    "country": "Italy",
+    "countryCode": "IT",
+    "venue": "Fiera Milano (Rho)",
+    "url": "https://bit.fieramilano.it/",
+    "month": "February",
+    "lastEdition": {
+      "start": "2026-02-10",
+      "end": "2026-02-12"
+    },
+    "nextEdition": {
+      "start": "2027-02-09",
+      "end": "2027-02-11"
+    },
+    "confidence": "medium",
+    "source": "https://www.qualitytravel.it/bit-2026-punta-sui-travel-makers-e-su-nuove-date-10-12-febbraio-dal-martedi-al-giovedi/172632",
+    "note": "Organised by Fiera Milano. The 2026 dates and the Rho venue are confirmed by several Italian trade-press reports. The 2027 dates (9-11 Feb, the 47th edition) come only from consistent fair-listing sites (travel2fair, Tradefest, EventsEye). The official site blocks automated access, so the 2027 dates are not checked against it. One listing names Fiera Milano City as the 2027 venue, so the venue is not certain either."
+  },
+  {
+    "id": "bmt-napoli",
+    "name": "BMT Napoli",
+    "fullName": "BMT – Borsa Mediterranea del Turismo",
+    "city": "Naples",
+    "country": "Italy",
+    "countryCode": "IT",
+    "venue": "Mostra d'Oltremare, Viale Kennedy 54, 80125 Napoli",
+    "url": "https://bmtnapoli.com/",
+    "month": "March",
+    "lastEdition": {
+      "start": "2026-03-12",
+      "end": "2026-03-14"
+    },
+    "nextEdition": {
+      "start": "2027-03-03",
+      "end": "2027-03-05"
+    },
+    "confidence": "high",
+    "source": "https://bmtnapoli.com/category/comunicati-stampa-2027/",
+    "note": "Organised by Progecta S.r.l. The 29th edition ('BMT Innovation', 12-14 Mar 2026) is confirmed by the Lazio region's notice and BMT's own press releases. The official site gives the 30th edition as 3-5 Mar 2027, 10:00-18:00 each day. Its workshop page still shows 17-18 March 2027, which looks like a leftover error."
+  },
+  {
+    "id": "itb-berlin",
+    "name": "ITB Berlin",
+    "fullName": "ITB Berlin – The World's Leading Travel Trade Show",
+    "city": "Berlin",
+    "country": "Germany",
+    "countryCode": "DE",
+    "venue": "Messe Berlin – Berlin Exhibition Grounds, Messedamm 22, 14055 Berlin",
+    "url": "https://www.itb.com/",
+    "month": "March",
+    "lastEdition": {
+      "start": "2026-03-03",
+      "end": "2026-03-05"
+    },
+    "nextEdition": {
+      "start": "2027-03-16",
+      "end": "2027-03-18"
+    },
+    "confidence": "high",
+    "source": "https://www.itb.com/en",
+    "note": "The 2026 edition was the 60th anniversary. The 2027 dates are a one-off move so that exhibitors can observe Eid al-Fitr. 2028 returns to 7-9 March, per the official site."
+  },
+  {
+    "id": "tour-salon",
+    "name": "Tour Salon",
+    "fullName": "Tour Salon – Targi Regionów i Produktów Turystycznych (Fair of Regions and Tourism Products)",
+    "city": "Poznań",
+    "country": "Poland",
+    "countryCode": "PL",
+    "venue": "Poznań International Fair (Międzynarodowe Targi Poznańskie, MTP), Pavilion 8A",
+    "url": "https://tour-salon.pl/",
+    "month": "October",
+    "lastEdition": {
+      "start": "2025-10-03",
+      "end": "2025-10-05"
+    },
+    "nextEdition": {
+      "start": "2026-10-16",
+      "end": "2026-10-18"
+    },
+    "confidence": "high",
+    "source": "https://tour-salon.pl/pl/dla-zwiedzajacych/wazne-informacje/co-gdzie-kiedy/",
+    "note": "Organised by Grupa MTP. The 37th edition is 16-18 Oct 2026 (Fri-Sat 10:00-18:00, Sun 10:00-16:00), per the official site. The 2025 dates come from the JETRO J-messe database and an exhibitor's post, so they are medium confidence. The fair is usually held in October (4-6 Oct 2024, 27-29 Oct 2023)."
+  },
+  {
+    "id": "ttg-rimini",
+    "name": "TTG Rimini",
+    "fullName": "TTG Travel Experience",
+    "city": "Rimini",
+    "country": "Italy",
+    "countryCode": "IT",
+    "venue": "Rimini Expo Centre (Italian Exhibition Group), Via Emilia 155, Rimini",
+    "url": "https://www.ttgexpo.it/",
+    "month": "October",
+    "lastEdition": {
+      "start": "2025-10-08",
+      "end": "2025-10-10"
+    },
+    "nextEdition": {
+      "start": "2026-10-14",
+      "end": "2026-10-16"
+    },
+    "confidence": "high",
+    "source": "https://www.ttgexpo.it/en",
+    "note": "Organised by Italian Exhibition Group (IEG) and open to trade visitors only. The 2025 edition was the 62nd. The official site has a save-the-date for the edition after next: 13-15 Oct 2027."
+  },
+  {
+    "id": "tt-warsaw",
+    "name": "TT Warsaw",
+    "fullName": "TT Warsaw – Międzynarodowe Targi Turystyczne (International Tourism Trade Fair)",
+    "city": "Warsaw",
+    "country": "Poland",
+    "countryCode": "PL",
+    "venue": "Ptak Warsaw Expo, Hall E, Al. Katowicka 62, 05-830 Nadarzyn (Warsaw)",
+    "url": "https://ttwarsaw.pl/",
+    "month": "October",
+    "lastEdition": {
+      "start": "2026-10-08",
+      "end": "2026-10-11"
+    },
+    "nextEdition": null,
+    "confidence": "high",
+    "source": "https://ttwarsaw.pl/",
+    "note": "The 32nd edition (8-11 Oct 2026, 10:00-17:00) is running on 10 Oct 2026, the date of this research, per the official site. The 2025 edition was 10-12 Oct 2025 (official post-show report). No 2027 dates have been announced yet. The fair has been held in October recently."
+  }
+]

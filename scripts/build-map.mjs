@@ -7,6 +7,9 @@
  *
  *   node scripts/build-map.mjs                      # rebuild the JSON
  *   node scripts/build-map.mjs --check              # rebuild + print size/verification only (no write)
+ *   node scripts/build-map.mjs --preview=/tmp/map.html
+ *        # also write an HTML preview with every places.ts place plotted (screenshot it with
+ *        # scripts/shoot.mjs to check that e.g. Tbilisi, Batumi, Yerevan and Baku sit correctly)
  *   node scripts/build-map.mjs --resolution=50m     # coarser outlines from Natural Earth 1:50m (default 10m)
  *   node scripts/build-map.mjs --refresh-lakes=<ne_50m_lakes.geojson>
  *        # re-extract scripts/data/ne-50m-lakes-caucasus.geojson from a full download of
@@ -49,6 +52,7 @@ if (RESOLUTION !== '50m' && RESOLUTION !== '10m') {
 /** Douglas–Peucker tolerance (viewBox units) for the focus countries: 0 at 50m, light at 10m. */
 const FOCUS_TOLERANCE = RESOLUTION === '10m' ? 0.2 : 0;
 const refreshLakes = args.find((a) => a.startsWith('--refresh-lakes='))?.slice('--refresh-lakes='.length);
+const previewFile = args.find((a) => a.startsWith('--preview='))?.slice('--preview='.length);
 
 // ---------------------------------------------------------------------------
 // 1. Load the real projection from src/lib/ai/places.ts
@@ -446,4 +450,45 @@ if (bytes > MAX_BYTES) {
 if (!CHECK_ONLY) {
   writeFileSync(OUT_FILE, json);
   console.log(`wrote ${path.relative(ROOT, OUT_FILE)}`);
+}
+
+// ---------------------------------------------------------------------------
+// 5. Optional visual check: every place on the map, with a 1° graticule
+// ---------------------------------------------------------------------------
+
+if (previewFile) {
+  const colour = { GE: '#D02027', AM: '#1f5fbf', AZ: '#13783C' };
+  const named = new Set(['tbilisi', 'batumi', 'kutaisi', 'mestia', 'stepantsminda', 'borjomi', 'vardzia', 'sighnaghi', 'yerevan', 'sevan', 'tatev', 'baku', 'sheki', 'ganja', 'lahij', 'khinalug']);
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
+  const grid = [];
+  for (let lon = Math.ceil(MAP_BOUNDS.minLon); lon <= MAP_BOUNDS.maxLon; lon++) {
+    const a = project(MAP_BOUNDS.maxLat, lon);
+    const b = project(MAP_BOUNDS.minLat, lon);
+    grid.push(`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/><text x="${a.x + 2}" y="10">${lon}°E</text>`);
+  }
+  for (let lat = Math.ceil(MAP_BOUNDS.minLat); lat <= MAP_BOUNDS.maxLat; lat++) {
+    const a = project(lat, MAP_BOUNDS.minLon);
+    const b = project(lat, MAP_BOUNDS.maxLon);
+    grid.push(`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/><text x="2" y="${a.y - 2}">${lat}°N</text>`);
+  }
+  const dots = PLACES.map((p) => {
+    const { x, y } = project(p.lat, p.lon);
+    const big = named.has(p.id);
+    const label = big
+      ? `<text x="${x + 5}" y="${y - 4}" font-size="11" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">${esc(p.names.en)}</text>`
+      : '';
+    return `<circle cx="${x}" cy="${y}" r="${big ? 4 : 2.5}" fill="${colour[p.country]}" stroke="#fff"><title>${esc(p.id)}</title></circle>${label}`;
+  }).join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${output.viewBox}" width="1400" font-family="sans-serif" style="display:block">
+<path d="${output.sea}" fill="#bcd8ea" fill-rule="evenodd"/>
+<path d="${output.land}" fill="#f1efe8" stroke="#8aa" stroke-width="0.6"/>
+${Object.values(output.neighbours).map((n) => `<path d="${n.d}" fill="#e9e6de" stroke="#b9b2a3" stroke-width="0.6"/><text x="${n.label.x}" y="${n.label.y}" font-size="13" fill="#999" text-anchor="middle">${esc(n.name.en)}</text>`).join('')}
+${Object.entries(output.countries).map(([c, n]) => `<path d="${n.d}" fill="${colour[c]}" fill-opacity="0.12" stroke="${colour[c]}" stroke-width="1.2"/><text x="${n.label.x}" y="${n.label.y}" font-size="16" fill="${colour[c]}" text-anchor="middle" opacity="0.6">${esc(n.name.en)}</text>`).join('')}
+${output.lakes.map((l) => `<path d="${l.d}" fill="#7fb3d5"/>`).join('')}
+${output.labels.seas.map((t) => `<text x="${t.x}" y="${t.y}" font-size="13" fill="#4a7aa0" text-anchor="middle" font-style="italic">${esc(t.name.en)}</text>`).join('')}
+<g stroke="#000" stroke-opacity="0.12" stroke-width="0.5" fill="#666" font-size="9">${grid.join('')}</g>
+${dots}
+</svg>`;
+  writeFileSync(path.resolve(previewFile), `<!doctype html><meta charset="utf-8"><title>caucasus-map preview</title><body style="margin:0">${svg}</body>\n`);
+  console.log(`preview: ${previewFile}`);
 }

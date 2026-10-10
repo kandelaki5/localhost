@@ -1,0 +1,126 @@
+---
+/**
+ * Language switcher: links to the same page in each language. On click it
+ * carries over where you are — the URL #hash, or else the section currently
+ * in view — so switching language mid-page keeps your place.
+ *
+ *   <LangSwitch />                  EN · KA · PL · IT · DE  (header)
+ *   <LangSwitch variant="list" />   English / ქართული / Polski … (menus, footer)
+ */
+import { LOCALES, getLang, localizePath, stripLang, useStrings } from '../../i18n';
+
+interface Props {
+  variant?: 'inline' | 'list';
+  /** Page path without language prefix. Default: the current page. */
+  path?: string;
+  class?: string;
+}
+
+const { variant = 'inline', path, class: className } = Astro.props;
+const lang = getLang(Astro);
+const t = useStrings(lang, 'common');
+const basePath = path ?? stripLang(Astro.url.pathname).path;
+---
+
+<nav class:list={['langs', `langs--${variant}`, className]} aria-label={t.aria.languageNav}>
+  <ul class="langs__list" role="list">
+    {
+      LOCALES.map((l) => {
+        const current = l.code === lang;
+        return (
+          <li class="langs__item">
+            <a
+              class="langs__link"
+              href={localizePath(basePath, l.code)}
+              hreflang={l.bcp47}
+              data-keep-place
+              {...(current ? { 'aria-current': 'true' } : {})}
+            >
+              {variant === 'inline' ? (
+                <>
+                  <span aria-hidden="true">{l.short}</span>
+                  <span class="visually-hidden" lang={l.bcp47}>
+                    {l.native}
+                  </span>
+                </>
+              ) : (
+                <span class="langs__native" lang={l.bcp47}>
+                  {l.native}
+                </span>
+              )}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  .langs__list {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .langs--inline .langs__list {
+    gap: 0;
+  }
+
+  .langs--inline .langs__item + .langs__item::before {
+    content: '·';
+    padding-inline: 0.4em;
+    color: var(--color-text-muted);
+    opacity: 0.7;
+  }
+
+  .langs__link {
+    display: inline-block;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-family: var(--font-text);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .langs--inline .langs__link {
+    padding-block: var(--space-2xs);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.1em;
+  }
+
+  .langs__link:hover {
+    color: var(--color-text);
+  }
+
+  .langs__link[aria-current] {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.45em;
+  }
+
+  .langs--list .langs__list {
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+  }
+
+  .langs--list .langs__link {
+    font-size: var(--fs-sm);
+    padding-block: var(--space-3xs);
+  }
+</style>
+
+<script>
+  // Keep the visitor's place when switching language.
+  document.addEventListener('click', (event) => {
+    const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[data-keep-place]');
+    if (!link || event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const active = document.documentElement.dataset.activeSection;
+    const hash = window.location.hash || (active ? `#${active}` : '');
+    if (!hash) return;
+    const url = new URL(link.href, window.location.href);
+    url.hash = hash;
+    link.href = url.href;
+  });
+</script>

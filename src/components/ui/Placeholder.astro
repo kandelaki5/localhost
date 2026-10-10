@@ -1,0 +1,225 @@
+---
+/**
+ * "Galley proof" placeholder for sections that are still being built: a
+ * hairline frame with a small "In preparation" permit stamp and a quiet
+ * skeleton of the layout to come. Section agents delete it when they ship.
+ *
+ *   <Placeholder shape="stamps" count={6} note="Carousel of six experience stamps" />
+ */
+import Seal from './Seal.astro';
+import Stamp from './Stamp.astro';
+import { getLang, useStrings } from '../../i18n';
+
+interface Props {
+  shape?: 'triptych' | 'stamps' | 'pair' | 'type' | 'board' | 'seals' | 'permits' | 'columns' | 'form' | 'list';
+  count?: number;
+  /** One line describing what will appear here (English, dev-facing). */
+  note?: string;
+  class?: string;
+}
+
+const { shape = 'columns', count = 3, note, class: className } = Astro.props;
+const t = useStrings(getLang(Astro), 'common');
+const items = Array.from({ length: count }, (_, i) => i);
+---
+
+<div class:list={['ph', `ph--${shape}`, className]} role="note" aria-label={t.placeholder.label}>
+  <div class="ph__head">
+    <Seal variant="permit" tone="green" top="Local Host" main={t.placeholder.label} rotate={-1.5} class="ph__seal" />
+    <p class="ph__text">
+      <span class="fig-caption">{t.placeholder.text}</span>
+      {note && <span class="ph__note" lang="en">{note}</span>}
+    </p>
+  </div>
+
+  <div class="ph__body" aria-hidden="true">
+    {
+      shape === 'stamps' &&
+        items.map((i) => (
+          <Stamp tint={i % 2 ? 'red' : 'green'} class="ph__stamp">
+            <span class="ph__block ph__block--tall" />
+          </Stamp>
+        ))
+    }
+    {
+      shape === 'seals' &&
+        items.map((i) => <Seal tone={i % 2 ? 'green' : 'ink'} ring="LOCAL HOST • SOUTH CAUCASUS •" main="—" rotate={i % 2 ? 1.5 : -1.5} size="8rem" />)
+    }
+    {
+      shape === 'permits' &&
+        items.map((i) => <Seal variant="permit" tone={i % 2 ? 'green' : 'ink'} main="···" bottom="—" rotate={i % 2 ? 1 : -1} />)
+    }
+    {
+      shape === 'type' && (
+        <p class="ph__type">
+          {items.map((i) => (
+            <span class:list={['ph__word', i % 2 && 'ph__word--italic']} style={`--w:${5 + ((i * 7) % 6)}ch`} />
+          ))}
+        </p>
+      )
+    }
+    {
+      shape === 'board' && (
+        <div class="ph__board">
+          {items.map(() => (
+            <span class="ph__row">
+              {Array.from({ length: 18 }, () => (
+                <span class="ph__flap" />
+              ))}
+            </span>
+          ))}
+        </div>
+      )
+    }
+    {
+      (shape === 'triptych' || shape === 'pair' || shape === 'columns' || shape === 'form' || shape === 'list') &&
+        items.map((i) => (
+          <span class="ph__col">
+            <span class:list={['ph__block', shape === 'triptych' && i === 0 && 'ph__block--hero']} />
+            <span class="ph__line" style="--w: 70%" />
+            <span class="ph__line" style="--w: 92%" />
+            <span class="ph__line" style="--w: 54%" />
+          </span>
+        ))
+    }
+  </div>
+</div>
+
+<style>
+  .ph {
+    position: relative;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border: var(--border-hair) dashed var(--color-rule-strong);
+  }
+
+  .ph__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    margin-bottom: var(--space-l);
+  }
+
+  .ph__head :global(.ph__seal) {
+    flex: none;
+  }
+
+  .ph__head :global(.ph__seal .seal__main) {
+    font-size: var(--fs-md);
+    font-family: var(--font-display);
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  .ph__text {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .ph__note {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .ph__body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  .ph--triptych .ph__body {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  .ph--stamps .ph__body {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+  }
+
+  .ph--seals .ph__body,
+  .ph--permits .ph__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l);
+    align-items: center;
+  }
+
+  .ph__col {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .ph__block {
+    display: block;
+    aspect-ratio: 4 / 3;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 9px, var(--color-rule) 9px 10px),
+      var(--color-bg-sunken);
+    margin-bottom: var(--space-2xs);
+  }
+
+  .ph__block--tall {
+    aspect-ratio: 4 / 4.6;
+    margin: 0;
+  }
+
+  .ph__block--hero {
+    aspect-ratio: 4 / 3.4;
+  }
+
+  .ph__line {
+    display: block;
+    height: 0.55rem;
+    width: var(--w);
+    border-radius: var(--radius-xs);
+    background: var(--color-rule);
+  }
+
+  .ph__type {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.1rem;
+    align-items: center;
+  }
+
+  .ph__word {
+    display: inline-block;
+    width: calc(var(--w) * 1.6);
+    height: clamp(1.4rem, 3vw, 2.4rem);
+    background: var(--color-rule);
+    border-radius: var(--radius-xs);
+  }
+
+  .ph__word--italic {
+    transform: skewX(-12deg);
+    background: color-mix(in srgb, var(--color-emphasis) 22%, transparent);
+  }
+
+  .ph__board {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 6px;
+    padding: var(--space-m);
+    background: var(--color-bg-sunken);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-board);
+    overflow: hidden;
+  }
+
+  .ph__row {
+    display: flex;
+    gap: 3px;
+  }
+
+  .ph__flap {
+    flex: 1;
+    min-width: 0;
+    max-width: 2rem;
+    aspect-ratio: 2 / 3;
+    border-radius: var(--radius-xs);
+    background: linear-gradient(180deg, var(--color-bg-raised) 49%, var(--color-bg) 51%);
+  }
+</style>
