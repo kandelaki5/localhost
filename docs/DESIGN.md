@@ -5,8 +5,8 @@ Port its system (paper/ink palette, Fraunces + DM Sans + Noto Serif/Sans Georgia
 
 ## Required changes to the editorial base
 
-1. **Logo: Open Door** everywhere (nav, 2015 seal, footer) — inline the SVGs from `src/assets/brand/`. Never the old pin-and-hills mark.
-2. **Bring brand greens back.** Footer + dark bands in Forest `#0D3A24`; accent italics, section rules and links in green-ink `#0F6533` / brand green `#13783C`; light green `#2BB34B` decorative only. Red `#D02027` stays "the pin" (logo pin, active nav dot, map pin, quote marks, primary AI CTA sparkle). Small red text uses red-ink `#B3171E` (AA).
+1. **Logo: the owner's chosen logo** (sun/host over two green hills, "LOCAL HOST · GEORGIA" — Option 2, see `docs/BRIEF.md` §4) everywhere (nav, 2015 seal, footer) — always load the SVGs from `src/assets/brand/` (they are being replaced in place by the vector redraw; never copy their path data into components, never draw the Open Door or old pin mark). Brand colour tokens should follow the chosen logo: sun red-orange (`#DD341F` core, gradient `#F57045 → #BC171D`), hill greens `#0E643D` / `#189659` / overlap `#138450`, wordmark ink (dark green-black).
+2. **Bring brand greens back.** Footer + dark bands in Forest `#0D3A24`; accent italics, section rules and links in green-ink `#0F6533` / brand green `#13783C`; light green `#2BB34B` decorative only. Red stays "the sun/pin" accent (logo pin, active nav dot, map pin, quote marks, primary AI CTA sparkle). Small red text uses red-ink `#B3171E` (AA).
 3. **Tone down the conceit**: no "Vol. XI"; no giant Mkhedruli watermarks that read as Latin glyphs (e.g. ვ≈3). Section running heads lead with a Latin number ("04"), Georgian numeral letter small beside it.
 4. Fraunces weight ≥ 360 below 40 px; Noto Serif Georgian ≥ 400 at small sizes.
 5. Mobile: Caucasus triptych stacks to one column.
@@ -16,8 +16,8 @@ Port its system (paper/ink palette, Fraunces + DM Sans + Noto Serif/Sans Georgia
 
 ## Grafts from the runners-up
 
-- **From Stamp (Passport & Postage):** visa/ink stamps for *Meet us* (fair stamps), *Proud member of* (residence-permit rectangles) and *Awards* (round seals) — ink + brand green only, rotation ≤ 2°; **passport-cover footer** in Forest with foil `#D8B86E` accents and faint guilloche, reversed Open Door logo and a "Meet us at the stand" strip; Experience stamp frames tinted brand green/red as thin perforated borders (alternating), not solid fills; Open Door icon inside the "Local Host · 2015" perforated seal; red-ink / green-ink small-text tokens.
-- **From Cinematic (Highlands):** headline "Three countries. One open door." for the Caucasus section (ties to the logo); ridge-line divider with the red pin on the highest peak (static ink hairline on paper, draws in on scroll only when motion is allowed); place captions with coordinates folded into the "Fig." captions; skip link; hovered country card widens (pure CSS).
+- **From Stamp (Passport & Postage):** visa/ink stamps for *Meet us* (fair stamps), *Proud member of* (residence-permit rectangles) and *Awards* (round seals) — ink + brand green only, rotation ≤ 2°; **passport-cover footer** in Forest with foil `#D8B86E` accents and faint guilloche, reversed logo and a "Meet us at the stand" strip; Experience stamp frames tinted brand green/red as thin perforated borders (alternating), not solid fills; the logo icon (sun + hills) inside the "Local Host · 2015" perforated seal; red-ink / green-ink small-text tokens.
+- **From Cinematic (Highlands):** headline "Three countries. One local host." for the Caucasus section (the new mark is literally a host figure under the sun); ridge-line divider with the red pin on the highest peak (static ink hairline on paper, draws in on scroll only when motion is allowed); place captions with coordinates folded into the "Fig." captions; skip link; hovered country card widens (pure CSS).
 - **"Night mode" for the high-tech layer (our addition):** the Connection board section, the AI Trip Designer and the AI Lab page use a dark Forest-night surface (`#0A1F15` → `#0D3A24`) with Cinematic's glowing brand-green ridge line and subtle grid — the "magazine by day, mission control by night" contrast. Everything else stays paper.
 - **AI planner as a "travel document builder"** (Stamp): visitors tap country + experience stamps to select them (a postmark "cancels" each selected stamp), write in a "Dear Local Host, …" letter field; demo mode shows a red rubber stamp "SAMPLE ITINERARY — DEMO".
 
@@ -28,7 +28,7 @@ Nav: **Caucasus · Experiences · Hosts · Getting here · Meet us · Sustainabi
 | # | id | Section | Notes |
 |---|----|---------|-------|
 | 00 | `top` | Hero | "Where every guest is a gift." + proverb სტუმარი ღვთის საჩუქარია; offer line; CTAs "Start a group request" / "Draft a trip with AI"; B2B fact strip (Est. 2015 · 3 countries, one team · For agencies & tour operators · Travelife Partner) |
-| 01 | `caucasus` | Caucasus | Georgia / Armenia / Azerbaijan triptych + schematic map; headline "Three countries. One open door." |
+| 01 | `caucasus` | Caucasus | Georgia / Armenia / Azerbaijan triptych + schematic map; headline "Three countries. One local host." |
 | 02 | `experiences` | Experiences | carousel of 6 stamp cards: Culture, Wine, Trekking, Gastronomy, Pilgrim, Leisure |
 | 03 | `hosts` | Hosts We Love | 6 hosts (Sisatura — Marika & Enry; Leila; Vacheishvili Family; Samvel; Aluda; Maia) |
 | 04 | `airlines` | Airlines | typography wall of 12 carriers (names in type, never logos) |
