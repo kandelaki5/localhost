@@ -4,6 +4,7 @@
   Rendered to public/og/og-default.png:
     python3 -m http.server 4591 --directory .   (from the repo root)
     node scripts/shoot.mjs http://127.0.0.1:4591/design/build/og/ public/og/og-default.png 1200 630 --wait=1200
+    node -e "require('sharp')('public/og/og-default.png').png({compressionLevel:9,adaptiveFiltering:true,effort:10}).toBuffer().then(b=>require('fs').writeFileSync('public/og/og-default.png',b))"
   Uses the site's tokens, fonts, logo file and photo, so a re-skin carries over.
 -->
 <html lang="en">

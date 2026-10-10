@@ -15,8 +15,8 @@ How this was made: I built contact sheets of every file and looked at each one, 
 | **Hero** | `kazbegi-gergeti.jpg` | `45% 55%` | The best-known view in Georgia: Gergeti Trinity church on a green ridge below the Kazbegi massif. Pin-sharp at 100 %, 2400 px. |
 | Hero (alt) | `tbilisi-1.jpg` | `45% 40%` | Old Tbilisi and Narikala at golden hour. The calm top third suits a headline. 16:9, 2400 px. |
 | **Georgia card** | `svaneti-1.jpg` | `55% 65%` | Svan stone towers under snow peaks. It is green, unmistakably Georgian, and different from the hero. |
-| **Armenia card** | `armenia-khor-virap.jpg` | `35% 60%` | Khor Virap monastery below snow-capped Mount Ararat, the image most people associate with Armenia. |
-| **Azerbaijan card** | `azerbaijan-baku.jpg` | `45% 45%` | Old City (Icherisheher) rooftops with the Flame Towers behind. It says "Baku" at a glance. |
+| **Armenia card** | `armenia-khor-virap.jpg` | `38% 60%` | Khor Virap monastery below snow-capped Mount Ararat, the image most people associate with Armenia. |
+| **Azerbaijan card** | `azerbaijan-baku.jpg` | `30% 55%` | Old City (Icherisheher) rooftops with the Flame Towers behind. It says "Baku" at a glance. |
 | Culture | `tbilisi-1.jpg` | `45% 40%` | Old town, fortress, churches and the river, all in one frame. |
 | Wine | `rtveli-harvest.jpg` | `60% 45%` | The grape harvest (rtveli) in a vineyard, with baskets of black grapes. Warm and human. |
 | Trekking | `truso-valley.jpg` | `50% 55%` | A river valley with layered ridges and light rays. Crisp at 100 %. |
@@ -59,8 +59,8 @@ All three are landscape-first and daylight, with similar brightness, so the row 
 | Card | Photo | `object-position` | Notes |
 |---|---|---|---|
 | Georgia | `svaneti-1.jpg` (2400×1597) | `55% 65%` | Svan tower village with a snow massif behind. Strong greens. Do not caption it with a specific village. It looks like Ushguli, but that is unverified. |
-| Armenia | `armenia-khor-virap.jpg` (2400×1227, CC BY-SA 4.0, Diego Delso) | `35% 60%` | A wide panorama. The monastery sits lower-left and Ararat is centre-right. In a 4:5 card use `30% 60%` to keep the monastery in frame, which crops part of Ararat. In a 1:1 or wider card both stay visible. |
-| Azerbaijan | `azerbaijan-baku.jpg` (2400×1800, CC0, Viceskeeni2) | `45% 45%` | Old City rooftops in the foreground with the Flame Towers and TV tower on the skyline. There is slight sun glare in the top-right corner, so avoid `object-position` values above x 70 %. |
+| Armenia | `armenia-khor-virap.jpg` (2400×1228, CC BY-SA 4.0, Diego Delso) | `38% 60%` | A wide panorama. The monastery sits lower-left and Ararat's summit is centre-right. At `38% 60%` a 4:5 card keeps both the monastery and the summit (checked with simulated 4:5, 1:1 and 16:9 crops). |
+| Azerbaijan | `azerbaijan-baku.jpg` (2400×1800, CC0, Viceskeeni2) | `30% 55%` | Old City rooftops in the foreground with the Flame Towers and TV tower on the skyline. There is slight sun glare in the top-right corner, so avoid `object-position` values above x 70 %. |
 
 Alternates: Georgia → `kazbegi-gergeti.jpg` (if the hero is Tbilisi) · Armenia → `armenia-tatev.jpg` · Azerbaijan → `azerbaijan-sheki.jpg`.
 
@@ -143,7 +143,24 @@ All other company photos (`ananuri`, `david-gareja`, `georgian-food`, `katskhi-p
 
 ## 9. Armenia and Azerbaijan photos (openly licensed)
 
-ARMENIA_AZERBAIJAN_SECTION
+### Armenia & Azerbaijan picks
+
+I found these 8 photos through Openverse. All are on Wikimedia Commons, landscape and at least 4000 px wide originally, saved here at 2400 px. I checked each at final size, with 100 % crops. The licence and author were re-checked on each Commons file page. Credits are in `src/data/photo-credits.json`. The final sheet is `design/photos/caucasus-contact-sheet.jpg`.
+
+**Country cards:** Armenia → `armenia-khor-virap.jpg` (`38% 60%`) · Azerbaijan → `azerbaijan-baku.jpg` (`30% 55%`). Alternates: `armenia-tatev.jpg` · `azerbaijan-sheki.jpg`. I checked the focal points with simulated 4:5, 1:1 and 16:9 crops.
+
+| File | Size | Licence · creator | `object-position` | Notes |
+|---|---|---|---|---|
+| `armenia-khor-virap.jpg` | 2400×1228 | CC BY-SA 4.0 · Diego Delso | `38% 60%` | **Armenia card.** Monastery below snow-capped Ararat, deep blue sky. A Commons Featured Picture. The visitors on the hill are tiny. Also suits Pilgrim. |
+| `armenia-tatev.jpg` | 2400×1277 | CC BY-SA 4.0 · Diego Delso | `25% 55%` | Tatev on its cliff above the gorge, autumn colours. A Commons Quality Image. Tone-mapped HDR, but the colours look natural. There is small scaffolding on one tower. Use for Pilgrim or Culture. |
+| `armenia-sevanavank.jpg` | 2400×1474 | CC BY-SA 4.0 · Vahag851 | `52% 55%` | Drone view of the two churches above Lake Sevan, with cloud on the far ridges. Strong blue. Visitors are small. Use for Leisure. |
+| `armenia-yerevan.jpg` | 2400×1600 | CC BY 4.0 · Serouj Ourishian | `64% 40%` | Yerevan from the top of the Cascade, with the Opera House and both peaks of Ararat. Pin-sharp. Use for Culture, or as a wide band. |
+| `azerbaijan-baku.jpg` | 2400×1800 | CC0 1.0 · Viceskeeni2 | `30% 55%` | **Azerbaijan card.** Old City rooftops with the TV tower and Flame Towers. A phone photo with slight haze. There is sun glare top-right, so keep x ≤ 70 %. No attribution is required. |
+| `azerbaijan-sheki.jpg` | 2400×1586 | CC BY-SA 4.0 · Ludvig14 | `50% 40%` | The Khan's Palace façade: symmetrical, level, with no people. A rainy day with a grey-white sky, so text over it needs a scrim. Use for Culture. |
+| `azerbaijan-khinalug.jpg` | 2400×1600 | CC BY-SA 4.0 · Toni Wöhrl | `50% 45%` | Khinalug on its ridge in low morning light. Dark overall, so use only a light scrim. Use for Trekking. The Commons title is just GPS coordinates, so caption it "Khinalug" (the file description reads "Khinalig village at Shahdag National Park"). |
+| `azerbaijan-gobustan.jpg` | 2400×1600 | CC BY-SA 4.0 · AlixSaz | `60% 45%` | Gobustan reserve: a boulder field with a flat-topped mountain behind. Natural colours, slightly hazy. Converted from Adobe RGB to sRGB. No petroglyphs are visible, so do not caption it as rock art. |
+
+Rejected: watermarked photos (the Gabala "© havin_hp" series and one Khinalug shot); heavy HDR or oversaturated photos (another Gobustan path shot, the Sevan poppies, a Maiden Tower sunset); dull, overcast Sevan shots; and sunny Sheki shots crowded with tourists. Wikimedia refused full-size originals (HTTP 429), so I used its 3840 px renditions. This does not affect the 2400 px files. Serouj Ourishian's credit also gives his name in Armenian script, which may need a system-font fallback in the footer.
 
 ---
 

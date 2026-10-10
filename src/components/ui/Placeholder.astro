@@ -149,6 +149,15 @@ const items = Array.from({ length: count }, (_, i) => i);
       grid-template-columns: 1fr 1fr;
     }
 
+    /* DESIGN.md: the Caucasus triptych stacks to one column on phones. */
+    .ph--triptych .ph__body {
+      grid-template-columns: 1fr;
+    }
+
+    .ph--triptych .ph__block {
+      aspect-ratio: 16 / 7;
+    }
+
     .ph__line:last-child {
       display: none;
     }
