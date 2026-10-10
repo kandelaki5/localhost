@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Fonts — self-hosted, nothing is fetched from a third-party CDN.
+
+   Every face is scoped with `unicode-range`, so the browser only downloads a
+   file when the page actually contains characters from that range:
+   - EN / IT / DE pages fetch the Latin subsets only;
+   - PL pages also fetch Latin Extended (ą ę ł ś ż …);
+   - Georgian files are fetched only where Mkhedruli appears.
+
+   Family names are referenced through tokens (`--font-display`, `--font-text`,
+   `--font-mono`, `--font-ka-*` in tokens.css). To swap a typeface, change the
+   import here and the family name in tokens.css — nothing else.
+   ========================================================================== */
+
+/* Display serif — Fraunces, "full" axes (wght, opsz, SOFT, WONK). */
+@import '@fontsource-variable/fraunces/full.css';
+@import '@fontsource-variable/fraunces/full-italic.css';
+
+/* Text / UI — DM Sans with the optical-size axis. */
+@import '@fontsource-variable/dm-sans/opsz.css';
+@import '@fontsource-variable/dm-sans/opsz-italic.css';
+
+/* Data, board, codes — JetBrains Mono. */
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+
+/* Georgian (Mkhedruli). Declared by hand with the Georgian subset ONLY, so the
+   packages' Latin / Cyrillic / math / symbol subsets can never be pulled in by
+   a fallback glyph (e.g. an arrow) on a Latin page. Ranges match fontsource. */
+@font-face {
+  font-family: 'Noto Serif Georgian Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/noto-serif-georgian/files/noto-serif-georgian-georgian-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+}
+
+@font-face {
+  font-family: 'Noto Sans Georgian Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/noto-sans-georgian/files/noto-sans-georgian-georgian-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+}

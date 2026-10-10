@@ -1,0 +1,50 @@
+[
+  {
+    "id": "tuscany-vineyard",
+    "file": "tuscany-vineyard.jpg",
+    "title": "Vineyards in Tuscany",
+    "creator": "Francesco Sgroi",
+    "creatorUrl": "https://www.flickr.com/people/15162461@N07",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://commons.wikimedia.org/w/index.php?curid=14644692",
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/07/Vineyards_in_Tuscany.jpg",
+    "provider": "Wikimedia Commons (found via Openverse)",
+    "openverseId": "246099f9-f533-4e33-abb2-18bb4e9b1a06",
+    "modifications": "Resized to 1600 px wide and recompressed (JPEG, quality 80).",
+    "attribution": "\"Vineyards in Tuscany\" by Francesco Sgroi, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0/), via Wikimedia Commons. Resized to 1600 px wide and recompressed (JPEG, quality 80).",
+    "usage": "Demo inspiration photo for the AI Photo Match feature. Not a photo of Georgia, Armenia or Azerbaijan."
+  },
+  {
+    "id": "dolomites-valley",
+    "file": "dolomites-valley.jpg",
+    "title": "Val San Nicolò1",
+    "creator": "Gianmarco L95",
+    "creatorUrl": null,
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/w/index.php?curid=13575198",
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/22/Val_San_Nicol%C3%B21.jpg",
+    "provider": "Wikimedia Commons (found via Openverse)",
+    "openverseId": "895d0f14-ed53-466c-b0d6-39f4ef10b842",
+    "modifications": "Downloaded as the 1280 px Wikimedia rendition and recompressed (JPEG, quality 80).",
+    "attribution": "\"Val San Nicolò1\" by Gianmarco L95, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), via Wikimedia Commons. Downloaded as the 1280 px Wikimedia rendition and recompressed (JPEG, quality 80).",
+    "usage": "Demo inspiration photo for the AI Photo Match feature. Not a photo of Georgia, Armenia or Azerbaijan."
+  },
+  {
+    "id": "cappadocia-valley",
+    "file": "cappadocia-valley.jpg",
+    "title": "Göreme Valley in Cappadocia (edit1)",
+    "creator": "Brocken Inaglory",
+    "creatorUrl": "https://sites.google.com/site/thebrockeninglory",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/w/index.php?curid=6717462",
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e5/G%C3%B6reme_Valley_in_Cappadocia_edit1.jpg",
+    "provider": "Wikimedia Commons (found via Openverse)",
+    "openverseId": "64a1761c-eeee-42ad-bdca-a94e30705dfd",
+    "modifications": "Resized to 1600 px wide and recompressed (JPEG, quality 80).",
+    "attribution": "\"Göreme Valley in Cappadocia (edit1)\" by Brocken Inaglory, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/), via Wikimedia Commons. Resized to 1600 px wide and recompressed (JPEG, quality 80).",
+    "usage": "Demo inspiration photo for the AI Photo Match feature. Not a photo of Georgia, Armenia or Azerbaijan."
+  }
+]
