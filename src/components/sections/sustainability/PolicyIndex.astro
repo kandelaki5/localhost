@@ -51,11 +51,11 @@ const rows = POLICY_FILES.map((file) => {
               <span class="docs__name">{r.title}</span>
               {r.note && <span class="docs__note">{r.note}</span>}
               <span class="docs__meta">
-                <time datetime={r.date}>{r.when}</time>
+                <time class="docs__part" datetime={r.date}>{r.when}</time>
                 <span aria-hidden="true"> · </span>
-                <span>{r.pages}</span>
+                <span class="docs__part">{r.pages}</span>
                 <span aria-hidden="true"> · </span>
-                <span>PDF, {r.size}</span>
+                <span class="docs__part">PDF, {r.size}</span>
               </span>
             </span>
             <Icon name="pdf" size={20} class="docs__icon" />
@@ -152,6 +152,10 @@ const rows = POLICY_FILES.map((file) => {
     font-size: var(--fs-xs);
     line-height: 1.45;
     color: var(--color-text-muted);
+  }
+
+  .docs__part {
+    white-space: nowrap;
   }
 
   .docs__link :global(.docs__icon) {

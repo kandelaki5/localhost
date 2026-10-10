@@ -21,8 +21,9 @@
     "body": "Hello Local Host team,\n\nwe are a travel agency / tour operator and would like to receive your partner kit.\n\nAgency:\nCountry and markets:\nWebsite:\n\nThank you!"
   },
   "plan": {
+    "kicker": "AI trip designer",
     "title": "Rather sketch a trip first?",
-    "text": "Our AI trip designer drafts a day-by-day plan in a minute — then send it to us.",
+    "text": "Our AI trip designer drafts a day-by-day plan in a minute — then send it to us and we take it from there.",
     "cta": "Plan with AI"
   },
   "envelope": {
@@ -33,7 +34,6 @@
     "fromText": "your agency",
     "to": "To",
     "company": "Local Host LLC",
-    "country": "Georgia",
     "caption": "Local Host LLC, A. Bakradze 7, 0159 Tbilisi"
   }
 }

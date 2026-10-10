@@ -36,6 +36,7 @@
     "noSources": "No passage quoted — our policies may not cover this question. Our team is happy to answer it at info@localhost.ge.",
     "englishNote": "Demo answers are prepared in English.",
     "otherQuestion": "You asked something else — this is the prepared answer to: “{q}”",
-    "generic": "This prepared demo answer is general. With the AI connected, Claude answers your exact question."
+    "generic": "This prepared demo answer is general. With the AI connected, Claude answers your exact question.",
+    "showAll": "Show all {n} sources"
   }
 }

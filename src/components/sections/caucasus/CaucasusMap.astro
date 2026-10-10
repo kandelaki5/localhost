@@ -595,6 +595,20 @@ const WATER_LINES = [30, 19, 9.5];
     .cmap__range-lbl {
       display: none;
     }
+
+    .cmap__sea-lbl {
+      font-size: var(--lbl-size);
+    }
+  }
+
+  @container (max-width: 22rem) {
+    .cmap__ct-lbl {
+      font-size: calc(var(--lbl-size) * 1.1);
+    }
+
+    .cmap__north {
+      display: none;
+    }
   }
 
   /* ── draw-in (armed by the script only when motion is allowed) ── */

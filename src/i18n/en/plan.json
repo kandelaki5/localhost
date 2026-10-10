@@ -16,7 +16,6 @@
     "length": "Length",
     "daysUnit": "days",
     "daysValue": "{n} days",
-    "daysLabel": "Number of days",
     "fewer": "One day fewer",
     "more": "One day more",
     "month": "When",
@@ -30,7 +29,6 @@
     "letterLabel": "Your letter to Local Host (optional)",
     "letterPlaceholder": "we are twelve friends from Verona who love wine, long lunches and easy walks…",
     "letterHint": "Who is travelling, what they love, anything to avoid. Please leave out personal details.",
-    "counter": "{n} of {max} characters",
     "dictate": "Dictate",
     "dictateStop": "Stop dictation",
     "listening": "Listening… speak now.",
@@ -84,8 +82,7 @@
     "demoStampMain": "Demo",
     "demoStampLabel": "Sample itinerary — demo",
     "demoNotice": "Demo mode: the live AI planner isn’t connected yet, so you see a ready-made sample, not a plan written for you. You can still send your choices to our team.",
-    "rateLimited": "Please wait about {minutes} min before the next try.",
-    "stopsLabel": "Map stops"
+    "rateLimited": "Please wait about {minutes} min before the next try."
   },
   "actions": {
     "refineLabel": "Refine this draft",
@@ -108,7 +105,6 @@
     "idle": "Your route will be drawn here",
     "drawing": "Drawing the route",
     "office": "Local Host · Tbilisi",
-    "stops": "{n} stops",
     "routeLabel": "Route, in visiting order",
     "credit": "Map data: Natural Earth"
   },

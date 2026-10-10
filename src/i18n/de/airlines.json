@@ -2,13 +2,9 @@
   "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
   "kicker": "Airlines",
   "title": "Zwölf Airlines, *ein kurzer Flug.*",
-  "intro": "Linien- und Low-Cost-Airlines verbinden Georgien mit dem übrigen Europa. Direktverbindungen wechseln je nach Saison — fragen Sie uns nach dem aktuellen Flugplan.",
+  "intro": "Linien- und Low-Cost-Airlines verbinden Georgien mit dem übrigen Europa. Die meisten fliegen nach Tiflis; Kutaissi ist die georgische Basis von Wizz Air.",
   "running": "Anreise",
   "wallLabel": "Airlines mit Direktflügen nach Tiflis und Kutaissi",
-  "airports": {
-    "TBS": "Tiflis",
-    "KUT": "Kutaissi"
-  },
   "caption": {
     "group": "Air-France-KLM-Gruppe",
     "to": {

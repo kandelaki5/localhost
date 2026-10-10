@@ -37,6 +37,7 @@
     "noSources": "Brak cytatu — być może nasze polityki nie obejmują tego pytania. Nasz zespół chętnie odpowie: info@localhost.ge.",
     "englishNote": "Odpowiedzi demo są przygotowane po angielsku.",
     "otherQuestion": "Zapytano o coś innego — to przygotowana odpowiedź na: „{q}”",
-    "generic": "Ta przygotowana odpowiedź demo jest ogólna. Po podłączeniu AI Claude odpowie dokładnie na Twoje pytanie."
+    "generic": "Ta przygotowana odpowiedź demo jest ogólna. Po podłączeniu AI Claude odpowie dokładnie na Twoje pytanie.",
+    "showAll": "Pokaż wszystkie źródła ({n})"
   }
 }

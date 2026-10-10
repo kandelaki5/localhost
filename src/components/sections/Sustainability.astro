@@ -53,9 +53,9 @@ const q = t.quote;
         <p class="sus__statement" set:html={inline(r.statement)} />
         <p class="sus__explain">{r.explain}</p>
         <a class="sus__register" href={TRAVELIFE_REGISTER_URL} target="_blank" rel="noopener noreferrer">
-          <span>{r.register}</span>
-          <Icon name="arrow-up-right" size={16} />
-          <span class="visually-hidden">({common.aria.newTab})</span>
+          {r.register}<Icon name="arrow-up-right" size={16} class="sus__register-icon" /><span class="visually-hidden"
+            >({common.aria.newTab})</span
+          >
         </a>
       </section>
 
@@ -227,10 +227,9 @@ const q = t.quote;
   }
 
   .sus__register {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    min-height: 2.75rem;
+    display: inline-block;
+    padding-block: var(--space-xs);
+    line-height: 1.7;
     font-size: var(--fs-2xs);
     font-weight: var(--fw-semibold);
     letter-spacing: var(--tracking-caps);
@@ -239,6 +238,13 @@ const q = t.quote;
     text-decoration: underline;
     text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
     text-underline-offset: 0.4em;
+  }
+
+  /* Inline, so the arrow stays with the last word when the label wraps. */
+  .sus__register :global(.sus__register-icon) {
+    display: inline-block;
+    margin-left: var(--space-2xs);
+    vertical-align: -0.2em;
   }
 
   .sus__register:lang(ka) {

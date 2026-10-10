@@ -85,7 +85,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
 <section lang={textLang} id="meet-us" class="section meet" aria-labelledby="meet-us-title">
   <div class="container">
     <SectionHead number={6} id="meet-us-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running}>
-      <Button href={mailto} variant="secondary" iconStart="mail">{t.cta}</Button>
+      <Button href={mailto} variant="secondary" iconStart="mail" class="meet__cta">{t.cta}</Button>
     </SectionHead>
 
     <div
@@ -286,6 +286,13 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
 </script>
 
 <style>
+  /* Long translations ("Termin am Messestand vereinbaren") wrap in narrow columns. */
+  .meet :global(.meet__cta) {
+    max-width: 100%;
+    white-space: normal;
+    text-wrap: balance;
+  }
+
   /* ── summary strip: next fair · on now ── */
   .fairs__summary {
     display: flex;
@@ -443,7 +450,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
     margin: 0;
   }
 
-  /* leader lines + ruler (desktop only) */
+  /* leader lines + ruler (1280 and up) */
   .fairs__leaders {
     display: block;
     width: 100%;
@@ -544,8 +551,8 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
     margin-top: var(--space-l);
   }
 
-  /* ── tablet: seasons stack; stamps on a stamped timeline ── */
-  @media (max-width: 63.99em) {
+  /* ── below 1280: seasons stack in two rows of three; no ruler ── */
+  @media (max-width: 79.99em) {
     .fairs__seasons {
       grid-template-columns: minmax(0, 1fr);
       row-gap: var(--space-xl);

@@ -2,13 +2,9 @@
   "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
   "kicker": "Compagnie aeree",
   "title": "Dodici compagnie, *un breve volo.*",
-  "intro": "Compagnie tradizionali e low cost collegano la Georgia al resto d’Europa. I voli diretti variano a seconda della stagione — chiedeteci l’orario aggiornato.",
+  "intro": "Compagnie tradizionali e low cost collegano la Georgia al resto d’Europa. Quasi tutte volano a Tbilisi; Kutaisi è la base georgiana di Wizz Air.",
   "running": "Come arrivare",
   "wallLabel": "Compagnie aeree con voli diretti per Tbilisi e Kutaisi",
-  "airports": {
-    "TBS": "Tbilisi",
-    "KUT": "Kutaisi"
-  },
   "caption": {
     "group": "gruppo Air France–KLM",
     "to": {

@@ -140,9 +140,6 @@ const textLang = contentLang(lang, 'airlines') === lang ? undefined : 'en';
     text-align: justify;
     text-align-last: justify;
     text-wrap: balance;
-    /* hidden captions near the right edge must not widen the page */
-    overflow-x: clip;
-    overflow-clip-margin: var(--space-s);
     color: var(--color-text);
   }
 
@@ -291,13 +288,10 @@ const textLang = contentLang(lang, 'airlines') === lang ? undefined : 'en';
     text-align-last: auto;
     white-space: normal;
     color: var(--color-text-body);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-0.35rem);
+    display: none;
     transition:
       opacity var(--dur-fast) var(--ease-out),
-      transform var(--dur-fast) var(--ease-out),
-      visibility 0s linear var(--dur-fast);
+      transform var(--dur-fast) var(--ease-out);
   }
 
   /* bridge, so the pointer can travel from the name into the caption */
@@ -318,16 +312,21 @@ const textLang = contentLang(lang, 'airlines') === lang ? undefined : 'en';
   .al__item:hover .al__cap,
   .al__item:has(> .al__name:focus-visible) .al__cap,
   .al__item:has(> .al__name[aria-expanded='true']) .al__cap {
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    transition-delay: 0s;
+    display: block;
+  }
+
+  @starting-style {
+    .al__item:hover .al__cap,
+    .al__item:has(> .al__name:focus-visible) .al__cap,
+    .al__item:has(> .al__name[aria-expanded='true']) .al__cap {
+      opacity: 0;
+      transform: translateY(-0.35rem);
+    }
   }
 
   /* Escape hides a hover/focus caption until the pointer or focus moves on */
   .al__wall .al__item[data-dismissed] .al__cap {
-    opacity: 0;
-    visibility: hidden;
+    display: none;
   }
 
   .al__cap-name {
@@ -517,9 +516,6 @@ const textLang = contentLang(lang, 'airlines') === lang ? undefined : 'en';
       display: inline;
     }
 
-    .al__wall {
-      overflow-x: visible;
-    }
 
     .al__leader {
       display: block;
@@ -565,9 +561,6 @@ const textLang = contentLang(lang, 'airlines') === lang ? undefined : 'en';
       border: 0;
       background: none;
       box-shadow: none;
-      opacity: 1;
-      visibility: visible;
-      transform: none;
     }
 
     .al__item:has(> .al__name[aria-expanded='true']) .al__cap {

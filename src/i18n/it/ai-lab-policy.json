@@ -37,6 +37,7 @@
     "noSources": "Nessun passaggio citato — forse le nostre politiche non trattano questa domanda. Il nostro team ti risponde volentieri a info@localhost.ge.",
     "englishNote": "Le risposte demo sono preparate in inglese.",
     "otherQuestion": "Hai chiesto qualcosa di diverso — questa è la risposta preparata a: “{q}”",
-    "generic": "Questa risposta demo preparata è generica. Con l’AI collegata, Claude risponde alla tua domanda esatta."
+    "generic": "Questa risposta demo preparata è generica. Con l’AI collegata, Claude risponde alla tua domanda esatta.",
+    "showAll": "Mostra tutte le {n} fonti"
   }
 }

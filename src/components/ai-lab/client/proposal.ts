@@ -181,7 +181,6 @@ export function init(root: HTMLElement): void {
   function renderSheet(data: ProposalResponse, brief: ProposalRequest): HTMLElement {
     const p = data.proposal;
     const sheet = tpl(root, 'sheet');
-    sheet.lang = data.locale;
     fill(sheet, 'date', new Date().toLocaleDateString(t.bcp47, { day: 'numeric', month: 'long', year: 'numeric' }));
     if (data.mode === 'demo') fill(sheet, 'stamp', `${t.doc.draft} · Demo`);
     const agency = brief.agency ?? data.request.agency;
@@ -237,6 +236,13 @@ export function init(root: HTMLElement): void {
       }
     } else if (mapSlot) {
       mapSlot.closest('section')?.setAttribute('hidden', '');
+    }
+
+    // Labels stay in the page language; the AI's text carries its own language (demo samples may be English).
+    if (data.locale !== t.lang) {
+      sheet
+        .querySelectorAll<HTMLElement>('[data-slot="title"], [data-slot="subtitle"], [data-slot="summary"], [data-slot="pricing"], [data-slot="disclaimer"], [data-list], [data-days]')
+        .forEach((node) => (node.lang = data.locale));
     }
 
     const body = sheet.querySelector<HTMLElement>('[data-days]');

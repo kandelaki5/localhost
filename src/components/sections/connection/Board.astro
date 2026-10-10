@@ -133,7 +133,7 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
                 {r.airports && <span class="bd__ports">{r.airports.join(' · ')}</span>}
               </td>
               <td class="bd__status" role="cell">
-                <span class="bd__lamp" data-lamp>
+                <span class="bd__lamp">
                   {t.board.direct}
                 </span>
                 {r.seasonal && <span class="bd__tag">{t.board.seasonal}</span>}
@@ -627,13 +627,22 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
     transition: box-shadow var(--dur-base) var(--ease-out);
   }
 
-  .bd__lamp[data-off] {
+  /* while a row's flaps are moving: lamp dark, airline dimmed */
+  .bd__row[data-off] .bd__lamp {
     opacity: 0.28;
     text-shadow: none;
   }
 
-  .bd__lamp[data-off]::before {
+  .bd__row[data-off] .bd__lamp::before {
     box-shadow: none;
+  }
+
+  .bd__row[data-off] .bd__air {
+    opacity: 0.3;
+  }
+
+  .bd__air {
+    transition: opacity var(--dur-base) var(--ease-out);
   }
 
   .bd__tag {

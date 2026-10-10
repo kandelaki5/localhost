@@ -127,7 +127,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .lab-lamp--pulse {
-    animation: lab-pulse 2.4s var(--ease-in-out) infinite;
+    animation: lab-pulse var(--dur-draw) var(--ease-in-out) infinite;
   }
 }
 
@@ -517,15 +517,15 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .lab-dots i {
-    animation: lab-dot 1.2s var(--ease-in-out) infinite;
+    animation: lab-dot var(--dur-slower) var(--ease-in-out) infinite;
   }
 
   .lab-dots i:nth-child(2) {
-    animation-delay: 0.15s;
+    animation-delay: var(--dur-stagger);
   }
 
   .lab-dots i:nth-child(3) {
-    animation-delay: 0.3s;
+    animation-delay: calc(var(--dur-stagger) * 2);
   }
 }
 
@@ -582,13 +582,13 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .lab-steps li[data-state='active']::before {
-    animation: lab-pulse 1.2s var(--ease-in-out) infinite;
+    animation: lab-pulse var(--dur-slower) var(--ease-in-out) infinite;
   }
 }
 
 .lab-bar {
   position: relative;
-  height: 2px;
+  height: var(--border-thick);
   overflow: hidden;
   border-radius: var(--radius-pill);
   background: var(--color-rule);
@@ -605,7 +605,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .lab-bar::after {
-    animation: lab-sweep 1.6s var(--ease-in-out) infinite;
+    animation: lab-sweep var(--dur-reveal) var(--ease-in-out) infinite;
   }
 }
 

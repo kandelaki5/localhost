@@ -96,6 +96,25 @@ export function init(root: HTMLElement): void {
         list.append(item);
       }
       sources.hidden = false;
+      // Long source lists: show the first three, the rest on request (or when a reference points there).
+      const extra = [...list.children].slice(3) as HTMLElement[];
+      const more = turn.querySelector<HTMLButtonElement>('[data-more]');
+      const expand = () => {
+        extra.forEach((li) => (li.hidden = false));
+        if (more) more.hidden = true;
+      };
+      if (extra.length > 1 && more) {
+        extra.forEach((li) => (li.hidden = true));
+        more.textContent = fmt(t.chat.showAll ?? '{n}', { n: notes.length });
+        more.hidden = false;
+        more.addEventListener('click', () => {
+          expand();
+          (extra[0]?.querySelector('a') as HTMLElement | null)?.focus();
+        });
+        answer.addEventListener('click', (e) => {
+          if ((e.target as HTMLElement).closest('[data-ref]')) expand();
+        });
+      }
       // Light up the matching footnote while a reference is hovered or focused.
       answer.addEventListener('pointerover', (e) => light(e, true));
       answer.addEventListener('pointerout', (e) => light(e, false));

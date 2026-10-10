@@ -21,7 +21,14 @@ const browser = await pw.chromium.launch({ executablePath: '/opt/pw-browsers/chr
 const problems = [];
 
 async function open(path, width, height = 900, opts = {}) {
-  const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, reducedMotion: opts.reducedMotion ?? 'no-preference' });
+  // A fresh X-Forwarded-For per context keeps test runs under the per-IP AI rate limit (dev only, see docs/AI-ARCHITECTURE.md).
+  const ip = `10.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250) + 1}`;
+  const ctx = await browser.newContext({
+    viewport: { width, height },
+    deviceScaleFactor: 1,
+    reducedMotion: opts.reducedMotion ?? 'no-preference',
+    extraHTTPHeaders: { 'X-Forwarded-For': ip },
+  });
   const page = await ctx.newPage();
   page.on('pageerror', (e) => problems.push(`${path} @${width} pageerror: ${e.message}`));
   page.on('console', (m) => { if (m.type() === 'error') problems.push(`${path} @${width} console: ${m.text()}`); });

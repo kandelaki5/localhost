@@ -169,6 +169,7 @@ const clientStrings = {
         <div class="lab-turn__sources" data-sources hidden>
           <p class="lab-mono">{t.chat.sources}</p>
           <ol class="lab-notes" data-notes></ol>
+          <button type="button" class="lab-textbtn lab-turn__more" data-more hidden></button>
         </div>
       </div>
     </li>
@@ -299,6 +300,11 @@ const clientStrings = {
     border-top: var(--border-hair) solid var(--color-rule);
     background: color-mix(in srgb, var(--color-bg-sunken) 55%, transparent);
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+
+  .lab-policy__chat :global(.lab-panel__bar .lab-textbtn) {
+    flex: none;
+    white-space: nowrap;
   }
 
   .lab-policy__chips {
@@ -451,6 +457,10 @@ const clientStrings = {
     gap: var(--space-xs);
     padding-top: var(--space-s);
     border-top: var(--border-hair) dashed var(--color-rule-strong);
+  }
+
+  .lab-policy__turns :global(.lab-turn__more) {
+    justify-self: start;
   }
 
   .lab-policy__turns :global(.lab-notes) {

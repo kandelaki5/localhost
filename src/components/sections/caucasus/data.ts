@@ -164,13 +164,13 @@ export interface MapLabel {
 const at = (lat: number, lon: number, align?: MapLabel['align']): MapLabel => ({ ...project(lat, lon), align });
 
 export const SEA_LABELS = {
-  blackSea: at(42.62, 40.12, 'start'),
+  blackSea: at(42.58, 39.93, 'start'),
   caspianSea: at(42.05, 49.55, 'center'),
 } as const;
 
 export const COUNTRY_LABELS: Record<CountryCode, MapLabel> = {
   GE: at(41.78, 43.35),
-  AM: at(40.84, 44.13),
+  AM: at(40.76, 44.21),
   AZ: at(40.08, 47.55),
 };
 

@@ -430,6 +430,42 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     pointer-events: none;
   }
 
+  /* six across on the year ruler: round and oval stamps have no room for the
+     domain line (the whole stamp is still the link) */
+  @media (min-width: 80em) {
+    .fair[data-shape='oval'] .fair__domain,
+    .fair[data-shape='round'] .fair__domain {
+      display: none;
+    }
+  }
+
+  /* six across on the year ruler (1280–1439): the tightest cells */
+  @media (min-width: 80em) and (max-width: 89.99em) {
+    .fair__stamp {
+      padding-inline: var(--space-xs);
+    }
+
+    .fair[data-shape='oval'] .fair__stamp,
+    .fair[data-shape='round'] .fair__stamp {
+      padding-inline: var(--space-s);
+    }
+
+    .fair__when {
+      font-size: var(--fs-2xs);
+      letter-spacing: 0.01em;
+    }
+  }
+
+  .fair[data-shape='round'] .fair__city,
+  .fair[data-shape='round'] .fair__domain {
+    margin-top: 0.3rem;
+  }
+
+  .fair[data-shape='round'] .fair__when {
+    margin-top: var(--space-2xs);
+    padding-top: var(--space-2xs);
+  }
+
   /* ── entrance: each stamp is pressed onto the page once it scrolls in ── */
   @media screen and (prefers-reduced-motion: no-preference) {
     :global([data-reveal='ready']) .fair:not([data-revealed]) .fair__stamp {

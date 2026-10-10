@@ -150,7 +150,7 @@ const pin = { x: OFFICE.x - georgia.origin[0], y: OFFICE.y - georgia.origin[1] }
   .env__franking {
     position: relative;
     flex: none;
-    width: 7rem;
+    width: 7.5rem;
     margin-right: var(--space-2xs);
   }
 
@@ -190,7 +190,8 @@ const pin = { x: OFFICE.x - georgia.origin[0], y: OFFICE.y - georgia.origin[1] }
 
   .env__stamp-name {
     font-family: var(--font-ka-display);
-    font-size: var(--fs-2xs);
+    font-size: 0.625rem;
+    line-height: 1.2;
     font-weight: var(--fw-ka-text);
     color: var(--color-text);
   }
@@ -205,15 +206,15 @@ const pin = { x: OFFICE.x - georgia.origin[0], y: OFFICE.y - georgia.origin[1] }
   .env__franking :global(.env__postmark) {
     position: absolute;
     z-index: var(--z-seal);
-    left: -3.4rem;
-    top: 2.6rem;
-    opacity: 0.88;
+    left: -4.6rem;
+    top: 3rem;
+    opacity: 0.9;
   }
 
   .env__cancel {
     position: absolute;
-    left: -11rem;
-    top: 3.6rem;
+    left: -12.5rem;
+    top: 4rem;
     width: 9rem;
     height: auto;
     fill: none;
@@ -307,13 +308,13 @@ const pin = { x: OFFICE.x - georgia.origin[0], y: OFFICE.y - georgia.origin[1] }
     }
 
     .env__franking {
-      width: 5.5rem;
+      width: 6.25rem;
     }
 
     .env__franking :global(.env__postmark) {
       --seal-size: 5rem;
-      left: -2.6rem;
-      top: 2.4rem;
+      left: -3.6rem;
+      top: 2.6rem;
     }
 
     .env__cancel {

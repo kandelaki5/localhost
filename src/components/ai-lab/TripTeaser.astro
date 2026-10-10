@@ -55,7 +55,7 @@ const s = labSection('trip-designer');
           label={t.teaser.mapCaption}
           aspect={1.25}
           pad={70}
-          shift={[0.16, 0.06]}
+          shift={[0.12, -0.04]}
           numbered
           draw
           class="lab-teaser__map"
@@ -146,7 +146,7 @@ const s = labSection('trip-designer');
   .lab-teaser__ticket {
     position: absolute;
     right: var(--space-s);
-    bottom: calc(var(--space-2xl) + var(--space-xs));
+    top: var(--space-s);
     width: min(15rem, 46%);
     padding: var(--space-s);
     border: var(--border-hair) solid var(--color-rule-strong);
@@ -179,7 +179,7 @@ const s = labSection('trip-designer');
   .lab-teaser__wave {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: var(--space-3xs);
     height: 1.75rem;
   }
 
@@ -195,8 +195,8 @@ const s = labSection('trip-designer');
   @media (prefers-reduced-motion: no-preference) {
     .lab-teaser__wave i {
       transform-origin: center;
-      animation: lab-wave 1.4s var(--ease-in-out) infinite alternate;
-      animation-delay: calc(var(--d) * -90ms);
+      animation: lab-wave var(--dur-reveal) var(--ease-in-out) infinite alternate;
+      animation-delay: calc(var(--d) * var(--dur-stagger) * -1);
     }
   }
 

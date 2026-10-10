@@ -1,13 +1,9 @@
 {
   "kicker": "Airlines",
   "title": "Twelve airlines, *one short hop.*",
-  "intro": "Full-service and low-cost carriers link Georgia with the rest of Europe. Direct connections vary by season — ask us for the current schedule.",
+  "intro": "Full-service and low-cost carriers link Georgia with the rest of Europe. Most of them fly to Tbilisi; Kutaisi is Wizz Air’s Georgian base.",
   "running": "Getting here",
   "wallLabel": "Airlines with direct flights to Tbilisi and Kutaisi",
-  "airports": {
-    "TBS": "Tbilisi",
-    "KUT": "Kutaisi"
-  },
   "caption": {
     "group": "Air France–KLM group",
     "to": {

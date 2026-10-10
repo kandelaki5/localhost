@@ -37,6 +37,7 @@
     "noSources": "Keine Stelle zitiert — vielleicht decken unsere Richtlinien diese Frage nicht ab. Unser Team antwortet gern unter info@localhost.ge.",
     "englishNote": "Demo-Antworten sind auf Englisch vorbereitet.",
     "otherQuestion": "Sie haben etwas anderes gefragt — dies ist die vorbereitete Antwort auf: „{q}“",
-    "generic": "Diese vorbereitete Demo-Antwort ist allgemein. Mit aktivierter KI beantwortet Claude genau Ihre Frage."
+    "generic": "Diese vorbereitete Demo-Antwort ist allgemein. Mit aktivierter KI beantwortet Claude genau Ihre Frage.",
+    "showAll": "Alle {n} Quellen zeigen"
   }
 }

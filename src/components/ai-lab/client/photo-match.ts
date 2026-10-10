@@ -147,7 +147,7 @@ export function init(root: HTMLElement): void {
     status.textContent = travel ? `${t.resultTitle} — ${d.mood}` : (d.message ?? t.notTravel);
 
     notice.replaceChildren();
-    if (d.mode === 'demo' && d.sample) notice.append(modeBadge(root, 'demo'), document.createTextNode(d.sample.notice));
+    if (d.mode === 'demo' && d.sample) notice.textContent = d.sample.notice;
     if (!travel) {
       results.hidden = true;
       return;

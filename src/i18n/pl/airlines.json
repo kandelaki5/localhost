@@ -2,13 +2,9 @@
   "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
   "kicker": "Linie lotnicze",
   "title": "Dwanaście linii, *jeden krótki lot.*",
-  "intro": "Tradycyjni i tani przewoźnicy łączą Gruzję z resztą Europy. Połączenia bezpośrednie zmieniają się w zależności od sezonu — zapytaj nas o aktualny rozkład.",
+  "intro": "Tradycyjni i tani przewoźnicy łączą Gruzję z resztą Europy. Większość z nich lata do Tbilisi, a Kutaisi to gruzińska baza Wizz Air.",
   "running": "Dojazd",
   "wallLabel": "Linie lotnicze z lotami bezpośrednimi do Tbilisi i Kutaisi",
-  "airports": {
-    "TBS": "Tbilisi",
-    "KUT": "Kutaisi"
-  },
   "caption": {
     "group": "grupa Air France–KLM",
     "to": {

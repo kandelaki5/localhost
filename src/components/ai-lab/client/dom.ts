@@ -80,27 +80,11 @@ export function offscreen(node: HTMLElement): boolean {
   return r.top < 0 || r.top > window.innerHeight * 0.75;
 }
 
-/** Clipboard with a textarea fallback. */
+/** Copies text with the async Clipboard API (HTTPS); false when the browser refuses. */
 export async function copyText(text: string): Promise<boolean> {
   try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
-      return true;
-    }
-  } catch {
-    /* fall through */
-  }
-  try {
-    const area = el('textarea');
-    area.value = text;
-    area.setAttribute('readonly', '');
-    area.style.position = 'fixed';
-    area.style.opacity = '0';
-    document.body.append(area);
-    area.select();
-    const ok = document.execCommand('copy');
-    area.remove();
-    return ok;
+    await navigator.clipboard.writeText(text);
+    return true;
   } catch {
     return false;
   }

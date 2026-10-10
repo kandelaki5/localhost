@@ -12,6 +12,7 @@
 import SectionHead from '../ui/SectionHead.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
+import NightSurface from '../ui/NightSurface.astro';
 import Envelope from './contact/Envelope.astro';
 import { contentLang, getLang, useStrings } from '../../i18n';
 import { inline } from '../../lib/markup';
@@ -92,14 +93,20 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
         <p class="kit__text">{t.b2b.text}</p>
         <Button href={kit} variant="secondary" icon="mail">{t.b2b.cta}</Button>
       </aside>
-    </div>
 
-    <div class="handoff">
-      <div class="handoff__text">
-        <p class="handoff__title">{t.plan.title}</p>
-        <p class="handoff__note">{t.plan.text}</p>
+      <div class="handoff">
+        <NightSurface padded={false} glow="bottom" class="handoff__night">
+          <div class="handoff__inner">
+            <p class="kicker handoff__kicker">
+              <span class="handoff__lamp" aria-hidden="true"></span>
+              {t.plan.kicker}
+            </p>
+            <h3 class="handoff__title">{t.plan.title}</h3>
+            <p class="handoff__note">{t.plan.text}</p>
+            <Button href="#plan" variant="ai" size="lg">{t.plan.cta}</Button>
+          </div>
+        </NightSurface>
       </div>
-      <Button href="#plan" variant="ai" size="lg">{t.plan.cta}</Button>
     </div>
   </div>
 </section>
@@ -110,10 +117,9 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
     grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
     grid-template-areas:
       'details details details details details . figure figure figure figure figure figure'
-      'kit kit kit kit kit . figure figure figure figure figure figure';
-    grid-template-rows: auto 1fr;
+      'kit kit kit kit kit . handoff handoff handoff handoff handoff handoff';
     column-gap: var(--layout-gap);
-    row-gap: var(--space-xl);
+    row-gap: var(--space-2xl);
   }
 
   .contact__details {
@@ -276,16 +282,40 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
     max-width: 42ch;
   }
 
-  /* hand-off to the planner */
+  /* hand-off to the planner: a small piece of the night surface */
   .handoff {
-    display: flex;
+    grid-area: handoff;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .handoff :global(.handoff__night) {
+    height: 100%;
+  }
+
+  .handoff__inner {
+    display: grid;
+    justify-items: start;
+    align-content: center;
+    gap: var(--space-s);
+    height: 100%;
+    padding: var(--space-l);
+  }
+
+  .handoff__kicker {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-m) var(--space-xl);
-    margin-top: var(--space-2xl);
-    padding-block: var(--space-l);
-    border-top: var(--border-hair) solid var(--color-rule-strong);
-    border-bottom: var(--border-hair) solid var(--color-rule-strong);
+    gap: var(--space-2xs);
+    color: var(--color-green-ink);
+  }
+
+  .handoff__lamp {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-round);
+    background: var(--color-led);
+    box-shadow: var(--shadow-glow);
   }
 
   .handoff__title {
@@ -305,9 +335,12 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
   }
 
   .handoff__note {
-    margin-top: var(--space-2xs);
     color: var(--color-text-body);
-    max-width: 52ch;
+    max-width: 44ch;
+  }
+
+  .handoff__inner :global(.btn) {
+    margin-top: var(--space-2xs);
   }
 
   /* ── tablet ── */
@@ -316,8 +349,8 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
       grid-template-areas:
         'details details details details details details details details details details details details'
         'figure figure figure figure figure figure figure figure figure figure figure figure'
-        'kit kit kit kit kit kit kit kit kit kit kit kit';
-      grid-template-rows: auto;
+        'kit kit kit kit kit kit handoff handoff handoff handoff handoff handoff';
+      row-gap: var(--space-xl);
     }
 
     .contact__details {
@@ -346,16 +379,21 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
       gap: 0.1rem;
     }
 
-    .kit {
+    .contact__grid {
+      grid-template-areas:
+        'details details details details details details details details details details details details'
+        'figure figure figure figure figure figure figure figure figure figure figure figure'
+        'kit kit kit kit kit kit kit kit kit kit kit kit'
+        'handoff handoff handoff handoff handoff handoff handoff handoff handoff handoff handoff handoff';
+    }
+
+    .kit,
+    .handoff__inner {
       padding: var(--space-m);
     }
 
-    .handoff {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .handoff :global(.btn) {
+    .handoff__inner :global(.btn) {
+      width: 100%;
       justify-content: center;
     }
   }

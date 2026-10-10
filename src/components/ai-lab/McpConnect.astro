@@ -311,7 +311,7 @@ const clientStrings = { copied: lab.ui.copied, copyFailed: lab.ui.copyFailed };
 
   .lab-mcp__wire {
     position: relative;
-    height: 2px;
+    height: var(--border-thick);
     margin-bottom: 1.6rem;
     overflow: hidden;
     background: repeating-linear-gradient(90deg, var(--color-rule-strong) 0 4px, transparent 4px 8px);
@@ -518,6 +518,10 @@ const clientStrings = { copied: lab.ui.copied, copyFailed: lab.ui.copyFailed };
     .lab-mcp__url {
       flex-wrap: wrap;
       padding: var(--space-xs);
+    }
+
+    .lab-mcp__url code {
+      flex: 1 1 100%;
     }
 
     .lab-mcp__ask li:nth-child(2) {

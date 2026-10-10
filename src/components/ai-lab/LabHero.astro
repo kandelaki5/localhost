@@ -160,6 +160,11 @@ const rows = LAB_SECTIONS.map((s) => ({ ...s, title: titles[s.id] ?? s.id }));
     margin-top: var(--space-m);
   }
 
+  /* "ლაბორატორია" is one long word: one step smaller so it never breaks mid-word. */
+  .lab-hero__title:lang(ka) {
+    font-size: calc(var(--fs-4xl) * var(--fs-scale, 1));
+  }
+
   .lab-hero__title :global(em) {
     text-shadow: 0 0 28px color-mix(in srgb, var(--color-glow) 35%, transparent);
   }
@@ -343,7 +348,7 @@ const rows = LAB_SECTIONS.map((s) => ({ ...s, title: titles[s.id] ?? s.id }));
 
   @media (prefers-reduced-motion: no-preference) {
     .lab-console__cursor {
-      animation: lab-blink 1.1s steps(2, start) infinite;
+      animation: lab-blink var(--dur-slower) steps(2, start) infinite;
     }
 
     .lab-console__row,

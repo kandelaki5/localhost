@@ -18,7 +18,6 @@ interface Cell {
 interface Row {
   el: HTMLElement;
   cells: Cell[];
-  lamp: HTMLElement | null;
   pending: number;
 }
 
@@ -56,7 +55,6 @@ export function initConnection(root: HTMLElement): void {
     rows: [...panel.querySelectorAll<HTMLElement>('[data-row]')].map((el) => ({
       el,
       cells: [...el.querySelectorAll<HTMLElement>('[data-fl]')].map(cell),
-      lamp: el.querySelector<HTMLElement>('[data-lamp]'),
       pending: 0,
     })),
     clock: [...panel.querySelectorAll<HTMLElement>('[data-clock] [data-fl]')].map(cell),
@@ -82,7 +80,8 @@ export function initConnection(root: HTMLElement): void {
     c.el.textContent = ch;
     c.el.dataset.t = c.el.dataset.t === 'a' ? 'b' : 'a';
   };
-  const lamp = (r: Row, on: boolean) => r.lamp?.toggleAttribute('data-off', !on);
+  /** A row is "off" (lamp dark, airline dimmed) while its flaps are still moving. */
+  const lamp = (r: Row, on: boolean) => r.el.toggleAttribute('data-off', !on);
 
   const frame = (now: number) => {
     raf = 0;
