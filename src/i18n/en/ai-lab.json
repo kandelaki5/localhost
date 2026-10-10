@@ -1,75 +1,107 @@
 {
   "meta": {
     "title": "AI Lab",
-    "description": "Seven experiments in AI-assisted hospitality from Local Host: a trip designer, a voice concierge, photo matching, agency proposals, policy answers, inquiry triage and an AI connector."
+    "description": "Try Local Host's AI experiments, built with Claude by Anthropic: a trip designer with voice, photo matching, agency proposals, answers from our policies, inbox triage for our team and a connector for your own AI assistant."
   },
-  "kicker": "Experiments in hospitality",
-  "title": "Local Host *AI Lab*",
-  "lead": "Where we test how AI can help us host better — for travellers dreaming of the Caucasus, for the agencies who send them, and for our own team in Tbilisi. Every tool hands over to a real person at Local Host.",
-  "note": "Experimental. Answers are drafts — our team confirms every detail.",
-  "cardsLabel": "Seven experiments",
-  "status": {
-    "soon": "In the workshop",
-    "live": "Try it",
-    "staff": "For our team"
+  "hero": {
+    "kicker": "Local Host · AI Lab",
+    "title": "Local Host *AI Lab*",
+    "lead": "Six working experiments in AI-assisted hospitality — and every answer ends with a real person in Tbilisi.",
+    "note": "Experimental. Answers are drafts — our team confirms every detail.",
+    "cta": "Start with a photo",
+    "back": "Back to the home page"
+  },
+  "console": {
+    "label": "AI Lab status",
+    "title": "Local Host · AI Lab",
+    "coords": "TBS 41°43′N 44°47′E",
+    "system": "System",
+    "online": "Online",
+    "model": "Model",
+    "modelValue": "Claude · Anthropic",
+    "mode": "Mode",
+    "demo": "Demo",
+    "live": "Live",
+    "demoNote": "Demo mode — sample answers until the AI key is connected.",
+    "liveNote": "Live — Claude writes every answer for your request.",
+    "index": "Experiments",
+    "ready": "Ready",
+    "staff": "Staff"
   },
   "audience": {
-    "travellers": "Travellers",
-    "agencies": "Agencies",
-    "staff": "Staff",
-    "developers": "Developers"
+    "travellers": "For travellers",
+    "agencies": "For agencies",
+    "staff": "Staff tool",
+    "developers": "For AI assistants"
   },
-  "cards": [
-    {
-      "id": "trip-designer",
-      "icon": "sparkle",
-      "audience": "travellers",
-      "title": "Trip Designer",
-      "text": "Pick countries, interests and a month, write a line — and watch a day-by-day draft itinerary appear, ready to send to our team."
-    },
-    {
-      "id": "voice-concierge",
-      "icon": "mic",
-      "audience": "travellers",
-      "title": "Voice Concierge",
-      "text": "Ask out loud about seasons, regions and travel times, and hear the answer in your language."
-    },
-    {
-      "id": "photo-match",
-      "icon": "image",
-      "audience": "travellers",
-      "title": "Photo Match",
-      "text": "Show us a place you love anywhere in the world, and we suggest where in the Caucasus feels the same."
-    },
-    {
-      "id": "proposal-builder",
-      "icon": "pdf",
-      "audience": "agencies",
-      "title": "Agency Proposal Builder",
-      "text": "Turn a client brief into a structured programme proposal your agency can adapt and quote."
-    },
-    {
-      "id": "policy-qa",
-      "icon": "leaf",
-      "audience": "agencies",
-      "title": "Policy Q&A",
-      "text": "Ask our sustainability, excursions and accommodation policies a question and get an answer with the source quoted."
-    },
-    {
-      "id": "inquiry-triage",
-      "icon": "mail",
-      "audience": "staff",
-      "title": "Inquiry Triage",
-      "text": "Sorts incoming requests by country, dates and group size, and drafts a first reply for our team to check."
-    },
-    {
-      "id": "mcp",
-      "icon": "globe",
-      "audience": "developers",
-      "title": "AI connector (MCP)",
-      "text": "A Model Context Protocol server, so a partner’s own AI assistant can look up our experiences, regions and policies."
-    }
-  ],
-  "cta": "Back to the home page",
-  "poweredBy": "Built with Claude by Anthropic"
+  "teaser": {
+    "kicker": "Trip Designer & Voice",
+    "title": "Draft a journey *out loud.*",
+    "intro": "Our flagship lives on the home page. Pick countries and interests, write — or say — a line, and watch a day-by-day draft appear on the map.",
+    "points": [
+      "A day-by-day draft, streamed in your language",
+      "Speak your wishes, and hear the plan read back",
+      "Send the draft to our team in one click"
+    ],
+    "cta": "Open the Trip Designer",
+    "mapLabel": "Sample route",
+    "mapCaption": "A sample route — Kazbegi, Ananuri, Mtskheta, Tbilisi, Sighnaghi and Telavi.",
+    "voiceNote": "Voice works in browsers with speech support; your browser's speech service processes it.",
+    "days": [
+      "Day 1 — Tbilisi",
+      "Day 2 — Mtskheta & Ananuri",
+      "Day 3 — Kazbegi",
+      "Day 5 — Sighnaghi"
+    ]
+  },
+  "how": {
+    "kicker": "How it works",
+    "title": "Clever drafts, *human answers.*",
+    "items": [
+      {
+        "title": "Claude by Anthropic",
+        "text": "Every experiment runs on Claude, Anthropic's AI model, grounded in Local Host's own experiences, places and policies."
+      },
+      {
+        "title": "What is sent",
+        "text": "Only what you type, the photo you choose or the email you paste. It goes to Anthropic to write the answer; this site does not keep it."
+      },
+      {
+        "title": "No prices, no bookings",
+        "text": "The AI never quotes prices, holds rooms or books anything. Prices and availability always come from our team."
+      },
+      {
+        "title": "Our team confirms",
+        "text": "Every answer is a draft. A person at Local Host in Tbilisi checks each detail before anything is agreed."
+      }
+    ],
+    "contact": "Questions about the AI Lab? Write to us at"
+  },
+  "ui": {
+    "demoBadge": "Demo — sample answer",
+    "liveBadge": "Live — written by Claude",
+    "cancel": "Cancel",
+    "cancelled": "Cancelled.",
+    "retry": "Try again",
+    "elapsed": "{s} s",
+    "noScript": "Turn on JavaScript to try this experiment.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Couldn't copy — select the text instead.",
+    "newTab": "opens in a new tab"
+  },
+  "errors": {
+    "network": "We couldn't reach the AI service. Check your connection and try again.",
+    "rateLimited": "That was a lot of requests in a short time. You can try again in {time}.",
+    "rateLimitedNow": "You can try again now.",
+    "dailyCap": "The AI Lab has reached today's limit. Please try again tomorrow — or write to info@localhost.ge.",
+    "refusal": "The AI couldn't help with this one. Try rephrasing it, or write to our team at info@localhost.ge.",
+    "truncated": "The answer grew too long and was cut short. Try a simpler request.",
+    "timeout": "This took too long. Please try a shorter request.",
+    "busy": "The AI service is busy right now. Please try again in a moment.",
+    "tooLarge": "That is too large to send. Try something shorter or smaller.",
+    "badRequest": "Something in the request isn't right. Please check the form.",
+    "unauthorized": "This tool needs the staff access key.",
+    "generic": "Something went wrong on our side. Please try again in a moment."
+  }
 }

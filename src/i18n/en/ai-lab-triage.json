@@ -1,0 +1,99 @@
+{
+  "kicker": "Inquiry Triage",
+  "title": "Sort the inbox *before coffee.*",
+  "intro": "Paste a partner's email: Claude reads it in any language, routes it to the right desk, pulls out the trip facts, lists what's missing and drafts a reply in the sender's language for our team to check.",
+  "staffLabel": "Staff tool — demo",
+  "staffNote": "Built for the Local Host team. Real emails contain personal data, so the live tool asks for a staff access key.",
+  "inbox": {
+    "title": "Try a sample email",
+    "samples": {
+      "it-wine-group": "Italian agency — 9-day wine tour, 30 guests",
+      "pl-family-hiking": "Polish family — hiking in Georgia and Armenia",
+      "de-transfer-complaint": "German agency — complaint about a late transfer"
+    }
+  },
+  "form": {
+    "label": "Paste an email",
+    "placeholder": "Subject, message and signature…",
+    "count": "{n} / {max}",
+    "submit": "Triage this email",
+    "clear": "Clear",
+    "notesLanguage": "Staff notes in your page language; the draft reply is always in the sender's language."
+  },
+  "key": {
+    "label": "Staff access key",
+    "prompt": "Enter the staff access key to triage your own emails.",
+    "remember": "Remember on this device",
+    "wrong": "That key didn't work. Check it and try again.",
+    "submit": "Unlock and triage",
+    "forget": "Forget the key"
+  },
+  "empty": {
+    "title": "Triage card",
+    "text": "Pick a sample email or paste one — the triage appears here."
+  },
+  "working": "Reading the email…",
+  "card": {
+    "label": "Triage result",
+    "routeTo": "Route to",
+    "urgency": "Urgency",
+    "language": "Language",
+    "market": "Market",
+    "sender": "Sender",
+    "intent": "Intent",
+    "summary": "Summary",
+    "extracted": "Extracted",
+    "missing": "Missing info",
+    "nothingMissing": "Nothing missing — ready for the desk.",
+    "reply": "Draft reply",
+    "replyIn": "in {language}",
+    "subject": "Subject",
+    "copy": "Copy reply",
+    "open": "Open in email",
+    "notMentioned": "—",
+    "fields": {
+      "travelDates": "Travel dates",
+      "groupSize": "Group size",
+      "countries": "Countries",
+      "interests": "Interests",
+      "budgetHints": "Budget hints",
+      "hotelCategory": "Hotels",
+      "specialNeeds": "Special needs"
+    }
+  },
+  "senderTypes": {
+    "agency": "Agency",
+    "traveller": "Traveller",
+    "supplier": "Supplier",
+    "other": "Other"
+  },
+  "intents": {
+    "new-request": "New request",
+    "quote-follow-up": "Quote follow-up",
+    "booking-change": "Booking change",
+    "complaint": "Complaint",
+    "partnership": "Partnership",
+    "other": "Other"
+  },
+  "urgency": {
+    "low": "Low",
+    "normal": "Normal",
+    "high": "High"
+  },
+  "routes": {
+    "Italy desk": "Italy desk",
+    "Poland desk": "Poland desk",
+    "DACH desk": "DACH desk",
+    "CIS & Ukraine desk": "CIS & Ukraine desk",
+    "UK, US & Nordics desk": "UK, US & Nordics desk",
+    "Western Europe & Asia desk": "Western Europe & Asia desk",
+    "Reservations": "Reservations",
+    "Finance": "Finance",
+    "Management": "Management"
+  },
+  "sample": {
+    "exact": "Sample email — prepared result.",
+    "other": "Demo — this is the prepared result of a similar sample (“{label}”). With the AI connected, Claude triages your exact email.",
+    "englishNote": "Demo staff notes are in English."
+  }
+}

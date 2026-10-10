@@ -1,0 +1,115 @@
+{
+  "kicker": "Agency Proposal Builder",
+  "title": "From client brief to *programme draft.*",
+  "intro": "Describe your group and Claude drafts a programme proposal — day by day, with places, inclusions and sustainability notes — ready for our team to price.",
+  "form": {
+    "title": "The brief",
+    "samples": "Load a sample brief",
+    "sampleLabels": {
+      "it-georgia-wine-8d": "Italy · 8 days · wine & culture",
+      "pl-ge-am-trek-10d": "Poland · 10 days · trekking"
+    },
+    "agency": "Agency",
+    "agencyPlaceholder": "Optional",
+    "market": "Source market",
+    "marketPlaceholder": "e.g. Italy",
+    "groupSize": "Group size",
+    "travellers": "travellers",
+    "when": "When",
+    "months": "Month",
+    "seasonsLabel": "Or a season",
+    "seasons": {
+      "spring": "Spring",
+      "summer": "Summer",
+      "autumn": "Autumn",
+      "winter": "Winter",
+      "flexible": "Flexible dates"
+    },
+    "days": "Length",
+    "daysValue": "{n} days",
+    "countries": "Countries",
+    "interests": "Interests",
+    "interestsHint": "None selected = a balanced mix",
+    "hotel": "Hotels",
+    "hotels": {
+      "boutique": "Boutique",
+      "3*": "3★",
+      "4*": "4★",
+      "5*": "5★",
+      "mixed": "Mixed"
+    },
+    "pace": "Pace",
+    "paces": {
+      "relaxed": "Relaxed",
+      "balanced": "Balanced",
+      "active": "Active"
+    },
+    "requests": "Special requests",
+    "requestsPlaceholder": "Guide language, dietary needs, must-sees, celebrations…",
+    "count": "{n} / {max}",
+    "submit": "Draft the proposal"
+  },
+  "fieldErrors": {
+    "groupSize": "Enter a group size from 1 to 200.",
+    "month": "Pick a month or a season.",
+    "season": "Pick a month or a season.",
+    "days": "Choose a length from 3 to 21 days.",
+    "countries": "Pick at least one country.",
+    "interests": "Check the interests.",
+    "hotelCategory": "Choose a hotel category.",
+    "pace": "Choose a pace.",
+    "specialRequests": "Special requests can be up to 1,500 characters.",
+    "agency": "The agency name can be up to 120 characters.",
+    "market": "The market can be up to 80 characters."
+  },
+  "empty": {
+    "title": "Your proposal will be typeset here",
+    "text": "Fill in the brief — or load a sample — and press “Draft the proposal”."
+  },
+  "progress": {
+    "title": "Drafting your proposal",
+    "steps": [
+      "Reading the brief",
+      "Choosing the route",
+      "Writing the days",
+      "Adding inclusions and notes"
+    ],
+    "note": "Live drafting can take up to a minute."
+  },
+  "doc": {
+    "kind": "Programme proposal",
+    "draft": "Draft",
+    "preparedFor": "Prepared for",
+    "date": "Date",
+    "summary": "Summary",
+    "highlights": "Highlights",
+    "route": "Route",
+    "routeMap": "Route map: {places}",
+    "days": "Day by day",
+    "day": "Day",
+    "programme": "Programme",
+    "places": "Places",
+    "meals": "Meals",
+    "overnight": "Overnight",
+    "included": "Included",
+    "notIncluded": "Not included",
+    "sustainability": "Sustainability",
+    "nextSteps": "Next steps",
+    "pricing": "Pricing",
+    "brief": "{groupSize} travellers · {when} · {days} days · {hotel} · {pace}"
+  },
+  "actions": {
+    "print": "Print / Save as PDF",
+    "quote": "Request final quote",
+    "edit": "Edit the brief"
+  },
+  "mail": {
+    "subject": "Final quote request — {title}",
+    "greeting": "Hello Local Host team,",
+    "intro": "please prepare a final quote for this programme draft from your AI Lab:",
+    "brief": "Our brief",
+    "programme": "Programme",
+    "contact": "Our agency and contact details:",
+    "signoff": "Thank you,"
+  }
+}

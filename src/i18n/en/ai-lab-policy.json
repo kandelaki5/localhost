@@ -1,0 +1,42 @@
+{
+  "kicker": "Policy Q&A",
+  "title": "Ask our policies — *get the source.*",
+  "intro": "Ask about sustainability, excursions, hotels or partner rules. Claude answers only from our five policy documents and quotes the exact passage behind every claim.",
+  "library": {
+    "title": "The library",
+    "text": "The five documents the AI reads. Open any of them.",
+    "pdf": "PDF",
+    "lang": "in English"
+  },
+  "suggested": {
+    "title": "Try a question",
+    "questions": {
+      "footprint": "How do you reduce your environmental footprint?",
+      "animals": "Do you include animal attractions in tours?",
+      "hotels": "How do you choose hotels?",
+      "rights": "How do you protect children and workers' rights?"
+    }
+  },
+  "composer": {
+    "label": "Your question",
+    "placeholder": "e.g. Do you work with local guides?",
+    "submit": "Ask",
+    "count": "{n} / {max}",
+    "newChat": "New conversation",
+    "memory": "Follow-up questions remember your last three exchanges."
+  },
+  "chat": {
+    "label": "Conversation",
+    "you": "You",
+    "ai": "Local Host policies",
+    "working": "Reading the policies…",
+    "empty": "Your conversation appears here. Every answer comes with its sources.",
+    "sources": "Sources",
+    "source": "Source {n}",
+    "open": "Open PDF",
+    "noSources": "No passage quoted — our policies may not cover this question. Our team is happy to answer it at info@localhost.ge.",
+    "englishNote": "Demo answers are prepared in English.",
+    "otherQuestion": "You asked something else — this is the prepared answer to: “{q}”",
+    "generic": "This prepared demo answer is general. With the AI connected, Claude answers your exact question."
+  }
+}
