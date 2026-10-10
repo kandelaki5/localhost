@@ -1,0 +1,76 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "meta": {
+    "title": "Laboratorium AI",
+    "description": "Siedem eksperymentów Local Host z gościnnością wspieraną przez AI: projektant podróży, głosowy konsjerż, dopasowanie zdjęć, oferty dla agencji, odpowiedzi o politykach, segregacja zapytań i konektor AI."
+  },
+  "kicker": "Eksperymenty z gościnnością",
+  "title": "Local Host *AI Lab*",
+  "lead": "Tu sprawdzamy, jak AI może pomóc nam lepiej gościć — podróżnych marzących o Kaukazie, agencje, które ich do nas wysyłają, i nasz zespół w Tbilisi. Każde narzędzie przekazuje sprawę prawdziwemu człowiekowi z Local Host.",
+  "note": "Wersja eksperymentalna. Odpowiedzi to szkice — każdy szczegół potwierdza nasz zespół.",
+  "cardsLabel": "Siedem eksperymentów",
+  "status": {
+    "soon": "W warsztacie",
+    "live": "Wypróbuj",
+    "staff": "Dla naszego zespołu"
+  },
+  "audience": {
+    "travellers": "Podróżni",
+    "agencies": "Agencje",
+    "staff": "Zespół",
+    "developers": "Deweloperzy"
+  },
+  "cards": [
+    {
+      "id": "trip-designer",
+      "icon": "sparkle",
+      "audience": "travellers",
+      "title": "Projektant podróży",
+      "text": "Wybierz kraje, zainteresowania i miesiąc, napisz kilka słów — i zobacz, jak powstaje szkic planu dzień po dniu, gotowy do wysłania naszemu zespołowi."
+    },
+    {
+      "id": "voice-concierge",
+      "icon": "mic",
+      "audience": "travellers",
+      "title": "Głosowy konsjerż",
+      "text": "Zapytaj na głos o pory roku, regiony i czas przejazdów i posłuchaj odpowiedzi w swoim języku."
+    },
+    {
+      "id": "photo-match",
+      "icon": "image",
+      "audience": "travellers",
+      "title": "Dopasowanie zdjęć",
+      "text": "Pokaż nam ulubione miejsce gdziekolwiek na świecie, a podpowiemy, gdzie na Kaukazie poczujesz się podobnie."
+    },
+    {
+      "id": "proposal-builder",
+      "icon": "pdf",
+      "audience": "agencies",
+      "title": "Kreator ofert dla agencji",
+      "text": "Zamień brief klienta w uporządkowaną propozycję programu, którą Twoja agencja może dopasować i wycenić."
+    },
+    {
+      "id": "policy-qa",
+      "icon": "leaf",
+      "audience": "agencies",
+      "title": "Pytania o polityki",
+      "text": "Zadaj pytanie o nasze polityki zrównoważonego rozwoju, wycieczek i zakwaterowania i otrzymaj odpowiedź z cytatem źródła."
+    },
+    {
+      "id": "inquiry-triage",
+      "icon": "mail",
+      "audience": "staff",
+      "title": "Segregacja zapytań",
+      "text": "Porządkuje przychodzące zapytania według kraju, terminu i wielkości grupy oraz szkicuje pierwszą odpowiedź do sprawdzenia przez nasz zespół."
+    },
+    {
+      "id": "mcp",
+      "icon": "globe",
+      "audience": "developers",
+      "title": "Konektor AI (MCP)",
+      "text": "Serwer Model Context Protocol, dzięki któremu asystent AI partnera może sprawdzać nasze doświadczenia, regiony i polityki."
+    }
+  ],
+  "cta": "Wróć na stronę główną",
+  "poweredBy": "Zbudowane z Claude od Anthropic"
+}

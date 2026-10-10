@@ -71,7 +71,7 @@ Overnight: —
 - Wine is tasted where it is made: in family cellars and with the people who make it.
 - Our local-host touch: family guesthouses and cellars, local food and local guides keep the benefits in the communities you visit, and where it fits we introduce you to hosts we love — like Leila, who prepares the best khinkali while telling her life story.
 
-Like this draft? Send it to the Local Host team and we will turn it into a tailored programme with a quote — or write to info@localhost.ge.
+Like this draft? Send it to the Local Host team: we will confirm the details and turn it into a tailored programme with a quote (info@localhost.ge).
 <route>["tbilisi","mtskheta","ananuri","stepantsminda","gergeti","tbilisi","bodbe","sighnaghi","telavi","tsinandali","kvareli","tbilisi"]</route>`;
 
 const GE_AM_TREKKING_PILGRIM_10 = `Ten days on foot and on pilgrimage through two of the oldest Christian nations: cave monasteries and the slopes of Mount Kazbek in Georgia, then Armenia's monasteries, Lake Sevan and the view of Mount Ararat.
@@ -83,7 +83,7 @@ Overnight: Tbilisi
 
 ## Day 2 — The cave monasteries of David Gareja
 - Drive into the semi-desert to the David Gareja cave monasteries (about 2–2.5 hours, the last part on a rough road).
-- Walk among cave churches and cells carved into the rock; your guide checks which paths are currently open.
+- Walk among cave churches and cells carved into the rock; the site lies in a border zone, so our team advises which parts are currently open to visitors.
 - Back to Tbilisi in the late afternoon.
 Overnight: Tbilisi
 
@@ -137,7 +137,7 @@ Overnight: —
 - The hikes suit good walkers without technical climbing; mountain days are led by experienced local guides, and the high trails are typically open from mid-June to late September.
 - Our local-host touch: family guesthouses in the mountains and meals cooked by local families, so your visit supports the villages you walk through.
 
-Like this plan? Send it to the Local Host team — we will check the season, the trails and the border logistics and come back with a tailored programme and quote (info@localhost.ge).
+Like this plan? Send it to the Local Host team: we will confirm the season, the trails and the border logistics and come back with a tailored programme and quote (info@localhost.ge).
 <route>["tbilisi","david-gareja","tbilisi","mtskheta","ananuri","stepantsminda","gergeti","juta-chaukhi","stepantsminda","truso","tbilisi","dilijan","sevan","garni","geghard","yerevan","khor-virap","areni","noravank","yerevan"]</route>`;
 
 const GE_GASTRONOMY_WINE_8_IT = `Otto giorni per scoprire la Georgia a tavola: dai mercati di Tbilisi alle cantine di famiglia della Cachezia, fino alla cucina speziata della Mingrelia e al khachapuri dell'Agiaria, sul Mar Nero.
@@ -192,7 +192,7 @@ Pernottamento: —
 - Si cucina e si mangia con le famiglie, non solo al ristorante; dove possibile vi presentiamo i nostri host, come Marika & Enry di Sisatura, che accolgono gli ospiti al cancello con un bicchierino di chacha e un grande sorriso.
 - Il nostro tocco "local host": cantine e pensioni familiari, prodotti locali e guide del posto, perché i benefici del viaggio restino alle comunità che vi accolgono.
 
-Vi piace questa bozza? Inviatela al team di Local Host: la trasformeremo in un programma su misura con un preventivo (info@localhost.ge).
+Vi piace questa bozza? Inviatela al team di Local Host: confermeremo tutti i dettagli e la trasformeremo in un programma su misura con un preventivo (info@localhost.ge).
 <route>["tbilisi","mtskheta","tbilisi","bodbe","sighnaghi","tsinandali","telavi","kutaisi","gelati","kutaisi","martvili-canyon","batumi"]</route>`;
 
 export const PLAN_FIXTURES: readonly PlanFixture[] = [
@@ -253,7 +253,7 @@ export function pickPlanFixture(query: FixtureQuery): PlanFixture {
 
 const DAYS_WORD: Record<Locale, string> = { en: 'days', ka: 'დღე', pl: 'dni', it: 'giorni', de: 'Tage' };
 
-const SAMPLE_LANGUAGE: Record<Locale, Partial<Record<Locale, string>>> = {
+const SAMPLE_LANGUAGE: Partial<Record<Locale, Partial<Record<Locale, string>>>> = {
   en: { en: 'in English', ka: 'ინგლისურ ენაზე', pl: 'po angielsku', it: 'in inglese', de: 'auf Englisch' },
   it: { en: 'in Italian', ka: 'იტალიურ ენაზე', pl: 'po włosku', it: 'in italiano', de: 'auf Italienisch' },
 };

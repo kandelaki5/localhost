@@ -1,0 +1,99 @@
+---
+/**
+ * The owner's chosen logo (sun over two hills, Option 2), inlined from the
+ * files in src/assets/brand/ — never redrawn. When those files are replaced,
+ * every logo on the site updates.
+ *
+ *   <Logo />                                     horizontal, for paper
+ *   <Logo variant="horizontal" tone="reverse" /> for Forest / night
+ *   <Logo variant="icon" tone="mono" />          one colour = currentColor (foil, ink…)
+ *
+ * Every instance gets its own ids (gradients, title), so the same file can be
+ * inlined several times on one page — including hidden copies — without the
+ * gradients disappearing. Size it with CSS `height` (or the `height` prop);
+ * width follows the artwork's aspect ratio.
+ * Clear space: keep ≥ 3U (a quarter of the mark's width) free around it.
+ * Minimum: horizontal 32 px high, icon 16 px.
+ */
+import horizontal from '../../assets/brand/logo-horizontal.svg?raw';
+import horizontalReverse from '../../assets/brand/logo-horizontal-reverse.svg?raw';
+import mono from '../../assets/brand/logo-mono.svg?raw';
+import stacked from '../../assets/brand/logo-stacked.svg?raw';
+import stackedReverse from '../../assets/brand/logo-stacked-reverse.svg?raw';
+import icon from '../../assets/brand/logo-icon.svg?raw';
+import iconReverse from '../../assets/brand/logo-icon-reverse.svg?raw';
+import iconMono from '../../assets/brand/logo-icon-mono.svg?raw';
+import { uid, scopeSvgIds } from '../../lib/uid';
+
+type Variant = 'horizontal' | 'stacked' | 'icon';
+type Tone = 'light' | 'reverse' | 'mono';
+
+interface Props {
+  variant?: Variant;
+  /** light = for paper; reverse = for Forest/night; mono = one colour (currentColor). */
+  tone?: Tone;
+  /** Accessible name. Defaults to "Local Host". */
+  label?: string;
+  /** Hide from assistive tech (e.g. when the link around it already has a name). */
+  decorative?: boolean;
+  /** CSS height, e.g. 40 or "2.5rem". */
+  height?: number | string;
+  class?: string;
+}
+
+const { variant = 'horizontal', tone = 'light', label = 'Local Host', decorative = false, height, class: className } = Astro.props;
+
+const FILES: Record<Variant, Record<Tone, string | null>> = {
+  horizontal: { light: horizontal, reverse: horizontalReverse, mono },
+  // No one-colour stacked file is supplied in src/assets/brand yet.
+  stacked: { light: stacked, reverse: stackedReverse, mono: null },
+  icon: { light: icon, reverse: iconReverse, mono: iconMono },
+};
+
+let raw = FILES[variant][tone];
+let monoTone = tone === 'mono';
+if (!raw) {
+  if (import.meta.env.DEV) console.warn(`[Logo] No "${variant}" + "${tone}" file in src/assets/brand — using the horizontal one-colour logo.`);
+  raw = mono;
+  monoTone = true;
+}
+
+const viewBox = raw.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 120 120';
+const [, , vbW, vbH] = viewBox.split(/\s+/).map(Number);
+
+let svg = scopeSvgIds(raw, uid('lg'))
+  // Our wrapper carries the accessible name; the artwork itself is presentational.
+  .replace(/<title[^>]*>[\s\S]*?<\/title>/, '')
+  .replace(/\s(role|aria-labelledby)="[^"]*"/g, '')
+  .replace(
+    '<svg ',
+    `<svg aria-hidden="true" focusable="false" width="${vbW}" height="${vbH}" preserveAspectRatio="xMinYMid meet" class="logo__svg" `,
+  );
+if (monoTone) svg = svg.replace(/fill="#[0-9a-fA-F]{3,8}"/g, 'fill="currentColor"');
+
+const h = typeof height === 'number' ? `${height}px` : height;
+const style = h ? `--logo-h:${h}` : undefined;
+---
+
+<span
+  class:list={['logo', `logo--${variant}`, `logo--${monoTone ? 'mono' : tone}`, className]}
+  style={style}
+  {...decorative ? { 'aria-hidden': 'true' } : { role: 'img', 'aria-label': label }}
+  set:html={svg}
+/>
+
+<style>
+  .logo {
+    display: inline-block;
+    height: var(--logo-h, 2.5rem);
+    line-height: 0;
+    vertical-align: middle;
+  }
+
+  .logo :global(.logo__svg) {
+    display: block;
+    height: 100%;
+    width: auto;
+    overflow: visible;
+  }
+</style>

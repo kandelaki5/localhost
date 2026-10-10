@@ -1,0 +1,35 @@
+{
+  "masthead": {
+    "left": "Inbound tour operator · DMC",
+    "right": "Georgia · Armenia · Azerbaijan"
+  },
+  "title": {
+    "line1": "Where every guest",
+    "line2": "is a gift."
+  },
+  "proverb": {
+    "text": "სტუმარი ღვთის საჩუქარია",
+    "gloss": "“A guest is a gift from God.” A Georgian saying — and the one house rule we have kept since 2015."
+  },
+  "lead": "Local Host is an inbound tour operator based in Tbilisi. We design group tours and tailor-made journeys across Georgia, Armenia and Azerbaijan for travel agencies and tour operators all over Europe — run by our own team on the ground, and opened up by the families we are proud to call friends.",
+  "ctaPrimary": "Start a group request",
+  "ctaAi": "Draft a trip with AI",
+  "factsLabel": "Local Host at a glance",
+  "facts": [
+    { "lead": "Est.", "text": "2015, Tbilisi" },
+    { "lead": "3", "text": "countries, one team" },
+    { "lead": "B2B", "text": "for agencies & tour operators" },
+    { "lead": "Travelife", "text": "Partner" }
+  ],
+  "photo": {
+    "alt": "Gergeti Trinity Church, a stone church and bell tower on a green ridge below the steep slopes of the Kazbegi massif",
+    "caption": "Gergeti Trinity Church, Kazbegi, 2,170 m"
+  },
+  "seal": {
+    "name": "Local Host",
+    "year": "2015",
+    "city": "თბილისი",
+    "ring": "TBILISI • GEORGIA • ARMENIA • AZERBAIJAN •"
+  },
+  "scroll": "Begin in the Caucasus"
+}

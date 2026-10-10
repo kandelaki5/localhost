@@ -1,0 +1,107 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "meta": {
+    "siteName": "Local Host",
+    "title": "Local Host · Touroperator przyjazdowy: Gruzja, Armenia, Azerbejdżan",
+    "description": "Local Host to touroperator przyjazdowy i DMC z siedzibą w Tbilisi. Od 2015 roku projektujemy wycieczki grupowe i podróże szyte na miarę po Gruzji, Armenii i Azerbejdżanie dla biur podróży i touroperatorów.",
+    "titleTemplate": "{page} · Local Host",
+    "ogImageAlt": "Local Host — Gdzie każdy gość jest darem. Cerkiew Świętej Trójcy w Gergeti u stóp masywu Kazbegi, Gruzja."
+  },
+  "skipLink": "Przejdź do treści",
+  "nav": {
+    "caucasus": "Kaukaz",
+    "experiences": "Doświadczenia",
+    "hosts": "Gospodarze",
+    "gettingHere": "Dojazd",
+    "meetUs": "Spotkajmy się",
+    "sustainability": "Zrównoważony rozwój",
+    "contact": "Kontakt",
+    "aiLab": "Laboratorium AI",
+    "home": "Strona główna"
+  },
+  "cta": {
+    "planWithAi": "Zaplanuj z AI",
+    "groupRequest": "Wyślij zapytanie grupowe",
+    "draftTrip": "Naszkicuj podróż z AI",
+    "writeToUs": "Napisz do nas",
+    "backHome": "Wróć na stronę główną"
+  },
+  "header": {
+    "homeLabel": "Local Host — strona główna",
+    "openMenu": "Otwórz menu",
+    "closeMenu": "Zamknij menu",
+    "menuTitle": "Menu"
+  },
+  "lang": {
+    "label": "Język",
+    "current": "bieżący język",
+    "names": {
+      "en": "angielski",
+      "ka": "gruziński",
+      "pl": "polski",
+      "it": "włoski",
+      "de": "niemiecki"
+    }
+  },
+  "aria": {
+    "mainNav": "Główna",
+    "footerNav": "Stopka",
+    "languageNav": "Wybierz język",
+    "newTab": "otwiera się w nowej karcie",
+    "pdf": "PDF",
+    "logo": "Local Host",
+    "coordinates": "Współrzędne"
+  },
+  "figure": {
+    "label": "Ryc."
+  },
+  "contact": {
+    "addressLines": ["A. Bakradze 7", "0159 Tbilisi, Gruzja"],
+    "phone": "+995 514 37 44 33",
+    "email": "info@localhost.ge",
+    "web": "www.localhost.ge"
+  },
+  "footer": {
+    "passport": "Paszport na Kaukaz Południowy",
+    "tagline": "Touroperator przyjazdowy i DMC dla Gruzji, Armenii i Azerbejdżanu. Programy dla biur podróży i touroperatorów od 2015 roku.",
+    "greeting": "მოგესალმებით",
+    "greetingGloss": "„Witamy” — do zobaczenia w Tbilisi.",
+    "standLabel": "Spotkajmy się na stoisku",
+    "standText": "Znajdziesz nas na targach, na których spotykamy naszych partnerów.",
+    "standLink": "Umów spotkanie",
+    "contactTitle": "Kontakt",
+    "exploreTitle": "Odkryj",
+    "policiesTitle": "Polityki",
+    "languagesTitle": "Języki",
+    "addressLabel": "Biuro",
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-mail",
+    "photoCredits": "Autorzy zdjęć",
+    "rights": "© {year} Local Host LLC · Tbilisi, Gruzja",
+    "pdfNote": "PDF · po angielsku",
+    "backToTop": "Do góry"
+  },
+  "policies": {
+    "sustainability": "Polityka zrównoważonego rozwoju",
+    "report": "Raport zrównoważonego rozwoju",
+    "excursions": "Polityka wycieczek",
+    "accommodations": "Polityka zakwaterowania",
+    "inbound": "Polityka wobec agencji partnerskich"
+  },
+  "countries": {
+    "ge": "Gruzja",
+    "am": "Armenia",
+    "az": "Azerbejdżan"
+  },
+  "placeholder": {
+    "label": "W przygotowaniu",
+    "text": "Ta sekcja jest właśnie składana."
+  },
+  "notFound": {
+    "title": "Nie znaleziono strony",
+    "kicker": "Błąd 404",
+    "heading": "Ta droga kończy się *w górach.*",
+    "text": "Strona, której szukasz, została przeniesiona albo nigdy nie istniała. Zabierzemy Cię z powrotem na początek podróży.",
+    "home": "Wróć na stronę główną"
+  }
+}

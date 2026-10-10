@@ -1,0 +1,438 @@
+---
+/**
+ * DEV HARNESS (noindex, excluded from the sitemap) for the AI Trip Designer:
+ * exercises POST /api/plan, src/lib/ai/client/plan.ts (planTrip, refinePlan,
+ * buildMailto) and src/lib/ai/client/voice.ts in a real browser, and draws
+ * the route on the shared South Caucasus map (src/data/caucasus-map.json).
+ *
+ * Query parameters (for scripted tests and screenshots):
+ *   ?preset=en-culture | en-trek | it-gastro   fill the form with one of the demo cases
+ *   ?autorun=1                                 start planning on load
+ *   ?refine=<text>                             after the first plan, run one refinement
+ *   ?scenario=<mock scenario>                  append [[mock:<scenario>]] to the notes (live mode against scripts/mock-anthropic.mjs)
+ * window.__tripHarness exposes the outcomes for scripted checks.
+ */
+import map from '../../../data/caucasus-map.json';
+import { LOCALES, LOCALE_INFO } from '../../../lib/ai/locales';
+import { MAP_VIEWBOX, PLACES, project } from '../../../lib/ai/places';
+import { COUNTRY_CODES, EXPERIENCE_IDS } from '../../../lib/ai/types';
+import {
+  MONTHS_EN,
+  PACES,
+  PLAN_DAYS_MAX,
+  PLAN_DAYS_MIN,
+  PLAN_NOTES_MAX,
+  TRAVELLER_TYPES,
+} from '../../../lib/ai/client/plan-format';
+
+const dots = PLACES.map((p) => ({ id: p.id, country: p.country, name: p.names.en, ...project(p.lat, p.lon) }));
+const scenarios = ['', 'ok', 'refusal', 'refusal-midstream', 'max_tokens', 'midstream-error', 'fallback', 'error-429', 'error-529', 'slow'];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Dev harness · AI Trip Designer</title>
+    <style is:global>
+      :root { color-scheme: light; font-family: system-ui, sans-serif; font-size: 15px; }
+      body { margin: 0 auto; max-width: 1400px; padding: 16px; background: #fff; color: #111; }
+      h1 { font-size: 1.3rem; margin: 0 0 4px; }
+      .note { color: #555; margin: 0 0 12px; font-size: 0.9rem; }
+      form { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: flex-end; padding: 12px; border: 1px solid #ccc; }
+      fieldset { border: 1px solid #ddd; padding: 4px 8px; margin: 0; }
+      label { font-size: 0.85rem; }
+      textarea { width: min(520px, 90vw); height: 3.4em; }
+      .wide { flex-basis: 100%; display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+      #status { margin: 10px 0; min-height: 1.4em; }
+      .badge { display: inline-block; padding: 1px 8px; border-radius: 9px; font-size: 0.8rem; background: #eee; margin-right: 8px; }
+      .badge.demo { background: #fff2c6; }
+      .badge.live { background: #d9f2df; }
+      .err { color: #b00020; }
+      .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 16px; }
+      @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+      #plan { border: 1px solid #ddd; padding: 8px 14px; min-height: 200px; max-height: 760px; overflow: auto; font-size: 0.92rem; }
+      #plan h3 { margin: 12px 0 2px; font-size: 1rem; }
+      #plan h4 { margin: 12px 0 2px; font-size: 0.95rem; }
+      #plan ul { margin: 2px 0; padding-left: 20px; }
+      #plan .overnight { color: #555; margin: 2px 0; }
+      svg { width: 100%; height: auto; display: block; background: #bcd8ea; border: 1px solid #ccc; }
+      .sea { fill: #bcd8ea; }
+      .land { fill: #f3f1ea; stroke: #9aa; stroke-width: 0.5; }
+      .neighbour { fill: #ebe8e0; stroke: #bbb2a2; stroke-width: 0.6; }
+      .country { stroke-width: 1.1; fill-opacity: 0.1; }
+      .GE { fill: #d02027; stroke: #d02027; }
+      .AM { fill: #1f5fbf; stroke: #1f5fbf; }
+      .AZ { fill: #13783c; stroke: #13783c; }
+      .lake { fill: #8dbbd9; }
+      .label { font: 13px system-ui, sans-serif; fill: #888; text-anchor: middle; }
+      .sea-label { font: italic 13px Georgia, serif; fill: #4a7aa0; text-anchor: middle; }
+      .dot { fill: #999; }
+      .route-line { fill: none; stroke: #d02027; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+      .route-line.provisional { stroke-dasharray: 6 5; opacity: 0.6; }
+      .stop circle { fill: #fff; stroke: #d02027; stroke-width: 2; }
+      .stop text { font: bold 10px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; fill: #d02027; }
+      .stop .name { font: 11px system-ui, sans-serif; text-anchor: start; fill: #111; paint-order: stroke; stroke: #fff; stroke-width: 3px; }
+      #route-list { font-size: 0.85rem; color: #333; }
+      .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 10px 0; }
+      pre { white-space: pre-wrap; word-break: break-word; font-size: 0.78rem; background: #f6f6f6; padding: 8px; max-height: 320px; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>AI Trip Designer: dev harness</h1>
+    <p class="note">
+      Internal test page (noindex). Exercises <code>POST /api/plan</code>, <code>client/plan.ts</code> and <code>client/voice.ts</code>.
+      Params: <code>?preset=en-culture|en-trek|it-gastro&amp;autorun=1&amp;refine=…&amp;scenario=…</code>
+    </p>
+
+    <form id="form">
+      <label>Language<br />
+        <select name="locale">
+          {LOCALES.map((l) => <option value={l}>{l} · {LOCALE_INFO[l].native}</option>)}
+        </select>
+      </label>
+      <fieldset>
+        <legend>Countries</legend>
+        {COUNTRY_CODES.map((c) => <label><input type="checkbox" name="countries" value={c} checked={c === 'GE'} /> {c}</label>)}
+      </fieldset>
+      <fieldset>
+        <legend>Interests</legend>
+        {EXPERIENCE_IDS.map((e) => <label><input type="checkbox" name="interests" value={e} /> {e}</label>)}
+      </fieldset>
+      <label>Days<br /><input type="number" name="days" min={PLAN_DAYS_MIN} max={PLAN_DAYS_MAX} value="7" style="width:4em" /></label>
+      <label>Month<br />
+        <select name="month">
+          <option value="">flexible</option>
+          {MONTHS_EN.map((m, i) => <option value={String(i + 1)}>{m}</option>)}
+          <option value="2027-05">2027-05</option>
+        </select>
+      </label>
+      <label>Travellers<br />
+        <select name="travellers"><option value="">—</option>{TRAVELLER_TYPES.map((t) => <option value={t}>{t}</option>)}</select>
+      </label>
+      <label>Pace<br />
+        <select name="pace"><option value="">—</option>{PACES.map((p) => <option value={p}>{p}</option>)}</select>
+      </label>
+      <div class="wide">
+        <label>Notes ({PLAN_NOTES_MAX} max)<br /><textarea name="notes" maxlength={PLAN_NOTES_MAX}></textarea></label>
+        <button type="button" id="dictate">Dictate</button>
+        <button type="button" id="dictate-stop" disabled>Stop dictation</button>
+        <label>Mock scenario (live mock only)<br />
+          <select name="scenario">{scenarios.map((s) => <option value={s}>{s || '—'}</option>)}</select>
+        </label>
+        <button type="submit" id="go">Design my trip</button>
+        <button type="button" id="stop" disabled>Stop</button>
+      </div>
+    </form>
+
+    <div id="status" aria-live="polite"></div>
+
+    <div class="cols">
+      <section>
+        <div id="plan"></div>
+        <div class="row">
+          <input id="refine-text" type="text" size="40" placeholder="Make day 3 more relaxed" />
+          <button type="button" id="refine" disabled>Refine</button>
+        </div>
+        <div class="row">
+          <button type="button" id="speak" disabled>Read aloud</button>
+          <button type="button" id="speak-stop">Stop reading</button>
+          <a id="mailto" href="#" hidden>Send this plan to Local Host</a>
+          <span id="voice-info" class="note"></span>
+        </div>
+      </section>
+      <section>
+        <svg id="map" viewBox={MAP_VIEWBOX} role="img" aria-label="Map of Georgia, Armenia and Azerbaijan with the planned route">
+          <path class="sea" d={map.sea} fill-rule="evenodd" />
+          <path class="land" d={map.land} />
+          {Object.entries(map.neighbours).map(([code, n]) => <path class={`neighbour ${code}`} d={n.d} />)}
+          {Object.entries(map.countries).map(([code, c]) => <path class={`country ${code}`} d={c.d} />)}
+          {map.lakes.map((l) => <path class="lake" d={l.d} />)}
+          {Object.values(map.neighbours).map((n) => n.label && <text class="label" x={n.label.x} y={n.label.y}>{n.name.en}</text>)}
+          {map.labels.seas.map((s) => <text class="sea-label" x={s.x} y={s.y}>{s.name.en}</text>)}
+          <g id="dots">{dots.map((d) => <circle class="dot" cx={d.x} cy={d.y} r="2.2"><title>{d.name}</title></circle>)}</g>
+          <g id="route"></g>
+        </svg>
+        <label><input type="checkbox" id="zoom" checked /> Zoom to the final route</label>
+        <p id="route-list"></p>
+      </section>
+    </div>
+
+    <details>
+      <summary>Raw answer, email preview and result</summary>
+      <h4>Raw stream text (incl. route tag)</h4>
+      <pre id="raw"></pre>
+      <h4>Email (buildEmail / buildMailto)</h4>
+      <pre id="email"></pre>
+      <h4>Result</h4>
+      <pre id="result"></pre>
+    </details>
+
+    <script>
+      import {
+        PLAN_MESSAGES,
+        buildEmail,
+        buildMailto,
+        planTrip,
+        refinePlan,
+        type PlanCallbacks,
+        type PlanOutcome,
+        type PlanRequest,
+        type PlanResult,
+        type PlanRoute,
+      } from '../../../lib/ai/client/plan';
+      import {
+        hasVoiceFor,
+        isVoiceSupported,
+        speak,
+        startListening,
+        stopSpeaking,
+        voiceErrorMessage,
+        type ListeningSession,
+      } from '../../../lib/ai/client/voice';
+      import { normalizeLocale } from '../../../lib/ai/locales';
+      import type { CountryCode, ExperienceId, Locale } from '../../../lib/ai/types';
+      import type { Pace, TravellerType } from '../../../lib/ai/client/plan-format';
+
+      const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+      const form = $<HTMLFormElement>('form');
+      const statusEl = $('status');
+      const planEl = $('plan');
+      const routeEl = document.getElementById('route') as unknown as SVGGElement;
+      const SVG_NS = 'http://www.w3.org/2000/svg';
+
+      const harness = { outcomes: [] as PlanOutcome[], routes: [] as PlanRoute[], last: null as PlanResult | null, busy: false };
+      (window as unknown as { __tripHarness: typeof harness }).__tripHarness = harness;
+
+      // ---------------------------------------------------------------- presets
+      const PRESETS: Record<string, Partial<Record<string, string | string[]>>> = {
+        'en-culture': { locale: 'en', countries: ['GE'], interests: ['culture', 'wine'], days: '7', month: '5', travellers: 'couple', pace: 'balanced' },
+        'en-trek': { locale: 'en', countries: ['GE', 'AM'], interests: ['trekking', 'pilgrim'], days: '10', month: '7', travellers: 'friends', pace: 'active' },
+        'it-gastro': { locale: 'it', countries: ['GE'], interests: ['gastronomy', 'wine'], days: '8', month: '9', travellers: 'group', pace: 'relaxed' },
+      };
+      const params = new URLSearchParams(location.search);
+      const preset = PRESETS[params.get('preset') ?? ''];
+      if (preset) {
+        for (const [name, value] of Object.entries(preset)) {
+          const fields = form.querySelectorAll<HTMLInputElement | HTMLSelectElement>(`[name="${name}"]`);
+          fields.forEach((field) => {
+            if (field instanceof HTMLInputElement && field.type === 'checkbox') field.checked = Array.isArray(value) && value.includes(field.value);
+            else field.value = String(value);
+          });
+        }
+      }
+      if (params.get('scenario')) (form.elements.namedItem('scenario') as HTMLSelectElement).value = params.get('scenario') ?? '';
+
+      // ---------------------------------------------------------------- helpers
+      function readForm(): PlanRequest {
+        const data = new FormData(form);
+        const scenario = String(data.get('scenario') ?? '');
+        const notes = [String(data.get('notes') ?? '').trim(), scenario ? `[[mock:${scenario}]]` : ''].filter(Boolean).join(' ');
+        const str = (name: string) => String(data.get(name) ?? '');
+        return {
+          locale: normalizeLocale(str('locale')),
+          countries: data.getAll('countries').map(String) as CountryCode[],
+          interests: data.getAll('interests').map(String) as ExperienceId[],
+          days: Number(str('days')),
+          ...(str('month') ? { month: str('month') } : {}),
+          ...(str('travellers') ? { travellers: str('travellers') as TravellerType } : {}),
+          ...(str('pace') ? { pace: str('pace') as Pace } : {}),
+          ...(notes ? { notes } : {}),
+        };
+      }
+
+      const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+      const inline = (s: string) =>
+        escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/(^|[\s(])\*([^*]+)\*(?=[\s).,;:!?]|$)/g, '$1<em>$2</em>');
+
+      /** Tiny, safe Markdown renderer for the plan format (escapes everything first). */
+      function renderMarkdown(md: string): string {
+        const out: string[] = [];
+        let list = false;
+        const closeList = () => { if (list) { out.push('</ul>'); list = false; } };
+        for (const line of md.split('\n')) {
+          const t = line.trim();
+          if (!t) { closeList(); continue; }
+          let m: RegExpExecArray | null;
+          if ((m = /^###\s+(.*)$/.exec(t))) { closeList(); out.push(`<h4>${inline(m[1] ?? '')}</h4>`); }
+          else if ((m = /^##\s+(.*)$/.exec(t))) { closeList(); out.push(`<h3>${inline(m[1] ?? '')}</h3>`); }
+          else if ((m = /^[-*•]\s+(.*)$/.exec(t))) { if (!list) { out.push('<ul>'); list = true; } out.push(`<li>${inline(m[1] ?? '')}</li>`); }
+          else if (/^[^\s:]{2,20}:\s/.test(t)) { closeList(); out.push(`<p class="overnight">${inline(t)}</p>`); }
+          else { closeList(); out.push(`<p>${inline(t)}</p>`); }
+        }
+        closeList();
+        return out.join('\n');
+      }
+
+      const mapEl = document.getElementById('map') as unknown as SVGSVGElement;
+      const FULL_VIEWBOX = mapEl.getAttribute('viewBox') ?? '0 0 1000 675.3';
+      const [, , MAP_W = 1000, MAP_H = 675.3] = FULL_VIEWBOX.split(' ').map(Number);
+
+      /** Padded bounding box of the route with the map's aspect ratio; returns [viewBox, scale]. */
+      function routeViewBox(route: PlanRoute): [string, number] {
+        const xs = route.places.map((p) => p.x);
+        const ys = route.places.map((p) => p.y);
+        const pad = 70;
+        const ratio = MAP_H / MAP_W;
+        let w = Math.max(Math.max(...xs) - Math.min(...xs) + 2 * pad, 300);
+        let h = Math.max(Math.max(...ys) - Math.min(...ys) + 2 * pad, 300 * ratio);
+        if (h / w > ratio) w = h / ratio; else h = w * ratio;
+        w = Math.min(w, MAP_W);
+        h = Math.min(h, MAP_H);
+        const x = Math.min(Math.max(0, (Math.min(...xs) + Math.max(...xs)) / 2 - w / 2), MAP_W - w);
+        const y = Math.min(Math.max(0, (Math.min(...ys) + Math.max(...ys)) / 2 - h / 2), MAP_H - h);
+        return [`${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`, w / MAP_W];
+      }
+
+      function drawRoute(route: PlanRoute) {
+        harness.routes.push(route);
+        routeEl.replaceChildren();
+        mapEl.setAttribute('viewBox', FULL_VIEWBOX);
+        if (!route.places.length) return;
+        let scale = 1;
+        if (route.final && ($<HTMLInputElement>('zoom')).checked) {
+          const [box, s] = routeViewBox(route);
+          mapEl.setAttribute('viewBox', box);
+          scale = s;
+        }
+        const line = document.createElementNS(SVG_NS, 'polyline');
+        line.setAttribute('vector-effect', 'non-scaling-stroke');
+        line.setAttribute('class', `route-line${route.final ? '' : ' provisional'}`);
+        line.setAttribute('points', route.places.map((p) => `${p.x},${p.y}`).join(' '));
+        routeEl.append(line);
+        const seen = new Map<string, number>();
+        route.places.forEach((p, i) => {
+          if (seen.has(p.id)) return; // a place visited twice keeps its first number
+          seen.set(p.id, i + 1);
+          const g = document.createElementNS(SVG_NS, 'g');
+          g.setAttribute('class', 'stop');
+          g.setAttribute('transform', `translate(${p.x} ${p.y}) scale(${scale})`);
+          const c = document.createElementNS(SVG_NS, 'circle');
+          c.setAttribute('r', '8');
+          const n = document.createElementNS(SVG_NS, 'text');
+          n.textContent = String(seen.size);
+          const name = document.createElementNS(SVG_NS, 'text');
+          name.setAttribute('class', 'name');
+          name.setAttribute('x', '11');
+          name.setAttribute('y', '-9');
+          name.textContent = p.name;
+          g.append(c, n, name);
+          routeEl.append(g);
+        });
+        $('route-list').textContent = `${route.final ? 'Route' : 'Route (provisional)'}: ${route.places.map((p) => p.name).join(' → ')}`;
+      }
+
+      function setStatus(html: string) { statusEl.innerHTML = html; }
+
+      let controller: AbortController | null = null;
+
+      function callbacks(locale: Locale): PlanCallbacks {
+        controller = new AbortController();
+        return {
+          signal: controller.signal,
+          onText: (md) => { planEl.innerHTML = renderMarkdown(md); },
+          onRoute: drawRoute,
+          onDone: (result) => {
+            harness.last = result;
+            const badge = `<span class="badge ${result.mode}">${result.mode === 'demo' ? escapeHtml(PLAN_MESSAGES[locale].demo) : 'Live'}</span>`;
+            const note = result.truncated ? ` <span class="err">${escapeHtml(PLAN_MESSAGES[locale].truncated)}</span>` : '';
+            setStatus(`${badge}Done: ${result.plan.days.length} days, route from ${result.routeSource} (${result.route.length} stops)` +
+              `${result.invalidRouteIds.length ? `, dropped ids: ${escapeHtml(result.invalidRouteIds.join(', '))}` : ''}.${note}`);
+            $('raw').textContent = result.raw;
+            const email = buildEmail(result);
+            const href = buildMailto(result);
+            $('email').textContent = `subject+body: ${email.subject.length + email.body.length} chars · mailto URL: ${href.length} chars\n\nSubject: ${email.subject}\n\n${email.body}`;
+            const a = $<HTMLAnchorElement>('mailto');
+            a.href = href;
+            a.hidden = false;
+            $('result').textContent = JSON.stringify({ ...result, raw: undefined, text: undefined, places: result.places.map((p) => `${p.id} (${p.x},${p.y})`) }, null, 1);
+            $<HTMLButtonElement>('refine').disabled = false;
+            $<HTMLButtonElement>('speak').disabled = false;
+          },
+          onError: (err) => {
+            setStatus(`<span class="badge ${err.mode}">${err.mode}</span><span class="err">${escapeHtml(err.message)}</span>` +
+              ` <small>(code ${escapeHtml(err.code)}, HTTP ${err.status}${err.retryAfter ? `, retry after ${err.retryAfter}s` : ''}${err.detail ? `: ${escapeHtml(err.detail)}` : ''})</small>` +
+              `${err.partialText ? ' — partial text kept below.' : ''}`);
+          },
+        };
+      }
+
+      async function run(kind: 'plan' | 'refine'): Promise<PlanOutcome | null> {
+        if (harness.busy) return null;
+        harness.busy = true;
+        $<HTMLButtonElement>('go').disabled = true;
+        $<HTMLButtonElement>('refine').disabled = true;
+        $<HTMLButtonElement>('stop').disabled = false;
+        const req = readForm();
+        setStatus(kind === 'plan' ? 'Designing…' : 'Refining…');
+        const cb = callbacks(req.locale);
+        const change = $<HTMLInputElement>('refine-text').value.trim() || 'Make day 3 more relaxed';
+        const outcome = kind === 'refine' && harness.last ? await refinePlan(harness.last, change, cb) : await planTrip(req, cb);
+        harness.outcomes.push(outcome);
+        if (!outcome.ok && outcome.aborted) setStatus('Stopped.');
+        if (!outcome.ok && outcome.error.partialText) planEl.innerHTML = renderMarkdown(outcome.error.partialText);
+        harness.busy = false;
+        $<HTMLButtonElement>('go').disabled = false;
+        $<HTMLButtonElement>('stop').disabled = true;
+        $<HTMLButtonElement>('refine').disabled = !harness.last;
+        return outcome;
+      }
+
+      form.addEventListener('submit', (e) => { e.preventDefault(); void run('plan'); });
+      $('stop').addEventListener('click', () => controller?.abort());
+      $('refine').addEventListener('click', () => void run('refine'));
+
+      // ---------------------------------------------------------------- voice
+      const voiceInfo = $('voice-info');
+      const currentLocale = () => normalizeLocale((form.elements.namedItem('locale') as HTMLSelectElement).value);
+      async function updateVoiceInfo() {
+        const locale = currentLocale();
+        const listen = isVoiceSupported('listen');
+        const talk = isVoiceSupported('speak') ? await hasVoiceFor(locale) : false;
+        voiceInfo.textContent = `listen: ${listen ? 'yes' : 'no'} · voice for ${locale}: ${talk ? 'yes' : 'no'}`;
+        $<HTMLButtonElement>('dictate').disabled = !listen;
+      }
+      void updateVoiceInfo();
+      (form.elements.namedItem('locale') as HTMLSelectElement).addEventListener('change', () => void updateVoiceInfo());
+
+      let session: ListeningSession | null = null;
+      $('dictate').addEventListener('click', () => {
+        const notes = form.elements.namedItem('notes') as HTMLTextAreaElement;
+        const before = notes.value.trim();
+        const locale = currentLocale();
+        session = startListening(locale, {
+          onStart: () => { $<HTMLButtonElement>('dictate-stop').disabled = false; setStatus('Listening…'); },
+          onPartial: (text) => { notes.value = [before, text].filter(Boolean).join(' '); },
+          onFinal: (text) => { notes.value = [before, text].filter(Boolean).join(' ').slice(0, 1500); },
+          onError: (err) => setStatus(`<span class="err">${escapeHtml(voiceErrorMessage(err.code, locale))}</span>`),
+          onEnd: () => { $<HTMLButtonElement>('dictate-stop').disabled = true; },
+        });
+      });
+      $('dictate-stop').addEventListener('click', () => session?.stop());
+      $('speak').addEventListener('click', async () => {
+        if (!harness.last) return;
+        const outcome = await speak(harness.last.text, harness.last.locale);
+        if (outcome === 'no-voice' || outcome === 'unsupported') {
+          voiceInfo.textContent = voiceErrorMessage(outcome === 'no-voice' ? 'no-voice' : 'unsupported', harness.last.locale);
+        }
+      });
+      $('speak-stop').addEventListener('click', () => stopSpeaking());
+
+      // ---------------------------------------------------------------- autorun
+      if (params.get('autorun')) {
+        void (async () => {
+          const first = await run('plan');
+          const refine = params.get('refine');
+          if (first?.ok && refine) {
+            $<HTMLInputElement>('refine-text').value = refine;
+            await run('refine');
+          }
+          document.body.dataset.done = '1';
+        })();
+      }
+    </script>
+  </body>
+</html>

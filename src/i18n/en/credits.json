@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "title": "Photo credits",
+    "description": "Credits and licences for the photographs used on localhost.ge."
+  },
+  "kicker": "Colophon",
+  "title": "Photo *credits*",
+  "lead": "Photographs of Georgia come from Local Host’s own collection unless credited otherwise below. Openly licensed images are listed with their authors and licences.",
+  "siteHeading": "Photographs on this site",
+  "aiHeading": "Images used in the AI demos",
+  "aiNote": "Shown only as sample inputs for the Photo Match demo — these are not photographs of Georgia, Armenia or Azerbaijan.",
+  "pending": "The full list of credits is being compiled and will appear here.",
+  "owned": "© Local Host LLC",
+  "labels": {
+    "photo": "Photograph",
+    "author": "Author",
+    "licence": "Licence",
+    "source": "Source",
+    "changes": "Changes"
+  },
+  "back": "Back to the home page"
+}

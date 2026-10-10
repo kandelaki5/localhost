@@ -1,0 +1,107 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "meta": {
+    "siteName": "Local Host",
+    "title": "Local Host · Incoming-Reiseveranstalter für Georgien, Armenien & Aserbaidschan",
+    "description": "Local Host ist ein Incoming-Reiseveranstalter und DMC mit Sitz in Tiflis. Seit 2015 gestalten wir Gruppenreisen und maßgeschneiderte Reisen durch Georgien, Armenien und Aserbaidschan für Reisebüros und Reiseveranstalter.",
+    "titleTemplate": "{page} · Local Host",
+    "ogImageAlt": "Local Host — Wo jeder Gast ein Geschenk ist. Die Dreifaltigkeitskirche von Gergeti unter dem Kasbek-Massiv, Georgien."
+  },
+  "skipLink": "Zum Inhalt springen",
+  "nav": {
+    "caucasus": "Kaukasus",
+    "experiences": "Erlebnisse",
+    "hosts": "Gastgeber",
+    "gettingHere": "Anreise",
+    "meetUs": "Treffen Sie uns",
+    "sustainability": "Nachhaltigkeit",
+    "contact": "Kontakt",
+    "aiLab": "KI-Labor",
+    "home": "Startseite"
+  },
+  "cta": {
+    "planWithAi": "Mit KI planen",
+    "groupRequest": "Gruppenanfrage starten",
+    "draftTrip": "Reise mit KI entwerfen",
+    "writeToUs": "Schreiben Sie uns",
+    "backHome": "Zur Startseite"
+  },
+  "header": {
+    "homeLabel": "Local Host — Startseite",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "menuTitle": "Menü"
+  },
+  "lang": {
+    "label": "Sprache",
+    "current": "aktuelle Sprache",
+    "names": {
+      "en": "Englisch",
+      "ka": "Georgisch",
+      "pl": "Polnisch",
+      "it": "Italienisch",
+      "de": "Deutsch"
+    }
+  },
+  "aria": {
+    "mainNav": "Hauptnavigation",
+    "footerNav": "Fußzeile",
+    "languageNav": "Sprache wählen",
+    "newTab": "öffnet in einem neuen Tab",
+    "pdf": "PDF",
+    "logo": "Local Host",
+    "coordinates": "Koordinaten"
+  },
+  "figure": {
+    "label": "Abb."
+  },
+  "contact": {
+    "addressLines": ["A. Bakradze 7", "0159 Tiflis, Georgien"],
+    "phone": "+995 514 37 44 33",
+    "email": "info@localhost.ge",
+    "web": "www.localhost.ge"
+  },
+  "footer": {
+    "passport": "Reisepass für den Südkaukasus",
+    "tagline": "Incoming-Reiseveranstalter und DMC für Georgien, Armenien und Aserbaidschan. Programme für Reisebüros und Reiseveranstalter seit 2015.",
+    "greeting": "მოგესალმებით",
+    "greetingGloss": "„Wir grüßen Sie“ — bis bald in Tiflis.",
+    "standLabel": "Besuchen Sie uns am Stand",
+    "standText": "Sie finden uns auf den Messen, auf denen wir unsere Partner treffen.",
+    "standLink": "Termin vereinbaren",
+    "contactTitle": "Kontakt",
+    "exploreTitle": "Entdecken",
+    "policiesTitle": "Richtlinien",
+    "languagesTitle": "Sprachen",
+    "addressLabel": "Büro",
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-Mail",
+    "photoCredits": "Bildnachweise",
+    "rights": "© {year} Local Host LLC · Tiflis, Georgien",
+    "pdfNote": "PDF · auf Englisch",
+    "backToTop": "Nach oben"
+  },
+  "policies": {
+    "sustainability": "Nachhaltigkeitsrichtlinie",
+    "report": "Nachhaltigkeitsbericht",
+    "excursions": "Richtlinie für Ausflüge",
+    "accommodations": "Richtlinie für Unterkünfte",
+    "inbound": "Richtlinie für Partneragenturen"
+  },
+  "countries": {
+    "ge": "Georgien",
+    "am": "Armenien",
+    "az": "Aserbaidschan"
+  },
+  "placeholder": {
+    "label": "In Vorbereitung",
+    "text": "Dieser Abschnitt wird gerade gesetzt."
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "kicker": "Fehler 404",
+    "heading": "Dieser Weg endet *in den Bergen.*",
+    "text": "Die gesuchte Seite wurde verschoben oder hat nie existiert. Wir bringen Sie zurück an den Anfang der Reise.",
+    "home": "Zur Startseite"
+  }
+}

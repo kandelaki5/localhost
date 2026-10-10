@@ -3,64 +3,73 @@
    --------------------------------------------------------------------------
    THE single source of truth for every visual decision on the site.
    Components never hard-code a colour, font, size, radius, shadow, spacing or
-   motion value: they read one of the custom properties below.
+   motion value: they read one of the custom properties below. To re-skin the
+   site, edit this file (and fonts.css if a typeface changes) — nothing else.
 
    Structure
-     1. Palette   (--palette-*)   raw colours. Brand values follow the owner's
-                                   chosen logo (sun + two hills, Option 2).
-     2. Roles     (--color-*)     what a colour is FOR. Components use roles,
-                                   never palette entries directly.
-     3. Type, space, layout, radius, border, shadow, motion, z-index.
-     4. Surfaces  ([data-surface]) re-map the roles for dark sections:
-                                   "night" (Connection, AI planner, AI Lab) and
-                                   "forest" (passport-cover footer).
+     1. Brand      (--brand-*)     the owner's chosen logo, Option 2. Values are
+                                   the flat colours from design/logo/README.md.
+     2. Palette    (--palette-*)   every other raw colour.
+     3. Roles      (--color-*)     what a colour is FOR. Components use roles,
+                                   never brand/palette entries directly.
+     4. Type, space, layout, shape, elevation, motion, layers.
+     5. Surfaces   ([data-surface]) re-map the roles for dark sections:
+                                   "night" (Connection board, AI planner, AI Lab)
+                                   and "forest" (passport-cover footer).
+
+   Conventions (the export script relies on them)
+     - one declaration per line: `--name: value; /* description */`
+     - the comment becomes the token's description in Figma
+     - references use var(--other-token) and are kept as references
 
    Mirrored to Figma: `node scripts/export-tokens.mjs` writes
-   design/tokens/tokens.json (W3C DTCG / Tokens Studio). See
-   design/tokens/README.md. The comment after each value becomes the token's
-   description in Figma, so keep it short and useful.
+   design/tokens/tokens.json (W3C DTCG, Tokens Studio). See design/tokens/README.md.
    ========================================================================== */
 
 :root {
-  /* ── 1. Palette ─────────────────────────────────────────────────────────── */
+  /* ── 1. Brand — the chosen logo (sun over two hills), Option 2 ──────────── */
 
-  /* Paper & ink */
-  --palette-paper-50: #FBF8F1; /* stamp paper, raised cards */
+  --brand-sun: #DC341F; /* logo sun, flat colour — the one warm accent */
+  --brand-sun-light: #F57045; /* sun gradient, light end (top-left) */
+  --brand-sun-dark: #BC171D; /* sun gradient, dark end (bottom-right) */
+  --brand-hill-left: #0E643D; /* logo left hill (dark green) */
+  --brand-hill-right: #189659; /* logo right hill (light green) */
+  --brand-hill-overlap: #138450; /* logo hills overlap — the brand green */
+  --brand-wordmark: #0D2524; /* LOCAL HOST wordmark ink */
+  --brand-georgia: #C72F25; /* GEORGIA wordmark red */
+  --brand-hill-left-reverse: #2B8D5C; /* left hill, lifted for dark backgrounds */
+  --brand-hill-right-reverse: #32B872; /* right hill, lifted for dark backgrounds */
+  --brand-hill-overlap-reverse: #219F63; /* overlap, lifted for dark backgrounds */
+  --brand-cream: #F7F3EA; /* wordmark on dark backgrounds */
+  --brand-georgia-reverse: #F57A52; /* GEORGIA on dark backgrounds */
+
+  /* ── 2. Palette ─────────────────────────────────────────────────────────── */
+
+  --palette-paper-50: #FBF8F1; /* stamp paper, raised cards, certificates */
   --palette-paper-200: #F4EEE3; /* page background — warm paper */
   --palette-paper-300: #EAE1D1; /* bands, image wells */
-  --palette-ink-900: #14231B; /* deep green-black: headlines, primary text */
-  --palette-ink-700: #34423A; /* body copy */
-  --palette-ink-500: #5C6258; /* captions, running heads (AA on paper) */
-  --palette-white: #FFFFFF; /* text on photographs */
-
-  /* Sun (logo) — the single warm accent: pin, sun, active dot, quote marks */
-  --palette-sun-300: #F57045; /* sun gradient light end */
-  --palette-sun-500: #DD341F; /* sun core — accent for marks and icons */
-  --palette-sun-700: #BC171D; /* sun gradient dark end */
-  --palette-red-700: #B3171E; /* red-ink: small red TEXT on paper (5.9:1) */
-
-  /* Greens (logo hills + text greens) */
-  --palette-green-800: #0F6533; /* green-ink: links, accent italics, section rules (6.2:1) */
-  --palette-green-700: #0E643D; /* logo hill, dark */
-  --palette-green-600: #138450; /* logo hills overlap — brand green */
-  --palette-green-500: #189659; /* logo hill, light (decorative on paper) */
-  --palette-green-400: #2BB34B; /* meadow green: decorative only, LED glow on night */
-  --palette-green-200: #7FD08F; /* mint: accents on dark surfaces */
-
-  /* Dark surfaces */
-  --palette-forest-800: #0D3A24; /* Forest — footer, dark bands, night gradient end */
+  --palette-ink-900: #14231B; /* ink — deep green-black: headlines, primary text (14.1:1 on paper) */
+  --palette-ink-700: #34423A; /* body copy (9.2:1 on paper) */
+  --palette-ink-500: #5C6258; /* captions, running heads (5.4:1 on paper) */
+  --palette-white: #FFFFFF; /* text on photographs (always over a scrim) */
+  --palette-red-ink: #B3171E; /* red-ink: small red TEXT on paper (6.0:1) */
+  --palette-green-ink: #0F6533; /* green-ink: links, accent italics, section rules (6.2:1 on paper) */
+  --palette-green-meadow: #2BB34B; /* light green — decorative only, LED glow on night */
+  --palette-mint: #7FD08F; /* mint: accents and links on dark surfaces (9.3:1 on night) */
+  --palette-forest: #0D3A24; /* Forest — footer, dark bands, end of the night gradient */
+  --palette-forest-raised: #134A2F; /* panels on Forest */
+  --palette-forest-sunken: #0A2E1C; /* wells on Forest */
   --palette-night-950: #06140D; /* deepest night: board housings */
-  --palette-night-900: #0A1F15; /* night surface start */
+  --palette-night-900: #0A1F15; /* night surface (start of the gradient) */
   --palette-night-800: #10291C; /* raised panels on night */
-  --palette-cream-100: #EFE7D8; /* text on dark surfaces */
-  --palette-cream-400: #B9B2A3; /* secondary text on dark surfaces */
+  --palette-cream-100: #EFE7D8; /* text on dark surfaces (14:1 on night) */
+  --palette-cream-200: #DAD3C4; /* body copy on dark surfaces */
+  --palette-cream-400: #B9B2A3; /* secondary text on dark surfaces (8.2:1 on night) */
+  --palette-foil: #D8B86E; /* passport foil (6.7:1 on Forest) */
+  --palette-amber: #FFB54A; /* split-flap characters, TBS lamps (9.8:1 on night) */
+  --palette-amber-dim: #C98C35; /* board column labels */
 
-  /* Special inks */
-  --palette-foil-400: #D8B86E; /* passport foil (footer accents) */
-  --palette-amber-400: #FFB54A; /* split-flap characters, TBS lamps */
-  --palette-amber-600: #C98C35; /* board column labels */
-
-  /* ── 2. Colour roles (paper / day — the default surface) ────────────────── */
+  /* ── 3. Colour roles — paper (day), the default surface ─────────────────── */
 
   --color-bg: var(--palette-paper-200); /* page background */
   --color-bg-raised: var(--palette-paper-50); /* cards, stamps, certificates */
@@ -70,46 +79,54 @@
   --color-text-body: var(--palette-ink-700); /* running body copy */
   --color-text-muted: var(--palette-ink-500); /* captions, meta, running heads */
   --color-text-inverse: var(--palette-paper-200); /* text on primary buttons */
-  --color-text-on-photo: var(--palette-white); /* text over photographs (always with scrim) */
-  --color-emphasis: var(--palette-green-800); /* italic accent words in display type */
-  --color-link: var(--palette-green-800); /* inline links */
+  --color-text-on-photo: var(--palette-white); /* text over photographs (always with a scrim) */
+  --color-emphasis: var(--palette-green-ink); /* italic accent words in display type */
+  --color-link: var(--palette-green-ink); /* inline links */
   --color-link-hover: var(--palette-ink-900); /* inline links, hover */
   --color-rule: rgb(20 35 27 / 0.16); /* hairlines between items */
   --color-rule-strong: rgb(20 35 27 / 0.42); /* hairlines under titles */
-  --color-rule-section: var(--palette-green-800); /* running-head rule above each section */
-  --color-accent: var(--palette-sun-500); /* the sun / pin: marks, dots, quote marks — not small text */
-  --color-accent-ink: var(--palette-red-700); /* small red text */
-  --color-brand-green: var(--palette-green-600); /* big green figures, brand moments */
-  --color-green-ink: var(--palette-green-800); /* small green text, stamps, seals */
-  --color-green-deco: var(--palette-green-500); /* decorative green (never text) */
-  --color-forest: var(--palette-forest-800); /* Forest panels on paper */
-  --color-foil: var(--palette-foil-400); /* foil accents */
-  --color-amber: var(--palette-amber-400); /* board characters, TBS lamps */
-  --color-amber-dim: var(--palette-amber-600); /* board labels */
-  --color-led: var(--palette-green-400); /* KUT lamps, live indicators */
-  --color-glow: var(--palette-green-400); /* glowing ridge line on night */
-  --color-focus: var(--palette-sun-500); /* keyboard focus ring (3:1+ on paper) */
-  --color-selection-bg: var(--palette-green-800); /* text selection background */
+  --color-rule-section: var(--palette-green-ink); /* running-head rule above each section */
+  --color-accent: var(--brand-sun); /* the sun / pin: marks, active dot, quote marks — never small text */
+  --color-red-ink: var(--palette-red-ink); /* small red text */
+  --color-green-ink: var(--palette-green-ink); /* small green text, stamps, seals */
+  --color-brand-green: var(--brand-hill-overlap); /* big green figures, brand moments (large text only) */
+  --color-green-deco: var(--brand-hill-right); /* decorative green (never text) */
+  --color-paper: var(--palette-paper-200); /* paper, by name (for bands that must stay paper) */
+  --color-ink: var(--palette-ink-900); /* ink, by name (for elements that must stay ink) */
+  --color-forest: var(--palette-forest); /* Forest panels */
+  --color-night: var(--palette-night-900); /* night panels */
+  --color-foil: var(--palette-foil); /* foil accents (on Forest) */
+  --color-amber: var(--palette-amber); /* board characters, TBS lamps */
+  --color-amber-dim: var(--palette-amber-dim); /* board column labels */
+  --color-led: var(--palette-green-meadow); /* KUT lamps, live indicators */
+  --color-glow: var(--palette-green-meadow); /* glowing ridge line on night */
+  --color-focus: var(--brand-sun); /* keyboard focus ring (4:1 on paper) */
+  --color-selection-bg: var(--palette-green-ink); /* text selection background */
   --color-selection-text: var(--palette-paper-50); /* text selection foreground */
-  --color-scrim: rgb(6 20 13 / 0.55); /* gradient scrim under text on photos */
+  --color-scrim: rgb(6 20 13 / 0.55); /* scrim under text on photos */
   --color-stamp-paper: var(--palette-paper-50); /* perforated stamp paper */
-  --color-surface-night-from: var(--palette-night-900); /* night gradient start */
-  --color-surface-night-to: var(--palette-forest-800); /* night gradient end */
+  --color-stamp-green: var(--palette-green-ink); /* green stamp frame */
+  --color-stamp-red: var(--palette-red-ink); /* red stamp frame */
+  --color-night-grid: rgb(127 208 143 / 0.07); /* grid lines on the night surface */
+  --color-night-glow: rgb(43 179 75 / 0.16); /* radial glow on the night surface */
 
-  --gradient-sun: linear-gradient(135deg, var(--palette-sun-300) 0%, var(--palette-sun-500) 55%, var(--palette-sun-700) 100%); /* the logo sun */
-  --gradient-night: linear-gradient(180deg, var(--palette-night-900) 0%, var(--palette-forest-800) 100%); /* night surface */
+  --gradient-sun: linear-gradient(135deg, var(--brand-sun-light) 0%, var(--brand-sun) 50%, var(--brand-sun-dark) 100%); /* the logo sun */
+  --gradient-night: linear-gradient(180deg, var(--palette-night-900) 0%, var(--palette-forest) 100%); /* night surface */
+  --gradient-scrim: linear-gradient(180deg, rgb(6 20 13 / 0) 40%, rgb(6 20 13 / 0.6) 100%); /* photo scrim, bottom */
   --texture-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); /* faint paper grain */
+  --texture-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='i'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.6 2.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23i)'/%3E%3C/svg%3E"); /* rubber-stamp ink mask (used as mask-image) */
 
-  /* ── 3. Typography ──────────────────────────────────────────────────────── */
+  /* ── 4. Typography ──────────────────────────────────────────────────────── */
 
   --font-display: 'Fraunces Variable', 'Noto Serif Georgian Variable', Georgia, 'Times New Roman', serif; /* headlines, numerals, captions */
   --font-text: 'DM Sans Variable', 'Noto Sans Georgian Variable', system-ui, -apple-system, 'Segoe UI', sans-serif; /* body and UI */
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace; /* boards, codes, data */
-  --font-ka-display: 'Noto Serif Georgian Variable', 'Fraunces Variable', Georgia, serif; /* Georgian-only display lines (proverb, numerals) */
-  --font-ka-text: 'Noto Sans Georgian Variable', 'DM Sans Variable', system-ui, sans-serif; /* Georgian-only UI lines */
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace; /* boards, codes, coordinates */
+  --font-ka-display: 'Noto Serif Georgian Variable', 'Fraunces Variable', Georgia, serif; /* Georgian display lines (proverb, numerals) */
+  --font-ka-text: 'Noto Sans Georgian Variable', 'DM Sans Variable', system-ui, sans-serif; /* Georgian UI lines */
 
-  /* Fluid type scale: min at 360px viewport → max at 1440px */
-  --fs-2xs: clamp(0.6875rem, 0.6771rem + 0.0463vw, 0.7188rem); /* 11 → 11.5px: small caps kickers */
+  /* Fluid type scale: min at a 360px viewport → max at 1440px */
+  --fs-3xs: clamp(0.625rem, 0.6146rem + 0.0463vw, 0.6562rem); /* 10 → 10.5px: micro labels, coordinates */
+  --fs-2xs: clamp(0.6875rem, 0.6771rem + 0.0463vw, 0.7188rem); /* 11 → 11.5px: small-caps kickers */
   --fs-xs: clamp(0.7812rem, 0.7604rem + 0.0926vw, 0.8438rem); /* 12.5 → 13.5px: captions, legal */
   --fs-sm: clamp(0.875rem, 0.8542rem + 0.0926vw, 0.9375rem); /* 14 → 15px: UI, meta */
   --fs-base: clamp(1rem, 0.9688rem + 0.1389vw, 1.0938rem); /* 16 → 17.5px: body */
@@ -120,17 +137,18 @@
   --fs-3xl: clamp(2rem, 1.5rem + 2.2222vw, 3.5rem); /* 32 → 56px: feature titles */
   --fs-4xl: clamp(2.5rem, 1.5833rem + 4.0741vw, 5.25rem); /* 40 → 84px: section titles */
   --fs-5xl: clamp(2.875rem, 1.0833rem + 7.963vw, 8.25rem); /* 46 → 132px: hero */
-  --fs-scale-ka: 0.84; /* Georgian display is optically larger — scale display sizes by this */
+  --fs-scale-ka: 0.84; /* Georgian display is optically larger — display sizes are multiplied by this */
 
   --lh-display: 0.94; /* hero and section titles */
   --lh-heading: 1.06; /* h3–h4 */
   --lh-snug: 1.3; /* quotes, captions */
   --lh-body: 1.6; /* running text */
-  --lh-display-ka: 1.16; /* Georgian display (taller ascenders, no overlap) */
+  --lh-display-ka: 1.16; /* Georgian display (tall ascenders, no overlap) */
   --lh-heading-ka: 1.24; /* Georgian headings */
   --lh-body-ka: 1.78; /* Georgian running text */
 
   --fw-display: 330; /* Fraunces at 40px and above */
+  --fw-display-m: 360; /* Fraunces titles that can drop below 40px on phones */
   --fw-display-sm: 380; /* Fraunces below 40px (never lighter than 360) */
   --fw-accent: 300; /* italic accent words at display sizes */
   --fw-text: 400; /* body */
@@ -142,16 +160,17 @@
 
   --tracking-display: -0.022em; /* display headlines */
   --tracking-heading: -0.015em; /* headings */
-  --tracking-caps: 0.17em; /* small caps kickers and labels (Latin only) */
+  --tracking-caps: 0.17em; /* small-caps kickers and labels (Latin) */
   --tracking-caps-wide: 0.22em; /* wordmark-style labels */
   --tracking-mono: 0.06em; /* mono codes */
   --case-caps: uppercase; /* text-transform for kickers; Georgian switches to none */
 
   --fvs-display: 'opsz' 144, 'SOFT' 0, 'WONK' 0; /* Fraunces high-contrast cut for display */
   --fvs-accent: 'opsz' 144, 'SOFT' 0, 'WONK' 1; /* Fraunces italic accent with the quirky a/h/k */
+  --fvs-heading: 'opsz' 48, 'SOFT' 0, 'WONK' 0; /* Fraunces at heading sizes */
   --fvs-caption: 'opsz' 14, 'SOFT' 30, 'WONK' 0; /* Fraunces at caption sizes */
 
-  /* ── 4. Space & layout ──────────────────────────────────────────────────── */
+  /* ── 5. Space & layout ──────────────────────────────────────────────────── */
 
   --space-3xs: 0.25rem; /* 4px */
   --space-2xs: 0.5rem; /* 8px */
@@ -169,15 +188,15 @@
 
   --layout-max: 82rem; /* 1312px content width */
   --layout-wide: 96rem; /* 1536px cap for full-bleed media */
-  --layout-gutter: clamp(1.25rem, 0.3333rem + 4.0741vw, 4rem); /* 20 → 64px side padding */
+  --layout-gutter: clamp(1rem, 4.4444vw, 4rem); /* 16 → 64px side padding */
   --layout-gap: clamp(0.875rem, 0.6667rem + 0.9259vw, 1.5rem); /* 14 → 24px grid column gap */
   --layout-columns: 12; /* grid columns */
   --layout-header-h: 4.75rem; /* 76px sticky header (desktop) */
-  --layout-header-h-sm: 4rem; /* 64px sticky header (mobile) */
+  --layout-header-h-sm: 4rem; /* 64px sticky header (phones) */
   --layout-measure: 62ch; /* max line length for body copy */
   --layout-measure-narrow: 42ch; /* captions, decks */
 
-  /* ── 5. Shape ───────────────────────────────────────────────────────────── */
+  /* ── 6. Shape ───────────────────────────────────────────────────────────── */
 
   --radius-none: 0; /* photographs, rules */
   --radius-xs: 2px; /* tags, codes */
@@ -193,21 +212,28 @@
   --border-heavy: 3px; /* rubber stamps */
 
   --stamp-perf: 5px; /* radius of a stamp perforation hole */
+  --stamp-band: 4px; /* tinted band between perforation and paper (green/red stamps) */
   --stamp-pad: 9px; /* paper margin inside the perforation */
 
-  /* ── 6. Elevation ───────────────────────────────────────────────────────── */
+  --opacity-guilloche: 0.09; /* passport guilloche on Forest */
+  --opacity-watermark: 0.06; /* faint emblems and watermarks */
+  --opacity-disabled: 0.35; /* disabled controls */
+
+  /* ── 7. Elevation ───────────────────────────────────────────────────────── */
 
   --shadow-xs: 0 1px 1px rgb(20 35 27 / 0.08); /* hairline lift */
   --shadow-sm: 0 2px 6px rgb(20 35 27 / 0.1); /* chips, small cards */
   --shadow-md: 0 10px 22px rgb(20 35 27 / 0.13), 0 1px 1px rgb(20 35 27 / 0.08); /* stamps, cards */
   --shadow-lg: 0 30px 60px -20px rgb(20 35 27 / 0.35), 0 2px 2px rgb(20 35 27 / 0.08); /* floating sheets, envelopes */
+  --shadow-header: 0 1px 0 rgb(20 35 27 / 0.12), 0 8px 24px -16px rgb(20 35 27 / 0.3); /* sticky header once scrolled */
   --shadow-board: 0 40px 80px -30px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(255 255 255 / 0.05) inset; /* split-flap housing */
   --shadow-glow: 0 0 0 3px rgb(43 179 75 / 0.12), 0 0 12px rgb(43 179 75 / 0.7); /* green LED glow */
   --shadow-glow-amber: 0 0 0 3px rgb(255 181 74 / 0.12), 0 0 12px rgb(255 181 74 / 0.7); /* amber lamp glow */
   --filter-stamp: drop-shadow(0 10px 18px rgb(20 35 27 / 0.14)) drop-shadow(0 1px 1px rgb(20 35 27 / 0.1)); /* shadow for masked (perforated) shapes */
   --filter-glow: drop-shadow(0 0 5px rgb(43 179 75 / 0.85)); /* glowing lines on night */
+  --filter-glow-red: drop-shadow(0 0 8px rgb(220 52 31 / 0.6)); /* glowing pin on night */
 
-  /* ── 7. Motion ──────────────────────────────────────────────────────────── */
+  /* ── 8. Motion ──────────────────────────────────────────────────────────── */
 
   --dur-instant: 70ms; /* split-flap tick */
   --dur-fast: 180ms; /* hovers, colour changes */
@@ -223,7 +249,7 @@
   --ease-overshoot: cubic-bezier(0.3, 1.6, 0.5, 1); /* a stamp landing */
   --ease-film: cubic-bezier(0.22, 0.61, 0.36, 1); /* long cinematic moves */
 
-  /* ── 8. Layers ──────────────────────────────────────────────────────────── */
+  /* ── 9. Layers ──────────────────────────────────────────────────────────── */
 
   --z-below: -1; /* backgrounds inside a section */
   --z-base: 0; /* flow content */
@@ -247,42 +273,46 @@
   --color-bg-sunken: var(--palette-night-950); /* board housings */
   --color-bg-inverse: var(--palette-cream-100); /* primary buttons on night */
   --color-text: var(--palette-cream-100); /* headlines on night (14:1) */
-  --color-text-body: #DAD3C4; /* body copy on night */
+  --color-text-body: var(--palette-cream-200); /* body copy on night */
   --color-text-muted: var(--palette-cream-400); /* meta on night (8.2:1) */
   --color-text-inverse: var(--palette-night-900); /* text on primary buttons on night */
-  --color-emphasis: var(--palette-green-200); /* italic accents on night: mint */
-  --color-link: var(--palette-green-200); /* links on night */
+  --color-emphasis: var(--palette-mint); /* italic accents on night: mint */
+  --color-link: var(--palette-mint); /* links on night */
   --color-link-hover: var(--palette-cream-100); /* links on night, hover */
   --color-rule: rgb(239 231 216 / 0.13); /* hairlines on night */
   --color-rule-strong: rgb(239 231 216 / 0.3); /* strong hairlines on night */
-  --color-rule-section: var(--palette-green-400); /* section rule glows green on night */
-  --color-accent-ink: var(--palette-sun-300); /* small warm text on night */
-  --color-green-ink: var(--palette-green-200); /* small green text on night */
-  --color-focus: var(--palette-green-200); /* focus ring on night */
-  --color-selection-bg: var(--palette-green-200); /* selection on night */
+  --color-rule-section: var(--palette-green-meadow); /* section rule glows green on night */
+  --color-red-ink: var(--brand-sun-light); /* small warm text on night (6:1) */
+  --color-green-ink: var(--palette-mint); /* small green text on night */
+  --color-focus: var(--palette-mint); /* focus ring on night */
+  --color-selection-bg: var(--palette-mint); /* selection on night */
   --color-selection-text: var(--palette-night-900); /* selection text on night */
   --color-stamp-paper: var(--palette-night-800); /* stamp paper on night */
+  --color-stamp-green: var(--palette-mint); /* green stamp frame on night */
+  --color-stamp-red: var(--brand-sun-light); /* red stamp frame on night */
 }
 
 [data-surface='forest'] {
-  --color-bg: var(--palette-forest-800); /* passport cover */
-  --color-bg-raised: #134A2F; /* panels on forest */
-  --color-bg-sunken: #0A2E1C; /* wells on forest */
-  --color-bg-inverse: var(--palette-cream-100); /* primary buttons on forest */
-  --color-text: var(--palette-cream-100); /* text on forest (10.4:1) */
-  --color-text-body: #DAD3C4; /* body copy on forest */
-  --color-text-muted: var(--palette-cream-400); /* meta on forest (6:1) */
-  --color-text-inverse: var(--palette-forest-800); /* text on primary buttons on forest */
-  --color-emphasis: var(--palette-foil-400); /* italic accents on forest: foil */
-  --color-link: var(--palette-cream-100); /* links on forest */
-  --color-link-hover: var(--palette-foil-400); /* links on forest, hover */
+  --color-bg: var(--palette-forest); /* passport cover */
+  --color-bg-raised: var(--palette-forest-raised); /* panels on Forest */
+  --color-bg-sunken: var(--palette-forest-sunken); /* wells on Forest */
+  --color-bg-inverse: var(--palette-cream-100); /* primary buttons on Forest */
+  --color-text: var(--palette-cream-100); /* text on Forest (10.4:1) */
+  --color-text-body: var(--palette-cream-200); /* body copy on Forest */
+  --color-text-muted: var(--palette-cream-400); /* meta on Forest (6:1) */
+  --color-text-inverse: var(--palette-forest); /* text on primary buttons on Forest */
+  --color-emphasis: var(--palette-foil); /* italic accents on Forest: foil */
+  --color-link: var(--palette-cream-100); /* links on Forest */
+  --color-link-hover: var(--palette-foil); /* links on Forest, hover */
   --color-rule: rgb(216 184 110 / 0.22); /* foil hairlines */
   --color-rule-strong: rgb(216 184 110 / 0.45); /* strong foil hairlines */
-  --color-rule-section: var(--palette-foil-400); /* section rule on forest */
-  --color-accent-ink: var(--palette-sun-300); /* small warm text on forest */
-  --color-green-ink: var(--palette-green-200); /* small green text on forest */
-  --color-focus: var(--palette-foil-400); /* focus ring on forest */
-  --color-selection-bg: var(--palette-foil-400); /* selection on forest */
-  --color-selection-text: var(--palette-forest-800); /* selection text on forest */
-  --color-stamp-paper: #134A2F; /* stamp paper on forest */
+  --color-rule-section: var(--palette-foil); /* section rule on Forest */
+  --color-red-ink: var(--brand-georgia-reverse); /* small warm text on Forest (4.7:1) */
+  --color-green-ink: var(--palette-mint); /* small green text on Forest */
+  --color-focus: var(--palette-foil); /* focus ring on Forest */
+  --color-selection-bg: var(--palette-foil); /* selection on Forest */
+  --color-selection-text: var(--palette-forest); /* selection text on Forest */
+  --color-stamp-paper: var(--palette-forest-raised); /* stamp paper on Forest */
+  --color-stamp-green: var(--palette-foil); /* stamp frame on Forest: foil */
+  --color-stamp-red: var(--palette-foil); /* stamp frame on Forest: foil */
 }

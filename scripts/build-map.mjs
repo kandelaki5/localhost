@@ -7,12 +7,12 @@
  *
  *   node scripts/build-map.mjs                      # rebuild the JSON
  *   node scripts/build-map.mjs --check              # rebuild + print size/verification only (no write)
- *   node scripts/build-map.mjs --resolution=10m     # smoother outlines from Natural Earth 1:10m (default 50m)
+ *   node scripts/build-map.mjs --resolution=50m     # coarser outlines from Natural Earth 1:50m (default 10m)
  *   node scripts/build-map.mjs --refresh-lakes=<ne_50m_lakes.geojson>
  *        # re-extract scripts/data/ne-50m-lakes-caucasus.geojson from a full download of
  *        # https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_50m_lakes.geojson
  *
- * Data: Natural Earth 1:50m by default (public domain) — countries + land from the npm
+ * Data: Natural Earth 1:10m by default (public domain) — countries + land from the npm
  * package world-atlas@2 (TopoJSON), lakes from the vendored extract in
  * scripts/data/. Natural Earth's default admin-0 boundaries are used (the
  * internationally recognised borders of Georgia, Armenia and Azerbaijan).
@@ -30,7 +30,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import ts from 'typescript';
 import { feature } from 'topojson-client';
-import { geoPath, geoProjection } from 'd3-geo';
+import { geoArea, geoPath, geoProjection } from 'd3-geo';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -40,8 +40,8 @@ const MAX_BYTES = 150 * 1024;
 
 const args = process.argv.slice(2);
 const CHECK_ONLY = args.includes('--check');
-/** Natural Earth scale: 50m (default, as specified) or 10m (smoother coastlines, bigger file). */
-const RESOLUTION = args.find((a) => a.startsWith('--resolution='))?.slice('--resolution='.length) ?? '50m';
+/** Natural Earth scale: 10m (default: smooth coastlines, ~28 KB) or 50m (coarser, ~12 KB). */
+const RESOLUTION = args.find((a) => a.startsWith('--resolution='))?.slice('--resolution='.length) ?? '10m';
 if (RESOLUTION !== '50m' && RESOLUTION !== '10m') {
   console.error('--resolution must be 50m or 10m');
   process.exit(1);
@@ -249,6 +249,35 @@ function boundsOf(geo) {
 }
 
 // ---------------------------------------------------------------------------
+// 2b. Winding fix
+// ---------------------------------------------------------------------------
+
+/**
+ * d3-geo reads polygons on the sphere: an exterior ring wound the "wrong" way
+ * means "the whole globe except this shape". A few tiny islands in Natural
+ * Earth 1:10m land are wound that way, and clipping then adds a full-frame
+ * ring that paints the seas as land. Any polygon covering more than a
+ * hemisphere is therefore rewound (rings reversed) before projecting.
+ */
+function rewindGeometry(geometry) {
+  if (!geometry) return geometry;
+  const fixPolygon = (rings) => {
+    const area = geoArea({ type: 'Polygon', coordinates: rings });
+    return area > 2 * Math.PI ? rings.map((ring) => [...ring].reverse()) : rings;
+  };
+  if (geometry.type === 'Polygon') return { ...geometry, coordinates: fixPolygon(geometry.coordinates) };
+  if (geometry.type === 'MultiPolygon') return { ...geometry, coordinates: geometry.coordinates.map(fixPolygon) };
+  if (geometry.type === 'GeometryCollection') return { ...geometry, geometries: geometry.geometries.map(rewindGeometry) };
+  return geometry;
+}
+
+/** Rewinds a Feature or every feature of a FeatureCollection (land-10m decodes to a collection). */
+const rewindFeature = (f) =>
+  f.type === 'FeatureCollection'
+    ? { ...f, features: f.features.map(rewindFeature) }
+    : { ...f, geometry: rewindGeometry(f.geometry) };
+
+// ---------------------------------------------------------------------------
 // 3. Lakes extract (vendored; optional refresh from a full Natural Earth file)
 // ---------------------------------------------------------------------------
 
@@ -316,7 +345,7 @@ const NAMES = {
   'Lake Urmia': { en: 'Lake Urmia', ka: 'ურმიის ტბა', pl: 'Jezioro Urmia', it: 'Lago di Urmia', de: 'Urmiasee' },
 };
 
-const countries = feature(countriesTopo, countriesTopo.objects.countries).features;
+const countries = feature(countriesTopo, countriesTopo.objects.countries).features.map(rewindFeature);
 const byId = new Map(countries.map((f) => [f.id, f]));
 
 const focus = {};
@@ -348,7 +377,7 @@ const others = countries
   .map((f) => f.properties.name);
 if (others.length) console.warn(`note: other countries inside the frame (not drawn): ${others.join(', ')}`);
 
-const landFeature = feature(landTopo, landTopo.objects.land);
+const landFeature = rewindFeature(feature(landTopo, landTopo.objects.land));
 const land = toPathData(landFeature, { tolerance: 0.15, minArea: 0.5 });
 // Sea = padded frame minus land (render with fill-rule="evenodd").
 const frame = `M${-PAD},${-PAD}H${MAP_WIDTH + PAD}V${Math.round((MAP_HEIGHT + PAD) * 10) / 10}H${-PAD}z`;
@@ -357,6 +386,7 @@ const sea = frame + land;
 const lakesSource = JSON.parse(readFileSync(LAKES_FILE, 'utf8'));
 const lakes = lakesSource.features
   .filter((f) => inFrame(f.geometry, 0))
+  .map(rewindFeature)
   .map((f) => {
     const d = toPathData(f, { tolerance: 0.1, minArea: 0.3 });
     return d ? { name: NAMES[f.properties.name] ?? { en: f.properties.name }, d, label: labelPoint(f) } : null;

@@ -1,0 +1,69 @@
+---
+/**
+ * Inline SVG icon set (24 × 24 grid, 1.5 px strokes, square caps — drawn to
+ * sit next to DM Sans). Colour comes from `currentColor`; `tone="sun"` fills
+ * with the logo-sun gradient (used for the AI sparkle).
+ *
+ *   <Icon name="arrow-right" />
+ *   <Icon name="pdf" label="PDF document" />   ← meaningful icon, gets role="img"
+ */
+import { uid } from '../../lib/uid';
+import { ICONS, type IconName } from './icons';
+
+interface Props {
+  name: IconName;
+  /** Rendered width and height (number = px). CSS can override. */
+  size?: number | string;
+  /** Accessible name. Omit for decorative icons (most of them). */
+  label?: string;
+  /** 'current' = currentColor; 'sun' = the logo-sun gradient. */
+  tone?: 'current' | 'sun';
+  strokeWidth?: number;
+  class?: string;
+}
+
+const { name, size = 20, label, tone = 'current', strokeWidth = 1.5, class: className } = Astro.props;
+const body = ICONS[name];
+const gradientId = tone === 'sun' ? uid('icon-sun') : null;
+const paint = gradientId ? `url(#${gradientId})` : 'currentColor';
+---
+
+<svg
+  class:list={['icon', `icon--${name}`, className]}
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="none"
+  stroke={paint}
+  stroke-width={strokeWidth}
+  stroke-linecap="square"
+  stroke-linejoin="miter"
+  style={`--icon-paint:${paint}`}
+  {...label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true' }}
+  focusable="false"
+>
+  {
+    gradientId && (
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+          <stop offset="0" style="stop-color: var(--brand-sun-light)" />
+          <stop offset=".5" style="stop-color: var(--brand-sun)" />
+          <stop offset="1" style="stop-color: var(--brand-sun-dark)" />
+        </linearGradient>
+      </defs>
+    )
+  }
+  <Fragment set:html={body} />
+</svg>
+
+<style>
+  .icon {
+    flex: none;
+    overflow: visible;
+  }
+
+  .icon :global(.fill) {
+    fill: var(--icon-paint);
+    stroke: none;
+  }
+</style>

@@ -1,0 +1,36 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "masthead": {
+    "left": "Touroperator przyjazdowy · DMC",
+    "right": "Gruzja · Armenia · Azerbejdżan"
+  },
+  "title": {
+    "line1": "Gdzie każdy gość",
+    "line2": "jest darem."
+  },
+  "proverb": {
+    "text": "სტუმარი ღვთის საჩუქარია",
+    "gloss": "„Gość jest darem od Boga”. Gruzińskie przysłowie — i jedyna zasada naszego domu, której trzymamy się od 2015 roku."
+  },
+  "lead": "Local Host to touroperator przyjazdowy z siedzibą w Tbilisi. Dla biur podróży i touroperatorów z całej Europy projektujemy wycieczki grupowe i podróże szyte na miarę po Gruzji, Armenii i Azerbejdżanie — prowadzone przez nasz własny zespół na miejscu i otwierane przez rodziny, które z dumą nazywamy przyjaciółmi.",
+  "ctaPrimary": "Wyślij zapytanie grupowe",
+  "ctaAi": "Naszkicuj podróż z AI",
+  "factsLabel": "Local Host w skrócie",
+  "facts": [
+    { "lead": "Od", "text": "2015 roku, Tbilisi" },
+    { "lead": "3", "text": "kraje, jeden zespół" },
+    { "lead": "B2B", "text": "dla biur podróży i touroperatorów" },
+    { "lead": "Travelife", "text": "Partner" }
+  ],
+  "photo": {
+    "alt": "Cerkiew Świętej Trójcy w Gergeti — kamienna świątynia z dzwonnicą na zielonym grzbiecie u stóp stromych zboczy masywu Kazbegi",
+    "caption": "Cerkiew Świętej Trójcy w Gergeti, Kazbegi, 2170 m n.p.m."
+  },
+  "seal": {
+    "name": "Local Host",
+    "year": "2015",
+    "city": "თბილისი",
+    "ring": "TBILISI • GRUZJA • ARMENIA • AZERBEJDŻAN •"
+  },
+  "scroll": "Zacznij od Kaukazu"
+}

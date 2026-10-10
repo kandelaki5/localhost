@@ -1,20 +1,21 @@
 /**
- * Photo Match — browser module + shared types (BROWSER-SAFE: no SDK, no
- * secrets). The visitor picks a photo of a place/mood they love; we downscale
- * it in the browser and POST it to /api/photo-match, which answers with three
- * South Caucasus places that offer the same feeling.
+ * Photo Match — browser module + shared wire types (BROWSER-SAFE: no SDK, no
+ * secrets). The visitor picks a photo of a place or mood they love; we
+ * downscale it in the browser (canvas → JPEG ≤1280 px, q0.85 → base64) and
+ * POST it to /api/photo-match, which answers with three South Caucasus places
+ * that offer the same feeling.
  *
  *   import { matchPhoto } from '../lib/ai/client/photo';
  *   const r = await matchPhoto(file, 'en', { signal });
- *   if (!r.ok) showError(r.error);                         // codes: see PhotoMatchErrorCode
+ *   if (!r.ok) showError(r.error);                         // see PhotoMatchErrorCode
  *   else if (r.data.status === 'not_travel') showMessage(r.data.message);
- *   else render(r.data.result);                            // mood, whatISee, matches[3], tip
+ *   else render(r.data);                                   // mood, whatISee, matches[3], tip
  *   if (r.ok && r.data.mode === 'demo') showBadge(r.data.sample?.notice);
  *
- * Inspiration photos (src/assets/inspiration/*.jpg) are sent with their
- * `sampleId` via matchInspiration(); in demo mode the server answers those
- * with precomputed matches, and any other upload with a clearly labelled
- * generic sample.
+ * Inspiration photos (src/assets/inspiration/*.jpg, credits in credits.json)
+ * go through matchInspiration(), which sends their `sampleId`: in demo mode
+ * the server answers those with precomputed matches, and any other upload
+ * with a clearly labelled generic sample.
  */
 import { postAiJson } from '../client';
 import type { AiMode, ExperienceId, Locale, LocalizedText, PlaceId } from '../types';
@@ -24,15 +25,13 @@ export type { PlaceInfo } from './place-info';
 
 export const PHOTO_MATCH_ENDPOINT = '/api/photo-match';
 
-/** Long edge after browser downscaling (px). The server rejects images above PHOTO_SERVER_MAX_EDGE. */
+/** Long edge after browser downscaling (px). */
 export const PHOTO_MAX_EDGE = 1280;
-/** Server-side hard limit for the long edge (some slack for other clients). */
-export const PHOTO_SERVER_MAX_EDGE = 1600;
-/** Max decoded image size accepted by the server (bytes). */
+export const PHOTO_JPEG_QUALITY = 0.85;
+/** Max DECODED image size the server accepts (bytes). */
 export const PHOTO_MAX_BYTES = 1.5 * 1024 * 1024;
 /** Largest original file the browser will try to decode (bytes). */
 export const PHOTO_MAX_INPUT_BYTES = 40 * 1024 * 1024;
-export const PHOTO_JPEG_QUALITY = 0.85;
 
 export const PHOTO_MEDIA_TYPES = ['image/jpeg', 'image/png', 'image/webp'] as const;
 export type PhotoMediaType = (typeof PHOTO_MEDIA_TYPES)[number];
@@ -86,21 +85,22 @@ export const INSPIRATION_FILES: Readonly<Record<InspirationId, string>> = {
 
 /** Request body of POST /api/photo-match. */
 export interface PhotoMatchRequest {
+  /** Answer language (falls back to Accept-Language, then English). */
   locale: Locale;
-  /** Required in live mode. Downscaled to ≤1280 px, ≤1.5 MB decoded. */
-  image?: { mediaType: PhotoMediaType; data: string };
+  /** Base64 WITHOUT a data: prefix; decoded ≤ 1.5 MB; magic bytes must match mediaType. */
+  image: { mediaType: PhotoMediaType; data: string };
   /** Set when the image is one of the inspiration photos (demo mode answers with its precomputed match). */
   sampleId?: InspirationId;
 }
 
 /** Exactly what Claude returns (structured output) — also the fixture format. */
 export interface PhotoModelOutput {
-  /** false → no landscape / travel scene (screenshot, document, close-up portrait, unsafe…). */
+  whatISee: string;
+  mood: string;
+  /** false → no landscape / travel scene (screenshot, document, close-up portrait…). */
   suitable: boolean;
   /** Friendly explanation when !suitable, else "". */
   message: string;
-  whatISee: string;
-  mood: string;
   matches: PhotoModelMatch[];
   tip: string;
 }
@@ -112,34 +112,42 @@ export interface PhotoModelMatch {
   why: string;
 }
 
+/** One match card: the model's fields plus localised place details. */
 export interface PhotoMatchItem extends PhotoModelMatch {
-  /** Localised place details for cards and the map. */
+  /** Localised place details for cards and the shared SVG map (x/y in MAP_VIEWBOX units). */
   place: PlaceInfo;
   /** Localised experience name, e.g. "Wine" / "Wino". */
   experienceName: string;
 }
 
-export interface PhotoMatchResult {
-  /** A few words, e.g. "Golden, slow and sun-warmed". */
-  mood: string;
-  /** One or two sentences describing the photo. */
-  whatISee: string;
-  /** Three places (fewer only if the model returned fewer valid ones). */
-  matches: PhotoMatchItem[];
-  tip: string;
+/** Demo-mode info: which sample answered and the label to show. */
+export interface PhotoSampleInfo {
+  /** Inspiration photo that answered, or null for the generic sample. */
+  id: InspirationId | null;
+  /** true → the visitor's own photo was NOT analysed (generic sample result). */
+  generic: boolean;
+  /** Localised "Demo — …" label to show next to the result. */
+  notice: string;
 }
 
-/** 200 response of POST /api/photo-match (same shape in live and demo mode). */
+/** 200 response of POST /api/photo-match (identical shape in live and demo mode). */
 export interface PhotoMatchResponse {
   mode: AiMode;
   locale: Locale;
-  /** "not_travel": the photo shows no landscape/travel scene — show `message`, no result. */
+  /** "not_travel": the photo shows no landscape/travel scene — show `message`, there are no matches. */
   status: 'matched' | 'not_travel';
-  result: PhotoMatchResult | null;
+  /** A few words, e.g. "Golden, unhurried, sun-warmed" ("" when not_travel). */
+  mood: string;
+  /** One or two sentences describing the photo. */
+  whatISee: string;
+  /** Three places, best first ([] when not_travel). */
+  matches: PhotoMatchItem[];
+  /** One practical sentence ("" when not_travel). */
+  tip: string;
   /** Friendly message for status "not_travel" (in the requested language), else null. */
   message: string | null;
-  /** Demo mode only: which sample answered, and a label to show ("Demo — sample answer…"). */
-  sample: { id: InspirationId | null; generic: boolean; notice: string } | null;
+  /** Demo mode only, else null. */
+  sample: PhotoSampleInfo | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -175,7 +183,7 @@ async function decodeImage(file: Blob): Promise<{ source: Drawable; width: numbe
       const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
       return { source: bitmap, width: bitmap.width, height: bitmap.height, close: () => bitmap.close() };
     } catch {
-      /* fall back to <img> (e.g. formats only the <img> decoder supports) */
+      /* fall back to <img> (some formats only the <img> decoder supports) */
     }
   }
   const url = URL.createObjectURL(file);
@@ -252,8 +260,9 @@ async function blobToBase64(blob: Blob): Promise<string> {
 /**
  * Downscales an image File/Blob to a JPEG with the long edge ≤ maxEdge
  * (default 1280 px, quality 0.85), honouring EXIF orientation, and returns it
- * as base64. Lowers quality/size further if the result exceeds 1.5 MB.
- * Throws PhotoPrepareError (codes: not_an_image, file_too_large, decode_failed, encode_failed).
+ * as base64. Never upscales. Lowers quality/size further if the JPEG would
+ * exceed 1.5 MB. Throws PhotoPrepareError (not_an_image, file_too_large,
+ * decode_failed, encode_failed).
  */
 export async function prepareImage(
   file: Blob,
@@ -268,7 +277,7 @@ export async function prepareImage(
   const decoded = await decodeImage(file);
   try {
     if (!decoded.width || !decoded.height) throw new PhotoPrepareError('decode_failed', 'This image has no size.');
-    let maxEdge = Math.min(options.maxEdge ?? PHOTO_MAX_EDGE, PHOTO_SERVER_MAX_EDGE);
+    let maxEdge = Math.max(64, Math.round(options.maxEdge ?? PHOTO_MAX_EDGE));
     for (let attempt = 0; attempt < 4; attempt++) {
       const scale = Math.min(1, maxEdge / Math.max(decoded.width, decoded.height));
       const width = Math.max(1, Math.round(decoded.width * scale));
@@ -295,10 +304,10 @@ export async function prepareImage(
 /**
  * Error codes: PhotoPrepareErrorCode (browser side) or a server/API code —
  * "bad_request", "payload_too_large", "rate_limited", "daily_cap", "refusal"
- * (Claude declined the image — treat like not_travel with a polite message),
+ * (Claude declined the image — show a polite "try another photo" message),
  * "truncated", "upstream_*", "network", "aborted", "invalid_response".
  */
-export type PhotoMatchErrorCode = PhotoPrepareErrorCode | string;
+export type PhotoMatchErrorCode = PhotoPrepareErrorCode | (string & {});
 
 export type PhotoMatchOutcome =
   | {
@@ -310,6 +319,7 @@ export type PhotoMatchOutcome =
     }
   | {
       ok: false;
+      /** null when the request never reached the server (prepare error, network). */
       mode: AiMode | null;
       status: number;
       error: PhotoMatchErrorCode;
@@ -325,6 +335,7 @@ export interface MatchPhotoOptions {
   sampleId?: InspirationId;
   /** Override the endpoint (tests). */
   endpoint?: string;
+  /** Long edge in px (default 1280). */
   maxEdge?: number;
 }
 
@@ -360,15 +371,16 @@ export async function matchPhoto(file: Blob, locale: Locale, options: MatchPhoto
       ...(r.retryAfter !== undefined ? { retryAfter: r.retryAfter } : {}),
     };
   }
-  if (!r.data || (r.data.status !== 'matched' && r.data.status !== 'not_travel')) {
+  const data = r.data;
+  if (!data || (data.status !== 'matched' && data.status !== 'not_travel') || !Array.isArray(data.matches)) {
     return { ok: false, mode: r.mode, status: r.status, error: 'invalid_response', aborted: false };
   }
-  return { ok: true, mode: r.data.mode ?? r.mode, data: r.data, image: { width: image.width, height: image.height, bytes: image.bytes } };
+  return { ok: true, mode: data.mode ?? r.mode, data, image: { width: image.width, height: image.height, bytes: image.bytes } };
 }
 
 /**
- * Runs Photo Match on one of the inspiration photos. `imageUrl` is the built
- * URL of the sample image (e.g. from astro:assets `getImage()` / `<Image>`).
+ * Runs Photo Match on one of the inspiration photos. `imageUrl` is the URL of
+ * the sample image (e.g. `import img from '…/tuscany-vineyard.jpg'` → `img.src`).
  */
 export async function matchInspiration(
   id: InspirationId,

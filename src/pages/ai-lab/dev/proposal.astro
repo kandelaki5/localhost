@@ -1,0 +1,254 @@
+---
+/**
+ * Dev harness for POST /api/proposal (noindex, deliberately unstyled).
+ * Fill the brief (or load one of the two sample briefs) and generate a draft
+ * programme; shows the rendered proposal and the raw JSON.
+ * Autorun for screenshots: ?sample=<fixture id>&submit=1
+ */
+import { COUNTRY_CODES, EXPERIENCE_IDS } from '../../../lib/ai/types';
+import { LOCALES, LOCALE_INFO } from '../../../lib/ai/locales';
+import {
+  HOTEL_CATEGORIES,
+  PROPOSAL_DAYS_MAX,
+  PROPOSAL_DAYS_MIN,
+  PROPOSAL_GROUP_MAX,
+  PROPOSAL_GROUP_MIN,
+  PROPOSAL_PACES,
+  PROPOSAL_SPECIAL_REQUESTS_MAX,
+  SEASONS,
+} from '../../../lib/ai/client/proposal';
+import { PROPOSAL_FIXTURES } from '../../../lib/ai/fixtures/proposals';
+
+const briefs = PROPOSAL_FIXTURES.map((f) => ({ id: f.id, brief: f.brief }));
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Proposal harness</title>
+    <style is:global>
+      body { font: 15px/1.45 system-ui, sans-serif; margin: 16px; max-width: 1100px; color: #1b1b1b; background: #fff; }
+      form { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 16px; border: 1px solid #ccc; padding: 12px; }
+      label, fieldset { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+      fieldset { flex-direction: row; flex-wrap: wrap; gap: 4px 12px; margin: 0; }
+      .wide { grid-column: 1 / -1; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .badge { display: inline-block; padding: 2px 8px; border: 1px solid #333; font-size: 12px; font-weight: 600; }
+      .badge.demo { background: #fff4c2; }
+      .badge.live { background: #d9f7d9; }
+      .pricing { border-left: 4px solid #13783c; padding: 4px 8px; background: #eef8f1; }
+      .error { color: #a40000; font-weight: 600; }
+      .meta { font-size: 12px; color: #555; }
+      table { border-collapse: collapse; width: 100%; font-size: 13px; }
+      th, td { border: 1px solid #bbb; padding: 6px; vertical-align: top; text-align: left; }
+      td ul { margin: 0; padding-left: 16px; }
+      .lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 16px; }
+      pre { background: #f4f4f4; padding: 8px; overflow: auto; max-height: 360px; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>B2B Proposal — dev harness</h1>
+    <p class="meta">POST /api/proposal · noindex · demo mode without ANTHROPIC_API_KEY</p>
+
+    <div class="row">
+      {briefs.map((b) => <button type="button" data-fill={b.id}>Fill sample: {b.id}</button>)}
+    </div>
+
+    <form id="brief">
+      <label>Language
+        <select name="locale">{LOCALES.map((l) => <option value={l}>{l} — {LOCALE_INFO[l].native}</option>)}</select>
+      </label>
+      <label>Agency <input name="agency" maxlength="120" /></label>
+      <label>Market <input name="market" maxlength="80" placeholder="e.g. Italy" /></label>
+      <label>Group size <input name="groupSize" type="number" min={PROPOSAL_GROUP_MIN} max={PROPOSAL_GROUP_MAX} value="20" required /></label>
+      <label>Month
+        <select name="month"><option value="">—</option>{MONTHS.map((m, i) => <option value={String(i + 1)}>{m}</option>)}</select>
+      </label>
+      <label>Season
+        <select name="season"><option value="">—</option>{SEASONS.map((s) => <option value={s}>{s}</option>)}</select>
+      </label>
+      <label>Days <input name="days" type="number" min={PROPOSAL_DAYS_MIN} max={PROPOSAL_DAYS_MAX} value="8" required /></label>
+      <label>Hotel category
+        <select name="hotelCategory">{HOTEL_CATEGORIES.map((h) => <option value={h} selected={h === '4*'}>{h}</option>)}</select>
+      </label>
+      <label>Pace
+        <select name="pace">{PROPOSAL_PACES.map((p) => <option value={p} selected={p === 'balanced'}>{p}</option>)}</select>
+      </label>
+      <fieldset><legend>Countries</legend>
+        {COUNTRY_CODES.map((c) => <label><input type="checkbox" name="countries" value={c} checked={c === 'GE'} /> {c}</label>)}
+      </fieldset>
+      <fieldset class="wide"><legend>Interests</legend>
+        {EXPERIENCE_IDS.map((e) => <label><input type="checkbox" name="interests" value={e} /> {e}</label>)}
+      </fieldset>
+      <label class="wide"><span>Special requests (<span id="count">0</span>/{PROPOSAL_SPECIAL_REQUESTS_MAX})</span>
+        <textarea name="specialRequests" rows="3" maxlength={PROPOSAL_SPECIAL_REQUESTS_MAX}></textarea>
+      </label>
+      <div class="row wide">
+        <button type="submit">Generate proposal</button>
+        <button id="cancel" type="button" disabled>Cancel</button>
+        <span id="status" class="meta"></span>
+      </div>
+    </form>
+
+    <div id="result"></div>
+    <details>
+      <summary>Raw JSON</summary>
+      <pre id="raw"></pre>
+    </details>
+
+    <script is:inline id="sample-briefs" type="application/json" set:html={JSON.stringify(briefs)} />
+
+    <script>
+      import { requestProposal, type ProposalInput, type ProposalOutcome, type ProposalRequest } from '../../../lib/ai/client/proposal';
+      import type { CountryCode, ExperienceId, Locale } from '../../../lib/ai/types';
+
+      const form = document.getElementById('brief') as HTMLFormElement;
+      const statusEl = document.getElementById('status') as HTMLSpanElement;
+      const resultEl = document.getElementById('result') as HTMLDivElement;
+      const rawEl = document.getElementById('raw') as HTMLPreElement;
+      const cancelButton = document.getElementById('cancel') as HTMLButtonElement;
+      const counter = document.getElementById('count') as HTMLSpanElement;
+      const briefs = JSON.parse(document.getElementById('sample-briefs')?.textContent ?? '[]') as { id: string; brief: ProposalInput }[];
+      const field = <T extends Element>(name: string) => form.elements.namedItem(name) as T;
+      let controller: AbortController | null = null;
+
+      const el = (tag: string, text?: string, className?: string) => {
+        const node = document.createElement(tag);
+        if (text !== undefined) node.textContent = text;
+        if (className) node.className = className;
+        return node;
+      };
+      const list = (items: string[]) => {
+        const ul = el('ul');
+        items.forEach((item) => ul.append(el('li', item)));
+        return ul;
+      };
+      const section = (title: string, items: string[]) => {
+        const div = el('div');
+        div.append(el('h3', title), list(items));
+        return div;
+      };
+
+      function fill(brief: ProposalInput) {
+        field<HTMLSelectElement>('locale').value = brief.locale ?? 'en';
+        field<HTMLInputElement>('agency').value = brief.agency ?? '';
+        field<HTMLInputElement>('market').value = brief.market ?? '';
+        field<HTMLInputElement>('groupSize').value = String(brief.groupSize);
+        field<HTMLSelectElement>('month').value = brief.month ? String(brief.month) : '';
+        field<HTMLSelectElement>('season').value = brief.season ?? '';
+        field<HTMLInputElement>('days').value = String(brief.days);
+        field<HTMLSelectElement>('hotelCategory').value = brief.hotelCategory;
+        field<HTMLSelectElement>('pace').value = brief.pace;
+        form.querySelectorAll<HTMLInputElement>('input[name="countries"]').forEach((i) => (i.checked = brief.countries.includes(i.value as CountryCode)));
+        form.querySelectorAll<HTMLInputElement>('input[name="interests"]').forEach((i) => (i.checked = brief.interests.includes(i.value as ExperienceId)));
+        field<HTMLTextAreaElement>('specialRequests').value = brief.specialRequests ?? '';
+        counter.textContent = String(brief.specialRequests?.length ?? 0);
+      }
+
+      function readForm(): ProposalRequest {
+        const data = new FormData(form);
+        const text = (name: string) => String(data.get(name) ?? '').trim();
+        const month = text('month');
+        const season = text('season');
+        return {
+          locale: text('locale') as Locale,
+          ...(text('agency') ? { agency: text('agency') } : {}),
+          ...(text('market') ? { market: text('market') } : {}),
+          groupSize: Number(text('groupSize')),
+          ...(month ? { month: Number(month) } : {}),
+          ...(season ? { season: season as ProposalRequest['season'] } : {}),
+          days: Number(text('days')),
+          countries: data.getAll('countries').map(String) as CountryCode[],
+          interests: data.getAll('interests').map(String) as ExperienceId[],
+          hotelCategory: text('hotelCategory') as ProposalRequest['hotelCategory'],
+          pace: text('pace') as ProposalRequest['pace'],
+          ...(text('specialRequests') ? { specialRequests: text('specialRequests') } : {}),
+        };
+      }
+
+      function render(outcome: ProposalOutcome, ms: number) {
+        resultEl.replaceChildren();
+        rawEl.textContent = JSON.stringify(outcome, null, 2);
+        if (!outcome.ok) {
+          statusEl.textContent = `Failed after ${(ms / 1000).toFixed(1)} s`;
+          resultEl.append(el('p', `Error: ${outcome.error} (HTTP ${outcome.status})${outcome.field ? ` · field ${outcome.field}` : ''}${outcome.message ? ` — ${outcome.message}` : ''}`, 'error'));
+          return;
+        }
+        const { proposal: p, places, pricingNote, sample, mode, locale } = outcome.data;
+        statusEl.textContent = `Done in ${(ms / 1000).toFixed(1)} s`;
+        const head = el('p');
+        head.append(el('span', mode.toUpperCase(), `badge ${mode}`), ` written in: ${locale}`);
+        resultEl.append(head);
+        if (sample) resultEl.append(el('p', sample.notice, 'badge demo'));
+        resultEl.append(el('h2', p.title), el('p', p.subtitle, 'meta'), el('p', p.summary), el('p', pricingNote, 'pricing'));
+        resultEl.append(section('Highlights', p.highlights));
+
+        const table = el('table');
+        const header = el('tr');
+        ['Day', 'Title', 'Places', 'Activities', 'Meals', 'Overnight'].forEach((h) => header.append(el('th', h)));
+        table.append(header);
+        p.days.forEach((d) => {
+          const tr = el('tr');
+          const acts = el('td');
+          acts.append(list(d.activities));
+          tr.append(
+            el('td', String(d.day)),
+            el('td', d.title),
+            el('td', d.placeIds.map((id) => places[id]?.name ?? id).join(' → ')),
+            acts,
+            el('td', d.meals ?? '—'),
+            el('td', d.overnight),
+          );
+          table.append(tr);
+        });
+        resultEl.append(el('h3', 'Day by day'), table);
+
+        const lists = el('div', undefined, 'lists');
+        lists.append(
+          section('Included', p.included),
+          section('Not included', p.notIncluded),
+          section('Sustainability', p.sustainability),
+          section('Next steps', p.nextSteps),
+        );
+        resultEl.append(lists, el('p', p.disclaimer, 'meta'));
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        controller?.abort();
+        controller = new AbortController();
+        cancelButton.disabled = false;
+        resultEl.replaceChildren();
+        const started = performance.now();
+        const tick = setInterval(() => (statusEl.textContent = `Drafting… ${((performance.now() - started) / 1000).toFixed(0)} s`), 250);
+        const outcome = await requestProposal(readForm(), { signal: controller.signal });
+        clearInterval(tick);
+        cancelButton.disabled = true;
+        render(outcome, performance.now() - started);
+        document.body.dataset.state = outcome.ok ? 'done' : 'error';
+      });
+
+      cancelButton.addEventListener('click', () => controller?.abort());
+      field<HTMLTextAreaElement>('specialRequests').addEventListener('input', (e) => {
+        counter.textContent = String((e.target as HTMLTextAreaElement).value.length);
+      });
+      document.querySelectorAll<HTMLButtonElement>('button[data-fill]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const b = briefs.find((x) => x.id === button.dataset.fill);
+          if (b) fill(b.brief);
+        });
+      });
+
+      // Autorun for screenshots: ?sample=<fixture id>&submit=1
+      const params = new URLSearchParams(location.search);
+      const sample = briefs.find((x) => x.id === params.get('sample'));
+      if (sample) fill(sample.brief);
+      if (params.get('submit') === '1') form.requestSubmit();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "meta": {
+    "title": "AI Lab",
+    "description": "Sette esperimenti di ospitalità assistita dall’AI di Local Host: progettista di viaggi, concierge vocale, abbinamento foto, proposte per agenzie, risposte sulle politiche, smistamento delle richieste e connettore AI."
+  },
+  "kicker": "Esperimenti di ospitalità",
+  "title": "Local Host *AI Lab*",
+  "lead": "Qui sperimentiamo come l’AI può aiutarci a ospitare meglio — i viaggiatori che sognano il Caucaso, le agenzie che ce li affidano e il nostro team a Tbilisi. Ogni strumento passa la parola a una persona vera di Local Host.",
+  "note": "Sperimentale. Le risposte sono bozze — ogni dettaglio viene confermato dal nostro team.",
+  "cardsLabel": "Sette esperimenti",
+  "status": {
+    "soon": "In officina",
+    "live": "Provalo",
+    "staff": "Per il nostro team"
+  },
+  "audience": {
+    "travellers": "Viaggiatori",
+    "agencies": "Agenzie",
+    "staff": "Staff",
+    "developers": "Sviluppatori"
+  },
+  "cards": [
+    {
+      "id": "trip-designer",
+      "icon": "sparkle",
+      "audience": "travellers",
+      "title": "Progettista di viaggi",
+      "text": "Scegli paesi, interessi e mese, scrivi due righe — e guarda comparire una bozza di itinerario giorno per giorno, pronta da inviare al nostro team."
+    },
+    {
+      "id": "voice-concierge",
+      "icon": "mic",
+      "audience": "travellers",
+      "title": "Concierge vocale",
+      "text": "Chiedi a voce di stagioni, regioni e tempi di percorrenza e ascolta la risposta nella tua lingua."
+    },
+    {
+      "id": "photo-match",
+      "icon": "image",
+      "audience": "travellers",
+      "title": "Abbinamento foto",
+      "text": "Mostraci un luogo che ami, ovunque nel mondo, e ti suggeriamo dove ritrovare la stessa atmosfera nel Caucaso."
+    },
+    {
+      "id": "proposal-builder",
+      "icon": "pdf",
+      "audience": "agencies",
+      "title": "Proposte per agenzie",
+      "text": "Trasforma il brief di un cliente in una proposta di programma strutturata, che la tua agenzia può adattare e quotare."
+    },
+    {
+      "id": "policy-qa",
+      "icon": "leaf",
+      "audience": "agencies",
+      "title": "Domande sulle politiche",
+      "text": "Fai una domanda sulle nostre politiche di sostenibilità, escursioni e strutture ricettive e ricevi una risposta con la fonte citata."
+    },
+    {
+      "id": "inquiry-triage",
+      "icon": "mail",
+      "audience": "staff",
+      "title": "Smistamento richieste",
+      "text": "Ordina le richieste in arrivo per paese, date e dimensione del gruppo e prepara una prima bozza di risposta che il nostro team verifica."
+    },
+    {
+      "id": "mcp",
+      "icon": "globe",
+      "audience": "developers",
+      "title": "Connettore AI (MCP)",
+      "text": "Un server Model Context Protocol con cui l’assistente AI di un partner può consultare le nostre esperienze, regioni e politiche."
+    }
+  ],
+  "cta": "Torna alla home",
+  "poweredBy": "Realizzato con Claude di Anthropic"
+}

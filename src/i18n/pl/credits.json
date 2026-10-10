@@ -1,0 +1,23 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "meta": {
+    "title": "Autorzy zdjęć",
+    "description": "Autorzy i licencje zdjęć użytych w serwisie localhost.ge."
+  },
+  "kicker": "Kolofon",
+  "title": "Autorzy *zdjęć*",
+  "lead": "Zdjęcia Gruzji pochodzą z kolekcji Local Host, o ile poniżej nie podano inaczej. Zdjęcia na wolnych licencjach wymieniamy wraz z autorami i licencjami.",
+  "siteHeading": "Zdjęcia w serwisie",
+  "aiHeading": "Obrazy w demonstracjach AI",
+  "aiNote": "Używane wyłącznie jako przykładowe dane w demonstracji dopasowania zdjęć — to nie są zdjęcia Gruzji, Armenii ani Azerbejdżanu.",
+  "pending": "Pełna lista autorów jest w przygotowaniu i wkrótce pojawi się tutaj.",
+  "owned": "© Local Host LLC",
+  "labels": {
+    "photo": "Zdjęcie",
+    "author": "Autor",
+    "licence": "Licencja",
+    "source": "Źródło",
+    "changes": "Zmiany"
+  },
+  "back": "Wróć na stronę główną"
+}

@@ -1,0 +1,107 @@
+{
+  "_note": "English is the canonical source. Keys missing in another language fall back to these strings.",
+  "meta": {
+    "siteName": "Local Host",
+    "title": "Local Host · Inbound tour operator for Georgia, Armenia & Azerbaijan",
+    "description": "Local Host is a Tbilisi-based inbound tour operator and DMC. Since 2015 we have designed group tours and tailor-made journeys across Georgia, Armenia and Azerbaijan for travel agencies and tour operators.",
+    "titleTemplate": "{page} · Local Host",
+    "ogImageAlt": "Local Host — Where every guest is a gift. Gergeti Trinity Church below the Kazbegi massif, Georgia."
+  },
+  "skipLink": "Skip to content",
+  "nav": {
+    "caucasus": "Caucasus",
+    "experiences": "Experiences",
+    "hosts": "Hosts",
+    "gettingHere": "Getting here",
+    "meetUs": "Meet us",
+    "sustainability": "Sustainability",
+    "contact": "Contact",
+    "aiLab": "AI Lab",
+    "home": "Home"
+  },
+  "cta": {
+    "planWithAi": "Plan with AI",
+    "groupRequest": "Start a group request",
+    "draftTrip": "Draft a trip with AI",
+    "writeToUs": "Write to us",
+    "backHome": "Back to the home page"
+  },
+  "header": {
+    "homeLabel": "Local Host — home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menuTitle": "Menu"
+  },
+  "lang": {
+    "label": "Language",
+    "current": "current language",
+    "names": {
+      "en": "English",
+      "ka": "Georgian",
+      "pl": "Polish",
+      "it": "Italian",
+      "de": "German"
+    }
+  },
+  "aria": {
+    "mainNav": "Main",
+    "footerNav": "Footer",
+    "languageNav": "Choose a language",
+    "newTab": "opens in a new tab",
+    "pdf": "PDF",
+    "logo": "Local Host",
+    "coordinates": "Coordinates"
+  },
+  "figure": {
+    "label": "Fig."
+  },
+  "contact": {
+    "addressLines": ["A. Bakradze 7", "0159 Tbilisi, Georgia"],
+    "phone": "+995 514 37 44 33",
+    "email": "info@localhost.ge",
+    "web": "www.localhost.ge"
+  },
+  "footer": {
+    "passport": "Passport to the South Caucasus",
+    "tagline": "Inbound tour operator and DMC for Georgia, Armenia and Azerbaijan. Programmes for travel agencies and tour operators since 2015.",
+    "greeting": "მოგესალმებით",
+    "greetingGloss": "“We greet you” — see you in Tbilisi.",
+    "standLabel": "Meet us at the stand",
+    "standText": "Every year we travel to the trade fairs of our partners.",
+    "standLink": "Book a meeting",
+    "contactTitle": "Contact",
+    "exploreTitle": "Explore",
+    "policiesTitle": "Policies",
+    "languagesTitle": "Languages",
+    "addressLabel": "Office",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "photoCredits": "Photo credits",
+    "rights": "© {year} Local Host LLC · Tbilisi, Georgia",
+    "pdfNote": "PDF",
+    "backToTop": "Back to top"
+  },
+  "policies": {
+    "sustainability": "Sustainability Policy",
+    "report": "Sustainability Report",
+    "excursions": "Excursions Policy",
+    "accommodations": "Accommodations Policy",
+    "inbound": "Inbound Partner Agency Policy"
+  },
+  "countries": {
+    "ge": "Georgia",
+    "am": "Armenia",
+    "az": "Azerbaijan"
+  },
+  "placeholder": {
+    "label": "In preparation",
+    "text": "This section is being set in type."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "kicker": "Error 404",
+    "heading": "This road ends *in the mountains.*",
+    "text": "The page you were looking for has moved, or never existed. Let us take you back to the start of the journey.",
+    "home": "Back to the home page"
+  }
+}

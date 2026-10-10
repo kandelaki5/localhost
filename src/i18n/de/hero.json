@@ -1,0 +1,36 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "masthead": {
+    "left": "Incoming-Reiseveranstalter · DMC",
+    "right": "Georgien · Armenien · Aserbaidschan"
+  },
+  "title": {
+    "line1": "Wo jeder Gast",
+    "line2": "ein Geschenk ist."
+  },
+  "proverb": {
+    "text": "სტუმარი ღვთის საჩუქარია",
+    "gloss": "„Ein Gast ist ein Geschenk Gottes.“ Ein georgisches Sprichwort — und die einzige Hausregel, der wir seit 2015 folgen."
+  },
+  "lead": "Local Host ist ein Incoming-Reiseveranstalter mit Sitz in Tiflis. Für Reisebüros und Reiseveranstalter in ganz Europa gestalten wir Gruppenreisen und maßgeschneiderte Touren durch Georgien, Armenien und Aserbaidschan — geführt von unserem eigenen Team vor Ort und geöffnet von Familien, die wir stolz unsere Freunde nennen.",
+  "ctaPrimary": "Gruppenanfrage starten",
+  "ctaAi": "Reise mit KI entwerfen",
+  "factsLabel": "Local Host auf einen Blick",
+  "facts": [
+    { "lead": "Seit", "text": "2015, Tiflis" },
+    { "lead": "3", "text": "Länder, ein Team" },
+    { "lead": "B2B", "text": "für Reisebüros & Veranstalter" },
+    { "lead": "Travelife", "text": "Partner" }
+  ],
+  "photo": {
+    "alt": "Die Dreifaltigkeitskirche von Gergeti, eine Steinkirche mit Glockenturm auf einem grünen Bergrücken unter den steilen Hängen des Kasbek-Massivs",
+    "caption": "Dreifaltigkeitskirche Gergeti, Kasbegi, 2.170 m"
+  },
+  "seal": {
+    "name": "Local Host",
+    "year": "2015",
+    "city": "თბილისი",
+    "ring": "TIFLIS • GEORGIEN • ARMENIEN • ASERBAIDSCHAN •"
+  },
+  "scroll": "Beginnen Sie im Kaukasus"
+}

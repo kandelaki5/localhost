@@ -1,41 +1,37 @@
 /**
  * AI Trip Designer — the shared contract between POST /api/plan and the
- * browser module (`./plan.ts`). BROWSER-SAFE: no SDK, no secrets; imported by
- * the API route too, so request validation and the itinerary format are
- * defined in exactly one place.
+ * browser module (`./plan.ts`). BROWSER-SAFE: no SDK, no secrets; the API
+ * route imports it too, so limits, the itinerary format and its parsers are
+ * defined in exactly one place. (Strict request validation lives in the route,
+ * src/pages/api/plan.ts, built on the http.ts validators.)
  *
- *  - request types + `validatePlanRequest()` (strict, used by the server)
+ *  - request types + limits, `parseMonth()`
  *  - per-locale labels of the Markdown format ("## Day N — …", "Overnight: …")
  *  - the trailing machine-readable route tag `<route>["tbilisi",…]</route>`:
  *    `extractRoute()`, `visiblePlanText()` (hides a half-streamed tag)
  *  - `parsePlan()` → { intro, days[], why[], closing } for designed UIs
  *  - `guessRouteFromPlan()` → provisional place ids while the plan streams
  */
-import { LOCALES, isLocale, normalizeLocale } from '../locales';
 import { PLACES } from '../places';
-import {
-  COUNTRY_CODES,
-  EXPERIENCE_IDS,
-  isPlaceId,
-  type CountryCode,
-  type ExperienceId,
-  type Locale,
-  type PlaceId,
-} from '../types';
+import { isPlaceId, type CountryCode, type ExperienceId, type Locale, type PlaceId } from '../types';
 
 // ---------------------------------------------------------------------------
 // Request contract
 // ---------------------------------------------------------------------------
 
+export const PLAN_ENDPOINT = '/api/plan';
+
 export const PLAN_DAYS_MIN = 3;
 export const PLAN_DAYS_MAX = 21;
 export const PLAN_NOTES_MAX = 1500;
-/** Max follow-up messages (assistant + user turns) after the initial request. */
+/** Max refinement turns (previous plans + change requests) in `history`. */
 export const PLAN_HISTORY_MAX_TURNS = 10;
 /** Max chars of one previous plan sent back in `history` (assistant turn). */
-export const PLAN_HISTORY_ASSISTANT_MAX = 24_000;
-/** Max chars of one refinement request (user turn), same as notes. */
+export const PLAN_HISTORY_ASSISTANT_MAX = 20_000;
+/** Max chars of one change request (user turn), same as notes. */
 export const PLAN_HISTORY_USER_MAX = PLAN_NOTES_MAX;
+/** Max chars of all `history` contents together (keeps refinement prompts affordable). */
+export const PLAN_HISTORY_TOTAL_MAX = 48_000;
 /** Max place ids accepted from a route tag. */
 export const PLAN_ROUTE_MAX = 40;
 
@@ -53,46 +49,29 @@ export interface PlanTurn {
 
 /** Body of POST /api/plan. */
 export interface PlanRequest {
-  /** Answer language; defaults to the Accept-Language header, then English. */
-  locale?: Locale;
+  /** Answer language (en, ka, pl, it, de; "it-IT" etc. accepted). The server falls back to Accept-Language. */
+  locale: Locale;
   /** 1–3 of 'GE' | 'AM' | 'AZ'. */
   countries: CountryCode[];
   /** 0–6 experience ids (empty = "a balanced mix"). */
   interests: ExperienceId[];
   /** Whole number, 3–21. Day 1 = arrival, last day = departure. */
   days: number;
-  /** "1"–"12", "2027-05", an English month name/abbreviation, or "flexible". */
-  month?: string | number;
+  /** "1"–"12", "2027-05", an English month name/abbreviation, or "flexible" (= no preference). */
+  month?: string;
   travellers?: TravellerType;
   pace?: Pace;
   /** Free text, ≤ 1500 chars. */
   notes?: string;
   /**
-   * Follow-up refinements: alternating turns that START with the previous
-   * plan (assistant) and END with the visitor's change request (user), e.g.
+   * Refinements: alternating turns that START with the previous plan
+   * (assistant, the raw text incl. its route tag) and END with the visitor's
+   * change request (user), e.g.
    * [{role:'assistant', content: plan1}, {role:'user', content:'Make day 3 more relaxed'}].
-   * ≤ 10 turns. The original form fields must be sent again unchanged.
+   * ≤ 10 turns, ≤ 48,000 chars in total. Send the original form fields again unchanged.
    */
   history?: PlanTurn[];
 }
-
-/** The validated, normalised request. */
-export interface PlanInput {
-  /** Undefined when the client did not send one (server picks from Accept-Language). */
-  locale: Locale | undefined;
-  countries: CountryCode[];
-  interests: ExperienceId[];
-  days: number;
-  /** 1–12, or undefined for "flexible". */
-  month: number | undefined;
-  year: number | undefined;
-  travellers: TravellerType | undefined;
-  pace: Pace | undefined;
-  notes: string | undefined;
-  history: PlanTurn[];
-}
-
-export type PlanValidation = { ok: true; value: PlanInput } | { ok: false; field: string; message: string };
 
 export const MONTHS_EN = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -126,127 +105,6 @@ export function parseMonth(value: unknown): { month: number; year?: number } | n
     return v === n || (v.length >= 3 && n.startsWith(v.replace(/\.$/, '')));
   });
   return index === -1 ? undefined : { month: index + 1 };
-}
-
-// eslint-disable-next-line no-control-regex
-const CONTROL_CHARS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g;
-
-function cleanText(value: string): string {
-  return value.replace(CONTROL_CHARS, '').replace(/\r\n?/g, '\n').trim();
-}
-
-const fail = (field: string, message: string): PlanValidation => ({ ok: false, field, message });
-
-/**
- * Strict validation of a POST /api/plan body. Unknown fields are ignored;
- * every known field must be well-formed (no silent clamping).
- */
-export function validatePlanRequest(body: unknown): PlanValidation {
-  if (typeof body !== 'object' || body === null || Array.isArray(body)) return fail('body', 'Body must be a JSON object.');
-  const b = body as Record<string, unknown>;
-
-  let locale: Locale | undefined;
-  if (b.locale !== undefined && b.locale !== null && b.locale !== '') {
-    // Accepts "it" and BCP-47 variants such as "it-IT" / "de_AT".
-    const base = typeof b.locale === 'string' ? b.locale.trim().toLowerCase().split(/[-_]/)[0] : undefined;
-    if (!isLocale(base)) return fail('locale', `locale must be one of ${LOCALES.join(', ')}.`);
-    locale = normalizeLocale(base);
-  }
-
-  if (!Array.isArray(b.countries) || b.countries.length === 0) {
-    return fail('countries', `countries must be a non-empty array of ${COUNTRY_CODES.join(', ')}.`);
-  }
-  const countries: CountryCode[] = [];
-  for (const c of b.countries) {
-    if (typeof c !== 'string' || !(COUNTRY_CODES as readonly string[]).includes(c)) {
-      return fail('countries', `Unknown country "${String(c).slice(0, 20)}". Use ${COUNTRY_CODES.join(', ')}.`);
-    }
-    if (!countries.includes(c as CountryCode)) countries.push(c as CountryCode);
-  }
-
-  if (b.interests !== undefined && !Array.isArray(b.interests)) {
-    return fail('interests', `interests must be an array of ${EXPERIENCE_IDS.join(', ')}.`);
-  }
-  const interests: ExperienceId[] = [];
-  for (const i of (b.interests as unknown[] | undefined) ?? []) {
-    if (typeof i !== 'string' || !(EXPERIENCE_IDS as readonly string[]).includes(i)) {
-      return fail('interests', `Unknown interest "${String(i).slice(0, 20)}". Use ${EXPERIENCE_IDS.join(', ')}.`);
-    }
-    if (!interests.includes(i as ExperienceId)) interests.push(i as ExperienceId);
-  }
-
-  const daysRaw = typeof b.days === 'string' && /^\s*\d+\s*$/.test(b.days) ? Number(b.days) : b.days;
-  if (typeof daysRaw !== 'number' || !Number.isInteger(daysRaw) || daysRaw < PLAN_DAYS_MIN || daysRaw > PLAN_DAYS_MAX) {
-    return fail('days', `days must be a whole number from ${PLAN_DAYS_MIN} to ${PLAN_DAYS_MAX}.`);
-  }
-
-  const month = parseMonth(b.month);
-  if (month === undefined) return fail('month', 'month must be 1–12, "YYYY-MM", an English month name, or "flexible".');
-
-  let travellers: TravellerType | undefined;
-  if (b.travellers !== undefined && b.travellers !== null && b.travellers !== '') {
-    if (typeof b.travellers !== 'string' || !(TRAVELLER_TYPES as readonly string[]).includes(b.travellers)) {
-      return fail('travellers', `travellers must be one of ${TRAVELLER_TYPES.join(', ')}.`);
-    }
-    travellers = b.travellers as TravellerType;
-  }
-
-  let pace: Pace | undefined;
-  if (b.pace !== undefined && b.pace !== null && b.pace !== '') {
-    if (typeof b.pace !== 'string' || !(PACES as readonly string[]).includes(b.pace)) {
-      return fail('pace', `pace must be one of ${PACES.join(', ')}.`);
-    }
-    pace = b.pace as Pace;
-  }
-
-  let notes: string | undefined;
-  if (b.notes !== undefined && b.notes !== null) {
-    if (typeof b.notes !== 'string') return fail('notes', 'notes must be a string.');
-    const cleaned = cleanText(b.notes);
-    if (cleaned.length > PLAN_NOTES_MAX) return fail('notes', `notes must be at most ${PLAN_NOTES_MAX} characters.`);
-    notes = cleaned || undefined;
-  }
-
-  const history: PlanTurn[] = [];
-  if (b.history !== undefined && b.history !== null) {
-    if (!Array.isArray(b.history)) return fail('history', 'history must be an array of {role, content}.');
-    if (b.history.length > PLAN_HISTORY_MAX_TURNS) {
-      return fail('history', `history may contain at most ${PLAN_HISTORY_MAX_TURNS} turns.`);
-    }
-    for (let i = 0; i < b.history.length; i++) {
-      const turn = b.history[i] as { role?: unknown; content?: unknown } | null;
-      const expected = i % 2 === 0 ? 'assistant' : 'user';
-      if (typeof turn !== 'object' || turn === null || turn.role !== expected) {
-        return fail('history', `history[${i}].role must be "${expected}" (turns alternate, starting with the previous plan).`);
-      }
-      if (typeof turn.content !== 'string' || !cleanText(turn.content)) {
-        return fail('history', `history[${i}].content must be a non-empty string.`);
-      }
-      const content = cleanText(turn.content);
-      const max = expected === 'assistant' ? PLAN_HISTORY_ASSISTANT_MAX : PLAN_HISTORY_USER_MAX;
-      if (content.length > max) return fail('history', `history[${i}].content must be at most ${max} characters.`);
-      history.push({ role: expected, content });
-    }
-    if (history.length > 0 && history[history.length - 1]?.role !== 'user') {
-      return fail('history', 'history must end with the visitor\'s change request (role "user").');
-    }
-  }
-
-  return {
-    ok: true,
-    value: {
-      locale,
-      countries,
-      interests,
-      days: daysRaw,
-      month: month?.month,
-      year: month?.year,
-      travellers,
-      pace,
-      notes,
-      history,
-    },
-  };
 }
 
 // ---------------------------------------------------------------------------

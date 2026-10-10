@@ -1,0 +1,76 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "meta": {
+    "title": "KI-Labor",
+    "description": "Sieben Experimente von Local Host mit KI-gestützter Gastfreundschaft: Reise-Designer, Sprach-Concierge, Foto-Abgleich, Agenturangebote, Antworten zu Richtlinien, Anfragen-Triage und ein KI-Connector."
+  },
+  "kicker": "Experimente in Gastfreundschaft",
+  "title": "Local Host *KI-Labor*",
+  "lead": "Hier testen wir, wie KI uns helfen kann, noch bessere Gastgeber zu sein — für Reisende, die vom Kaukasus träumen, für die Agenturen, die sie zu uns schicken, und für unser eigenes Team in Tiflis. Jedes Werkzeug übergibt am Ende an einen echten Menschen bei Local Host.",
+  "note": "Experimentell. Antworten sind Entwürfe — jedes Detail bestätigt unser Team.",
+  "cardsLabel": "Sieben Experimente",
+  "status": {
+    "soon": "In der Werkstatt",
+    "live": "Ausprobieren",
+    "staff": "Für unser Team"
+  },
+  "audience": {
+    "travellers": "Reisende",
+    "agencies": "Agenturen",
+    "staff": "Team",
+    "developers": "Entwickler"
+  },
+  "cards": [
+    {
+      "id": "trip-designer",
+      "icon": "sparkle",
+      "audience": "travellers",
+      "title": "Reise-Designer",
+      "text": "Länder, Interessen und Monat wählen, eine Zeile schreiben — und zusehen, wie ein Reiseentwurf Tag für Tag entsteht, bereit für unser Team."
+    },
+    {
+      "id": "voice-concierge",
+      "icon": "mic",
+      "audience": "travellers",
+      "title": "Sprach-Concierge",
+      "text": "Fragen Sie laut nach Reisezeiten, Regionen und Fahrzeiten und hören Sie die Antwort in Ihrer Sprache."
+    },
+    {
+      "id": "photo-match",
+      "icon": "image",
+      "audience": "travellers",
+      "title": "Foto-Abgleich",
+      "text": "Zeigen Sie uns einen Lieblingsort irgendwo auf der Welt — wir schlagen vor, wo sich der Kaukasus ähnlich anfühlt."
+    },
+    {
+      "id": "proposal-builder",
+      "icon": "pdf",
+      "audience": "agencies",
+      "title": "Angebots-Baukasten",
+      "text": "Verwandelt ein Kundenbriefing in einen strukturierten Programmvorschlag, den Ihre Agentur anpassen und kalkulieren kann."
+    },
+    {
+      "id": "policy-qa",
+      "icon": "leaf",
+      "audience": "agencies",
+      "title": "Fragen zu Richtlinien",
+      "text": "Stellen Sie eine Frage zu unseren Richtlinien für Nachhaltigkeit, Ausflüge und Unterkünfte und erhalten Sie eine Antwort mit zitierter Quelle."
+    },
+    {
+      "id": "inquiry-triage",
+      "icon": "mail",
+      "audience": "staff",
+      "title": "Anfragen-Triage",
+      "text": "Sortiert eingehende Anfragen nach Land, Reisedaten und Gruppengröße und entwirft eine erste Antwort, die unser Team prüft."
+    },
+    {
+      "id": "mcp",
+      "icon": "globe",
+      "audience": "developers",
+      "title": "KI-Connector (MCP)",
+      "text": "Ein Model-Context-Protocol-Server, über den der KI-Assistent eines Partners unsere Erlebnisse, Regionen und Richtlinien abfragen kann."
+    }
+  ],
+  "cta": "Zur Startseite",
+  "poweredBy": "Entwickelt mit Claude von Anthropic"
+}

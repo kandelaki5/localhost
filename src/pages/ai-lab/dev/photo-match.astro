@@ -1,0 +1,201 @@
+---
+/**
+ * Dev harness for POST /api/photo-match (noindex, deliberately unstyled).
+ * Try an inspiration photo or upload your own; shows the rendered result and
+ * the raw JSON. Autorun for screenshots: ?run=<inspiration id>&lang=<locale>
+ */
+import { Image } from 'astro:assets';
+import credits from '../../../assets/inspiration/credits.json';
+import tuscany from '../../../assets/inspiration/tuscany-vineyard.jpg';
+import dolomites from '../../../assets/inspiration/dolomites-valley.jpg';
+import cappadocia from '../../../assets/inspiration/cappadocia-valley.jpg';
+import { INSPIRATION_IDS, INSPIRATION_LABELS, type InspirationId } from '../../../lib/ai/client/photo';
+import { LOCALES, LOCALE_INFO } from '../../../lib/ai/locales';
+
+const images: Record<InspirationId, ImageMetadata> = {
+  'tuscany-vineyard': tuscany,
+  'dolomites-valley': dolomites,
+  'cappadocia-valley': cappadocia,
+};
+const samples = INSPIRATION_IDS.map((id) => ({
+  id,
+  image: images[id],
+  label: INSPIRATION_LABELS[id].en,
+  credit: credits.find((c) => c.id === id),
+}));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Photo Match harness</title>
+    <style is:global>
+      body { font: 15px/1.45 system-ui, sans-serif; margin: 16px; max-width: 1100px; color: #1b1b1b; background: #fff; }
+      .samples { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+      .samples figure { margin: 0; border: 1px solid #ccc; padding: 8px; }
+      .samples img { width: 100%; height: 150px; object-fit: cover; display: block; }
+      figcaption { font-size: 12px; color: #555; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+      .badge { display: inline-block; padding: 2px 8px; border: 1px solid #333; font-size: 12px; font-weight: 600; }
+      .badge.demo { background: #fff4c2; }
+      .badge.live { background: #d9f7d9; }
+      .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+      .card { border: 1px solid #999; padding: 10px; }
+      .card h4 { margin: 0 0 4px; }
+      .meta { font-size: 12px; color: #555; }
+      .error { color: #a40000; font-weight: 600; }
+      pre { background: #f4f4f4; padding: 8px; overflow: auto; max-height: 360px; font-size: 12px; }
+      #preview { max-width: 320px; max-height: 200px; display: none; }
+    </style>
+  </head>
+  <body>
+    <h1>Photo Match — dev harness</h1>
+    <p class="meta">POST /api/photo-match · noindex · demo mode without ANTHROPIC_API_KEY</p>
+
+    <div class="row">
+      <label>Language
+        <select id="locale">
+          {LOCALES.map((l) => <option value={l}>{l} — {LOCALE_INFO[l].native}</option>)}
+        </select>
+      </label>
+      <label>Your own photo <input id="file" type="file" accept="image/jpeg,image/png,image/webp,image/*" /></label>
+      <button id="cancel" type="button" disabled>Cancel</button>
+    </div>
+
+    <h2>Inspiration photos</h2>
+    <div class="samples">
+      {
+        samples.map((s) => (
+          <figure>
+            <Image src={s.image} width={480} alt={s.label} />
+            <figcaption>
+              <strong>{s.label}</strong>
+              <br />
+              {s.credit && (
+                <>
+                  “{s.credit.title}” by {s.credit.creator}, <a href={s.credit.licenseUrl}>{s.credit.license}</a>, via{' '}
+                  <a href={s.credit.source}>Wikimedia Commons</a>
+                </>
+              )}
+            </figcaption>
+            <button type="button" data-sample={s.id} data-src={s.image.src}>
+              Match this photo
+            </button>
+          </figure>
+        ))
+      }
+    </div>
+
+    <h2>Result</h2>
+    <img id="preview" alt="Selected photo" />
+    <p id="status" class="meta">Pick a photo.</p>
+    <div id="result"></div>
+    <details>
+      <summary>Raw JSON</summary>
+      <pre id="raw"></pre>
+    </details>
+
+    <script>
+      import { matchInspiration, matchPhoto, isInspirationId, type PhotoMatchOutcome } from '../../../lib/ai/client/photo';
+      import { isLocale } from '../../../lib/ai/locales';
+      import type { Locale } from '../../../lib/ai/types';
+
+      const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+      const localeSelect = $<HTMLSelectElement>('locale');
+      const fileInput = $<HTMLInputElement>('file');
+      const cancelButton = $<HTMLButtonElement>('cancel');
+      const statusEl = $<HTMLParagraphElement>('status');
+      const resultEl = $<HTMLDivElement>('result');
+      const rawEl = $<HTMLPreElement>('raw');
+      const preview = $<HTMLImageElement>('preview');
+      let controller: AbortController | null = null;
+
+      const el = (tag: string, text?: string, className?: string) => {
+        const node = document.createElement(tag);
+        if (text !== undefined) node.textContent = text;
+        if (className) node.className = className;
+        return node;
+      };
+
+      function render(outcome: PhotoMatchOutcome, ms: number) {
+        resultEl.replaceChildren();
+        rawEl.textContent = JSON.stringify(outcome, null, 2);
+        if (!outcome.ok) {
+          statusEl.textContent = `Failed after ${ms} ms`;
+          resultEl.append(el('p', `Error: ${outcome.error} (HTTP ${outcome.status})${outcome.message ? ` — ${outcome.message}` : ''}${outcome.retryAfter ? ` · retry after ${outcome.retryAfter}s` : ''}`, 'error'));
+          return;
+        }
+        const d = outcome.data;
+        statusEl.textContent = `Done in ${ms} ms · sent ${outcome.image.width}×${outcome.image.height} JPEG, ${(outcome.image.bytes / 1024).toFixed(0)} KB`;
+        const head = el('p');
+        head.append(el('span', d.mode.toUpperCase(), `badge ${d.mode}`), ' ', `status: ${d.status} · locale: ${d.locale}`);
+        resultEl.append(head);
+        if (d.sample) resultEl.append(el('p', d.sample.notice, 'badge demo'));
+        if (d.status === 'not_travel') {
+          resultEl.append(el('p', d.whatISee), el('p', d.message ?? '', 'error'));
+          return;
+        }
+        resultEl.append(el('h3', d.mood), el('p', d.whatISee));
+        const cards = el('div', undefined, 'cards');
+        d.matches.forEach((m, i) => {
+          const card = el('article', undefined, 'card');
+          card.append(
+            el('div', `#${i + 1} · ${m.experienceName}`, 'meta'),
+            el('h4', m.title),
+            el('div', `${m.place.name} (${m.place.country}, ${m.place.region}) · id ${m.placeId} · map ${m.place.x},${m.place.y}`, 'meta'),
+            el('p', m.why),
+          );
+          cards.append(card);
+        });
+        resultEl.append(cards, el('p', `Tip: ${d.tip}`));
+      }
+
+      async function run(task: (signal: AbortSignal) => Promise<PhotoMatchOutcome>) {
+        controller?.abort();
+        controller = new AbortController();
+        cancelButton.disabled = false;
+        resultEl.replaceChildren();
+        statusEl.textContent = 'Looking at your photo…';
+        const started = performance.now();
+        const outcome = await task(controller.signal);
+        cancelButton.disabled = true;
+        render(outcome, Math.round(performance.now() - started));
+        document.body.dataset.state = outcome.ok ? 'done' : 'error';
+      }
+
+      const locale = (): Locale => (isLocale(localeSelect.value) ? localeSelect.value : 'en');
+
+      document.querySelectorAll<HTMLButtonElement>('button[data-sample]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const id = button.dataset.sample;
+          const src = button.dataset.src;
+          if (!isInspirationId(id) || !src) return;
+          preview.src = src;
+          preview.style.display = 'block';
+          void run((signal) => matchInspiration(id, src, locale(), { signal }));
+        });
+      });
+
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        void run((signal) => matchPhoto(file, locale(), { signal }));
+      });
+
+      cancelButton.addEventListener('click', () => controller?.abort());
+
+      // Autorun for screenshots: ?run=<inspiration id>&lang=<locale>
+      const params = new URLSearchParams(location.search);
+      const lang = params.get('lang');
+      if (isLocale(lang)) localeSelect.value = lang;
+      const auto = params.get('run');
+      if (isInspirationId(auto)) document.querySelector<HTMLButtonElement>(`button[data-sample="${auto}"]`)?.click();
+    </script>
+  </body>
+</html>

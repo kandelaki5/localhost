@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "title": "AI Lab",
+    "description": "Seven experiments in AI-assisted hospitality from Local Host: a trip designer, a voice concierge, photo matching, agency proposals, policy answers, inquiry triage and an AI connector."
+  },
+  "kicker": "Experiments in hospitality",
+  "title": "Local Host *AI Lab*",
+  "lead": "Where we test how AI can help us host better — for travellers dreaming of the Caucasus, for the agencies who send them, and for our own team in Tbilisi. Every tool hands over to a real person at Local Host.",
+  "note": "Experimental. Answers are drafts — our team confirms every detail.",
+  "cardsLabel": "Seven experiments",
+  "status": {
+    "soon": "In the workshop",
+    "live": "Try it",
+    "staff": "For our team"
+  },
+  "audience": {
+    "travellers": "Travellers",
+    "agencies": "Agencies",
+    "staff": "Staff",
+    "developers": "Developers"
+  },
+  "cards": [
+    {
+      "id": "trip-designer",
+      "icon": "sparkle",
+      "audience": "travellers",
+      "title": "Trip Designer",
+      "text": "Pick countries, interests and a month, write a line — and watch a day-by-day draft itinerary appear, ready to send to our team."
+    },
+    {
+      "id": "voice-concierge",
+      "icon": "mic",
+      "audience": "travellers",
+      "title": "Voice Concierge",
+      "text": "Ask out loud about seasons, regions and travel times, and hear the answer in your language."
+    },
+    {
+      "id": "photo-match",
+      "icon": "image",
+      "audience": "travellers",
+      "title": "Photo Match",
+      "text": "Show us a place you love anywhere in the world, and we suggest where in the Caucasus feels the same."
+    },
+    {
+      "id": "proposal-builder",
+      "icon": "pdf",
+      "audience": "agencies",
+      "title": "Agency Proposal Builder",
+      "text": "Turn a client brief into a structured programme proposal your agency can adapt and quote."
+    },
+    {
+      "id": "policy-qa",
+      "icon": "leaf",
+      "audience": "agencies",
+      "title": "Policy Q&A",
+      "text": "Ask our sustainability, excursions and accommodation policies a question and get an answer with the source quoted."
+    },
+    {
+      "id": "inquiry-triage",
+      "icon": "mail",
+      "audience": "staff",
+      "title": "Inquiry Triage",
+      "text": "Sorts incoming requests by country, dates and group size, and drafts a first reply for our team to check."
+    },
+    {
+      "id": "mcp",
+      "icon": "globe",
+      "audience": "developers",
+      "title": "AI connector (MCP)",
+      "text": "A Model Context Protocol server, so a partner’s own AI assistant can look up our experiences, regions and policies."
+    }
+  ],
+  "cta": "Back to the home page",
+  "poweredBy": "Built with Claude by Anthropic"
+}
