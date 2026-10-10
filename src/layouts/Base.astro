@@ -1,0 +1,166 @@
+---
+/**
+ * Base layout for every page: <html lang>, the full <head> (SEO, hreflang,
+ * Open Graph, Twitter, icons, font preloads, JSON-LD TravelAgency), the skip
+ * link, Header, <main id="main"> and Footer.
+ *
+ *   <Base>…</Base>                                         home page
+ *   <Base title="Photo credits" description="…">…</Base>   other pages
+ *   <Base title="AI Lab" surface="night">…</Base>          night-mode page
+ *   <Base title="Styleguide" noindex>…</Base>
+ */
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+import frauncesLatin from '@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url';
+import dmSansLatin from '@fontsource-variable/dm-sans/files/dm-sans-latin-opsz-normal.woff2?url';
+import notoSerifKa from '@fontsource-variable/noto-serif-georgian/files/noto-serif-georgian-georgian-wght-normal.woff2?url';
+import notoSansKa from '@fontsource-variable/noto-sans-georgian/files/noto-sans-georgian-georgian-wght-normal.woff2?url';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { LOCALES, absoluteUrl, alternateLinks, getLang, localeInfo, stripLang, useStrings } from '../i18n';
+import { fmt, plain } from '../lib/markup';
+import { token } from '../lib/tokens';
+
+interface Props {
+  /** Page title without the site name. Omit on the home page. */
+  title?: string;
+  description?: string;
+  /** Keep out of search engines (styleguide, 404). */
+  noindex?: boolean;
+  /** Path under /public of a 1200×630 image. */
+  ogImage?: string;
+  ogImageAlt?: string;
+  /** Page-level surface. "night" for the AI Lab. */
+  surface?: 'paper' | 'night';
+  /** Extra JSON-LD nodes for this page. */
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { title, description, noindex = false, ogImage = '/og/og-default.png', ogImageAlt, surface = 'paper', jsonLd = [] } =
+  Astro.props;
+
+const lang = getLang(Astro);
+const locale = localeInfo(lang);
+const t = useStrings(lang, 'common');
+
+const pageTitle = title ? fmt(t.meta.titleTemplate, { page: plain(title) }) : t.meta.title;
+const pageDescription = plain(description ?? t.meta.description);
+const path = Astro.url.pathname;
+const canonical = absoluteUrl(path.endsWith('/') || /\.[a-z0-9]+$/i.test(path) ? path : `${path}/`);
+const alternates = alternateLinks(stripLang(path).path);
+const ogImageUrl = absoluteUrl(ogImage);
+const themeColor = token(surface === 'night' ? '--palette-night-900' : '--palette-paper-200');
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'TravelAgency',
+  '@id': 'https://www.localhost.ge/#organization',
+  name: 'Local Host',
+  legalName: 'Local Host LLC',
+  url: 'https://www.localhost.ge/',
+  logo: absoluteUrl('/brand/logo-512.png'),
+  image: ogImageUrl,
+  description: t.meta.description,
+  foundingDate: '2015',
+  email: 'info@localhost.ge',
+  telephone: '+995 514 37 44 33',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'A. Bakradze 7',
+    postalCode: '0159',
+    addressLocality: 'Tbilisi',
+    addressCountry: 'GE',
+  },
+  areaServed: [
+    { '@type': 'Country', name: 'Georgia' },
+    { '@type': 'Country', name: 'Armenia' },
+    { '@type': 'Country', name: 'Azerbaijan' },
+  ],
+  knowsLanguage: LOCALES.map((l) => l.bcp47),
+};
+const ld = [organization, ...jsonLd];
+---
+
+<!doctype html>
+<html lang={locale.bcp47} dir="ltr" class="no-js" data-surface-page={surface}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    {!noindex && alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+
+    <meta name="theme-color" content={themeColor} />
+    <meta name="color-scheme" content={surface === 'night' ? 'dark' : 'light'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+    <!-- Fonts: preload only the critical faces for this language -->
+    {
+      lang === 'ka' ? (
+        <>
+          <link rel="preload" href={notoSerifKa} as="font" type="font/woff2" crossorigin />
+          <link rel="preload" href={notoSansKa} as="font" type="font/woff2" crossorigin />
+        </>
+      ) : (
+        <>
+          <link rel="preload" href={frauncesLatin} as="font" type="font/woff2" crossorigin />
+          <link rel="preload" href={dmSansLatin} as="font" type="font/woff2" crossorigin />
+        </>
+      )
+    }
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.meta.siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale.ogLocale} />
+    {LOCALES.filter((l) => l.code !== lang).map((l) => <meta property="og:locale:alternate" content={l.ogLocale} />)}
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt ?? t.meta.ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt ?? t.meta.ogImageAlt} />
+
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(ld.length === 1 ? ld[0] : ld)} />
+    <slot name="head" />
+  </head>
+  <body data-surface={surface === 'night' ? 'night' : undefined}>
+    <a class="skip-link" href="#main">{t.skipLink}</a>
+    <Header surface={surface} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    display: block;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  body[data-surface='night'] {
+    background: var(--gradient-night);
+    background-attachment: fixed;
+  }
+</style>

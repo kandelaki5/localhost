@@ -1,0 +1,522 @@
+---
+/**
+ * Passport-cover footer (Stamp graft): Forest, foil accents, a faint
+ * guilloche, the reversed logo, a "Meet us at the stand" strip of fair
+ * stamps, contact, explore links, policy PDFs, photo credits and languages.
+ */
+import Logo from './ui/Logo.astro';
+import Icon from './ui/Icon.astro';
+import Seal from './ui/Seal.astro';
+import LangSwitch from './ui/LangSwitch.astro';
+import { NAV } from '../lib/sections';
+import { fmt } from '../lib/markup';
+import { getLang, localeInfo, localizePath, useStrings } from '../i18n';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'common');
+const home = localizePath('/', lang);
+const year = new Date().getFullYear();
+
+// The six fairs from the owner's template. Dates come from the researched
+// src/data/fairs.json when it is present (glob, so its absence never breaks).
+interface FairData {
+  id: string;
+  name: string;
+  city: string;
+  month?: string;
+  nextEdition?: { start: string; end: string } | null;
+}
+const fairFiles = import.meta.glob<{ default: FairData[] }>('/src/data/fairs.json', { eager: true });
+const fairData = Object.values(fairFiles)[0]?.default ?? [];
+const FAIRS = [
+  { id: 'bit-milano', name: 'BIT', city: 'Milano' },
+  { id: 'bmt-napoli', name: 'BMT', city: 'Napoli' },
+  { id: 'itb-berlin', name: 'ITB', city: 'Berlin' },
+  { id: 'tour-salon', name: 'Tour Salon', city: 'Poznań' },
+  { id: 'ttg-rimini', name: 'TTG', city: 'Rimini' },
+  { id: 'tt-warsaw', name: 'TT', city: 'Warsaw' },
+].map((f) => {
+  const data = fairData.find((d) => d.id === f.id);
+  const start = data?.nextEdition?.start ? new Date(`${data.nextEdition.start}T12:00:00Z`) : null;
+  const when =
+    start && start.getTime() > Date.now()
+      ? new Intl.DateTimeFormat(localeInfo(lang).bcp47, { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(start)
+      : '';
+  return { ...f, when: when.replace('.', '') };
+});
+
+const POLICIES = [
+  { key: 'sustainability', file: 'sustainability.pdf' },
+  { key: 'report', file: 'report.pdf' },
+  { key: 'excursions', file: 'excursions.pdf' },
+  { key: 'accommodations', file: 'accomodations.pdf' },
+  { key: 'inbound', file: 'inbound.pdf' },
+] as const;
+
+// Guilloche: two families of rotated, modulated ellipses (a passport's
+// security engraving), generated once at build time.
+function rosette(cx: number, cy: number, r: number, amp: number, lobes: number, turns: number, phase: number) {
+  const pts: string[] = [];
+  for (let i = 0; i <= 720; i++) {
+    const a = (i / 720) * Math.PI * 2;
+    const rr = r + amp * Math.sin(lobes * a + phase);
+    pts.push(`${(cx + rr * Math.cos(a * turns)).toFixed(1)},${(cy + rr * Math.sin(a * turns)).toFixed(1)}`);
+  }
+  return `M${pts.join('L')}Z`;
+}
+const guilloche = [
+  ...Array.from({ length: 9 }, (_, i) => rosette(180, 520, 120 + i * 34, 16 + i * 1.5, 18, 1, i * 0.35)),
+  ...Array.from({ length: 9 }, (_, i) => rosette(1300, -40, 110 + i * 36, 14 + i * 1.5, 22, 1, i * 0.3)),
+];
+const tel = t.contact.phone.replace(/\s+/g, '');
+---
+
+<footer class="site-footer" data-surface="forest">
+  <svg class="site-footer__guilloche" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    {guilloche.map((d) => <path d={d} />)}
+  </svg>
+
+  <div class="container site-footer__inner">
+    <!-- Meet us at the stand -->
+    <div class="stand">
+      <div class="stand__text">
+        <p class="kicker stand__kicker">{t.footer.standLabel}</p>
+        <p class="stand__lead">{t.footer.standText}</p>
+        <a class="stand__link" href={`${home}#meet-us`}>
+          {t.footer.standLink}
+          <Icon name="arrow-right" size={16} />
+        </a>
+      </div>
+      <ul class="stand__fairs" role="list">
+        {
+          FAIRS.map((f, i) => (
+            <li class:list={['fair', `fair--${i % 3}`]} style={`--r:${[-2, 1.5, -1, 2, -1.5, 1][i]}deg`}>
+              <span class="fair__name">{f.name}</span>
+              <span class="fair__city">{f.city}</span>
+              {f.when && <span class="fair__when">{f.when}</span>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a href={home} class="site-footer__logo-link" aria-label={t.header.homeLabel}>
+          <Logo variant="horizontal" tone="reverse" decorative class="site-footer__logo" />
+        </a>
+        <p class="site-footer__passport kicker">{t.footer.passport}</p>
+        <p class="site-footer__tagline">{t.footer.tagline}</p>
+        <p class="site-footer__greeting">
+          <span lang="ka">{t.footer.greeting}</span>
+          <span class="site-footer__gloss">{t.footer.greetingGloss}</span>
+        </p>
+      </div>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__title kicker">{t.footer.contactTitle}</h2>
+        <address class="site-footer__contact">
+          <p class="site-footer__address">
+            <Icon name="pin" size={18} class="site-footer__pin" />
+            <span>
+              {t.contact.addressLines[0]}<br />{t.contact.addressLines[1]}
+            </span>
+          </p>
+          <a class="site-footer__big" href={`mailto:${t.contact.email}`}>{t.contact.email}</a>
+          <a class="site-footer__big" href={`tel:${tel}`}>{t.contact.phone}</a>
+          <a class="site-footer__web" href="https://www.localhost.ge">{t.contact.web}</a>
+        </address>
+      </div>
+
+      <nav class="site-footer__col" aria-label={t.aria.footerNav}>
+        <h2 class="site-footer__title kicker">{t.footer.exploreTitle}</h2>
+        <ul class="site-footer__links" role="list">
+          {
+            NAV.map((item) => (
+              <li>
+                <a href={`${home}#${item.target}`}>{t.nav[item.key]}</a>
+              </li>
+            ))
+          }
+          <li>
+            <a href={`${home}#plan`}>{t.cta.planWithAi}</a>
+          </li>
+          <li>
+            <a href={localizePath('/ai-lab/', lang)}>{t.nav.aiLab}</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__title kicker">{t.footer.policiesTitle}</h2>
+        <ul class="site-footer__docs" role="list">
+          {
+            POLICIES.map((p) => (
+              <li>
+                <a href={`/assets/policies/${p.file}`} type="application/pdf">
+                  <span>{t.policies[p.key]}</span>
+                  <span class="site-footer__pdf">
+                    <Icon name="pdf" size={14} />
+                    {t.footer.pdfNote}
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <Seal
+      class="site-footer__emblem"
+      tone="foil"
+      ring="GEORGIA • ARMENIA • AZERBAIJAN • LOCAL HOST •"
+      rotate={0}
+      size="13rem"
+      inked={false}
+    >
+      <Logo variant="icon" tone="mono" decorative />
+    </Seal>
+
+    <div class="site-footer__bar">
+      <p>{fmt(t.footer.rights, { year })}</p>
+      <a href={localizePath('/credits/', lang)}>{t.footer.photoCredits}</a>
+      <LangSwitch variant="list" class="site-footer__langs" />
+      <a class="site-footer__top" href="#top">
+        {t.footer.backToTop}
+        <Icon name="arrow-up" size={14} />
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    padding-block: var(--space-section) var(--space-l);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .site-footer__guilloche {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-below);
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--color-foil);
+    stroke-width: 0.6;
+    opacity: var(--opacity-guilloche);
+    pointer-events: none;
+  }
+
+  .site-footer__inner {
+    position: relative;
+  }
+
+  .site-footer a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: var(--color-link-hover);
+  }
+
+  /* ── stand strip ── */
+  .stand {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-xl);
+    align-items: center;
+    padding-bottom: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+  }
+
+  .stand__kicker {
+    color: var(--color-foil);
+  }
+
+  .stand__lead {
+    margin-top: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: var(--lh-heading);
+    color: var(--color-text);
+    max-width: 26ch;
+  }
+
+  .stand__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    margin-top: var(--space-s);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-foil) !important;
+  }
+
+  .stand__fairs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-s) var(--space-m);
+    margin: 0;
+  }
+
+  .fair {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 6.5rem;
+    padding: 0.55rem 0.85rem;
+    border: var(--border-thick) solid currentColor;
+    color: var(--color-foil);
+    transform: rotate(var(--r));
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .fair--0 {
+    border-radius: var(--radius-pill);
+  }
+
+  .fair--1 {
+    border-style: double;
+    border-width: 4px;
+    color: var(--color-text);
+  }
+
+  .fair--2 {
+    border-radius: var(--radius-sm);
+    color: var(--color-green-ink);
+  }
+
+  .fair__name {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.08em;
+    line-height: 1.1;
+  }
+
+  .fair__when {
+    margin-top: 0.25rem;
+    padding-top: 0.2rem;
+    border-top: var(--border-hair) solid currentColor;
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.08em;
+  }
+
+  .fair__city {
+    margin-top: 0.2rem;
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.18em;
+    opacity: 0.85;
+  }
+
+  /* ── grid ── */
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1.05fr);
+    gap: var(--space-xl) clamp(1.5rem, 3vw, 3.5rem);
+  }
+
+  .site-footer__logo-link {
+    display: inline-block;
+  }
+
+  .site-footer :global(.site-footer__logo) {
+    --logo-h: 3rem;
+  }
+
+  .site-footer__passport {
+    margin-top: var(--space-m);
+    color: var(--color-foil);
+  }
+
+  .site-footer__tagline {
+    margin-top: var(--space-xs);
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+    max-width: 36ch;
+  }
+
+  .site-footer__greeting {
+    display: grid;
+    gap: var(--space-3xs);
+    margin-top: var(--space-m);
+  }
+
+  .site-footer__greeting [lang='ka'] {
+    font-family: var(--font-ka-display);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-ka-display);
+    color: var(--color-foil);
+  }
+
+  .site-footer__gloss {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text-muted);
+  }
+
+  .site-footer__title {
+    margin-bottom: var(--space-s);
+    padding-bottom: var(--space-2xs);
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    color: var(--color-foil);
+  }
+
+  .site-footer__contact {
+    display: grid;
+    gap: var(--space-2xs);
+    justify-items: start;
+  }
+
+  .site-footer__address {
+    display: flex;
+    gap: var(--space-2xs);
+    margin-bottom: var(--space-2xs);
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
+  }
+
+  .site-footer :global(.site-footer__pin) {
+    margin-top: 0.15rem;
+    color: var(--color-foil);
+  }
+
+  .site-footer__big {
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1.25;
+    color: var(--color-text) !important;
+    border-bottom: var(--border-hair) solid transparent;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-footer__big:hover {
+    border-color: var(--color-foil);
+  }
+
+  .site-footer__web {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted) !important;
+  }
+
+  .site-footer__links,
+  .site-footer__docs {
+    display: grid;
+    gap: var(--space-2xs);
+    margin: 0;
+    font-size: var(--fs-sm);
+  }
+
+  .site-footer__docs a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-s);
+  }
+
+  .site-footer__pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex: none;
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .site-footer :global(.site-footer__emblem) {
+    position: absolute;
+    right: -1.5rem;
+    top: -3.5rem;
+    opacity: var(--opacity-watermark);
+    pointer-events: none;
+  }
+
+  /* ── bottom bar ── */
+  .site-footer__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-l);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-m);
+    border-top: var(--border-hair) solid var(--color-rule);
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .site-footer__bar > p {
+    margin-right: auto;
+  }
+
+  .site-footer__bar a {
+    color: var(--color-text-body) !important;
+  }
+
+  .site-footer__bar a:hover {
+    color: var(--color-foil) !important;
+  }
+
+  .site-footer :global(.site-footer__langs .langs__link) {
+    font-size: var(--fs-xs);
+  }
+
+  .site-footer__top {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  @media (max-width: 63.99em) {
+    .stand {
+      grid-template-columns: 1fr;
+      gap: var(--space-l);
+    }
+
+    .stand__fairs {
+      justify-content: flex-start;
+    }
+
+    .site-footer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 39.99em) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .fair {
+      min-width: 0;
+      flex: 1 1 28%;
+    }
+
+    .site-footer__bar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
