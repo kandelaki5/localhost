@@ -44,8 +44,9 @@ const {
   newTabLabel = 'opens in a new tab',
   class: className,
   href,
+  type: buttonType,
   ...rest
-} = Astro.props as Common & { href?: string; type?: string } & Record<string, unknown>;
+} = Astro.props as Common & { href?: string; type?: 'button' | 'submit' | 'reset' } & Record<string, unknown>;
 
 const startIcon: IconName | undefined = iconStart ?? (variant === 'ai' ? 'sparkle' : undefined);
 const classes = ['btn', `btn--${variant}`, `btn--${size}`, full && 'btn--full', className];
@@ -68,7 +69,7 @@ const iconSize = size === 'sm' ? 16 : 18;
       {external && <span class="visually-hidden">({newTabLabel})</span>}
     </a>
   ) : (
-    <button class:list={classes} type={(rest.type as 'button' | 'submit' | 'reset' | undefined) ?? 'button'} {...rest}>
+    <button class:list={classes} type={buttonType ?? 'button'} {...rest}>
       {startIcon && <Icon name={startIcon} size={iconSize} tone={startIcon === 'sparkle' ? 'sun' : 'current'} class="btn__icon" />}
       <span class="btn__label">
         <slot />
