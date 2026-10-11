@@ -15,18 +15,27 @@
  * Without JS the rail still works as plain links and the pill stays hidden.
  */
 import Icon from './ui/Icon.astro';
-import { SECTIONS, latinNumber } from '../lib/sections';
+import { SECTIONS, latinNumber, sectionsForNav } from '../lib/sections';
 import { getLang, useStrings } from '../i18n';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'common');
 const labels: Record<string, string> = t.toc.sections;
-const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
-  id: s.id,
-  no: latinNumber(s.number),
-  label: labels[s.id] ?? s.id,
-  night: s.surface === 'night',
-}));
+// Sections that share one main-menu item carry that item's name as their
+// group ("Getting here · Airlines"), so the navigator and the menu agree.
+const items = SECTIONS.filter((s) => s.number > 0).map((s) => {
+  const label = labels[s.id] ?? s.id;
+  const groupName = s.nav && sectionsForNav(s.nav).length > 1 ? t.nav[s.nav] : null;
+  const group = groupName && groupName !== label ? groupName : null;
+  return {
+    id: s.id,
+    no: latinNumber(s.number),
+    label,
+    group,
+    railLabel: group ? `${group} · ${label}` : label,
+    night: s.surface === 'night',
+  };
+});
 ---
 
 <div class="toc" data-toc>
@@ -40,7 +49,7 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
         items.map((it) => (
           <li>
             <a class="toc-rail__link" href={`#${it.id}`} data-toc-link={it.id} data-night={it.night ? '' : undefined}>
-              <span class="toc-rail__label">{it.label}</span>
+              <span class="toc-rail__label">{it.railLabel}</span>
               <span class="toc-rail__no" aria-hidden="true">
                 {it.no}
               </span>
@@ -89,7 +98,15 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
                 <span class="toc-sheet__no" aria-hidden="true">
                   {it.no}
                 </span>
-                <span class="toc-sheet__label">{it.label}</span>
+                <span class="toc-sheet__text">
+                  {it.group && (
+                    <span class="toc-sheet__group">
+                      {it.group}
+                      <span class="visually-hidden">:</span>
+                    </span>
+                  )}
+                  <span class="toc-sheet__label">{it.label}</span>
+                </span>
               </a>
             </li>
           ))
@@ -215,26 +232,56 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
     color: var(--color-text-muted);
   }
 
-  /* Expanded on hover / keyboard focus: a labelled contents list. */
-  .toc-rail:is(:hover, :focus-within) {
+  /* Hover / keyboard focus. Where the page margin is too narrow for a full
+     list (below 111em ≈ 1776px), only the pointed-at item shows its label, as
+     a tag beside its tick, out of flow: the rail stays 38px wide and never
+     covers the content column. */
+  .toc-rail__link {
+    position: relative;
+  }
+
+  .toc-rail__link:is(:hover, :focus-visible) .toc-rail__label {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 0.4rem);
+    max-width: 22rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
     background: var(--color-bg);
-    box-shadow: var(--shadow-md);
-  }
-
-  .toc-rail:is(:hover, :focus-within) .toc-rail__label {
-    max-width: 16rem;
-    margin-right: 0.6rem;
+    box-shadow: var(--shadow-sm);
+    color: var(--color-text);
     opacity: 1;
+    translate: 0 -50%;
   }
 
-  .toc-rail:is(:hover, :focus-within) .toc-rail__no {
-    max-width: 3ch;
-    margin-right: 0.5rem;
-    opacity: 1;
-  }
+  /* Wide screens: the margin holds the full labelled list. */
+  @media (min-width: 111em) {
+    .toc-rail:is(:hover, :focus-within) {
+      background: var(--color-bg);
+      box-shadow: var(--shadow-md);
+    }
 
-  .toc-rail:is(:hover, :focus-within) .toc-rail__link--top .toc-rail__label {
-    margin-right: 0.35rem;
+    .toc-rail:is(:hover, :focus-within) .toc-rail__label,
+    .toc-rail .toc-rail__link:is(:hover, :focus-visible) .toc-rail__label {
+      position: static;
+      max-width: 22rem;
+      margin-right: 0.6rem;
+      padding: 0;
+      background: none;
+      box-shadow: none;
+      opacity: 1;
+      translate: none;
+    }
+
+    .toc-rail:is(:hover, :focus-within) .toc-rail__no {
+      max-width: 3ch;
+      margin-right: 0.5rem;
+      opacity: 1;
+    }
+
+    .toc-rail:is(:hover, :focus-within) .toc-rail__link--top .toc-rail__label {
+      margin-right: 0.35rem;
+    }
   }
 
   .toc-rail__link:hover,
@@ -368,8 +415,10 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
     background: color-mix(in srgb, var(--color-bg) 84%, transparent);
   }
 
-  .toc-rail[data-surface]:is(:hover, :focus-within) {
-    background: var(--color-bg);
+  @media (min-width: 111em) {
+    .toc-rail[data-surface]:is(:hover, :focus-within) {
+      background: var(--color-bg);
+    }
   }
 
   .toc-pill[data-surface] {
@@ -495,6 +544,19 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
     font-weight: var(--fw-display-sm);
     font-variation-settings: var(--fvs-heading);
     line-height: 1.2;
+  }
+
+  .toc-sheet__text {
+    display: grid;
+  }
+
+  /* The main-menu group a section belongs to ("Getting here", "Meet us" …). */
+  .toc-sheet__group {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
   }
 
   .toc-sheet__link[aria-current] .toc-sheet__label::after {

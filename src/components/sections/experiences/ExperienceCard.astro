@@ -352,7 +352,9 @@ const places = placeNames(card, lang);
     align-items: center;
     gap: var(--space-2xs);
     min-height: 2.75rem;
-    margin-top: var(--space-s);
+    /* pushed to the card's foot: the actions of a row share one line */
+    margin-top: auto;
+    padding-top: var(--space-s);
     border-top: var(--border-hair) solid var(--color-rule);
     font-size: var(--fs-2xs);
     font-weight: var(--fw-semibold);

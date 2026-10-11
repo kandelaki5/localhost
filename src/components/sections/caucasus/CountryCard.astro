@@ -320,6 +320,28 @@ const sizes =
     }
   }
 
+  /* Desktop: the three plates stretch to one height and each action sits at
+     its card's foot, so "Plan a trip here" lines up across the row (photos
+     and names keep their stagger). */
+  @media (min-width: 64em) {
+    .ccard {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ccard__lower,
+    .ccard__body {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+    }
+
+    .ccard__cta {
+      align-self: flex-start;
+      margin-top: auto;
+    }
+  }
+
   /* ── locator (desktop): a window beside the text column that opens as the
      plate widens; nothing in it affects layout. ── */
   .ccard__lower {

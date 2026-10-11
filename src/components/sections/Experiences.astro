@@ -75,6 +75,16 @@ const total = String(EXPERIENCE_CARDS.length).padStart(2, '0');
 </script>
 
 <style>
+  /* Desktop: keep the right-edge lane free for the section rail, so the
+     peeking card never sits under it (the last card still scrolls fully into
+     the content column). */
+  @media (min-width: 75em) {
+    .exp-track {
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 3rem), transparent calc(100% - 3rem));
+      mask-image: linear-gradient(90deg, #000 calc(100% - 3rem), transparent calc(100% - 3rem));
+    }
+  }
+
   /* ── controls (in the section head, under the intro) ── */
   .exp-ctrl {
     display: flex;
@@ -173,7 +183,8 @@ const total = String(EXPERIENCE_CARDS.length).padStart(2, '0');
     --exp-card: 84%;
     position: relative;
     display: flex;
-    align-items: flex-start;
+    /* Equal-height cards, so each card's action can sit on one shared line. */
+    align-items: stretch;
     gap: var(--exp-gap);
     margin: 0;
     /* Room for the hover lift, the focus ring and the stamp shadows. */

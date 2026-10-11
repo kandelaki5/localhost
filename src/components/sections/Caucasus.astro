@@ -86,6 +86,13 @@ const hours = (h: number | [number, number]) =>
 </section>
 
 <style>
+  /* Long translations (de) wrap the notes button instead of overflowing. */
+  .caucasus__notes :global(.btn) {
+    max-width: 100%;
+    white-space: normal;
+    text-align: start;
+  }
+
   /* ── triptych ── */
   .caucasus__triptych {
     display: grid;
@@ -122,7 +129,7 @@ const hours = (h: number | [number, number]) =>
       --lead: 1.6;
       container-type: inline-size;
       display: flex;
-      align-items: flex-start;
+      align-items: stretch;
       gap: var(--layout-gap);
     }
 

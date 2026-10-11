@@ -267,8 +267,8 @@ const items = NAV.map((item) => ({
     display: grid;
   }
 
-  /* Compact header: below 75em for short-nav languages, below 85em for the
-     languages with longer labels (pl, de, ka). */
+  /* Compact header: below 75em for short-nav languages; Georgian keeps it to
+     85em, Polish and German to 77.5em (their menus fit from about 1240px). */
   @media (max-width: 74.99em) {
     .site-nav,
     .site-header :global(.site-header__langs) {
@@ -285,16 +285,31 @@ const items = NAV.map((item) => ({
   }
 
   @media (min-width: 75em) and (max-width: 84.99em) {
-    :global(:root:is(:lang(pl), :lang(de), :lang(ka))) .site-nav,
-    :global(:root:is(:lang(pl), :lang(de), :lang(ka))) .site-header :global(.site-header__langs) {
+    :global(:root:is(:lang(ka))) .site-nav,
+    :global(:root:is(:lang(ka))) .site-header :global(.site-header__langs) {
       display: none;
     }
 
-    :global(:root:is(:lang(pl), :lang(de), :lang(ka))) .site-header__burger {
+    :global(:root:is(:lang(ka))) .site-header__burger {
       display: grid;
     }
 
-    :global(:root:is(:lang(pl), :lang(de), :lang(ka))) .site-header :global(.site-header__cta) {
+    :global(:root:is(:lang(ka))) .site-header :global(.site-header__cta) {
+      margin-left: auto;
+    }
+  }
+
+  @media (min-width: 75em) and (max-width: 77.49em) {
+    :global(:root:is(:lang(pl), :lang(de))) .site-nav,
+    :global(:root:is(:lang(pl), :lang(de))) .site-header :global(.site-header__langs) {
+      display: none;
+    }
+
+    :global(:root:is(:lang(pl), :lang(de))) .site-header__burger {
+      display: grid;
+    }
+
+    :global(:root:is(:lang(pl), :lang(de))) .site-header :global(.site-header__cta) {
       margin-left: auto;
     }
   }

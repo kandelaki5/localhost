@@ -221,6 +221,12 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.no
     color: var(--color-amber);
   }
 
+  @media (min-width: 64em) {
+    .plan__demo {
+      max-width: calc((100% - clamp(1.5rem, 1rem + 2.2vw, 3.5rem)) / 2);
+    }
+  }
+
   @media (max-width: 39.99em) {
     .plan__demo {
       flex-direction: column;
