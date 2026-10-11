@@ -3,14 +3,14 @@
   "kicker": "Segregacja zapytań",
   "title": "Posegreguj skrzynkę *przed kawą.*",
   "intro": "Wystarczy wkleić e-mail od partnera: Claude przeczyta go w dowolnym języku, skieruje do właściwego działu, wyodrębni dane o podróży, wypisze, czego brakuje, i przygotuje szkic odpowiedzi w języku nadawcy do sprawdzenia przez nasz zespół.",
-  "staffLabel": "Narzędzie wewnętrzne — demo",
+  "staffLabel": "Narzędzie wewnętrzne — demo",
   "staffNote": "Zbudowane dla zespołu Local Host. Prawdziwe e-maile zawierają dane osobowe, dlatego wersja na żywo wymaga klucza dostępu.",
   "inbox": {
     "title": "Wypróbuj przykładowy e-mail",
     "samples": {
-      "it-wine-group": "Włoskie biuro podróży — 9-dniowa wycieczka winiarska, 30 osób",
-      "pl-family-hiking": "Polska rodzina — wędrówki po Gruzji i Armenii",
-      "de-transfer-complaint": "Niemieckie biuro podróży — reklamacja spóźnionego transferu"
+      "it-wine-group": "Włoskie biuro podróży — 9-dniowa wycieczka winiarska, 30 osób",
+      "pl-family-hiking": "Polska rodzina — wędrówki po Gruzji i Armenii",
+      "de-transfer-complaint": "Niemieckie biuro podróży — reklamacja spóźnionego transferu"
     }
   },
   "form": {
@@ -45,7 +45,7 @@
     "summary": "Podsumowanie",
     "extracted": "Wyodrębnione dane",
     "missing": "Brakujące informacje",
-    "nothingMissing": "Niczego nie brakuje — gotowe dla działu.",
+    "nothingMissing": "Niczego nie brakuje — gotowe dla działu.",
     "reply": "Szkic odpowiedzi",
     "replyIn": "— {language}",
     "subject": "Temat",
@@ -92,8 +92,8 @@
     "Management": "Zarząd"
   },
   "sample": {
-    "exact": "Przykładowy e-mail — przygotowany wynik.",
-    "other": "Demo — to przygotowany wynik podobnego przykładu („{label}”). Po podłączeniu AI Claude posegreguje dokładnie ten e-mail.",
+    "exact": "Przykładowy e-mail — przygotowany wynik.",
+    "other": "Demo — to przygotowany wynik podobnego przykładu („{label}”). Po podłączeniu AI Claude posegreguje dokładnie ten e-mail.",
     "englishNote": "Notatki demo są po angielsku."
   }
 }

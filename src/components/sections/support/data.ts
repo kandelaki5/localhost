@@ -24,6 +24,3 @@ export const COMMITMENTS: readonly CommitmentStyle[] = [
   { glyph: 'work', tone: 'ink', rotate: 1.5 },
   { glyph: 'children', tone: 'green', rotate: -1 },
 ];
-
-/** Empty slots for partner projects (the owner's template has five). */
-export const PROJECT_SLOTS = 5;

@@ -2,7 +2,7 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Dopasowanie zdjęć",
   "title": "Pokaż nam *ulubione miejsce.*",
-  "intro": "Winnica w Toskanii, dolina w Dolomitach, niezapomniane wybrzeże — wystarczy przesłać zdjęcie, a Claude znajdzie na Kaukazie Południowym miejsca o tym samym klimacie.",
+  "intro": "Winnica w Toskanii, dolina w Dolomitach, niezapomniane wybrzeże — wystarczy przesłać zdjęcie, a Claude znajdzie na Kaukazie Południowym miejsca o tym samym klimacie.",
   "upload": {
     "title": "Państwa zdjęcie",
     "drop": "Upuść zdjęcie tutaj",
@@ -20,7 +20,7 @@
   "screen": {
     "label": "Wizjer",
     "idle": "Czekamy na zdjęcie",
-    "idleHint": "Po wybraniu zdjęcia — własnego lub jednego z naszych — wynik pojawi się tutaj.",
+    "idleHint": "Po wybraniu zdjęcia — własnego lub jednego z naszych — wynik pojawi się tutaj.",
     "working": "Oglądamy zdjęcie…",
     "steps": [
       "Czytamy światło i krajobraz",

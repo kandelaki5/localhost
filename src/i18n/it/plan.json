@@ -81,7 +81,7 @@
     "demoBadge": "Demo",
     "demoStampTop": "Itinerario di esempio",
     "demoStampMain": "Demo",
-    "demoStampLabel": "Itinerario di esempio — demo",
+    "demoStampLabel": "Itinerario di esempio — demo",
     "demoNotice": "Modalità demo: il progettista AI non è ancora collegato, quindi vedete un esempio già pronto, non un piano scritto per voi. Potete comunque inviare le vostre scelte al nostro team.",
     "rateLimited": "Attendete circa {minutes} min prima di riprovare."
   },
@@ -120,7 +120,7 @@
     "steps": [
       {
         "title": "Scegliete i francobolli",
-        "text": "Paesi, esperienze, durata e ritmo — e due righe su chi viaggia."
+        "text": "Paesi, esperienze, durata e ritmo — e due righe su chi viaggia."
       },
       {
         "title": "Guardate nascere la bozza",

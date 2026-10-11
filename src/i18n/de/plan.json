@@ -2,7 +2,7 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "Mit KI planen",
   "title": "Ihr Reiseentwurf *in einer Minute.*",
-  "intro": "Wählen Sie Länder und Interessen, schreiben Sie uns ein paar Zeilen – und unser KI-Reiseplaner skizziert einen ersten Reiseverlauf, Tag für Tag. Daraus macht unser Team in Tiflis dann eine echte Reise.",
+  "intro": "Wählen Sie Länder und Interessen, schreiben Sie uns ein paar Zeilen – und unser KI-Reiseplaner skizziert einen ersten Reiseverlauf, Tag für Tag. Daraus macht unser Team in Tiflis dann eine echte Reise.",
   "running": "KI-Reiseplaner",
   "form": {
     "label": "Reisedokument",
@@ -81,7 +81,7 @@
     "demoBadge": "Demo",
     "demoStampTop": "Beispielreise",
     "demoStampMain": "Demo",
-    "demoStampLabel": "Beispielreise – Demo",
+    "demoStampLabel": "Beispielreise – Demo",
     "demoNotice": "Demo-Modus: Der KI-Reiseplaner ist noch nicht angebunden. Sie sehen deshalb ein fertiges Beispiel, keinen eigens für Sie geschriebenen Plan. Ihre Auswahl können Sie trotzdem an unser Team senden.",
     "rateLimited": "Bitte warten Sie etwa {minutes} Min. bis zum nächsten Versuch."
   },
@@ -120,11 +120,11 @@
     "steps": [
       {
         "title": "Marken wählen",
-        "text": "Länder, Erlebnisse, Dauer und Tempo – und ein paar Zeilen dazu, wer reist."
+        "text": "Länder, Erlebnisse, Dauer und Tempo – und ein paar Zeilen dazu, wer reist."
       },
       {
         "title": "Den Entwurf entstehen sehen",
-        "text": "Unser KI-Reiseplaner schreibt einen Reiseverlauf Tag für Tag und zeichnet die Route ein – mit den Orten und Erlebnissen, mit denen wir arbeiten."
+        "text": "Unser KI-Reiseplaner schreibt einen Reiseverlauf Tag für Tag und zeichnet die Route ein – mit den Orten und Erlebnissen, mit denen wir arbeiten."
       },
       {
         "title": "Nach Tiflis schicken",

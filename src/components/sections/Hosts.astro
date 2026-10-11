@@ -6,7 +6,7 @@
  * like the editorial mock), a margin note on the photographs, then "Doors we
  * keep coming back to": the policy's statement on local families and the four
  * other hosts as duotone entries. Monogram seals with Georgian initials stand
- * in for portraits; every photo is a place photograph, labelled as such.
+ * in for portraits; every photo is a place photograph, as the margin note says.
  *
  * Facts come only from docs/BRIEF.md, docs/DESIGN.md and docs/research
  * (Sisatura, Leila, Samvel). Vacheishvili Family, Aluda and Maia get warm
@@ -52,7 +52,6 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
         variant="wide"
         host={sisatura}
         copy={t.hosts.sisatura}
-        label={`${t.photo.label} · ${t.photo.portraits}`}
         quoteSource={t.quoteSource}
         factsTitle={t.factsTitle}
         sizes="(min-width: 64em) 56vw, 100vw"
@@ -64,7 +63,6 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
         variant="tall"
         host={leila}
         copy={t.hosts.leila}
-        label={t.photo.label}
         quoteSource={t.quoteSource}
         sizes="(min-width: 64em) 32vw, (min-width: 40em) 48vw, 100vw"
         tilt={TILTS[1]}
@@ -87,8 +85,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
               <HostEntry
                 host={host}
                 copy={t.hosts[host.id as 'vacheishvili' | 'samvel' | 'aluda' | 'maia']}
-                label={t.photo.label}
-                quoteSource={t.quoteSource}
+                        quoteSource={t.quoteSource}
                 index={i}
                 tilt={TILTS[(i + featured.length) % TILTS.length]}
               />

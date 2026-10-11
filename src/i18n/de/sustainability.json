@@ -2,12 +2,12 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
   "kicker": "Nachhaltigkeit",
   "title": "Gute Gastgeber *pflegen ihr Haus.*",
-  "intro": "Wir arbeiten nach den Travelife-Kriterien für Reiseveranstalter und Reisebüros, mit einem geschulten Nachhaltigkeitskoordinator im Team – und wir bitten jeden Partner, diese Standards mitzutragen.",
+  "intro": "Wir arbeiten nach den Travelife-Kriterien für Reiseveranstalter und Reisebüros, mit einem geschulten Nachhaltigkeitskoordinator im Team – und wir bitten jeden Partner, diese Standards mitzutragen.",
   "running": "Travelife Partner",
   "recognition": {
     "kicker": "Unabhängige Anerkennung",
     "badgeLabel": "Travelife Partner: unseren Eintrag im öffentlichen Travelife-Register prüfen",
-    "statement": "**Travelife Partner** – unabhängig bewertet nach den Travelife-Partner-Kriterien für Reiseveranstalter und Reisebüros (anerkannt seit November 2025).",
+    "statement": "**Travelife Partner** – unabhängig bewertet nach den Travelife-Partner-Kriterien für Reiseveranstalter und Reisebüros (anerkannt seit November 2025).",
     "explain": "Partner ist die erste von zwei Anerkennungsstufen bei Travelife: eine unabhängige Bewertung unseres Nachhaltigkeitsmanagements anhand von rund 60 Pflichtkriterien, die alle zwei Jahre erneuert wird.",
     "register": "Im öffentlichen Travelife-Register prüfen"
   },
@@ -59,7 +59,7 @@
       },
       {
         "title": "Nahverkehr und Homeoffice",
-        "text": "Wir erstatten allen Mitarbeitenden das Jahresticket für den öffentlichen Nahverkehr. Alle können einen Tag pro Woche im Homeoffice arbeiten – und einen zweiten, wenn sie im Büro nicht gebraucht werden.",
+        "text": "Wir erstatten allen Mitarbeitenden das Jahresticket für den öffentlichen Nahverkehr. Alle können einen Tag pro Woche im Homeoffice arbeiten – und einen zweiten, wenn sie im Büro nicht gebraucht werden.",
         "source": "Nachhaltigkeitsrichtlinie"
       },
       {
@@ -74,7 +74,7 @@
       },
       {
         "title": "Null Toleranz bei Kinderausbeutung",
-        "text": "Null Toleranz für die Ausbeutung von Kindern, Zwangsarbeit und Menschenhandel – in unserer eigenen Arbeit und in jeder Partnerschaft.",
+        "text": "Null Toleranz für die Ausbeutung von Kindern, Zwangsarbeit und Menschenhandel – in unserer eigenen Arbeit und in jeder Partnerschaft.",
         "source": "Nachhaltigkeitsrichtlinie"
       }
     ],

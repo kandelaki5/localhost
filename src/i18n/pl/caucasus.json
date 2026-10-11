@@ -2,12 +2,12 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Kaukaz",
   "title": "Trzy kraje. *Jeden gospodarz.*",
-  "intro": "Gruzja to nasz dom, a Armenia i Azerbejdżan — najbliżsi sąsiedzi. Jeden zespół w Tbilisi przygotowuje i realizuje programy we wszystkich trzech krajach — w każdym z osobna albo połączone w jedną podróż, z przekraczaniem granic zorganizowanym przez nas.",
+  "intro": "Gruzja to nasz dom, a Armenia i Azerbejdżan — najbliżsi sąsiedzi. Jeden zespół w Tbilisi przygotowuje i realizuje programy we wszystkich trzech krajach — w każdym z osobna albo połączone w jedną podróż, z przekraczaniem granic zorganizowanym przez nas.",
   "running": "Gruzja · Armenia · Azerbejdżan",
   "countries": [
     {
       "tag": "Dom · Tbilisi",
-      "summary": "Nasz dom: mały kraj o ogromnej różnorodności — od wysokiego Kaukazu po Morze Czarne i winne doliny Kachetii.",
+      "summary": "Nasz dom: mały kraj o ogromnej różnorodności — od wysokiego Kaukazu po Morze Czarne i winne doliny Kachetii.",
       "highlights": [
         "Tbilisi, Mccheta i droga do Kazbegi",
         "Winna Kachetia i piwnice z kwewri",
@@ -20,7 +20,7 @@
     },
     {
       "tag": "Po sąsiedzku · Erywań",
-      "summary": "Górzysty kraj klasztorów, wulkanicznego tufu i widoków na Ararat, z tętniącą życiem stolicą — Erywaniem.",
+      "summary": "Górzysty kraj klasztorów, wulkanicznego tufu i widoków na Ararat, z tętniącą życiem stolicą — Erywaniem.",
       "highlights": [
         "Erywań, świątynia Garni i Geghard",
         "Chor Wirap naprzeciw Araratu",
@@ -77,7 +77,7 @@
   "aside": {
     "kicker": "Z Tbilisi",
     "title": "Dwa morza, *trzy stolice.*",
-    "text": "Tbilisi leży między Morzem Czarnym a Kaspijskim, z Erywaniem na południu i Baku na wschodzie. Gdy program łączy dwa lub trzy kraje, nasz zespół organizuje transfery, harmonogram i przekraczanie granic — dzięki temu Państwa grupa podróżuje według jednego planu, a nad całością czuwa jeden zespół.",
+    "text": "Tbilisi leży między Morzem Czarnym a Kaspijskim, z Erywaniem na południu i Baku na wschodzie. Gdy program łączy dwa lub trzy kraje, nasz zespół organizuje transfery, harmonogram i przekraczanie granic — dzięki temu Państwa grupa podróżuje według jednego planu, a nad całością czuwa jeden zespół.",
     "timesLabel": "Orientacyjny czas jazdy",
     "hours": "ok. {h} godz.",
     "border": "z odprawą graniczną",

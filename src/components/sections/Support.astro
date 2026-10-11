@@ -3,14 +3,13 @@
  * 10 · We Support (#support) — rendered as "What we stand behind": five
  * commitments from Local Host's own policies, each an ink seal with a
  * pictogram and a short line. No partner projects are verified yet, so the
- * template's five project slots are shown empty with "Partner projects will
- * be announced here." Research suggestions live only in docs/CONTENT-TODO.md.
+ * template's project slots close as one quiet line, "Partner projects will be
+ * announced here." Research suggestions live only in docs/CONTENT-TODO.md.
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Seal from '../ui/Seal.astro';
-import Stamp from '../ui/Stamp.astro';
 import Glyph from './support/Glyph.astro';
-import { COMMITMENTS, PROJECT_SLOTS } from './support/data';
+import { COMMITMENTS } from './support/data';
 import { contentLang, getLang, useStrings } from '../../i18n';
 import { georgianNumeral } from '../../lib/sections';
 
@@ -19,7 +18,6 @@ const t = useStrings(lang, 'support');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'support') === lang ? undefined : 'en';
 const items = t.items.map((item, i) => ({ ...item, ...COMMITMENTS[i], n: i + 1 }));
-const slots = Array.from({ length: PROJECT_SLOTS }, (_, i) => i);
 ---
 
 <section lang={textLang} id="support" class="section sup" aria-labelledby="support-title">
@@ -49,18 +47,10 @@ const slots = Array.from({ length: PROJECT_SLOTS }, (_, i) => i);
       }
     </ol>
 
-    <div class="sup__projects">
-      <div class="sup__slots" aria-hidden="true">
-        {
-          slots.map((i) => (
-            <Stamp class="sup__slot" shadow={false} rotate={i % 2 ? 1 : -1}>
-              <span class="sup__slot-face" />
-            </Stamp>
-          ))
-        }
-      </div>
-      <p class="sup__projects-line">{t.projects.text}</p>
-    </div>
+    <p class="sup__projects">
+      <span class="sup__projects-mark" aria-hidden="true"></span>
+      <span class="sup__projects-line">{t.projects.text}</span>
+    </p>
   </div>
 </section>
 
@@ -152,6 +142,14 @@ const slots = Array.from({ length: PROJECT_SLOTS }, (_, i) => i);
     font-size: var(--fs-md);
   }
 
+  /* desktop: five columns share one text baseline even when a title runs to
+     two lines ("Local families and hosts") */
+  @media (min-width: 64em) {
+    .sup__title {
+      min-height: 2lh;
+    }
+  }
+
   .sup__text {
     margin-top: var(--space-2xs);
     font-size: var(--fs-sm);
@@ -160,48 +158,38 @@ const slots = Array.from({ length: PROJECT_SLOTS }, (_, i) => i);
     max-width: 34ch;
   }
 
-  /* ── partner projects (reserved) ── */
+  /* ── partner projects (reserved): one quiet closing line ── */
   .sup__projects {
     display: flex;
-    align-items: center;
-    gap: var(--space-l);
+    align-items: baseline;
+    gap: var(--space-xs);
     margin-top: var(--space-2xl);
-    padding-top: var(--space-m);
-    border-top: var(--border-hair) dashed var(--color-rule-strong);
+    padding-top: var(--space-s);
+    border-top: var(--border-hair) solid var(--color-rule);
   }
 
-  .sup__slots {
-    display: flex;
-    gap: var(--space-2xs);
+  /* the sun mark, as in the logo */
+  .sup__projects-mark {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: var(--radius-round);
+    background: var(--color-accent);
     flex: none;
-  }
-
-  .sup__projects :global(.sup__slot) {
-    --stamp-perf: 3px;
-    --stamp-pad: 4px;
-    opacity: 0.85;
-  }
-
-  .sup__slot-face {
-    display: block;
-    width: 1.75rem;
-    height: 2.25rem;
-    border: var(--border-hair) dashed var(--color-rule-strong);
+    transform: translateY(-0.15em);
   }
 
   .sup__projects-line {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: var(--fs-lg);
-    font-weight: var(--fw-display-sm);
-    font-variation-settings: var(--fvs-heading);
-    color: var(--color-text);
+    font-size: var(--fs-sm);
+    font-variation-settings: var(--fvs-caption);
+    color: var(--color-text-muted);
   }
 
   .sup__projects-line:lang(ka) {
-    font-family: var(--font-ka-display);
+    font-family: var(--font-ka-text);
     font-style: normal;
-    font-size: var(--fs-md);
+    font-weight: var(--fw-ka-text);
   }
 
   /* ── landing (motion allowed, once) ── */
@@ -268,9 +256,6 @@ const slots = Array.from({ length: PROJECT_SLOTS }, (_, i) => i);
     }
 
     .sup__projects {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-s);
       margin-top: var(--space-xl);
     }
   }

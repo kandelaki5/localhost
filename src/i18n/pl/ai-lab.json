@@ -7,8 +7,8 @@
   "hero": {
     "kicker": "Local Host · Laboratorium AI",
     "title": "Local Host *Laboratorium AI*",
-    "lead": "Sześć działających eksperymentów z zakresu gościnności wspieranej przez AI — a na końcu każdej odpowiedzi czeka prawdziwy człowiek w Tbilisi.",
-    "note": "Wersja eksperymentalna. Odpowiedzi to szkice — każdy szczegół potwierdza nasz zespół.",
+    "lead": "Sześć działających eksperymentów z zakresu gościnności wspieranej przez AI — a na końcu każdej odpowiedzi czeka prawdziwy człowiek w Tbilisi.",
+    "note": "Wersja eksperymentalna. Odpowiedzi to szkice — każdy szczegół potwierdza nasz zespół.",
     "cta": "Zacznij od zdjęcia",
     "back": "Wróć na stronę główną"
   },
@@ -23,8 +23,8 @@
     "mode": "Tryb",
     "demo": "Demo",
     "live": "Na żywo",
-    "demoNote": "Tryb demo — przykładowe odpowiedzi, dopóki klucz AI nie zostanie podłączony.",
-    "liveNote": "Na żywo — Claude pisze każdą odpowiedź do konkretnego zapytania.",
+    "demoNote": "Tryb demo — przykładowe odpowiedzi, dopóki klucz AI nie zostanie podłączony.",
+    "liveNote": "Na żywo — Claude pisze każdą odpowiedź do konkretnego zapytania.",
     "index": "Eksperymenty",
     "ready": "Gotowe",
     "staff": "Zespół"
@@ -38,20 +38,20 @@
   "teaser": {
     "kicker": "Planer podróży i głos",
     "title": "Zaplanuj podróż *na głos.*",
-    "intro": "Nasze flagowe narzędzie znajduje się na stronie głównej. Wystarczy wybrać kraje i zainteresowania, napisać — albo powiedzieć — kilka słów, a na mapie powstanie szkic programu dzień po dniu.",
+    "intro": "Nasze flagowe narzędzie znajduje się na stronie głównej. Wystarczy wybrać kraje i zainteresowania, napisać — albo powiedzieć — kilka słów, a na mapie powstanie szkic programu dzień po dniu.",
     "points": [
-      "Szkic programu dzień po dniu — w Państwa języku",
+      "Szkic programu dzień po dniu — w Państwa języku",
       "Życzenia można podyktować, a plan odsłuchać",
       "Szkic trafia do naszego zespołu jednym kliknięciem"
     ],
     "cta": "Otwórz planer",
-    "mapCaption": "Przykładowa trasa — Tbilisi, Mccheta, Ananuri, Kazbegi, Signagi i Telawi.",
+    "mapCaption": "Przykładowa trasa — Tbilisi, Mccheta, Ananuri, Kazbegi, Signagi i Telawi.",
     "voiceNote": "Funkcja głosowa działa w przeglądarkach obsługujących rozpoznawanie mowy; nagranie przetwarza usługa mowy przeglądarki.",
     "days": [
-      "Dzień 1 — Tbilisi",
-      "Dzień 2 — Mccheta i Ananuri",
-      "Dzień 3 — Kazbegi",
-      "Dzień 4 — Signagi i Telawi"
+      "Dzień 1 — Tbilisi",
+      "Dzień 2 — Mccheta i Ananuri",
+      "Dzień 3 — Kazbegi",
+      "Dzień 4 — Signagi i Telawi"
     ],
     "ticket": "Szkic programu"
   },
@@ -79,21 +79,21 @@
     "contact": "Pytania o Laboratorium AI? Zapraszamy do kontaktu:"
   },
   "ui": {
-    "demoBadge": "Demo — przykładowa odpowiedź",
-    "liveBadge": "Na żywo — napisał Claude",
+    "demoBadge": "Demo — przykładowa odpowiedź",
+    "liveBadge": "Na żywo — napisał Claude",
     "cancel": "Anuluj",
     "cancelled": "Anulowano.",
     "elapsed": "{s} s",
     "noScript": "Aby wypróbować ten eksperyment, należy włączyć JavaScript.",
     "copied": "Skopiowano",
-    "copyFailed": "Nie udało się skopiować — prosimy zaznaczyć tekst ręcznie.",
+    "copyFailed": "Nie udało się skopiować — prosimy zaznaczyć tekst ręcznie.",
     "newTab": "otwiera się w nowej karcie"
   },
   "errors": {
     "network": "Nie udało się połączyć z usługą AI. Prosimy sprawdzić połączenie i spróbować ponownie.",
     "rateLimited": "Za dużo zapytań w krótkim czasie. Ponowna próba będzie możliwa za {time}.",
     "rateLimitedNow": "Można już spróbować ponownie.",
-    "dailyCap": "Laboratorium AI osiągnęło dzisiejszy limit. Prosimy spróbować jutro — albo napisać na adres info@localhost.ge.",
+    "dailyCap": "Laboratorium AI osiągnęło dzisiejszy limit. Prosimy spróbować jutro — albo napisać na adres info@localhost.ge.",
     "refusal": "AI nie może pomóc w tej sprawie. Prosimy sformułować pytanie inaczej albo napisać do naszego zespołu na adres info@localhost.ge.",
     "truncated": "Odpowiedź okazała się za długa i została ucięta. Prosimy spróbować prostszego zapytania.",
     "timeout": "Trwało to zbyt długo. Prosimy spróbować krótszego zapytania.",

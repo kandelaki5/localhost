@@ -2,7 +2,7 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Kreator propozycji dla biur podróży",
   "title": "Od briefu klienta *do szkicu programu.*",
-  "intro": "Wystarczy opisać grupę, a Claude przygotuje propozycję programu — dzień po dniu, z miejscami, świadczeniami i uwagami dotyczącymi zrównoważonego rozwoju — gotową do wyceny przez nasz zespół.",
+  "intro": "Wystarczy opisać grupę, a Claude przygotuje propozycję programu — dzień po dniu, z miejscami, świadczeniami i uwagami dotyczącymi zrównoważonego rozwoju — gotową do wyceny przez nasz zespół.",
   "form": {
     "title": "Brief",
     "samples": "Wczytaj przykładowy brief",
@@ -65,7 +65,7 @@
   },
   "empty": {
     "title": "Tu pojawi się propozycja programu",
-    "text": "Wystarczy wypełnić brief — albo wczytać przykład — i kliknąć „Przygotuj propozycję”."
+    "text": "Wystarczy wypełnić brief — albo wczytać przykład — i kliknąć „Przygotuj propozycję”."
   },
   "progress": {
     "title": "Przygotowujemy propozycję",

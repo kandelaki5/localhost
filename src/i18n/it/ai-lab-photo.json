@@ -2,7 +2,7 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Abbinamento foto",
   "title": "Mostrateci un luogo *che amate.*",
-  "intro": "Un vigneto in Toscana, una valle nelle Dolomiti, una costa che non riuscite a dimenticare — condividete una foto e Claude troverà i luoghi del Caucaso meridionale dove si respira la stessa atmosfera.",
+  "intro": "Un vigneto in Toscana, una valle nelle Dolomiti, una costa che non riuscite a dimenticare — condividete una foto e Claude troverà i luoghi del Caucaso meridionale dove si respira la stessa atmosfera.",
   "upload": {
     "title": "La vostra foto",
     "drop": "Trascina qui una foto",
@@ -20,7 +20,7 @@
   "screen": {
     "label": "Mirino",
     "idle": "In attesa di una foto",
-    "idleHint": "Scegliete una foto, vostra o nostra — il risultato apparirà qui.",
+    "idleHint": "Scegliete una foto, vostra o nostra — il risultato apparirà qui.",
     "working": "Stiamo osservando la vostra foto…",
     "steps": [
       "Leggiamo la luce e il paesaggio",

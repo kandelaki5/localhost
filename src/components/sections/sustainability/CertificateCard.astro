@@ -1,16 +1,18 @@
 ---
 /**
- * The template's "certificate screen", designed as a document card: a
- * double-ruled sheet with the certificate preview, the register facts and a
- * link to verify them. Until the owner sends the certificate image
- * (CERTIFICATE_IMAGE in ./data.ts), the preview is a quiet wireframe of a
- * certificate with a small "certificate image to come" note — clearly a
- * placeholder, never a fake document.
+ * The template's "certificate screen", designed as a document card: the
+ * register facts (holder, level, first approved, valid until) typeset on a
+ * double-ruled sheet with a link to verify them in the public register.
+ * Until the owner sends the certificate scan (CERTIFICATE_IMAGE in ./data.ts)
+ * the facts carry the card on their own, with a typeset green seal; once the
+ * scan lands it is shown above them and the seal steps aside. Never an
+ * imitation of Travelife's own certificate or logo.
  */
 import { Picture } from 'astro:assets';
 import Icon from '../../ui/Icon.astro';
 import { getLang, useStrings } from '../../../i18n';
-import { CERTIFICATE_IMAGE, TRAVELIFE, TRAVELIFE_REGISTER_URL } from './data';
+import Seal from '../../ui/Seal.astro';
+import { CERTIFICATE_IMAGE, TRAVELIFE, TRAVELIFE_BADGE, TRAVELIFE_REGISTER_URL } from './data';
 import { formatDate } from './format';
 
 interface Props {
@@ -29,15 +31,15 @@ const valid = formatDate(TRAVELIFE.validUntil, lang);
 const span = `${TRAVELIFE.firstApproval.slice(0, 4)}–${TRAVELIFE.validUntil.slice(0, 4)}`;
 ---
 
-<article class:list={['cert', className]} aria-labelledby={headingId}>
+<article class:list={['cert', className, !CERTIFICATE_IMAGE && 'cert--typeset']} aria-labelledby={headingId}>
   <header class="cert__head">
     <h4 id={headingId} class="cert__kicker kicker">{c.kicker}</h4>
     <span class="cert__span" aria-hidden="true">{span}</span>
   </header>
 
-  <div class="cert__sheet">
-    {
-      CERTIFICATE_IMAGE ? (
+  {
+    CERTIFICATE_IMAGE ? (
+      <div class="cert__sheet">
         <Picture
           src={CERTIFICATE_IMAGE}
           alt={c.imageAlt}
@@ -46,50 +48,41 @@ const span = `${TRAVELIFE.firstApproval.slice(0, 4)}–${TRAVELIFE.validUntil.sl
           sizes="(min-width: 64em) 30vw, 90vw"
           class="cert__img"
         />
-      ) : (
-        <div class="cert__wire" aria-hidden="true">
-          <span class="cert__wire-frame">
-            <span class="cert__bar cert__bar--xs" />
-            <span class="cert__bar cert__bar--title" />
-            <span class="cert__bar cert__bar--s" />
-            <span class="cert__bar cert__bar--m" />
-            <span class="cert__bar cert__bar--s" />
-            <span class="cert__wire-foot">
-              <span class="cert__sign" />
-              <span class="cert__ring" />
-            </span>
-          </span>
-        </div>
-      )
-    }
+      </div>
+    ) : null
+  }
+
+  <div class="cert__doc">
+    <dl class="cert__facts">
+      <div class="cert__row cert__row--holder">
+        <dt>{c.holderLabel}</dt>
+        <dd>{c.holder}</dd>
+      </div>
+      <div class="cert__row cert__row--level">
+        <dt>{c.levelLabel}</dt>
+        <dd>{c.level}</dd>
+      </div>
+      <div class="cert__row cert__row--date">
+        <dt>{c.firstLabel}</dt>
+        <dd><time datetime={TRAVELIFE.firstApproval}>{first}</time></dd>
+      </div>
+      <div class="cert__row cert__row--date">
+        <dt>{c.validLabel}</dt>
+        <dd><time datetime={TRAVELIFE.validUntil}>{valid}</time></dd>
+      </div>
+    </dl>
     {
       !CERTIFICATE_IMAGE && (
-        <p class="cert__pending">
-          <Icon name="image" size={14} />
-          {c.pending}
-        </p>
+        <Seal
+          tone="green"
+          ring={`${TRAVELIFE_BADGE.name.toUpperCase()} · ${TRAVELIFE_BADGE.level.toUpperCase()} • ${span} • `}
+          main={TRAVELIFE.firstApproval.slice(0, 4)}
+          rotate={-2}
+          class="cert__seal"
+        />
       )
     }
   </div>
-
-  <dl class="cert__facts">
-    <div class="cert__row">
-      <dt>{c.holderLabel}</dt>
-      <dd>{c.holder}</dd>
-    </div>
-    <div class="cert__row">
-      <dt>{c.levelLabel}</dt>
-      <dd>{c.level}</dd>
-    </div>
-    <div class="cert__row">
-      <dt>{c.firstLabel}</dt>
-      <dd><time datetime={TRAVELIFE.firstApproval}>{first}</time></dd>
-    </div>
-    <div class="cert__row">
-      <dt>{c.validLabel}</dt>
-      <dd><time datetime={TRAVELIFE.validUntil}>{valid}</time></dd>
-    </div>
-  </dl>
 
   <footer class="cert__foot">
     <span class="cert__scope">{c.scope}</span>
@@ -134,7 +127,7 @@ const span = `${TRAVELIFE.firstApproval.slice(0, 4)}–${TRAVELIFE.validUntil.sl
     color: var(--color-text-muted);
   }
 
-  /* ── preview sheet ── */
+  /* ── certificate scan (once the owner sends it) ── */
   .cert__sheet {
     position: relative;
     aspect-ratio: 1.414 / 1;
@@ -148,100 +141,19 @@ const span = `${TRAVELIFE.firstApproval.slice(0, 4)}–${TRAVELIFE.validUntil.sl
     object-fit: contain;
   }
 
-  .cert__wire {
-    position: absolute;
-    inset: 9% 11% 18%;
-    display: flex;
-    background: var(--color-bg-raised);
-    box-shadow: var(--shadow-xs);
-    padding: 4%;
+  /* ── the typeset certificate ── */
+  .cert__doc {
+    position: relative;
   }
 
-  .cert__wire-frame {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 7%;
-    padding: 6% 10%;
-    border: var(--border-hair) solid var(--color-rule);
+  .cert--typeset .cert__doc {
+    padding: var(--space-m) var(--space-m) var(--space-s);
+    background: var(--color-bg);
+    border: var(--border-hair) solid var(--color-rule-strong);
     outline: var(--border-hair) solid var(--color-rule);
     outline-offset: calc(-1 * var(--space-3xs));
   }
 
-  .cert__bar {
-    display: block;
-    height: 0.3rem;
-    border-radius: var(--radius-pill);
-    background: var(--color-rule);
-  }
-
-  .cert__bar--xs {
-    width: 22%;
-  }
-
-  .cert__bar--title {
-    width: 58%;
-    height: 0.6rem;
-    background: var(--color-rule-strong);
-    opacity: 0.55;
-  }
-
-  .cert__bar--s {
-    width: 44%;
-  }
-
-  .cert__bar--m {
-    width: 66%;
-  }
-
-  .cert__wire-foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 2%;
-  }
-
-  .cert__sign {
-    width: 30%;
-    border-top: var(--border-hair) solid var(--color-rule-strong);
-    opacity: 0.6;
-  }
-
-  .cert__ring {
-    width: 2.25rem;
-    aspect-ratio: 1;
-    border-radius: var(--radius-round);
-    border: var(--border-hair) dashed var(--color-rule-strong);
-    opacity: 0.7;
-  }
-
-  .cert__pending {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 5%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2xs);
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--fs-xs);
-    font-variation-settings: var(--fvs-caption);
-    color: var(--color-text-muted);
-    text-align: center;
-  }
-
-  .cert__pending:lang(ka) {
-    font-family: var(--font-ka-text);
-    font-style: normal;
-    font-weight: var(--fw-ka-text);
-  }
-
-  /* ── facts ── */
   .cert__facts {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -277,6 +189,67 @@ const span = `${TRAVELIFE.firstApproval.slice(0, 4)}–${TRAVELIFE.validUntil.sl
     font-weight: var(--fw-medium);
     line-height: 1.35;
     color: var(--color-text);
+  }
+
+  /* typeset: holder and level set like the title lines of a certificate */
+  .cert--typeset .cert__facts {
+    padding-inline: 0;
+  }
+
+  .cert--typeset .cert__row--holder,
+  .cert--typeset .cert__row--level {
+    grid-column: 1 / -1;
+    border-top: 0;
+  }
+
+  .cert--typeset .cert__row--holder {
+    padding-top: 0;
+    /* room for the seal in the top-right corner */
+    padding-right: 6.5rem;
+  }
+
+  .cert--typeset .cert__row--holder dd {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .cert--typeset .cert__row--level {
+    padding-top: 0;
+    padding-bottom: var(--space-s);
+  }
+
+  .cert--typeset .cert__row--level dd {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-accent);
+    line-height: 1.15;
+    color: var(--color-emphasis);
+  }
+
+  .cert--typeset .cert__row--level dd:lang(ka),
+  .cert--typeset .cert__row--holder dd:lang(ka) {
+    font-style: normal;
+  }
+
+  .cert--typeset .cert__row--date dd {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-mono);
+  }
+
+  .cert :global(.cert__seal) {
+    --seal-size: 6rem;
+    position: absolute;
+    top: calc(-1 * var(--space-xs));
+    right: calc(-1 * var(--space-2xs));
   }
 
   /* ── foot ── */
@@ -329,7 +302,7 @@ const span = `${TRAVELIFE.firstApproval.slice(0, 4)}–${TRAVELIFE.validUntil.sl
   /* Tablet: the card runs the full width, so set it as a landscape spread —
      preview on the left, the register facts on the right. */
   @media (min-width: 40em) and (max-width: 63.99em) {
-    .cert {
+    .cert:not(.cert--typeset) {
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
       column-gap: var(--space-l);
       align-items: start;
@@ -340,18 +313,46 @@ const span = `${TRAVELIFE.firstApproval.slice(0, 4)}–${TRAVELIFE.validUntil.sl
       grid-column: 1 / -1;
     }
 
-    .cert__facts {
+    .cert:not(.cert--typeset) .cert__facts {
       grid-template-columns: 1fr;
       align-self: center;
     }
 
-    .cert__row:last-child {
+    .cert:not(.cert--typeset) .cert__row:last-child {
       border-bottom: var(--border-hair) solid var(--color-rule);
     }
   }
 
+  @media (max-width: 29.99em) {
+    .cert--typeset .cert__doc {
+      padding-inline: var(--space-s);
+    }
+
+    .cert--typeset .cert__row--holder {
+      padding-right: 4.5rem;
+    }
+
+    .cert :global(.cert__seal) {
+      --seal-size: 4.75rem;
+    }
+
+    /* dates as ledger lines: label left, date right, one line each */
+    .cert--typeset .cert__facts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cert--typeset .cert__row--date {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.15rem var(--space-s);
+      padding-block: var(--space-2xs);
+    }
+  }
+
   @media (max-width: 23.99em) {
-    .cert__facts {
+    .cert:not(.cert--typeset) .cert__facts {
       grid-template-columns: 1fr;
     }
   }

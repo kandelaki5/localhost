@@ -27,7 +27,7 @@ interface Copy {
 interface Props {
   host: Host;
   copy: Copy;
-  label: string;
+  label?: string;
   quoteSource: string;
   /** Position in the row, for the entrance stagger. */
   index?: number;
@@ -51,7 +51,7 @@ const headingId = `host-${host.id}`;
     >
       <Fragment slot="overlay">
         <span class="hentry__tone" aria-hidden="true"></span>
-        <span class="hentry__label">{label}</span>
+        {label && <span class="hentry__label">{label}</span>}
       </Fragment>
     </Figure>
     <HostSeal class="hentry__seal" size="s" monogram={host.monogram} rotate={tilt} />

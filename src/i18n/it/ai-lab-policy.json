@@ -1,7 +1,7 @@
 {
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Domande sulle politiche",
-  "title": "Interrogate le nostre politiche — *con la fonte.*",
+  "title": "Interrogate le nostre politiche — *con la fonte.*",
   "intro": "Fate domande su sostenibilità, escursioni, hotel o regole per i partner. Claude risponde solo in base ai nostri cinque documenti e cita il passaggio esatto a sostegno di ogni affermazione.",
   "library": {
     "title": "La biblioteca",
@@ -34,9 +34,9 @@
     "empty": "La conversazione apparirà qui. Ogni risposta arriva con le sue fonti.",
     "sources": "Fonti",
     "source": "Fonte {n}",
-    "noSources": "Nessun passaggio citato — forse le nostre politiche non trattano questa domanda. Il nostro team vi risponde volentieri a info@localhost.ge.",
+    "noSources": "Nessun passaggio citato — forse le nostre politiche non trattano questa domanda. Il nostro team vi risponde volentieri a info@localhost.ge.",
     "englishNote": "Le risposte demo sono preparate in inglese.",
-    "otherQuestion": "Avete chiesto qualcosa di diverso — questa è la risposta preparata a: «{q}»",
+    "otherQuestion": "Avete chiesto qualcosa di diverso — questa è la risposta preparata a: «{q}»",
     "generic": "Questa risposta demo preparata è generica. Con l’AI collegata, Claude risponde esattamente alla vostra domanda.",
     "showAll": "Mostra tutte le {n} fonti"
   }

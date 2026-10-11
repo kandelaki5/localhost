@@ -3,14 +3,14 @@
   "kicker": "Smistamento richieste",
   "title": "Smistate la posta *prima del caffè.*",
   "intro": "Incollate l’email di un partner: Claude la legge in qualsiasi lingua, la indirizza al reparto giusto, estrae i dati del viaggio, elenca ciò che manca e prepara una bozza di risposta nella lingua del mittente, che il nostro team verifica.",
-  "staffLabel": "Strumento interno — demo",
+  "staffLabel": "Strumento interno — demo",
   "staffNote": "Creato per il team di Local Host. Le email vere contengono dati personali, quindi la versione live richiede una chiave di accesso.",
   "inbox": {
     "title": "Provate un’email di esempio",
     "samples": {
-      "it-wine-group": "Agenzia italiana — tour del vino di 9 giorni, 30 ospiti",
-      "pl-family-hiking": "Famiglia polacca — trekking in Georgia e Armenia",
-      "de-transfer-complaint": "Agenzia tedesca — reclamo per un transfer in ritardo"
+      "it-wine-group": "Agenzia italiana — tour del vino di 9 giorni, 30 ospiti",
+      "pl-family-hiking": "Famiglia polacca — trekking in Georgia e Armenia",
+      "de-transfer-complaint": "Agenzia tedesca — reclamo per un transfer in ritardo"
     }
   },
   "form": {
@@ -31,7 +31,7 @@
   },
   "empty": {
     "title": "Scheda di smistamento",
-    "text": "Scegliete un’email di esempio o incollatene una — il risultato apparirà qui."
+    "text": "Scegliete un’email di esempio o incollatene una — il risultato apparirà qui."
   },
   "working": "Stiamo leggendo l’email…",
   "card": {
@@ -45,7 +45,7 @@
     "summary": "Sintesi",
     "extracted": "Dati estratti",
     "missing": "Informazioni mancanti",
-    "nothingMissing": "Non manca nulla — pronta per il reparto.",
+    "nothingMissing": "Non manca nulla — pronta per il reparto.",
     "reply": "Bozza di risposta",
     "replyIn": "in {language}",
     "subject": "Oggetto",
@@ -92,8 +92,8 @@
     "Management": "Direzione"
   },
   "sample": {
-    "exact": "Email di esempio — risultato preparato.",
-    "other": "Demo — questo è il risultato preparato di un esempio simile («{label}»). Con l’AI collegata, Claude smista proprio la vostra email.",
+    "exact": "Email di esempio — risultato preparato.",
+    "other": "Demo — questo è il risultato preparato di un esempio simile («{label}»). Con l’AI collegata, Claude smista proprio la vostra email.",
     "englishNote": "Le note demo sono in inglese."
   }
 }

@@ -2,7 +2,7 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Proposte per agenzie",
   "title": "Dal brief del cliente *alla bozza di programma.*",
-  "intro": "Descrivete il vostro gruppo e Claude preparerà una proposta di programma — giorno per giorno, con luoghi, servizi inclusi e note sulla sostenibilità — pronta per il preventivo del nostro team.",
+  "intro": "Descrivete il vostro gruppo e Claude preparerà una proposta di programma — giorno per giorno, con luoghi, servizi inclusi e note sulla sostenibilità — pronta per il preventivo del nostro team.",
   "form": {
     "title": "Il brief",
     "samples": "Carica un brief di esempio",
@@ -65,7 +65,7 @@
   },
   "empty": {
     "title": "Qui verrà impaginata la vostra proposta",
-    "text": "Compilate il brief — o caricate un esempio — e premete «Prepara la proposta»."
+    "text": "Compilate il brief — o caricate un esempio — e premete «Prepara la proposta»."
   },
   "progress": {
     "title": "Stiamo preparando la proposta",

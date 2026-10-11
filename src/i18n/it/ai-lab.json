@@ -7,8 +7,8 @@
   "hero": {
     "kicker": "Local Host · AI Lab",
     "title": "Local Host *AI Lab*",
-    "lead": "Sei esperimenti funzionanti di ospitalità assistita dall’AI — e alla fine di ogni risposta c’è una persona vera a Tbilisi.",
-    "note": "Sperimentale. Le risposte sono bozze — ogni dettaglio viene confermato dal nostro team.",
+    "lead": "Sei esperimenti funzionanti di ospitalità assistita dall’AI — e alla fine di ogni risposta c’è una persona vera a Tbilisi.",
+    "note": "Sperimentale. Le risposte sono bozze — ogni dettaglio viene confermato dal nostro team.",
     "cta": "Inizia da una foto",
     "back": "Torna alla home"
   },
@@ -23,8 +23,8 @@
     "mode": "Modalità",
     "demo": "Demo",
     "live": "Live",
-    "demoNote": "Modalità demo — risposte di esempio finché la chiave AI non è collegata.",
-    "liveNote": "Live — Claude scrive ogni risposta per la vostra richiesta.",
+    "demoNote": "Modalità demo — risposte di esempio finché la chiave AI non è collegata.",
+    "liveNote": "Live — Claude scrive ogni risposta per la vostra richiesta.",
     "index": "Esperimenti",
     "ready": "Pronto",
     "staff": "Staff"
@@ -38,20 +38,20 @@
   "teaser": {
     "kicker": "Progettista di viaggi e voce",
     "title": "Progettate un viaggio *a voce.*",
-    "intro": "Il nostro strumento di punta è in home page. Scegliete paesi e interessi, scrivete — o dite — due parole e guardate comparire sulla mappa una bozza giorno per giorno.",
+    "intro": "Il nostro strumento di punta è in home page. Scegliete paesi e interessi, scrivete — o dite — due parole e guardate comparire sulla mappa una bozza giorno per giorno.",
     "points": [
       "Una bozza giorno per giorno, nella vostra lingua",
       "Raccontate a voce i vostri desideri e ascoltate il piano",
       "Inviate la bozza al nostro team con un clic"
     ],
     "cta": "Apri il progettista",
-    "mapCaption": "Un percorso di esempio — Tbilisi, Mtskheta, Ananuri, Kazbegi, Sighnaghi e Telavi.",
+    "mapCaption": "Un percorso di esempio — Tbilisi, Mtskheta, Ananuri, Kazbegi, Sighnaghi e Telavi.",
     "voiceNote": "La voce funziona nei browser che supportano il riconoscimento vocale; la elabora il servizio vocale del vostro browser.",
     "days": [
-      "Giorno 1 — Tbilisi",
-      "Giorno 2 — Mtskheta e Ananuri",
-      "Giorno 3 — Kazbegi",
-      "Giorno 4 — Sighnaghi e Telavi"
+      "Giorno 1 — Tbilisi",
+      "Giorno 2 — Mtskheta e Ananuri",
+      "Giorno 3 — Kazbegi",
+      "Giorno 4 — Sighnaghi e Telavi"
     ],
     "ticket": "Bozza di itinerario"
   },
@@ -79,21 +79,21 @@
     "contact": "Domande sull’AI Lab? Scriveteci a"
   },
   "ui": {
-    "demoBadge": "Demo — risposta di esempio",
-    "liveBadge": "Live — scritto da Claude",
+    "demoBadge": "Demo — risposta di esempio",
+    "liveBadge": "Live — scritto da Claude",
     "cancel": "Annulla",
     "cancelled": "Annullato.",
     "elapsed": "{s} s",
     "noScript": "Attivate JavaScript per provare questo esperimento.",
     "copied": "Copiato",
-    "copyFailed": "Impossibile copiare — selezionate il testo manualmente.",
+    "copyFailed": "Impossibile copiare — selezionate il testo manualmente.",
     "newTab": "si apre in una nuova scheda"
   },
   "errors": {
     "network": "Non riusciamo a raggiungere il servizio AI. Controllate la connessione e riprovate.",
     "rateLimited": "Troppe richieste in poco tempo. Potrete riprovare tra {time}.",
     "rateLimitedNow": "Ora potete riprovare.",
-    "dailyCap": "L’AI Lab ha raggiunto il limite di oggi. Riprovate domani — oppure scrivete a info@localhost.ge.",
+    "dailyCap": "L’AI Lab ha raggiunto il limite di oggi. Riprovate domani — oppure scrivete a info@localhost.ge.",
     "refusal": "L’AI non può aiutarvi con questa richiesta. Provate a riformularla oppure scrivete al nostro team a info@localhost.ge.",
     "truncated": "La risposta è diventata troppo lunga ed è stata interrotta. Provate con una richiesta più semplice.",
     "timeout": "L’operazione ha richiesto troppo tempo. Provate con una richiesta più breve.",

@@ -2,11 +2,11 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "KI-Connector (MCP)",
   "title": "Verbinden Sie Ihren *KI-Assistenten.*",
-  "intro": "Immer mehr Reiseprofis planen mit einem KI-Assistenten wie Claude. Binden Sie den Katalog von Local Host ein und erhalten Sie Antworten aus unseren Daten – nicht von beliebigen Webseiten.",
+  "intro": "Immer mehr Reiseprofis planen mit einem KI-Assistenten wie Claude. Binden Sie den Katalog von Local Host ein und erhalten Sie Antworten aus unseren Daten – nicht von beliebigen Webseiten.",
   "why": [
     {
       "title": "Antworten aus erster Hand",
-      "text": "Erlebnisse, Orte, Direktflüge, Messetermine und Fakten zur Nachhaltigkeit – mit denselben Ehrlichkeitsregeln wie diese Website."
+      "text": "Erlebnisse, Orte, Direktflüge, Messetermine und Fakten zur Nachhaltigkeit – mit denselben Ehrlichkeitsregeln wie diese Website."
     },
     {
       "title": "Sauberere Anfragen, schneller",
@@ -28,7 +28,7 @@
       "Öffnen Sie Claude (claude.ai oder die Desktop-App) und gehen Sie zu **Settings → Connectors**.",
       "Wählen Sie **Add custom connector**.",
       "Nennen Sie ihn **Local Host** und fügen Sie die URL oben ein. Lassen Sie die Anmeldefelder (OAuth) leer.",
-      "Klicken Sie auf **Add**, schalten Sie den Local-Host-Connector im Chat ein – und fragen Sie los."
+      "Klicken Sie auf **Add**, schalten Sie den Local-Host-Connector im Chat ein – und fragen Sie los."
     ],
     "teams": "In den Tarifen Claude Team und Enterprise muss eventuell zuerst ein Inhaber oder Admin den Connector für die Organisation hinzufügen.",
     "other": "Nutzen Sie Claude Code oder einen anderen MCP-Client?",
@@ -47,7 +47,7 @@
       "list_flight_connections": "Direktflüge nach Tiflis (TBS) und Kutaissi (KUT) und welche Airlines sie fliegen.",
       "get_trade_fairs": "Die Messen, auf denen Sie uns treffen können, mit den nächsten bekannten Terminen.",
       "get_sustainability_commitments": "Unser Travelife-Partner-Status, unsere Verpflichtungen und die fünf Richtlinien als PDF.",
-      "get_contact": "Adresse, Telefon und E-Mail – und was in eine Angebotsanfrage gehört.",
+      "get_contact": "Adresse, Telefon und E-Mail – und was in eine Angebotsanfrage gehört.",
       "draft_trip_request": "Entwirft eine versandfertige Anfrage-E-Mail an unser Team. Keine Preise, keine Buchung."
     },
     "params": "Eingaben",

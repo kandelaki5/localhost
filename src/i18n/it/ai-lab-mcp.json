@@ -2,7 +2,7 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Connettore AI (MCP)",
   "title": "Collegate il vostro *assistente AI.*",
-  "intro": "Sempre più agenti di viaggio pianificano con un assistente AI come Claude. Collegategli il catalogo di Local Host e otterrete risposte basate sui nostri dati — non su pagine web qualsiasi.",
+  "intro": "Sempre più agenti di viaggio pianificano con un assistente AI come Claude. Collegategli il catalogo di Local Host e otterrete risposte basate sui nostri dati — non su pagine web qualsiasi.",
   "why": [
     {
       "title": "Risposte dalla fonte",
@@ -28,7 +28,7 @@
       "Aprite Claude (claude.ai o l’app desktop) e andate su **Settings → Connectors**.",
       "Scegliete **Add custom connector**.",
       "Chiamatelo **Local Host** e incollate l’URL qui sopra. Lasciate vuoti i campi di accesso (OAuth).",
-      "Cliccate su **Add**, attivate il connettore Local Host in una chat — e chiedete pure."
+      "Cliccate su **Add**, attivate il connettore Local Host in una chat — e chiedete pure."
     ],
     "teams": "Con i piani Claude Team ed Enterprise, il proprietario o un amministratore potrebbe dover aggiungere prima il connettore per l’organizzazione.",
     "other": "Usate Claude Code o un altro client MCP?",
@@ -47,7 +47,7 @@
       "list_flight_connections": "Voli diretti per Tbilisi (TBS) e Kutaisi (KUT) e le compagnie che li operano.",
       "get_trade_fairs": "Le fiere dove potete incontrarci, con le prossime date note.",
       "get_sustainability_commitments": "Il nostro status Travelife Partner, gli impegni e i cinque PDF delle politiche.",
-      "get_contact": "Indirizzo, telefono ed email — e cosa includere in una richiesta di preventivo.",
+      "get_contact": "Indirizzo, telefono ed email — e cosa includere in una richiesta di preventivo.",
       "draft_trip_request": "Prepara un’email di richiesta pronta da inviare al nostro team. Niente prezzi, nessuna prenotazione."
     },
     "params": "Parametri",

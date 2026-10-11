@@ -26,8 +26,9 @@ interface Copy {
 interface Props {
   host: Host;
   copy: Copy;
-  /** Text over the photo, e.g. "Place photograph · Host portraits to follow". */
-  label: string;
+  /** Optional text over the photo. The section's own note already says these
+   *  are place photographs, so Hosts.astro no longer passes one. */
+  label?: string;
   quoteSource: string;
   factsTitle?: string;
   variant?: 'wide' | 'tall';
@@ -45,7 +46,7 @@ const sub = copy.people ?? copy.tag;
 <article class:list={['fhost', `fhost--${variant}`, className]} aria-labelledby={headingId} data-reveal>
   <div class="fhost__media">
     <Figure photo={host.photo} alt={copy.alt} focal={host.focal} sizes={sizes} zoom class="fhost__figure">
-      <span slot="overlay" class="fhost__label">{label}</span>
+      {label && <span slot="overlay" class="fhost__label">{label}</span>}
     </Figure>
     <HostSeal class="fhost__seal" monogram={host.monogram} ring={copy.seal} rotate={tilt} />
   </div>

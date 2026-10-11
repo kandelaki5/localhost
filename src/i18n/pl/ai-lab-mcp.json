@@ -2,11 +2,11 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Konektor AI (MCP)",
   "title": "Podłącz swojego *asystenta AI.*",
-  "intro": "Coraz więcej agentów turystycznych planuje podróże z pomocą asystenta AI, takiego jak Claude. Po podłączeniu do niego katalogu Local Host odpowiedzi pochodzą z naszych danych — a nie z przypadkowych stron internetowych.",
+  "intro": "Coraz więcej agentów turystycznych planuje podróże z pomocą asystenta AI, takiego jak Claude. Po podłączeniu do niego katalogu Local Host odpowiedzi pochodzą z naszych danych — a nie z przypadkowych stron internetowych.",
   "why": [
     {
       "title": "Odpowiedzi prosto ze źródła",
-      "text": "Tematy, miejsca, loty bezpośrednie, terminy targów i fakty o zrównoważonym rozwoju — z tymi samymi zasadami rzetelności co ta strona."
+      "text": "Tematy, miejsca, loty bezpośrednie, terminy targów i fakty o zrównoważonym rozwoju — z tymi samymi zasadami rzetelności co ta strona."
     },
     {
       "title": "Lepsze zapytania, szybciej",
@@ -14,7 +14,7 @@
     },
     {
       "title": "Zrównoważony rozwój w kilka sekund",
-      "text": "Nasze zatwierdzone oświadczenie Travelife Partner i linki do wszystkich pięciu polityk są zawsze pod ręką — wystarczy jedno pytanie."
+      "text": "Nasze zatwierdzone oświadczenie Travelife Partner i linki do wszystkich pięciu polityk są zawsze pod ręką — wystarczy jedno pytanie."
     }
   ],
   "endpoint": {
@@ -28,7 +28,7 @@
       "Otworzyć Claude (claude.ai lub aplikację desktopową) i przejść do **Settings → Connectors**.",
       "Wybrać **Add custom connector**.",
       "Nadać nazwę **Local Host** i wkleić powyższy adres. Pola logowania (OAuth) pozostawić puste.",
-      "Kliknąć **Add**, włączyć konektor Local Host w czacie — i zadawać pytania."
+      "Kliknąć **Add**, włączyć konektor Local Host w czacie — i zadawać pytania."
     ],
     "teams": "W planach Claude Team i Enterprise może być konieczne, by właściciel lub administrator najpierw dodał konektor dla organizacji.",
     "other": "Korzystają Państwo z Claude Code lub innego klienta MCP?",
@@ -42,12 +42,12 @@
     "descriptions": {
       "list_experiences": "Sześć tematów: kultura, wino, trekking, gastronomia, pielgrzymki i wypoczynek.",
       "get_experience": "Jeden temat w szczegółach: najważniejsze atrakcje, najlepsze miejsca, pory roku i dla kogo jest przeznaczony.",
-      "list_places": "Miejsca w Gruzji, Armenii i Azerbejdżanie — według kraju lub tematu.",
+      "list_places": "Miejsca w Gruzji, Armenii i Azerbejdżanie — według kraju lub tematu.",
       "get_place": "Jedno miejsce: region, przybliżone współrzędne, co jest w pobliżu i orientacyjne czasy przejazdu.",
       "list_flight_connections": "Loty bezpośrednie do Tbilisi (TBS) i Kutaisi (KUT) oraz linie, które je obsługują.",
       "get_trade_fairs": "Targi, na których można nas spotkać, wraz z najbliższymi znanymi terminami.",
       "get_sustainability_commitments": "Nasz status Travelife Partner, zobowiązania i pięć polityk w PDF.",
-      "get_contact": "Nasz adres, telefon i e-mail — oraz co zawrzeć w zapytaniu ofertowym.",
+      "get_contact": "Nasz adres, telefon i e-mail — oraz co zawrzeć w zapytaniu ofertowym.",
       "draft_trip_request": "Przygotowuje gotowy e-mail z zapytaniem do naszego zespołu. Bez cen, bez rezerwacji."
     },
     "params": "Parametry",

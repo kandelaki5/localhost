@@ -2,7 +2,7 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md). City names use Polish exonyms.",
   "kicker": "Połączenia",
   "title": "Europa jest\n*kilka godzin* stąd.",
-  "intro": "Tbilisi i Kutaisi mają bezpośrednie połączenia z miastami w całej Europie — Państwa podróżni przylatują wypoczęci, gotowi na pierwszą suprę.",
+  "intro": "Tbilisi i Kutaisi mają bezpośrednie połączenia z miastami w całej Europie — Państwa podróżni przylatują wypoczęci, gotowi na pierwszą suprę.",
   "running": "Tbilisi TBS · Kutaisi KUT",
   "tabsLabel": "Lotnisko",
   "airports": {
@@ -39,7 +39,7 @@
     "less": "Pokaż pierwsze {shown}",
     "checked": "Zgodnie z oficjalnym rozkładem lotniska · {date}"
   },
-  "note": "Połączenia bezpośrednie zmieniają się w zależności od sezonu — prosimy pytać nas o aktualny rozkład.",
+  "note": "Połączenia bezpośrednie zmieniają się w zależności od sezonu — prosimy pytać nas o aktualny rozkład.",
   "noteLink": "Zapytaj nas",
   "cities": {
     "warsaw": "Warszawa",

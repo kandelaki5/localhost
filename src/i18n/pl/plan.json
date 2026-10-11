@@ -81,7 +81,7 @@
     "demoBadge": "Demo",
     "demoStampTop": "Przykładowy program",
     "demoStampMain": "Demo",
-    "demoStampLabel": "Przykładowy program — demo",
+    "demoStampLabel": "Przykładowy program — demo",
     "demoNotice": "Tryb demo: planer AI nie jest jeszcze podłączony, dlatego wyświetlamy gotowy przykład, a nie plan przygotowany specjalnie dla Państwa. Swój wybór mogą Państwo mimo to wysłać naszemu zespołowi.",
     "rateLimited": "Prosimy odczekać około {minutes} min przed kolejną próbą."
   },
@@ -120,7 +120,7 @@
     "steps": [
       {
         "title": "Wybierz znaczki",
-        "text": "Kraje, tematy, czas trwania i tempo — oraz kilka słów o tym, kto jedzie."
+        "text": "Kraje, tematy, czas trwania i tempo — oraz kilka słów o tym, kto jedzie."
       },
       {
         "title": "Zobacz, jak powstaje szkic",
