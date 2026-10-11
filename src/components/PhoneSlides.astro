@@ -1,0 +1,249 @@
+---
+/**
+ * Phone slides: card rows that would stack into long columns on phones
+ * (country cards, hosts, permits, fairs, commitments, seals …) scroll
+ * sideways instead, one card at a time with the next one peeking in.
+ *
+ * Opt in on the list itself:  <ul class="… m-slides" data-m-slides>
+ *   data-m-slides="inset"  stays inside a padded/bordered box (no edge-to-edge bleed)
+ *   --m-pad-top: …         room above the cards for anything overhanging them
+ *
+ * Below 40em the list becomes a snap-scrolling track (pure CSS, works without
+ * JS). The script adds ← → buttons, a "02 / 06" counter and a progress bar
+ * after each track, cloned from the template below so the labels follow the
+ * page language. At 40em and up nothing changes: each section keeps its own
+ * layout. The track overrides the section's layout on purpose (!important).
+ * Rendered once on the home page.
+ */
+import Icon from './ui/Icon.astro';
+import { getLang, useStrings } from '../i18n';
+
+const t = useStrings(getLang(Astro), 'common');
+---
+
+<template id="m-slides-ctrl">
+  <div class="m-ctrl" data-m-ctrl>
+    <button type="button" class="m-ctrl__btn" aria-label={t.slides.prev} data-m-prev>
+      <Icon name="arrow-left" size={18} />
+    </button>
+    <button type="button" class="m-ctrl__btn" aria-label={t.slides.next} data-m-next>
+      <Icon name="arrow-right" size={18} />
+    </button>
+    <p class="m-ctrl__count" aria-hidden="true">
+      <span class="m-ctrl__n" data-m-n>01</span>
+      <span class="m-ctrl__total" data-m-total></span>
+    </p>
+    <span class="m-ctrl__bar" aria-hidden="true">
+      <span class="m-ctrl__thumb" data-m-thumb></span>
+    </span>
+  </div>
+</template>
+
+<style is:global>
+  .m-ctrl {
+    display: none;
+  }
+
+  @media (max-width: 39.99em) {
+    .m-slides {
+      --m-slide-w: 84%;
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: stretch !important;
+      gap: var(--space-s) !important;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      /* Edge to edge: the track bleeds into the page gutter, cards snap to it. */
+      margin-inline: calc(-1 * var(--layout-gutter)) !important;
+      /* --m-pad-top: room for things overhanging the cards (seals, badges). */
+      padding: var(--m-pad-top, var(--space-2xs)) var(--layout-gutter) var(--space-2xs) !important;
+      scroll-padding-inline: var(--layout-gutter);
+      scrollbar-width: none;
+    }
+
+    .m-slides::-webkit-scrollbar {
+      display: none;
+    }
+
+    .m-slides[data-m-slides='inset'] {
+      margin-inline: 0 !important;
+      padding-inline: 0 !important;
+      scroll-padding-inline: 0;
+    }
+
+    .m-slides > * {
+      flex: 0 0 var(--m-slide-w) !important;
+      min-width: 0;
+      margin: 0 !important;
+      scroll-snap-align: start;
+    }
+
+    .m-slides:focus-visible {
+      outline-offset: -2px;
+    }
+
+    .js .m-ctrl:not([data-static]) {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2xs);
+      margin-top: var(--space-s);
+    }
+
+    .m-ctrl__btn {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 2.75rem;
+      height: 2.75rem;
+      border: var(--border-hair) solid var(--color-bg-inverse);
+      border-radius: var(--radius-round);
+      color: var(--color-text);
+      transition:
+        background-color var(--dur-fast) var(--ease-out),
+        color var(--dur-fast) var(--ease-out),
+        opacity var(--dur-fast) var(--ease-out);
+    }
+
+    .m-ctrl__btn:focus-visible {
+      border-radius: var(--radius-round);
+    }
+
+    .m-ctrl__btn:active:not(:disabled) {
+      background: var(--color-bg-inverse);
+      color: var(--color-text-inverse);
+    }
+
+    .m-ctrl__btn:disabled {
+      opacity: var(--opacity-disabled);
+      cursor: default;
+    }
+
+    .m-ctrl__count {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35em;
+      flex: none;
+      margin: 0 0 0 var(--space-2xs);
+      white-space: nowrap;
+    }
+
+    .m-ctrl__n {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: var(--fs-md);
+      font-weight: var(--fw-display-sm);
+      font-variation-settings: var(--fvs-caption);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .m-ctrl__total {
+      font-size: var(--fs-2xs);
+      font-weight: var(--fw-medium);
+      letter-spacing: var(--tracking-caps);
+      color: var(--color-text-muted);
+    }
+
+    .m-ctrl__bar {
+      position: relative;
+      flex: 1;
+      min-width: var(--space-l);
+      height: var(--border-hair);
+      margin-left: var(--space-2xs);
+      background: var(--color-rule-strong);
+    }
+
+    .m-ctrl__thumb {
+      position: absolute;
+      left: 0;
+      top: calc(-1 * var(--border-hair));
+      width: var(--m-w, 20%);
+      height: var(--border-heavy);
+      background: var(--color-text);
+      translate: var(--m-x, 0) 0;
+      transition: translate var(--dur-base) var(--ease-out);
+    }
+  }
+</style>
+
+<script>
+  const MQ = matchMedia('(max-width: 39.99em)');
+  const tpl = document.querySelector<HTMLTemplateElement>('#m-slides-ctrl');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const pad2 = (n: number) => String(n).padStart(2, '0');
+
+  document.querySelectorAll<HTMLElement>('[data-m-slides]').forEach((track, k) => {
+    const items = [...track.children] as HTMLElement[];
+    if (!tpl || items.length < 2) return;
+    const ctrl = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+    track.after(ctrl);
+    track.id ||= `m-slides-${k + 1}`;
+    const prev = ctrl.querySelector<HTMLButtonElement>('[data-m-prev]')!;
+    const next = ctrl.querySelector<HTMLButtonElement>('[data-m-next]')!;
+    const nEl = ctrl.querySelector<HTMLElement>('[data-m-n]')!;
+    const thumb = ctrl.querySelector<HTMLElement>('[data-m-thumb]')!;
+    prev.setAttribute('aria-controls', track.id);
+    next.setAttribute('aria-controls', track.id);
+    ctrl.querySelector<HTMLElement>('[data-m-total]')!.textContent = `/ ${pad2(items.length)}`;
+    thumb.style.setProperty('--m-w', `${100 / items.length}%`);
+
+    // Index of the card aligned with the track's start padding.
+    const currentIndex = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      if (track.scrollLeft >= max - 2) return items.length - 1;
+      const start = track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).paddingLeft);
+      let best = 0;
+      let dist = Infinity;
+      items.forEach((it, i) => {
+        const d = Math.abs(it.getBoundingClientRect().left - start);
+        if (d < dist) {
+          dist = d;
+          best = i;
+        }
+      });
+      return best;
+    };
+
+    const update = () => {
+      const active = MQ.matches;
+      // A focusable track lets keyboard users scroll it.
+      if (active) track.tabIndex = 0;
+      else track.removeAttribute('tabindex');
+      if (!active) return;
+      const max = track.scrollWidth - track.clientWidth;
+      ctrl.toggleAttribute('data-static', max <= 2);
+      const i = currentIndex();
+      nEl.textContent = pad2(i + 1);
+      thumb.style.setProperty('--m-x', `${i * 100}%`);
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+    };
+
+    const go = (dir: 1 | -1) => {
+      const target = items[Math.min(items.length - 1, Math.max(0, currentIndex() + dir))];
+      const start = track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).paddingLeft);
+      track.scrollBy({ left: target.getBoundingClientRect().left - start, behavior: reduced.matches ? 'auto' : 'smooth' });
+    };
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+
+    let ticking = false;
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          update();
+        });
+      },
+      { passive: true },
+    );
+    MQ.addEventListener('change', update);
+    addEventListener('resize', update, { passive: true });
+    update();
+  });
+</script>

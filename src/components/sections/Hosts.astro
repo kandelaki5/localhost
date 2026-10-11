@@ -47,6 +47,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
         <span>{t.note}</span>
       </p>
 
+      <div class="hosts__features m-slides" data-m-slides>
       <FeaturedHost
         class="hosts__lead"
         variant="wide"
@@ -67,6 +68,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
         sizes="(min-width: 64em) 32vw, (min-width: 40em) 48vw, 100vw"
         tilt={TILTS[1]}
       />
+      </div>
     </div>
 
     <div class="hosts__more">
@@ -78,7 +80,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
         <HostQuote class="hosts__statement" size="l" text={t.more.quote} source={t.quoteSource} cite={POLICY_PDF} />
       </div>
 
-      <ul class="hosts__grid" aria-labelledby="hosts-more-title">
+      <ul class="hosts__grid m-slides" aria-labelledby="hosts-more-title" data-m-slides>
         {
           others.map((host, i) => (
             <li class="hosts__item">
@@ -149,11 +151,17 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
     margin-top: var(--space-m);
   }
 
-  .hosts__spread > :global(.hosts__lead) {
+  /* The two features sit in a wrapper that only exists as a box on phones
+     (it becomes their slide track); elsewhere they are grid items of the spread. */
+  .hosts__features {
+    display: contents;
+  }
+
+  .hosts__spread :global(.hosts__lead) {
     grid-area: lead;
   }
 
-  .hosts__spread > :global(.hosts__second) {
+  .hosts__spread :global(.hosts__second) {
     grid-area: second;
     margin-top: clamp(5rem, 2rem + 6vw, 8.5rem);
   }
@@ -304,7 +312,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
       max-width: 52ch;
     }
 
-    .hosts__spread > :global(.hosts__second) {
+    .hosts__spread :global(.hosts__second) {
       margin-top: var(--space-l);
     }
 
@@ -325,6 +333,12 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
 
   /* ── phone ── */
   @media (max-width: 39.99em) {
+    /* The features' slide track (PhoneSlides) spans the spread. */
+    .hosts__features {
+      grid-column: 1 / -1;
+      --m-pad-top: 2.5rem; /* the monogram seal overhangs each photo */
+    }
+
     .hosts__spread {
       grid-template-areas:
         'note note note note note note note note note note note note'
@@ -335,11 +349,6 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
     .hosts__grid {
       grid-template-columns: minmax(0, 1fr);
       row-gap: var(--space-xl);
-    }
-
-    .hosts__item + .hosts__item {
-      padding-top: var(--space-l);
-      border-top: var(--border-hair) solid var(--color-rule);
     }
 
     .hosts__foot {

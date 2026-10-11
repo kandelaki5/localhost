@@ -24,7 +24,7 @@ const items = t.items.map((item, i) => ({ ...item, ...COMMITMENTS[i], n: i + 1 }
   <div class="container">
     <SectionHead number={10} id="support-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
 
-    <ol class="sup__list" aria-label={t.listLabel}>
+    <ol class="sup__list m-slides" aria-label={t.listLabel} data-m-slides>
       {
         items.map((item, i) => (
           <li class="sup__item" style={`--i:${i}`}>

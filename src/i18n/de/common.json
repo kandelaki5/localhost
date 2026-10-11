@@ -82,6 +82,10 @@
       "contact": "Kontakt"
     }
   },
+  "slides": {
+    "prev": "Zurück",
+    "next": "Weiter"
+  },
   "footer": {
     "passport": "Reisepass für den Südkaukasus",
     "tagline": "Incoming-Reiseveranstalter und DMC für Georgien, Armenien und Aserbaidschan. Programme für Reisebüros und Reiseveranstalter seit 2015.",

@@ -82,6 +82,10 @@
       "contact": "Contatti"
     }
   },
+  "slides": {
+    "prev": "Precedente",
+    "next": "Successivo"
+  },
   "footer": {
     "passport": "Passaporto per il Caucaso meridionale",
     "tagline": "Tour operator incoming e DMC per Georgia, Armenia e Azerbaigian. Programmi per agenzie di viaggi e tour operator dal 2015.",

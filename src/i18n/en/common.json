@@ -79,6 +79,10 @@
       "contact": "Contact"
     }
   },
+  "slides": {
+    "prev": "Previous",
+    "next": "Next"
+  },
   "footer": {
     "passport": "Passport to the South Caucasus",
     "tagline": "Inbound tour operator and DMC for Georgia, Armenia and Azerbaijan. Programmes for travel agencies and tour operators since 2015.",

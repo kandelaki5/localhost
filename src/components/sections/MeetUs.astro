@@ -133,7 +133,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
                   <span class="fairs__season-title">{s.title}</span>
                   <span class="fairs__season-range">{s.range}</span>
                 </h3>
-                <ol class="fairs__list" role="list" style={`--n:${s.list.length}`}>
+                <ol class="fairs__list m-slides" role="list" style={`--n:${s.list.length}`} data-m-slides>
                   {s.list.map((item, j) => (
                     <FairStamp
                       fair={item.fair}

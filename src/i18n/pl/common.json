@@ -82,6 +82,10 @@
       "contact": "Kontakt"
     }
   },
+  "slides": {
+    "prev": "Poprzedni",
+    "next": "Następny"
+  },
   "footer": {
     "passport": "Paszport na Kaukaz Południowy",
     "tagline": "Touroperator incomingowy i DMC w Gruzji, Armenii i Azerbejdżanie. Programy dla biur podróży i touroperatorów od 2015 roku.",

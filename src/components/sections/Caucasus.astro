@@ -37,7 +37,7 @@ const hours = (h: number | [number, number]) =>
   <div class="container">
     <SectionHead number={1} id="caucasus-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
 
-    <div class="caucasus__triptych">
+    <div class="caucasus__triptych m-slides" data-m-slides>
       {CARDS.map((card, i) => <CountryCard card={card} index={i} />)}
     </div>
 

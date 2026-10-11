@@ -38,7 +38,7 @@ const textLang = contentLang(lang, 'awards') === lang ? undefined : 'en';
         </a>
       </div>
 
-      <ol class="awards__list" role="list" aria-label={t.listLabel}>
+      <ol class="awards__list m-slides" role="list" aria-label={t.listLabel} data-m-slides>
         {
           AWARDS.map((award) => {
             const item: { category: string; detail?: string } = t.items[award.id];
