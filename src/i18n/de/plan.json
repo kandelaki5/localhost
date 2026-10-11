@@ -85,7 +85,16 @@
     "demoStampMain": "Demo",
     "demoStampLabel": "Beispielreise – Demo",
     "demoNotice": "Demo-Modus: Der KI-Reiseplaner ist noch nicht angebunden. Sie sehen deshalb ein fertiges Beispiel, keinen eigens für Sie geschriebenen Plan. Ihre Auswahl können Sie trotzdem an unser Team senden.",
-    "rateLimited": "Bitte warten Sie etwa {minutes} Min. bis zum nächsten Versuch."
+    "rateLimited": "Bitte warten Sie etwa {minutes} Min. bis zum nächsten Versuch.",
+    "sampleKicker": "Beispiel · nicht für Ihre Anfrage geschrieben",
+    "loadingSample": "Das passendste Beispiel wird geladen …",
+    "showingSampleDay": "Beispiel: Tag {day} …",
+    "compareRequest": "Ihre Anfrage",
+    "compareSample": "Gezeigtes Beispiel",
+    "sampleLang": {
+      "en": "auf Englisch",
+      "it": "auf Italienisch"
+    }
   },
   "actions": {
     "refineLabel": "Entwurf verfeinern",
@@ -99,7 +108,9 @@
     "copyFailed": "Kopieren nicht möglich. Bitte markieren Sie den Text.",
     "read": "Vorlesen",
     "readStop": "Vorlesen beenden",
-    "restart": "Neu beginnen"
+    "restart": "Neu beginnen",
+    "sendDemo": "Meine Auswahl an Local Host senden",
+    "sendDemoHint": "Öffnet Ihr E-Mail-Programm mit Ihrer eigenen Auswahl, nicht mit dem Beispiel. Gesendet wird erst, wenn Sie selbst auf „Senden“ klicken."
   },
   "map": {
     "label": "Routenkarte",
@@ -131,6 +142,27 @@
       {
         "title": "Nach Tiflis schicken",
         "text": "Unser Team prüft jedes Detail und macht aus Ihrem Entwurf ein maßgeschneidertes Programm."
+      }
+    ]
+  },
+  "demo": {
+    "intro": "Wählen Sie Länder und Interessen, schreiben Sie uns ein paar Zeilen und sehen Sie sich eine Beispielreise Tag für Tag an. Dann senden Sie Ihre Auswahl an unser Team in Tiflis, das die echte Reise plant.",
+    "hint": "Wählen Sie die Marken, die zu Ihrer Reise passen, und schreiben Sie uns ein paar Zeilen. Gebucht wird nichts: Sie sehen ein Beispiel und können uns Ihre Auswahl senden.",
+    "submit": "Beispielreise zeigen",
+    "privacy": "Demo: Ihre Auswahl dient nur dazu, das passendste Beispiel zu finden. Nichts geht an einen KI-Dienst, und nichts erreicht unser Team, bevor Sie uns eine E-Mail senden.",
+    "disclaimer": "Ein Beispiel ist kein Angebot: Ihre Reise plant unser Team in Tiflis, das auch Preise und Verfügbarkeit bestätigt.",
+    "steps": [
+      {
+        "title": "Marken wählen",
+        "text": "Länder, Erlebnisse, Dauer und Tempo – und ein paar Zeilen dazu, wer reist."
+      },
+      {
+        "title": "Ein Beispiel sehen",
+        "text": "Sie sehen die passendste fertige Reise, mit der Route auf der Karte."
+      },
+      {
+        "title": "Nach Tiflis schicken",
+        "text": "Senden Sie uns Ihre Auswahl per E-Mail; unser Team macht daraus ein maßgeschneidertes Programm."
       }
     ]
   }

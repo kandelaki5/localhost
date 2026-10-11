@@ -24,6 +24,7 @@ import {
   type PlanRequest,
   type PlanResult,
   type PlanRoute,
+  type PlanSample,
   type Pace,
   type TravellerType,
 } from '../../../lib/ai/client/plan';
@@ -62,6 +63,8 @@ export function mount(planner: HTMLElement): PlannerApi {
   const config = JSON.parse(planner.querySelector('[data-plan-strings]')?.textContent ?? '{}') as { lang: string; t: Strings };
   const t = config.t;
   const locale: Locale = normalizeLocale(config.lang);
+  // Built without the AI key: every answer is a ready-made sample (Plan.astro).
+  const demoMode = 'demo' in planner.dataset;
 
   const q = <T extends Element = HTMLElement>(selector: string): T | null => planner.querySelector<T>(selector);
   const qa = <T extends Element = HTMLElement>(selector: string): T[] => [...planner.querySelectorAll<T>(selector)];
@@ -110,7 +113,11 @@ export function mount(planner: HTMLElement): PlannerApi {
   const refineForm = el<HTMLFormElement>('[data-refine-form]');
   const refineInput = el<HTMLInputElement>('[data-refine-input]');
   const refineMsg = el('[data-refine-msg]');
-  const sendLink = el<HTMLAnchorElement>('[data-send]');
+  const sendLinks = qa<HTMLAnchorElement>('[data-send]');
+  const compare = q<HTMLElement>('[data-compare]');
+  const compareRequest = q<HTMLElement>('[data-compare-request]');
+  const compareSample = q<HTMLElement>('[data-compare-sample]');
+  const compareSampleRow = q<HTMLElement>('[data-compare-sample-row]');
   const copyButton = el<HTMLButtonElement>('[data-copy]');
   const readButton = el<HTMLButtonElement>('[data-read]');
   const readLabel = readButton.querySelector('.btn__label') ?? readButton;
@@ -144,6 +151,24 @@ export function mount(planner: HTMLElement): PlannerApi {
   const radio = (name: string) => form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value ?? '';
   const days = () => Math.min(PLAN_DAYS_MAX, Math.max(PLAN_DAYS_MIN, Math.round(Number(daysInput.value) || 7)));
   const monthName = (value: string) => monthSelect.querySelector<HTMLOptionElement>(`option[value="${value}"]`)?.textContent?.trim() ?? '';
+
+  /** The month list as the next 12 months with their year ("May 2027" → "2027-05"),
+   *  so a request says which May. Names come from the page (built per language). */
+  function datedMonths(): void {
+    const names = new Map([...monthSelect.options].map((o) => [o.value, o.textContent?.trim() ?? '']));
+    const picked = Number(monthSelect.value) || 0;
+    const now = new Date();
+    const options = Array.from({ length: 12 }, (_, i) => {
+      const index = now.getMonth() + i;
+      const year = now.getFullYear() + Math.floor(index / 12);
+      const month = (index % 12) + 1;
+      const option = new Option(`${names.get(String(month)) ?? month} ${year}`, `${year}-${String(month).padStart(2, '0')}`);
+      option.selected = month === picked;
+      return option;
+    });
+    const any = monthSelect.options[0];
+    if (any && !any.value) monthSelect.replaceChildren(any, ...options);
+  }
 
   function readRequest(): PlanRequest {
     const travellers = radio('travellers');
@@ -181,7 +206,7 @@ export function mount(planner: HTMLElement): PlannerApi {
     const r = readRequest();
     const clean = (s: string) => s.toUpperCase().normalize('NFD').replace(/[^A-Z0-9]+/g, '<');
     const pad = (s: string) => (s + '<'.repeat(44)).slice(0, 44);
-    const line1 = pad(`P<LHT<${r.countries.join('<') || 'XXX'}<<${clean(r.month ? `M${r.month.padStart(2, '0')}` : 'ANY')}<${String(r.days).padStart(2, '0')}D`);
+    const line1 = pad(`P<LHT<${r.countries.join('<') || 'XXX'}<<${clean(r.month ? `M${r.month.replace('-', '')}` : 'ANY')}<${String(r.days).padStart(2, '0')}D`);
     const line2 = pad(`${r.interests.map((i) => clean(i)).join('<') || 'MIX'}<<${clean(r.travellers ?? '')}<${clean(r.pace ?? '')}`);
     mrz.textContent = `${line1}\n${line2}`;
   }
@@ -197,6 +222,25 @@ export function mount(planner: HTMLElement): PlannerApi {
     ].filter(Boolean);
     const note = r.notes ? ` · “${r.notes.length > 70 ? `${r.notes.slice(0, 68).trimEnd()}…` : r.notes}”` : '';
     return parts.join(' · ') + note;
+  }
+
+  /** Countries · length · interests: the same terms for the request and the sample. */
+  function tripLine(trip: { countries: readonly CountryCode[]; interests: readonly ExperienceId[]; days: number }): string {
+    return [
+      trip.countries.map((c) => t.countries[c]).join(' & '),
+      fill(t.form.daysValue, { n: trip.days }),
+      trip.interests.map((i) => t.experiences[i]).join(', '),
+    ]
+      .filter(Boolean)
+      .join('\u00a0· '); // the dot never starts a line
+  }
+
+  function showSample(sample: PlanSample): void {
+    if (!compare || !compareSample || !compareSampleRow) return;
+    const written = sample.locale === locale ? '' : (t.output.sampleLang as Record<string, string>)[sample.locale];
+    compareSample.textContent = tripLine(sample) + (written ? ` (${written})` : '');
+    compareSampleRow.hidden = false;
+    sheet.dataset.compared = '';
   }
 
   function sync(options: { reveal?: boolean } = {}): void {
@@ -246,7 +290,8 @@ export function mount(planner: HTMLElement): PlannerApi {
   function streamingStatus(): void {
     const n = view.dayCount;
     const total = Math.max(requestedDays, n);
-    setStatus(n ? fill(t.output.writingDay, { day: n, days: total }) : t.output.designing);
+    if (demoMode) setStatus(n ? fill(t.output.showingSampleDay, { day: n }) : t.output.loadingSample);
+    else setStatus(n ? fill(t.output.writingDay, { day: n, days: total }) : t.output.designing);
     progress.style.setProperty('--p', String(n ? Math.min(0.96, (n - 0.5) / total) : 0.04));
   }
 
@@ -293,11 +338,18 @@ export function mount(planner: HTMLElement): PlannerApi {
     alertBox.hidden = true;
     demoNotice.hidden = true;
     truncatedNote.hidden = true;
-    demoStamp.hidden = true;
-    demoBadge.hidden = true;
-    outTitle.textContent = t.output.title;
+    // A demo build labels the output as a sample from the first moment.
+    demoStamp.hidden = !demoMode;
+    demoBadge.hidden = !demoMode;
+    outTitle.textContent = demoMode ? t.output.sampleTitle : t.output.title;
+    if (compare && compareSampleRow) {
+      compare.hidden = !demoMode;
+      compareSampleRow.hidden = true;
+      delete sheet.dataset.compared;
+    }
+    for (const link of sendLinks) if (compare?.contains(link)) link.hidden = true;
     actions.hidden = true;
-    actionMsg.textContent = t.actions.sendHint;
+    actionMsg.textContent = demoMode ? t.actions.sendDemoHint : t.actions.sendHint;
     refineMsg.textContent = '';
     progress.style.setProperty('--p', '0');
     stopReading();
@@ -313,6 +365,7 @@ export function mount(planner: HTMLElement): PlannerApi {
         if (phase === 'streaming') streamingStatus();
       },
       onRoute,
+      onSample: showSample,
       onDone: (result) => void finish(result),
       onError: (error) => fail(error),
     };
@@ -331,14 +384,15 @@ export function mount(planner: HTMLElement): PlannerApi {
     lastRequest = request;
     requestedDays = request.days;
     draft = kind === 'plan' ? 1 : draft + 1;
-    draftEl.textContent = fill(t.output.draft, { n: draft });
+    draftEl.textContent = demoMode ? t.output.sampleKicker : fill(t.output.draft, { n: draft });
     stopListening();
     resetOutput();
     resetMap();
+    if (compareRequest) compareRequest.textContent = tripLine(request);
     output.hidden = false;
     planner.dataset.started = '';
     setPhase('connecting');
-    setStatus(t.output.connecting);
+    setStatus(demoMode ? t.output.loadingSample : t.output.connecting);
 
     if (kind === 'plan') {
       collapseForm();
@@ -369,15 +423,24 @@ export function mount(planner: HTMLElement): PlannerApi {
     const stops = new Set(result.route).size;
     setStatus(fill(demo ? t.output.doneDemo : t.output.done, { days: result.plan.days.length || view.dayCount, stops }));
     demoBadge.hidden = !demo;
-    demoNotice.hidden = !demo;
+    // The request/sample table already says it (demo builds); the note covers a
+    // live build that answers with a sample.
+    demoNotice.hidden = !demo || !!result.sample;
     demoStamp.hidden = !demo;
     // A sample is not the visitor's plan: name it so.
     outTitle.textContent = demo ? t.output.sampleTitle : t.output.title;
+    if (demo && result.sample) showSample(result.sample);
     if (result.truncated) {
       truncatedNote.textContent = planErrorMessage('truncated', locale);
       truncatedNote.hidden = false;
     }
-    sendLink.href = buildMailto(result);
+    // The month as the form shows it (the browser may lack Georgian month names).
+    const month = result.request.month ? monthName(result.request.month) : '';
+    const mail = buildMailto(result, month ? { monthName: month } : {});
+    for (const link of sendLinks) {
+      link.href = mail;
+      link.hidden = false;
+    }
     actions.hidden = false;
     readButton.hidden = true;
     mapPanel.dataset.mapState = 'done';
@@ -556,6 +619,7 @@ export function mount(planner: HTMLElement): PlannerApi {
   });
   itineraryRoot.addEventListener('pointerleave', () => map.highlight(null));
 
+  datedMonths();
   updateDays();
   updateCount();
   sync();

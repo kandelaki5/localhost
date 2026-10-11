@@ -24,9 +24,14 @@ interface Props {
   lang: Lang;
   t: typeof enPlan;
   arcId: string;
+  /** AI not switched on: the copy promises a sample, not an AI draft. */
+  demo?: boolean;
 }
 
-const { lang, t, arcId } = Astro.props;
+const { lang, t, arcId, demo = false } = Astro.props;
+const copy = demo
+  ? { hint: t.demo.hint, submit: t.demo.submit, privacy: t.demo.privacy, disclaimer: t.demo.disclaimer }
+  : { hint: t.form.hint, submit: t.form.submit, privacy: t.form.privacy, disclaimer: t.form.disclaimer };
 const bcp47 = localeInfo(lang).bcp47;
 const DEFAULT_DAYS = 7;
 const DEFAULT_PACE = 'balanced';
@@ -52,7 +57,7 @@ const mrz = [
       <span class="doc__serial-no">{t.form.serial}</span>
     </p>
     <h3 id="plan-doc-title" class="doc__title display" tabindex="-1" set:html={inline(t.form.title)} />
-    <p class="doc__hint">{t.form.hint}</p>
+    <p class="doc__hint">{copy.hint}</p>
     <div class="doc__summary" data-summary hidden>
       <p class="doc__summary-text">
         <span class="kicker doc__summary-label">{t.form.summaryLabel}</span>
@@ -254,10 +259,10 @@ const mrz = [
     </div>
 
     <div class="doc__go">
-      <Button type="submit" variant="ai" size="lg" class="doc__submit">{t.form.submit}</Button>
+      <Button type="submit" variant="ai" size="lg" class="doc__submit">{copy.submit}</Button>
       <div class="doc__fine">
-        <p>{t.form.privacy}</p>
-        <p>{t.form.disclaimer}</p>
+        <p>{copy.privacy}</p>
+        <p>{copy.disclaimer}</p>
       </div>
     </div>
 

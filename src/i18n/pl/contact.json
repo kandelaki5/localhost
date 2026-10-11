@@ -25,7 +25,8 @@
     "kicker": "Planer podróży AI",
     "title": "Woleliby Państwo najpierw naszkicować podróż?",
     "text": "Nasz planer podróży AI w minutę przygotuje szkic programu dzień po dniu — wystarczy go nam wysłać, a resztą zajmiemy się my.",
-    "cta": "Zaplanuj z AI"
+    "cta": "Zaplanuj z AI",
+    "textDemo": "Wystarczy wybrać kraje i zainteresowania w planerze, obejrzeć przykładowy program i wysłać nam swój wybór."
   },
   "envelope": {
     "label": "Koperta lotnicza zaadresowana do Local Host, A. Bakradze 7, 0159 Tbilisi, Gruzja",
@@ -37,5 +38,11 @@
     "company": "Local Host LLC",
     "country": "Gruzja",
     "caption": "Local Host LLC, A. Bakradze 7, 0159 Tbilisi"
+  },
+  "request": {
+    "cta": "Zapytaj o program e-mailem",
+    "hint": "Otworzy się program pocztowy z krótkim szablonem: kierunki, terminy, wielkość grupy i wymagania.",
+    "subject": "Zapytanie o program",
+    "body": "Dzień dobry, zespole Local Host,\n\nprosimy o program dla grupy.\n\nBiuro / imię i nazwisko:\nKierunki (Gruzja, Armenia, Azerbejdżan):\nTerminy:\nWielkość grupy:\nWymagania (zainteresowania, kategoria hoteli, język przewodnika …):\n\nDziękujemy!"
   }
 }

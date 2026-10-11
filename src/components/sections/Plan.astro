@@ -41,6 +41,9 @@ const arcId = uid('plan-pm-arc');
 // No API key at build time → the planner answers with samples: say so before
 // visitors fill it in (adding the key needs a redeploy, which removes this).
 const demo = !isLive();
+// In demo mode the copy must not promise an AI draft or AI processing.
+const intro = demo ? t.demo.intro : t.intro;
+const steps = demo ? t.demo.steps : t.how.steps;
 // Strings for the lazy planner chunk (static copy from our own JSON; `<` escaped for the script context).
 const clientConfig = JSON.stringify({ lang, t }).replace(/</g, '\\u003c');
 const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.nojs.subject)}`;
@@ -48,7 +51,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.no
 
 <NightSurface as="section" lang={textLang} id="plan" labelledby="plan-title" ridge ridgeSeed={33}>
   <div class="container plan">
-    <SectionHead number={11} id="plan-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
+    <SectionHead number={11} id="plan-title" kicker={t.kicker} title={t.title} intro={intro} running={t.running} />
 
     <noscript>
       <style is:inline>
@@ -72,10 +75,10 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.no
       )
     }
 
-    <div class="planner" data-planner data-state="idle">
+    <div class="planner" data-planner data-state="idle" data-demo={demo ? '' : undefined}>
       <div class="planner__main">
-        <TravelDocument lang={lang} t={t} arcId={arcId} />
-        <PlanOutput t={t} />
+        <TravelDocument lang={lang} t={t} arcId={arcId} demo={demo} />
+        <PlanOutput t={t} demo={demo} />
       </div>
       <div class="planner__aside">
         <NightMap lang={lang} t={t.map} />
@@ -83,7 +86,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.no
           <h3 class="how__title kicker">{t.how.title}</h3>
           <ol class="how__steps">
             {
-              t.how.steps.map((step, i) => (
+              steps.map((step, i) => (
                 <li class="how__step">
                   <span class="how__n" aria-hidden="true">
                     {String(i + 1).padStart(2, '0')}
@@ -177,9 +180,10 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.no
       sync(true);
       void load().then((p) => p.sync({ reveal: true }));
 
-      // After the page's own jump to #plan, bring the stamps into view and focus the form.
+      // After the page's own jump to #plan, bring the form into view (from the
+      // demo notice, so it is read first) and focus the form.
       setTimeout(() => {
-        form.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+        (section.querySelector('.plan__demo') ?? form).scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
         form.querySelector<HTMLElement>('#plan-doc-title')?.focus({ preventScroll: true });
         // Re-run the postmark once the stamps are on screen.
         setTimeout(() => {

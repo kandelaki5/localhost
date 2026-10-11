@@ -313,7 +313,9 @@ const handler: APIRoute = async (context) => {
       locale,
       refinement,
     });
-    return demoTextResponse(text, { headers: { ...g.headers, 'X-AI-Sample': fixture.id } });
+    // The sample's own trip (ASCII), so the page can set it beside the visitor's request.
+    const sampleTrip = [fixture.countries.join(','), fixture.interests.join(','), fixture.days, fixture.locale].join(';');
+    return demoTextResponse(text, { headers: { ...g.headers, 'X-AI-Sample': fixture.id, 'X-AI-Sample-Trip': sampleTrip } });
   }
 
   return streamClaude(

@@ -21,8 +21,8 @@ _Merged on 11 Oct 2026 from the section requests (`docs/requests/*.md`), the res
 
 ### Decisions this round (October 2026 refinement)
 
-- **Enquiry form: how should enquiries reach you?** A short enquiry form (agency/name, email, destinations, dates, group size, requirements) is proposed for the Contact section. Before it can go live we need the delivery route: e.g. a small server function sending to info@localhost.ge through an email service (Resend / Postmark / SendGrid, needs an account and an API key), Microsoft 365 via an app registration, or a form service (Formspree / Basin). Until then "Request a programme" leads to the contact details. *From:* owner (choice and account). See `docs/PROPOSALS.md`.
-- **Switch on the live AI planner?** It runs in demo mode (ready-made samples, clearly labelled, with a notice before the form). Adding `ANTHROPIC_API_KEY` on Vercel and redeploying makes it live and removes the demo notice; costs and limits in `docs/HANDOFF.md` §5. *From:* owner.
+- **Enquiry form: how should enquiries reach you?** A short enquiry form (agency/name, email, destinations, dates, group size, requirements) is proposed for the Contact section. Before it can go live we need the delivery route: e.g. a small server function sending to info@localhost.ge through an email service (Resend / Postmark / SendGrid, needs an account and an API key), Microsoft 365 via an app registration, or a form service (Formspree / Basin). Until then "Request a programme" leads to Contact, where a "Request a programme by email" button opens the visitor's email app with a short template (destinations, dates, group size, requirements). A form also needs a short privacy note (there is no privacy page yet). *From:* owner (choice and account). See `docs/PROPOSALS.md` §2.
+- **Switch on the live AI planner?** It runs in demo mode: a notice before the form, demo wording on the form and the Contact card (no AI draft or AI processing promised), the output labelled "Sample" from the first second with "Your request" set beside "Sample shown", and "Send my choices" emailing the visitor's own choices (not the sample). Adding `ANTHROPIC_API_KEY` on Vercel and redeploying makes it live and removes the demo notice; costs and limits in `docs/HANDOFF.md` §5. *From:* owner.
 - **Design proposals awaiting review** (compact phone formats for fairs, memberships and awards; desktop compaction of supporting sections; enquiry form placement): see `docs/PROPOSALS.md`. *From:* owner.
 
 ---
@@ -180,6 +180,9 @@ Points to check in particular:
   - `connection.board.allDirect` (the shared "every flight listed is direct" note on phones)
   - `plan.demoBefore` (demo notice before the planner form) and `plan.output.sampleTitle`
   - the demo-mode enquiry email intro in `src/lib/ai/client/plan.ts` (`MAIL_TEXT[…].demo`)
+  - planner demo wording: `plan.demo.*` (intro, hint, submit „Show a sample itinerary“, privacy and disclaimer lines, the three "How it works" steps), `plan.output.sampleKicker`, `loadingSample`, `showingSampleDay`, `compareRequest`, `compareSample`, `sampleLang`, `plan.actions.sendDemo`, `sendDemoHint`
+  - Contact: `contact.request.*` (button, hint and the email template) and `contact.plan.textDemo`
+  - the travel month now carries its year („May 2027“); please check the month names read naturally with a year in each language
 - **Fact-check edits of 11 Oct 2026.** These strings were re-drafted in all four languages and need a native check:
   - `awards.programme.text`
   - `common.meta.description`

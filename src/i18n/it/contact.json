@@ -25,7 +25,8 @@
     "kicker": "Progettista di viaggi AI",
     "title": "Preferite prima abbozzare un viaggio?",
     "text": "Il nostro progettista di viaggi AI prepara in un minuto una bozza giorno per giorno: inviatecela e al resto pensiamo noi.",
-    "cta": "Pianifica con l’AI"
+    "cta": "Pianifica con l’AI",
+    "textDemo": "Scegliete paesi e interessi nel progettista di viaggi, guardate un itinerario di esempio e poi inviateci le vostre scelte."
   },
   "envelope": {
     "label": "Una busta di posta aerea indirizzata a Local Host, A. Bakradze 7, 0159 Tbilisi, Georgia",
@@ -37,5 +38,11 @@
     "company": "Local Host LLC",
     "country": "Georgia",
     "caption": "Local Host LLC, A. Bakradze 7, 0159 Tbilisi"
+  },
+  "request": {
+    "cta": "Richiedi un programma via email",
+    "hint": "Si apre il vostro programma di posta con un breve modello: destinazioni, date, numero di partecipanti ed esigenze.",
+    "subject": "Richiesta di programma",
+    "body": "Buongiorno team di Local Host,\n\nvorremmo un programma per un gruppo.\n\nAgenzia / nome:\nDestinazioni (Georgia, Armenia, Azerbaigian):\nDate:\nNumero di partecipanti:\nEsigenze (interessi, categoria degli hotel, lingua della guida …):\n\nGrazie!"
   }
 }

@@ -85,7 +85,16 @@
     "demoStampMain": "Demo",
     "demoStampLabel": "Itinerario di esempio — demo",
     "demoNotice": "Modalità demo: il progettista AI non è ancora collegato, quindi vedete un esempio già pronto, non un piano scritto per voi. Potete comunque inviare le vostre scelte al nostro team.",
-    "rateLimited": "Attendete circa {minutes} min prima di riprovare."
+    "rateLimited": "Attendete circa {minutes} min prima di riprovare.",
+    "sampleKicker": "Esempio · non scritto per la vostra richiesta",
+    "loadingSample": "Carichiamo l’esempio più vicino…",
+    "showingSampleDay": "Esempio: giorno {day}…",
+    "compareRequest": "La vostra richiesta",
+    "compareSample": "Esempio mostrato",
+    "sampleLang": {
+      "en": "in inglese",
+      "it": "in italiano"
+    }
   },
   "actions": {
     "refineLabel": "Perfeziona questa bozza",
@@ -99,7 +108,9 @@
     "copyFailed": "Impossibile copiare. Selezionate il testo manualmente.",
     "read": "Leggi ad alta voce",
     "readStop": "Interrompi la lettura",
-    "restart": "Ricomincia"
+    "restart": "Ricomincia",
+    "sendDemo": "Invia le mie scelte a Local Host",
+    "sendDemoHint": "Si apre il vostro programma di posta con le vostre scelte, non con l’esempio. Non parte nulla finché non premete «Invia»."
   },
   "map": {
     "label": "Mappa del percorso",
@@ -131,6 +142,27 @@
       {
         "title": "Inviatela a Tbilisi",
         "text": "Il nostro team controlla ogni dettaglio e trasforma la vostra bozza in un programma su misura."
+      }
+    ]
+  },
+  "demo": {
+    "intro": "Scegliete paesi e interessi, scriveteci due righe e guardate un itinerario di esempio giorno per giorno. Poi inviate le vostre scelte al nostro team a Tbilisi, che pianificherà il viaggio vero.",
+    "hint": "Selezionate i francobolli adatti al vostro viaggio, poi scriveteci due righe. Nessuna prenotazione: vedrete un esempio e potrete inviarci le vostre scelte.",
+    "submit": "Mostra un itinerario di esempio",
+    "privacy": "Demo: le vostre scelte servono solo a trovare l’esempio più vicino. Nulla viene inviato a un servizio AI, e nulla arriva al nostro team finché non ci scrivete.",
+    "disclaimer": "Un esempio non è un’offerta: il nostro team a Tbilisi pianifica il vostro viaggio e conferma prezzi e disponibilità.",
+    "steps": [
+      {
+        "title": "Scegliete i francobolli",
+        "text": "Paesi, esperienze, durata e ritmo — e due righe su chi viaggia."
+      },
+      {
+        "title": "Guardate un esempio",
+        "text": "Vedrete l’itinerario già pronto più vicino, con il percorso tracciato sulla mappa."
+      },
+      {
+        "title": "Inviatelo a Tbilisi",
+        "text": "Inviateci le vostre scelte via email: il nostro team le trasforma in un programma su misura."
       }
     ]
   }

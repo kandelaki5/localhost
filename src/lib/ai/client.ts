@@ -78,9 +78,11 @@ async function errorResult(response: Response): Promise<AiStreamResult> {
 export async function readAiStream(
   response: Response,
   onText?: (visible: string, raw: string) => void,
+  onHeaders?: (headers: Headers) => void,
 ): Promise<AiStreamResult> {
   if (!response.ok) return errorResult(response);
   const mode = modeOf(response);
+  onHeaders?.(response.headers);
   if (!response.body) {
     const parsed = parseStreamText(await response.text());
     return { ok: !parsed.refusal && !parsed.error, status: response.status, mode, ...parsed, aborted: false };
@@ -117,7 +119,7 @@ export async function readAiStream(
 export async function postAiStream(
   url: string,
   body: unknown,
-  options: { onText?: (visible: string, raw: string) => void; signal?: AbortSignal } = {},
+  options: { onText?: (visible: string, raw: string) => void; onHeaders?: (headers: Headers) => void; signal?: AbortSignal } = {},
 ): Promise<AiStreamResult> {
   let response: Response;
   try {
@@ -134,7 +136,7 @@ export async function postAiStream(
       error: aborted ? 'aborted' : 'network', aborted,
     };
   }
-  return readAiStream(response, options.onText);
+  return readAiStream(response, options.onText, options.onHeaders);
 }
 
 export type AiJsonResult<T> =

@@ -82,6 +82,17 @@ export interface PlanResult {
   plan: ParsedPlan;
   /** The answer hit the output limit; the text is usable but incomplete. */
   truncated: boolean;
+  /** Demo mode: the ready-made sample shown instead of a plan for this request. */
+  sample: PlanSample | null;
+}
+
+/** The trip a demo sample covers (from the X-AI-Sample-Trip header). */
+export interface PlanSample {
+  countries: CountryCode[];
+  interests: ExperienceId[];
+  days: number;
+  /** Language the sample is written in. */
+  locale: Locale;
 }
 
 export interface PlanError {
@@ -111,6 +122,8 @@ export interface PlanCallbacks {
   /** Route updates: provisional while streaming (only when it changes), then once with final: true. */
   onRoute?: (route: PlanRoute) => void;
   onDone?: (result: PlanResult) => void;
+  /** Demo mode: which sample is coming, as soon as the answer starts. */
+  onSample?: (sample: PlanSample) => void;
   /** Not called when the request was aborted through `signal`. */
   onError?: (error: PlanError) => void;
   signal?: AbortSignal;
@@ -231,9 +244,20 @@ export function routePlaces(ids: readonly string[], locale: Locale): PlaceInfo[]
   return out;
 }
 
+/** "GE,AM;trekking,pilgrim;10;en" → PlanSample (null if it does not parse). */
+export function parseSampleTrip(header: string | null): PlanSample | null {
+  if (!header) return null;
+  const [c = '', i = '', d = '', l = ''] = header.split(';');
+  const countries = c.split(',').filter((x): x is CountryCode => x in COUNTRY_LABELS.en);
+  const interests = i.split(',').filter((x): x is ExperienceId => x in EXPERIENCE_LABELS.en);
+  const days = Number(d);
+  if (!countries.length || !Number.isInteger(days) || days < 1) return null;
+  return { countries, interests, days, locale: normalizeLocale(l) };
+}
+
 /** POSTs the form to /api/plan and streams the itinerary. Never throws. */
 export async function planTrip(params: PlanRequest, callbacks: PlanCallbacks = {}): Promise<PlanOutcome> {
-  const { onText, onRoute, onDone, onError, signal } = callbacks;
+  const { onText, onRoute, onDone, onSample, onError, signal } = callbacks;
   const locale = normalizeLocale(params.locale);
   const request: PlanRequest = { ...params, locale };
 
@@ -251,8 +275,13 @@ export async function planTrip(params: PlanRequest, callbacks: PlanCallbacks = {
     onText?.(markdown);
   };
 
+  let sample: PlanSample | null = null;
   const r = await postAiStream(PLAN_ENDPOINT, request, {
     ...(signal ? { signal } : {}),
+    onHeaders: (headers) => {
+      sample = parseSampleTrip(headers.get('x-ai-sample-trip'));
+      if (sample) onSample?.(sample);
+    },
     onText: (visible) => {
       const markdown = visiblePlanText(visible);
       show(markdown);
@@ -292,6 +321,7 @@ export async function planTrip(params: PlanRequest, callbacks: PlanCallbacks = {
     invalidRouteIds: invalid,
     plan: parsePlan(text),
     truncated: r.truncated,
+    sample,
   };
   onDone?.(result);
   return { ok: true, result };
@@ -505,6 +535,8 @@ export interface MailtoSource {
 }
 
 export interface MailtoOptions {
+  /** Travel month as the page shows it ("მაისი 2027"); default: formatted here. */
+  monthName?: string;
   /** Max characters of subject + body before URL encoding (default 1800). */
   maxChars?: number;
   /** Recipient (default info@localhost.ge). */
@@ -530,7 +562,7 @@ export function buildEmail(source: MailtoSource, options: MailtoOptions = {}): {
   if (countries.length) fields.push(`${t.countries}: ${countries.join(', ')}`);
   if (req.interests?.length) fields.push(`${t.interests}: ${req.interests.map((i) => EXPERIENCE_LABELS[locale][i]).join(', ')}`);
   if (days) fields.push(`${t.length}: ${fill(t.days, { n: days })}`);
-  if (source.request) fields.push(`${t.month}: ${monthLabel(req.month, locale, t)}`);
+  if (source.request) fields.push(`${t.month}: ${(req.month && options.monthName) || monthLabel(req.month, locale, t)}`);
   if (req.travellers) fields.push(`${t.travellers}: ${TRAVELLER_LABELS[locale][req.travellers]}`);
   if (req.pace) fields.push(`${t.pace}: ${PACE_LABELS[locale][req.pace]}`);
   if (req.notes?.trim()) fields.push(`${t.notes}: ${clip(req.notes.trim().replace(/\s+/g, ' '), 300)}`);

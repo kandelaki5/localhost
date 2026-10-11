@@ -2,7 +2,7 @@
 
 Changes that alter layout, structure or content order. **None of these is live** unless marked "previewable"; they wait for the owner's decision. Measurements are from the live site at 1440 px (desktop) or 390 px (phone), English, unless noted.
 
-Already applied (confirmed fixes, not listed here): stacked small host cards and shorter featured host cards on phones, carousel controls above the cards with section-specific names, the floating section pill that steps aside, the shorter hero with "Request a programme", the compact phone flight board, the planner's demo notice, and tighter spacing (desktop 22,018 → about 20,600 px).
+Already applied (confirmed fixes, not listed here): stacked small host cards and shorter featured host cards on phones, carousel controls above the cards with section-specific names, the floating section pill that steps aside, the shorter hero with "Request a programme", the compact phone flight board, the planner's demo mode made explicit (notice, wording, "Sample" labels, request vs sample, "Send my choices"), months with their year, an interim "Request a programme by email" template in Contact, and tighter spacing (desktop 22,018 → about 20,600 px).
 
 ---
 
@@ -36,7 +36,7 @@ All six fairs, five memberships and both nominations are visible without swiping
 
 ## 2. Enquiry form ("Request a programme")
 
-Today "Request a programme" scrolls to the contact details (email, phone, address). Proposal: a short form in the Contact section, in the right column where the envelope illustration sits (the envelope becomes a small header graphic).
+Today "Request a programme" scrolls to Contact, where an interim "Request a programme by email" button opens the visitor's email app with a template. A mailto depends on a configured mail app and arrives unstructured; the planner's email cannot capture the agency, name or group size (those lines arrive blank). Proposal: a short form in the Contact section, in the right column where the envelope illustration sits (the envelope becomes a small header graphic).
 
 **Fields** (all on one card; 6 fields + consent):
 
@@ -46,7 +46,7 @@ Today "Request a programme" scrolls to the contact details (email, phone, addres
 4. Dates — month + year, or "flexible" (free text allowed: "late May 2027")
 5. Group size — number, or "to be confirmed"
 6. Requirements — textarea (interests, hotel category, language of the guide …)
-7. Consent line: "We use these details only to answer your enquiry." + link to a privacy note (to be written)
+7. Consent line: "We use these details only to answer your enquiry." + link to a privacy note (to be written; the site has no privacy page yet)
 
 **Behaviour**
 
@@ -95,6 +95,7 @@ All of 3.1–3.9 together bring the desktop page to about 18,300 px at 1440 (fro
 | 3.13 | **Experience photos 4:3 on phones** (instead of 4:5), and **1:1 on desktop** | phone cards are 670–810 px tall, taller than the visible screen in Georgian at 320 px (4:3 brings them to 570–680 px); on desktop a focused card (840–865 px) is taller than the space under the header at 1280–1440 × 900 | smaller photos in a section the brief wants prominent |
 | 3.14 | **Sustainability on phones**: the five commitments as a numbered list with expandable text, recognition + certificate in one card, the energy/gas figures as one row of stats, the policy documents collapsible | the longest section on phones (4,300 px in English, about 6,000 px in Georgian at 320) | combines with §3.1 |
 | 3.15 | **Section pill on phones inside the header** (current section + chevron next to the menu button) instead of floating | removes any overlap with text for good | the pill now already hides while scrolling down and 3 s after scrolling stops |
+| 3.16 | **Contact on phones: "Write & call" before "Office"** | the email and phone sit below the address and two map links (about 470 px at 390, more in ka at 320); the new "Request a programme by email" button is already first | address moves below |
 
 ## 4. More prominence for destinations, experiences, hosts and the enquiry
 

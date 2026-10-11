@@ -25,7 +25,8 @@
     "kicker": "KI-Reiseplaner",
     "title": "Lieber erst eine Reise skizzieren?",
     "text": "Unser KI-Reiseplaner entwirft in einer Minute einen Reiseverlauf Tag für Tag – schicken Sie ihn uns, den Rest übernehmen wir.",
-    "cta": "Mit KI planen"
+    "cta": "Mit KI planen",
+    "textDemo": "Wählen Sie im Reiseplaner Länder und Interessen, sehen Sie sich eine Beispielreise an und senden Sie uns dann Ihre Auswahl."
   },
   "envelope": {
     "label": "Ein Luftpostumschlag, adressiert an Local Host, A. Bakradze 7, 0159 Tbilisi, Georgien",
@@ -37,5 +38,11 @@
     "company": "Local Host LLC",
     "country": "Georgien",
     "caption": "Local Host LLC, A. Bakradze 7, 0159 Tbilisi"
+  },
+  "request": {
+    "cta": "Programm per E-Mail anfragen",
+    "hint": "Öffnet Ihr E-Mail-Programm mit einer kurzen Vorlage: Reiseziele, Termine, Gruppengröße und Wünsche.",
+    "subject": "Programmanfrage",
+    "body": "Hallo Local-Host-Team,\n\nwir möchten ein Programm für eine Gruppe anfragen.\n\nAgentur / Name:\nReiseziele (Georgien, Armenien, Aserbaidschan):\nTermine:\nGruppengröße:\nWünsche (Interessen, Hotelkategorie, Sprache der Reiseleitung …):\n\nVielen Dank!"
   }
 }

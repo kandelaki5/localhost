@@ -14,9 +14,12 @@ import type enPlan from '../../../i18n/en/plan.json';
 
 interface Props {
   t: typeof enPlan;
+  /** AI not switched on: label the output as a sample from the start, set the
+   *  visitor's request beside it, and offer to send their choices (no refine/copy). */
+  demo?: boolean;
 }
 
-const { t } = Astro.props;
+const { t, demo = false } = Astro.props;
 ---
 
 <div class="out" data-output hidden>
@@ -34,11 +37,31 @@ const { t } = Astro.props;
   <article class="out__sheet" aria-labelledby="plan-out-title" aria-busy="false" data-sheet>
     <header class="out__head">
       <p class="out__draft" data-draft></p>
-      <h3 id="plan-out-title" class="out__title" tabindex="-1">{t.output.title}</h3>
+      <h3 id="plan-out-title" class="out__title" tabindex="-1">{demo ? t.output.sampleTitle : t.output.title}</h3>
       <div class="out__stamp" data-demo-stamp hidden>
         <Seal variant="permit" tone="red" top={t.output.demoStampTop} main={t.output.demoStampMain} rotate={-2} label={t.output.demoStampLabel} />
       </div>
     </header>
+
+    {
+      demo && (
+        <div class="out__compare" data-compare hidden>
+          <dl class="out__compare-list">
+            <div class="out__compare-row">
+              <dt>{t.output.compareRequest}</dt>
+              <dd data-compare-request />
+            </div>
+            <div class="out__compare-row" data-compare-sample-row hidden>
+              <dt>{t.output.compareSample}</dt>
+              <dd data-compare-sample />
+            </div>
+          </dl>
+          <Button href="mailto:info@localhost.ge" icon="send" size="sm" data-send aria-describedby="plan-action-msg" hidden>
+            {t.actions.sendDemo}
+          </Button>
+        </div>
+      )
+    }
 
     <div class="out__body" data-itinerary></div>
 
@@ -50,7 +73,7 @@ const { t } = Astro.props;
   </article>
 
   <div class="out__actions" data-actions hidden>
-    <form class="out__refine" data-refine-form novalidate>
+    <form class="out__refine" data-refine-form novalidate hidden={demo}>
       <label class="kicker out__refine-label" for="plan-refine">{t.actions.refineLabel}</label>
       <div class="out__refine-row">
         <input
@@ -70,11 +93,11 @@ const { t } = Astro.props;
     </form>
 
     <div class="out__buttons">
-      <Button href="mailto:info@localhost.ge" icon="send" data-send>{t.actions.send}</Button>
-      <Button variant="secondary" data-copy>{t.actions.copy}</Button>
+      <Button href="mailto:info@localhost.ge" icon="send" data-send>{demo ? t.actions.sendDemo : t.actions.send}</Button>
+      <Button variant="secondary" data-copy hidden={demo}>{t.actions.copy}</Button>
       <Button variant="secondary" iconStart="speaker" data-read aria-pressed="false" hidden>{t.actions.read}</Button>
     </div>
-    <p class="out__msg" data-action-msg aria-live="polite">{t.actions.sendHint}</p>
+    <p class="out__msg" id="plan-action-msg" data-action-msg aria-live="polite">{demo ? t.actions.sendDemoHint : t.actions.sendHint}</p>
     <p class="out__notice" data-demo-notice hidden>{t.output.demoNotice}</p>
     <button type="button" class="out__restart" data-restart>
       <Icon name="arrow-up" size={14} />
@@ -264,6 +287,67 @@ const { t } = Astro.props;
     }
     100% {
       transform: scale(1) rotate(0deg);
+    }
+  }
+
+  /* ── demo: the visitor's request beside the sample shown ── */
+  .out__compare {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-s);
+    margin-bottom: var(--space-m);
+    padding: var(--space-s) var(--space-m);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-left: var(--border-thick) solid var(--color-amber);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-amber) 6%, transparent);
+  }
+
+  .out__compare-list {
+    display: grid;
+    gap: var(--space-2xs);
+    margin: 0;
+  }
+
+  .out__compare-row {
+    display: grid;
+    grid-template-columns: minmax(7.5rem, auto) minmax(0, 1fr);
+    gap: var(--space-s);
+    align-items: baseline;
+  }
+
+  .out__compare-row dt {
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: var(--case-caps);
+    color: var(--color-text-muted);
+  }
+
+  .out__compare-row dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--color-text);
+  }
+
+  /* The table says what the sample's italic note says. */
+  .out__sheet[data-compared] :global(.it-note) {
+    display: none;
+  }
+
+  @media (max-width: 39.99em) {
+    .out__compare {
+      padding: var(--space-s);
+    }
+
+    .out__compare-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.1rem;
+    }
+
+    .out__compare :global(.btn) {
+      width: 100%;
+      justify-content: center;
     }
   }
 

@@ -85,7 +85,16 @@
     "demoStampMain": "Demo",
     "demoStampLabel": "Przykładowy program — demo",
     "demoNotice": "Tryb demo: planer AI nie jest jeszcze podłączony, dlatego wyświetlamy gotowy przykład, a nie plan przygotowany specjalnie dla Państwa. Swój wybór mogą Państwo mimo to wysłać naszemu zespołowi.",
-    "rateLimited": "Prosimy odczekać około {minutes} min przed kolejną próbą."
+    "rateLimited": "Prosimy odczekać około {minutes} min przed kolejną próbą.",
+    "sampleKicker": "Przykład · nie przygotowany dla Państwa zapytania",
+    "loadingSample": "Wczytujemy najbliższy przykład…",
+    "showingSampleDay": "Przykład: dzień {day}…",
+    "compareRequest": "Państwa zapytanie",
+    "compareSample": "Pokazany przykład",
+    "sampleLang": {
+      "en": "po angielsku",
+      "it": "po włosku"
+    }
   },
   "actions": {
     "refineLabel": "Dopracuj ten szkic",
@@ -99,7 +108,9 @@
     "copyFailed": "Nie udało się skopiować. Prosimy zaznaczyć tekst ręcznie.",
     "read": "Odczytaj na głos",
     "readStop": "Zatrzymaj czytanie",
-    "restart": "Zacznij od nowa"
+    "restart": "Zacznij od nowa",
+    "sendDemo": "Wyślij mój wybór do Local Host",
+    "sendDemoHint": "Otworzy się program pocztowy z Państwa wyborem (nie z przykładem). Nic nie zostanie wysłane, dopóki nie klikną Państwo „Wyślij”."
   },
   "map": {
     "label": "Mapa trasy",
@@ -131,6 +142,27 @@
       {
         "title": "Wyślij go do Tbilisi",
         "text": "Nasz zespół sprawdza każdy szczegół i zamienia Państwa szkic w program szyty na miarę."
+      }
+    ]
+  },
+  "demo": {
+    "intro": "Wystarczy wybrać kraje i zainteresowania, napisać nam kilka słów i obejrzeć przykładowy program dzień po dniu. Potem można wysłać swój wybór naszemu zespołowi w Tbilisi, który zaplanuje prawdziwą podróż.",
+    "hint": "Prosimy zaznaczyć znaczki pasujące do podróży i napisać nam kilka słów. Niczego nie rezerwujemy: zobaczą Państwo przykład i mogą wysłać nam swój wybór.",
+    "submit": "Pokaż przykładowy program",
+    "privacy": "Demo: Państwa wybór służy wyłącznie do dobrania najbliższego przykładu. Nic nie trafia do usługi AI ani do naszego zespołu, dopóki nie wyślą Państwo e-maila.",
+    "disclaimer": "Przykład to nie oferta: podróż zaplanuje nasz zespół w Tbilisi, który potwierdzi też ceny i dostępność.",
+    "steps": [
+      {
+        "title": "Wybierz znaczki",
+        "text": "Kraje, tematy, czas trwania i tempo — oraz kilka słów o tym, kto jedzie."
+      },
+      {
+        "title": "Zobacz przykład",
+        "text": "Wyświetlimy najbliższy gotowy program z trasą narysowaną na mapie."
+      },
+      {
+        "title": "Wyślij do Tbilisi",
+        "text": "Prześlij nam swój wybór e-mailem; nasz zespół przygotuje program szyty na miarę."
       }
     ]
   }

@@ -8,6 +8,10 @@
  *
  * Office hours and the team's languages are not verified yet, so they are not
  * shown (docs/requests/contact.md → Content TODO).
+ *
+ * "Request a programme by email" opens a mailto with a short template; it
+ * stands in for the enquiry form until its delivery is set up
+ * (docs/PROPOSALS.md §2).
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Button from '../ui/Button.astro';
@@ -16,6 +20,7 @@ import NightSurface from '../ui/NightSurface.astro';
 import Envelope from './contact/Envelope.astro';
 import { contentLang, getLang, useStrings } from '../../i18n';
 import { inline } from '../../lib/markup';
+import { isLive } from '../../lib/ai/config';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'contact');
@@ -29,7 +34,12 @@ const query = 'A. Bakradze 7, 0159 Tbilisi, Georgia';
 const googleMaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 const osm = `https://www.openstreetmap.org/search?query=${encodeURIComponent(query)}`;
 const tel = `tel:${phone.replace(/[^\d+]/g, '')}`;
-const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=${encodeURIComponent(t.b2b.body.replace(/\n/g, '\r\n'))}`;
+const mailto = (subject: string, body: string) =>
+  `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.replace(/\n/g, '\r\n'))}`;
+const kit = mailto(t.b2b.subject, t.b2b.body);
+const request = mailto(t.request.subject, t.request.body);
+// Without the AI key the planner shows samples: don't promise an AI draft.
+const planText = isLive() ? t.plan.text : t.plan.textDemo;
 ---
 
 <section lang={textLang} id="contact" class="section contact" aria-labelledby="contact-title">
@@ -38,6 +48,11 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
 
     <div class="contact__grid">
       <div class="contact__details">
+        <div class="contact__request">
+          <Button href={request} icon="mail" size="lg" aria-describedby="contact-request-hint">{t.request.cta}</Button>
+          <p class="contact__request-hint" id="contact-request-hint">{t.request.hint}</p>
+        </div>
+
         <div class="cblock">
           <h3 class="cblock__title kicker" id="contact-office">{t.office}</h3>
           <address class="cblock__address">
@@ -102,7 +117,7 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
               {t.plan.kicker}
             </p>
             <h3 class="handoff__title">{t.plan.title}</h3>
-            <p class="handoff__note">{t.plan.text}</p>
+            <p class="handoff__note">{planText}</p>
             <Button href="#plan" variant="ai" size="lg">{t.plan.cta}</Button>
           </div>
         </NightSurface>
@@ -126,6 +141,19 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
     grid-area: details;
     display: grid;
     gap: var(--space-xl);
+  }
+
+  .contact__request {
+    grid-column: 1 / -1;
+    display: grid;
+    justify-items: start;
+    gap: var(--space-xs);
+  }
+
+  .contact__request-hint {
+    max-width: 44ch;
+    font-size: var(--fs-sm);
+    color: var(--color-text-body);
   }
 
   .cblock__title {
@@ -393,9 +421,14 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
       padding: var(--space-m);
     }
 
-    .handoff__inner :global(.btn) {
+    .handoff__inner :global(.btn),
+    .contact__request :global(.btn) {
       width: 100%;
       justify-content: center;
+    }
+
+    .contact__request {
+      justify-items: stretch;
     }
   }
 </style>

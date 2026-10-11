@@ -84,7 +84,16 @@
     "demoStampMain": "Demo",
     "demoStampLabel": "Sample itinerary — demo",
     "demoNotice": "Demo mode: the live AI planner isn’t connected yet, so you see a ready-made sample, not a plan written for you. You can still send your choices to our team.",
-    "rateLimited": "Please wait about {minutes} min before the next try."
+    "rateLimited": "Please wait about {minutes} min before the next try.",
+    "sampleKicker": "Sample · not written for your request",
+    "loadingSample": "Loading the closest sample…",
+    "showingSampleDay": "Showing sample day {day}…",
+    "compareRequest": "Your request",
+    "compareSample": "Sample shown",
+    "sampleLang": {
+      "en": "in English",
+      "it": "in Italian"
+    }
   },
   "actions": {
     "refineLabel": "Refine this draft",
@@ -98,7 +107,9 @@
     "copyFailed": "Couldn’t copy. Please select the text instead.",
     "read": "Read aloud",
     "readStop": "Stop reading",
-    "restart": "Start over"
+    "restart": "Start over",
+    "sendDemo": "Send my choices to Local Host",
+    "sendDemoHint": "Opens your email app with your own choices filled in, not the sample. Nothing is sent until you press send."
   },
   "map": {
     "label": "Route map",
@@ -130,6 +141,27 @@
       {
         "title": "Send it to Tbilisi",
         "text": "Our team checks every detail and turns your draft into a tailored programme."
+      }
+    ]
+  },
+  "demo": {
+    "intro": "Choose countries and interests, write us a line and see a sample itinerary, day by day. Then send your choices to our team in Tbilisi, who plan the real trip.",
+    "hint": "Tap the stamps that fit your trip, then write us a line. Nothing is booked: you see a sample and can send us your choices.",
+    "submit": "Show a sample itinerary",
+    "privacy": "Demo: your choices are used only to pick the closest sample. Nothing goes to an AI service, and nothing reaches our team unless you email it.",
+    "disclaimer": "A sample is an example, not an offer: our team in Tbilisi plans your trip and confirms prices and availability.",
+    "steps": [
+      {
+        "title": "Stamp your trip",
+        "text": "Countries, experiences, length and pace — and a line about who is travelling."
+      },
+      {
+        "title": "See a sample",
+        "text": "You get the closest ready-made itinerary, with its route drawn on the map."
+      },
+      {
+        "title": "Send it to Tbilisi",
+        "text": "Email us your choices; our team turns them into a tailored programme."
       }
     ]
   }

@@ -24,7 +24,8 @@
     "kicker": "AI trip designer",
     "title": "Rather sketch a trip first?",
     "text": "Our AI trip designer drafts a day-by-day plan in a minute — then send it to us and we take it from there.",
-    "cta": "Plan with AI"
+    "cta": "Plan with AI",
+    "textDemo": "Pick countries and interests in the trip designer, see a sample itinerary, then send us your choices."
   },
   "envelope": {
     "label": "An airmail envelope addressed to Local Host, A. Bakradze 7, 0159 Tbilisi, Georgia",
@@ -36,5 +37,11 @@
     "company": "Local Host LLC",
     "country": "Georgia",
     "caption": "Local Host LLC, A. Bakradze 7, 0159 Tbilisi"
+  },
+  "request": {
+    "cta": "Request a programme by email",
+    "hint": "Opens your email app with a short template: destinations, dates, group size and requirements.",
+    "subject": "Programme request",
+    "body": "Hello Local Host team,\n\nwe would like a programme for a group.\n\nAgency / name:\nDestinations (Georgia, Armenia, Azerbaijan):\nDates:\nGroup size:\nRequirements (interests, hotel category, guide language …):\n\nThank you!"
   }
 }
