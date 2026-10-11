@@ -15,11 +15,11 @@
   },
   "b2b": {
     "kicker": "Für Reisebüros & Reiseveranstalter",
-    "title": "Fordern Sie unser *Partner-Kit* an.",
-    "text": "Erzählen Sie uns von Ihrer Agentur und den Märkten, in denen Sie verkaufen — wir schicken Ihnen unser Partner-Kit.",
-    "cta": "Partner-Kit anfordern",
-    "subject": "Anfrage Partner-Kit",
-    "body": "Hallo Local-Host-Team,\n\nwir sind ein Reisebüro / Reiseveranstalter und würden gern Ihr Partner-Kit erhalten.\n\nAgentur:\nLand und Märkte:\nWebsite:\n\nVielen Dank!"
+    "title": "Lassen Sie uns *zusammenarbeiten*.",
+    "text": "Erzählen Sie uns von Ihrer Agentur und den Märkten, in denen Sie verkaufen — wir melden uns zu einer möglichen Zusammenarbeit.",
+    "cta": "Als Agentur schreiben",
+    "subject": "Anfrage Zusammenarbeit",
+    "body": "Hallo Local-Host-Team,\n\nwir sind ein Reisebüro / Reiseveranstalter und würden gern über eine Zusammenarbeit sprechen.\n\nAgentur:\nLand und Märkte:\nWebsite:\n\nVielen Dank!"
   },
   "plan": {
     "kicker": "KI-Reise-Designer",

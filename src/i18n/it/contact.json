@@ -15,11 +15,11 @@
   },
   "b2b": {
     "kicker": "Per agenzie di viaggio e tour operator",
-    "title": "Richiedi il nostro *kit partner*.",
-    "text": "Parlaci della tua agenzia e dei mercati in cui vendi: ti invieremo il nostro kit partner.",
-    "cta": "Richiedi il kit partner",
-    "subject": "Richiesta kit partner",
-    "body": "Buongiorno team di Local Host,\n\nsiamo un’agenzia di viaggi / un tour operator e vorremmo ricevere il vostro kit partner.\n\nAgenzia:\nPaese e mercati:\nSito web:\n\nGrazie!"
+    "title": "*Lavoriamo insieme*.",
+    "text": "Parlaci della tua agenzia e dei mercati in cui vendi: ti ricontatteremo per parlare di una collaborazione.",
+    "cta": "Scrivici come agenzia",
+    "subject": "Richiesta di collaborazione",
+    "body": "Buongiorno team di Local Host,\n\nsiamo un’agenzia di viaggi / un tour operator e vorremmo parlare di una collaborazione.\n\nAgenzia:\nPaese e mercati:\nSito web:\n\nGrazie!"
   },
   "plan": {
     "kicker": "Progettista di viaggi AI",

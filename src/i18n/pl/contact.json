@@ -15,11 +15,11 @@
   },
   "b2b": {
     "kicker": "Dla biur podróży i touroperatorów",
-    "title": "Poproś o nasz *pakiet partnerski*.",
-    "text": "Opowiedz nam o swoim biurze i rynkach, na których sprzedajesz, a wyślemy Ci nasz pakiet partnerski.",
-    "cta": "Poproś o pakiet partnerski",
-    "subject": "Prośba o pakiet partnerski",
-    "body": "Dzień dobry, zespole Local Host,\n\njesteśmy biurem podróży / touroperatorem i chcielibyśmy otrzymać Wasz pakiet partnerski.\n\nBiuro:\nKraj i rynki:\nStrona internetowa:\n\nDziękujemy!"
+    "title": "*Współpracujmy*.",
+    "text": "Opowiedz nam o swoim biurze i rynkach, na których sprzedajesz, a odezwiemy się w sprawie współpracy.",
+    "cta": "Napisz do nas jako biuro",
+    "subject": "Zapytanie o współpracę",
+    "body": "Dzień dobry, zespole Local Host,\n\njesteśmy biurem podróży / touroperatorem i chcielibyśmy porozmawiać o współpracy.\n\nBiuro:\nKraj i rynki:\nStrona internetowa:\n\nDziękujemy!"
   },
   "plan": {
     "kicker": "Projektant podróży AI",
