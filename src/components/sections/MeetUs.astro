@@ -598,4 +598,21 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
       row-gap: var(--space-l);
     }
   }
+
+  /* ── Proposal ?proposal=compact (phones): each season is a dated list ──
+     (PhoneSlides drops the carousel; the rows are styled in FairStamp.astro) */
+  @media (max-width: 39.99em) {
+    :global(html[data-proposal~='compact']) .fairs__seasons {
+      row-gap: var(--space-l);
+    }
+
+    :global(html[data-proposal~='compact']) .fairs__season-head {
+      margin-bottom: 0;
+      border-bottom-color: var(--color-rule-strong);
+    }
+
+    :global(html[data-proposal~='compact']) .fairs__list {
+      row-gap: 0;
+    }
+  }
 </style>

@@ -599,4 +599,242 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       border-top: var(--border-hair) solid color-mix(in srgb, currentColor 45%, transparent);
     }
   }
+
+  /* ── Proposal ?proposal=compact (phones): one dated row per fair ──────────
+       [✈ IT]  City                     dates
+               FAIR NAME ↗       ● state tag
+     The stamp shrinks to a small ink mark in the fair's own shape and ink, on
+     a hairline-ruled list; the whole row stays the link (stretched). Only
+     with html[data-proposal~='compact'] and below 40em: elsewhere the stamps
+     above apply unchanged. */
+  @media (max-width: 39.99em) {
+    :global(html[data-proposal~='compact']) .fair {
+      --_mark: 2.5rem;
+      /* room always kept for the longest fair name + arrow ("TOUR SALON ↗") */
+      --_name: 6.5rem;
+      border-bottom: var(--border-hair) solid var(--color-rule);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__stamp {
+      display: grid;
+      /* the dates wrap before the fair name does (long German dates on
+         320px phones); city and fair name never break mid-word */
+      grid-template-columns:
+        var(--_mark) minmax(min-content, 1fr)
+        fit-content(calc(100% - var(--_mark) - 2 * var(--space-xs) - var(--_name)));
+      grid-template-areas:
+        'mark city when'
+        'mark name tag'
+        'mark tba tba';
+      align-items: baseline;
+      column-gap: var(--space-xs);
+      row-gap: 0;
+      min-height: 0;
+      aspect-ratio: auto;
+      padding: var(--space-xs) 0;
+      color: var(--_fg);
+      text-align: start;
+      transform: none;
+      isolation: isolate;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape]:is(:hover, :focus-within) .fair__stamp {
+      transform: none;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__stamp::before {
+      content: none;
+    }
+
+    /* the mini stamp: frame + "✈ IT", pressed slightly askew */
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__frame,
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__cc {
+      grid-area: mark;
+      align-self: center;
+      justify-self: center;
+      transform: rotate(calc(var(--tilt) * 2.5));
+      transition: transform var(--dur-base) var(--ease-out);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape]:is(:hover, :focus-within) :is(.fair__frame, .fair__cc) {
+      transform: none;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__frame {
+      position: relative;
+      inset: auto;
+      width: var(--_mark);
+      height: var(--_mark);
+      border-width: var(--border-heavy);
+      border-style: solid;
+      border-radius: var(--radius-xs);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__frame::after {
+      inset: var(--border-heavy);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape='double'] .fair__frame {
+      border-style: double;
+      border-width: calc(var(--border-heavy) + var(--border-thick));
+      border-radius: var(--radius-sm);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape='dashed'] .fair__frame {
+      border-style: dashed;
+      border-width: var(--border-thick);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape='round'] .fair__frame {
+      border-radius: var(--radius-round);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape='oval'] .fair__frame {
+      width: calc(var(--_mark) * 0.84);
+      border-radius: var(--radius-round);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape='arch'] .fair__frame {
+      width: calc(var(--_mark) * 0.9);
+      border-radius: 50% 50% var(--radius-xs) var(--radius-xs) / 42% 42% var(--radius-xs) var(--radius-xs);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__cc {
+      z-index: var(--z-raised);
+      flex-direction: column;
+      gap: 0.15rem;
+      margin: 0;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape='arch'] .fair__cc {
+      margin-top: 0.2rem;
+    }
+
+    /* next: the mark is freshly inked (solid), the row itself stays on paper */
+    :global(html[data-proposal~='compact']) .fair[data-state='next'] .fair__frame {
+      background: var(--_ink);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-state='next'] .fair__cc {
+      color: var(--color-text-inverse);
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__city {
+      grid-area: city;
+      /* sits on the last line of a wrapped date, right above the fair name */
+      align-self: last baseline;
+      margin: 0;
+      font-size: var(--fs-lg);
+      line-height: 1;
+      overflow-wrap: normal;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__city:lang(ka) {
+      font-size: var(--fs-md);
+      line-height: 1.2;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__name {
+      grid-area: name;
+      margin: var(--space-3xs) 0 0;
+    }
+
+    /* the domain line gives way to an "opens the official site" arrow */
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__domain {
+      display: none;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__name::after {
+      content: '';
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      margin-inline-start: 0.25em;
+      vertical-align: -0.1em;
+      background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='square'%3E%3Cpath d='M7 17 17 7M9 7h8v8'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='square'%3E%3Cpath d='M7 17 17 7M9 7h8v8'/%3E%3C/svg%3E") center / contain no-repeat;
+      opacity: 0.78;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__when {
+      grid-area: when;
+      display: block;
+      justify-self: end;
+      align-self: last baseline;
+      width: auto;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      letter-spacing: var(--tracking-mono);
+      text-align: end;
+      /* "16.–18. Okt." / "2026": the year drops, not the month */
+      text-wrap: wrap;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__tag {
+      grid-area: tag;
+      position: static;
+      justify-self: end;
+      margin-top: var(--space-3xs);
+      padding: 0;
+      transform: none;
+      background: none;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__tba {
+      grid-area: tba;
+      max-width: none;
+      margin-top: var(--space-3xs);
+    }
+
+    /* held: a small postmark cancels the mark, not the text */
+    :global(html[data-proposal~='compact']) .fair[data-state='held'] .fair__cancel {
+      grid-area: mark;
+      top: 22%;
+      left: -18%;
+      width: 136%;
+      height: 56%;
+    }
+
+    :global(html[data-proposal~='compact']) .fair[data-state='held'] .fair__cancel path {
+      stroke-width: var(--border-thin);
+      vector-effect: non-scaling-stroke;
+    }
+
+    /* the stretched link fills the row */
+    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__link::after {
+      inset: 0;
+      border-radius: var(--radius-xs);
+    }
+  }
+
+  /* entrance in the list: rows fade in, the marks are pressed on */
+  @media screen and (max-width: 39.99em) and (prefers-reduced-motion: no-preference) {
+    :global(html[data-proposal~='compact'] [data-reveal='ready']) .fair[data-revealed] .fair__stamp {
+      animation-name: fair-row-in;
+    }
+
+    :global(html[data-proposal~='compact'] [data-reveal='ready']) .fair[data-revealed] :is(.fair__frame, .fair__cc) {
+      animation: fair-mark-press var(--dur-base) var(--ease-overshoot) backwards;
+      animation-delay: calc(var(--i, 0) * var(--dur-stagger) + var(--dur-fast));
+    }
+  }
+
+  @keyframes fair-row-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fair-mark-press {
+    from {
+      opacity: 0;
+      transform: rotate(calc(var(--tilt) * 2.5 - 8deg)) scale(1.5);
+    }
+    55% {
+      opacity: 1;
+    }
+  }
 </style>
