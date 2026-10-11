@@ -183,9 +183,9 @@
   --space-2xl: 4rem; /* 64px */
   --space-3xl: 6rem; /* 96px */
   --space-4xl: 8rem; /* 128px */
-  --space-section: clamp(3.5rem, 2.5rem + 4.4444vw, 6.5rem); /* 56 → 104px: vertical padding of a section */
+  --space-section: clamp(3.5rem, 2.5rem + 2.7778vw, 5rem); /* 56 → 80px: vertical padding of a section */
   --space-section-sm: clamp(2.75rem, 2rem + 3.3333vw, 5rem); /* 44 → 80px: compact sections, bands */
-  --space-block: clamp(1.75rem, 1.25rem + 2.2222vw, 3.25rem); /* 28 → 52px: section head → body */
+  --space-block: clamp(1.5rem, 1rem + 1.6667vw, 2.5rem); /* 24 → 40px: section head → body */
 
   --layout-max: 82rem; /* 1312px content width */
   --layout-wide: 96rem; /* 1536px cap for full-bleed media */

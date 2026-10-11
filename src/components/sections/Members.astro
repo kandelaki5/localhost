@@ -71,7 +71,7 @@ const guilloche = Array.from({ length: 16 }, (_, i) => {
             </h3>
 
             <div class="passport__stamps">
-              <ul class="passport__permits m-slides" role="list" data-m-slides="inset">
+              <ul class="passport__permits m-slides" role="list" data-m-slides="inset" data-m-compact data-m-label={`${t.kicker} · ${page.name}`}>
                 {page.orgs.map((org, oi) => (
                   <Permit
                     org={org}

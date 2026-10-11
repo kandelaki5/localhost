@@ -87,6 +87,11 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
       </p>
     </div>
 
+    <p class="bd__legend" aria-hidden="true">
+      <span class="bd__lamp bd__lamp--legend">{t.board.direct}</span>
+      <span class="bd__legend-text">{t.board.allDirect}</span>
+    </p>
+
     <table class="bd__table" role="table">
       <caption class="visually-hidden">{strings.caption}</caption>
       <thead class="bd__head" role="rowgroup">
@@ -472,11 +477,11 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
     }
   }
 
-  /* ── the table (narrow: 2 lines per row) ── */
+  /* ── the table (narrow: city + code on one line, airline below) ── */
   .bd__table {
     --g: 0.125rem;
-    --fw: min(2.25rem, calc((100cqi - 11 * var(--g)) / 12));
-    --fh: calc(var(--fw) * 1.42);
+    --fw: min(2.25rem, calc((100cqi - var(--space-xs) - 13 * var(--g)) / 15));
+    --fh: calc(var(--fw) * 1.38);
     display: block;
     width: 100%;
   }
@@ -498,14 +503,14 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
 
   .bd__row {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: calc(12 * var(--fw) + 11 * var(--g)) minmax(0, 1fr);
     grid-template-areas:
-      'city city city'
-      'code air status';
+      'city code'
+      'air status';
     align-items: center;
     column-gap: var(--space-xs);
-    row-gap: var(--space-2xs);
-    padding-block: var(--space-xs);
+    row-gap: 0.3rem;
+    padding-block: 0.55rem;
     border-top: var(--border-hair) solid var(--board-rule);
     transition: background-color var(--dur-fast) var(--ease-out);
   }
@@ -536,8 +541,8 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
     grid-area: code;
   }
 
-  .bd__flaps--code {
-    --fw: calc(min(2.25rem, calc((100cqi - 11 * var(--g)) / 12)) * 0.78);
+  .bd__code {
+    align-self: start;
   }
 
   .bd__air {
@@ -557,20 +562,14 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
   }
 
   .bd__carrier {
-    display: block;
+    display: inline;
+    white-space: nowrap;
   }
 
-  @container board (min-width: 30rem) {
-    .bd__carrier {
-      display: inline;
-      white-space: nowrap;
-    }
-
-    .bd__carrier + .bd__carrier::before {
-      content: '·' / '';
-      margin-inline: 0.55em;
-      color: var(--color-amber-dim);
-    }
+  .bd__carrier + .bd__carrier::before {
+    content: '·' / '';
+    margin-inline: 0.55em;
+    color: var(--color-amber-dim);
   }
 
   .bd__ports {
@@ -656,6 +655,37 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-text-muted);
+  }
+
+  /* Narrow boards: one shared "DIRECT" note instead of a lamp on every row
+     (rows keep "direct" in their accessible labels); seasonal tags stay. */
+  .bd__legend {
+    display: none;
+  }
+
+  @container board (max-width: 29.99rem) {
+    .bd__legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-2xs) var(--space-xs);
+      margin: 0 0 var(--space-2xs);
+      padding-bottom: var(--space-xs);
+      border-bottom: var(--border-hair) solid var(--board-rule);
+    }
+
+    .bd__legend-text {
+      font-size: var(--fs-2xs);
+      color: var(--color-text-muted);
+    }
+
+    .bd__body .bd__lamp {
+      display: none;
+    }
+
+    .bd__status {
+      align-self: start;
+    }
   }
 
   /* collapsed board (JS only — without JS every row shows) */

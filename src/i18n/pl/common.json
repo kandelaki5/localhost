@@ -21,7 +21,7 @@
   },
   "cta": {
     "planWithAi": "Zaplanuj z AI",
-    "groupRequest": "Wyślij zapytanie grupowe",
+    "groupRequest": "Poproś o program",
     "draftTrip": "Naszkicuj podróż z AI",
     "writeToUs": "Napisz do nas",
     "backHome": "Wróć na stronę główną"
@@ -83,8 +83,15 @@
     }
   },
   "slides": {
-    "prev": "Poprzedni",
-    "next": "Następny"
+    "prev": "{group}: poprzedni",
+    "next": "{group}: następny",
+    "status": "{group}: {title}, {n} z {total}",
+    "groups": {
+      "countries": "Kraje",
+      "hosts": "Wyróżnieni gospodarze",
+      "moreHosts": "Więcej gospodarzy",
+      "policy": "Zobowiązania z naszej polityki"
+    }
   },
   "footer": {
     "passport": "Paszport na Kaukaz Południowy",

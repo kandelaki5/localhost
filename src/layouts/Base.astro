@@ -138,6 +138,16 @@ const ld = jsonLd.length
 
     <script is:inline>
       document.documentElement.classList.replace('no-js', 'js');
+      // Design proposals under review: ?proposal=compact turns on alternative
+      // layouts (kept for the session so switching language keeps them;
+      // ?proposal=off clears it). Without the parameter nothing changes.
+      try {
+        var lhp = new URLSearchParams(location.search).get('proposal');
+        if (lhp === 'off') sessionStorage.removeItem('lh-proposal');
+        else if (lhp) sessionStorage.setItem('lh-proposal', lhp);
+        lhp = sessionStorage.getItem('lh-proposal');
+        if (lhp) document.documentElement.dataset.proposal = lhp.replace(/,/g, ' ');
+      } catch (e) {}
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
     <slot name="head" />

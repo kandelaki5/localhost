@@ -47,7 +47,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
         <span>{t.note}</span>
       </p>
 
-      <div class="hosts__features m-slides" data-m-slides>
+      <div class="hosts__features m-slides" data-m-slides data-m-label={common.slides.groups.hosts}>
       <FeaturedHost
         class="hosts__lead"
         variant="wide"
@@ -80,7 +80,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
         <HostQuote class="hosts__statement" size="l" text={t.more.quote} source={t.quoteSource} cite={POLICY_PDF} />
       </div>
 
-      <ul class="hosts__grid m-slides" aria-labelledby="hosts-more-title" data-m-slides>
+      <ul class="hosts__grid m-slides" aria-labelledby="hosts-more-title" data-m-slides data-m-label={common.slides.groups.moreHosts}>
         {
           others.map((host, i) => (
             <li class="hosts__item">
@@ -163,7 +163,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
 
   .hosts__spread :global(.hosts__second) {
     grid-area: second;
-    margin-top: clamp(5rem, 2rem + 6vw, 8.5rem);
+    margin-top: var(--space-xl);
   }
 
   /* Margin note: why there are no portraits. */
@@ -200,7 +200,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
 
   /* ── more hosts ── */
   .hosts__more {
-    margin-top: clamp(4rem, 2rem + 6vw, 7.5rem);
+    margin-top: var(--space-2xl);
     padding-top: var(--space-s);
     border-top: var(--border-hair) solid var(--color-rule-strong);
   }
@@ -211,7 +211,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
     column-gap: var(--layout-gap);
     row-gap: var(--space-l);
     align-items: end;
-    margin-bottom: clamp(3.5rem, 2rem + 4vw, 5.5rem);
+    margin-bottom: var(--space-xl);
   }
 
   .hosts__more-titles {
@@ -232,7 +232,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
   .hosts__more-head > :global(.hosts__statement) {
     grid-column: 7 / -1;
     align-self: start;
-    margin-top: var(--space-xl);
+    margin-top: var(--space-m);
   }
 
   .hosts__more-head > :global(.hosts__statement) {
@@ -260,7 +260,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
     align-items: center;
     justify-content: space-between;
     gap: var(--space-m) var(--space-l);
-    margin-top: clamp(3rem, 2rem + 3vw, 4.5rem);
+    margin-top: var(--space-xl);
     padding-top: var(--space-m);
     border-top: var(--border-hair) solid var(--color-rule);
   }
@@ -349,6 +349,7 @@ const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
     .hosts__grid {
       grid-template-columns: minmax(0, 1fr);
       row-gap: var(--space-xl);
+      --m-pad-top: 1.75rem; /* the small monogram seals overhang the photos */
     }
 
     .hosts__foot {

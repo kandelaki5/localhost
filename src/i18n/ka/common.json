@@ -21,7 +21,7 @@
   },
   "cta": {
     "planWithAi": "დაგეგმეთ AI-ით",
-    "groupRequest": "ჯგუფური მოთხოვნის გაგზავნა",
+    "groupRequest": "პროგრამის მოთხოვნა",
     "draftTrip": "მარშრუტის მონახაზი AI-ით",
     "writeToUs": "მოგვწერეთ",
     "backHome": "მთავარ გვერდზე დაბრუნება"
@@ -83,8 +83,15 @@
     }
   },
   "slides": {
-    "prev": "წინა",
-    "next": "შემდეგი"
+    "prev": "{group}: წინა",
+    "next": "{group}: შემდეგი",
+    "status": "{group}: {title} ({n}, სულ {total})",
+    "groups": {
+      "countries": "ქვეყნები",
+      "hosts": "რჩეული მასპინძლები",
+      "moreHosts": "სხვა მასპინძლები",
+      "policy": "პოლიტიკის ვალდებულებები"
+    }
   },
   "footer": {
     "passport": "პასპორტი სამხრეთ კავკასიისკენ",

@@ -21,7 +21,7 @@
   },
   "cta": {
     "planWithAi": "Mit KI planen",
-    "groupRequest": "Gruppenanfrage starten",
+    "groupRequest": "Programm anfragen",
     "draftTrip": "Reise mit KI entwerfen",
     "writeToUs": "Schreiben Sie uns",
     "backHome": "Zur Startseite"
@@ -83,8 +83,15 @@
     }
   },
   "slides": {
-    "prev": "Zurück",
-    "next": "Weiter"
+    "prev": "{group}: zurück",
+    "next": "{group}: weiter",
+    "status": "{group}: {title}, {n} von {total}",
+    "groups": {
+      "countries": "Länder",
+      "hosts": "Ausgewählte Gastgeber",
+      "moreHosts": "Weitere Gastgeber",
+      "policy": "Grundsätze unserer Richtlinie"
+    }
   },
   "footer": {
     "passport": "Reisepass für den Südkaukasus",

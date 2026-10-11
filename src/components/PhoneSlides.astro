@@ -1,19 +1,23 @@
 ---
 /**
  * Phone slides: card rows that would stack into long columns on phones
- * (country cards, hosts, permits, fairs, commitments, seals …) scroll
- * sideways instead, one card at a time with the next one peeking in.
+ * (country cards, hosts, commitments …) scroll sideways instead, one card at
+ * a time with the next one peeking in.
  *
- * Opt in on the list itself:  <ul class="… m-slides" data-m-slides>
+ * Opt in on the list itself:  <ul class="… m-slides" data-m-slides data-m-label="Countries">
  *   data-m-slides="inset"  stays inside a padded/bordered box (no edge-to-edge bleed)
+ *   data-m-label           the group's name for the controls and announcements
+ *                          (falls back to the list's aria-label / aria-labelledby)
  *   --m-pad-top: …         room above the cards for anything overhanging them
  *
  * Below 40em the list becomes a snap-scrolling track (pure CSS, works without
- * JS). The script adds ← → buttons, a "02 / 06" counter and a progress bar
- * after each track, cloned from the template below so the labels follow the
- * page language. At 40em and up nothing changes: each section keeps its own
- * layout. The track overrides the section's layout on purpose (!important).
- * Rendered once on the home page.
+ * JS). The script puts a control row ABOVE each track — "02 / 06", a progress
+ * bar, ← → buttons named after the group ("Countries: next") — and, once the
+ * visitor has swiped or pressed an arrow, announces the current card politely
+ * ("Countries: Armenia, 2 of 3"). Cloned from the template below so the labels
+ * follow the page language. At 40em and up nothing changes. The track
+ * overrides the section's layout on purpose (!important). Rendered once on
+ * the home page.
  */
 import Icon from './ui/Icon.astro';
 import { getLang, useStrings } from '../i18n';
@@ -22,13 +26,7 @@ const t = useStrings(getLang(Astro), 'common');
 ---
 
 <template id="m-slides-ctrl">
-  <div class="m-ctrl" data-m-ctrl>
-    <button type="button" class="m-ctrl__btn" aria-label={t.slides.prev} data-m-prev>
-      <Icon name="arrow-left" size={18} />
-    </button>
-    <button type="button" class="m-ctrl__btn" aria-label={t.slides.next} data-m-next>
-      <Icon name="arrow-right" size={18} />
-    </button>
+  <div class="m-ctrl" data-m-ctrl data-prev={t.slides.prev} data-next={t.slides.next} data-status={t.slides.status}>
     <p class="m-ctrl__count" aria-hidden="true">
       <span class="m-ctrl__n" data-m-n>01</span>
       <span class="m-ctrl__total" data-m-total></span>
@@ -36,6 +34,13 @@ const t = useStrings(getLang(Astro), 'common');
     <span class="m-ctrl__bar" aria-hidden="true">
       <span class="m-ctrl__thumb" data-m-thumb></span>
     </span>
+    <button type="button" class="m-ctrl__btn" data-m-prev>
+      <Icon name="arrow-left" size={18} />
+    </button>
+    <button type="button" class="m-ctrl__btn" data-m-next>
+      <Icon name="arrow-right" size={18} />
+    </button>
+    <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-m-status></p>
   </div>
 </template>
 
@@ -50,17 +55,25 @@ const t = useStrings(getLang(Astro), 'common');
       display: flex !important;
       flex-direction: row !important;
       flex-wrap: nowrap !important;
-      align-items: stretch !important;
+      /* Cards keep their own height (no stretched blank space under short ones). */
+      align-items: flex-start !important;
       gap: var(--space-s) !important;
       overflow-x: auto;
       overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory;
-      /* Edge to edge: the track bleeds into the page gutter, cards snap to it. */
+      /* Edge to edge: the track bleeds into the page gutter, cards snap to it.
+         The end gutter is a spacer (::after): some browsers ignore inline-end
+         padding in scrolling flex rows, which would hide the last card's edge. */
       margin-inline: calc(-1 * var(--layout-gutter)) !important;
-      /* --m-pad-top: room for things overhanging the cards (seals, badges). */
-      padding: var(--m-pad-top, var(--space-2xs)) var(--layout-gutter) var(--space-2xs) !important;
+      padding: var(--m-pad-top, var(--space-2xs)) 0 var(--space-2xs) var(--layout-gutter) !important;
       scroll-padding-inline: var(--layout-gutter);
       scrollbar-width: none;
+    }
+
+    .m-slides::after {
+      content: '';
+      flex: 0 0 max(1px, calc(var(--layout-gutter) - var(--space-s)));
+      align-self: stretch;
     }
 
     .m-slides::-webkit-scrollbar {
@@ -71,6 +84,10 @@ const t = useStrings(getLang(Astro), 'common');
       margin-inline: 0 !important;
       padding-inline: 0 !important;
       scroll-padding-inline: 0;
+    }
+
+    .m-slides[data-m-slides='inset']::after {
+      display: none;
     }
 
     .m-slides > * {
@@ -84,11 +101,13 @@ const t = useStrings(getLang(Astro), 'common');
       outline-offset: -2px;
     }
 
+    /* Control row above the track: count · progress · ← → */
     .js .m-ctrl:not([data-static]) {
+      grid-column: 1 / -1;
       display: flex;
       align-items: center;
       gap: var(--space-2xs);
-      margin-top: var(--space-s);
+      margin-bottom: var(--space-xs);
     }
 
     .m-ctrl__btn {
@@ -125,7 +144,7 @@ const t = useStrings(getLang(Astro), 'common');
       align-items: baseline;
       gap: 0.35em;
       flex: none;
-      margin: 0 0 0 var(--space-2xs);
+      margin: 0;
       white-space: nowrap;
     }
 
@@ -151,7 +170,7 @@ const t = useStrings(getLang(Astro), 'common');
       flex: 1;
       min-width: var(--space-l);
       height: var(--border-hair);
-      margin-left: var(--space-2xs);
+      margin-inline: var(--space-2xs) var(--space-xs);
       background: var(--color-rule-strong);
     }
 
@@ -173,27 +192,65 @@ const t = useStrings(getLang(Astro), 'common');
   const tpl = document.querySelector<HTMLTemplateElement>('#m-slides-ctrl');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const pad2 = (n: number) => String(n).padStart(2, '0');
+  const fill = (pattern: string, vars: Record<string, string | number>) =>
+    pattern.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
+  const squash = (s: string | null | undefined) => (s ?? '').replace(/\s+/g, ' ').trim();
+
+  // The group's name: data-m-label, else the list's own accessible name.
+  const groupName = (track: HTMLElement) =>
+    squash(track.dataset.mLabel) ||
+    squash(track.getAttribute('aria-label')) ||
+    squash(
+      (track.getAttribute('aria-labelledby') ?? '')
+        .split(/\s+/)
+        .map((id) => document.getElementById(id)?.textContent)
+        .join(' '),
+    );
+
+  // A card's title for announcements: its first heading, else its first line of text.
+  const cardTitle = (card: HTMLElement) =>
+    squash(card.querySelector('[data-m-title], h2, h3, h4, h5, strong')?.textContent) ||
+    squash(card.textContent).slice(0, 60);
+
+  // Proposal preview (?proposal=compact): groups marked data-m-compact become
+  // compact lists/grids instead of carousels (styled by their own components).
+  if ((document.documentElement.dataset.proposal ?? '').split(' ').includes('compact')) {
+    for (const el of document.querySelectorAll<HTMLElement>('[data-m-slides][data-m-compact]')) {
+      el.classList.remove('m-slides');
+      el.removeAttribute('data-m-slides');
+    }
+  }
 
   document.querySelectorAll<HTMLElement>('[data-m-slides]').forEach((track, k) => {
-    const items = [...track.children] as HTMLElement[];
+    // Cards only: components may render their <script>/<style> inside the list.
+    const items = ([...track.children] as HTMLElement[]).filter((el) => !/^(SCRIPT|STYLE|TEMPLATE|LINK)$/.test(el.tagName));
     if (!tpl || items.length < 2) return;
     const ctrl = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-    track.after(ctrl);
+    track.before(ctrl);
     track.id ||= `m-slides-${k + 1}`;
+    const group = groupName(track);
+    if (group && !track.hasAttribute('aria-label') && !track.hasAttribute('aria-labelledby')) {
+      track.setAttribute('aria-label', group);
+    }
     const prev = ctrl.querySelector<HTMLButtonElement>('[data-m-prev]')!;
     const next = ctrl.querySelector<HTMLButtonElement>('[data-m-next]')!;
     const nEl = ctrl.querySelector<HTMLElement>('[data-m-n]')!;
     const thumb = ctrl.querySelector<HTMLElement>('[data-m-thumb]')!;
+    const status = ctrl.querySelector<HTMLElement>('[data-m-status]')!;
+    prev.setAttribute('aria-label', fill(ctrl.dataset.prev ?? '', { group }).replace(/^:\s*/, ''));
+    next.setAttribute('aria-label', fill(ctrl.dataset.next ?? '', { group }).replace(/^:\s*/, ''));
     prev.setAttribute('aria-controls', track.id);
     next.setAttribute('aria-controls', track.id);
     ctrl.querySelector<HTMLElement>('[data-m-total]')!.textContent = `/ ${pad2(items.length)}`;
     thumb.style.setProperty('--m-w', `${100 / items.length}%`);
 
-    // Index of the card aligned with the track's start padding.
+    const startEdge = () => track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).paddingLeft);
+
+    // Index of the card aligned with the track's start edge.
     const currentIndex = () => {
       const max = track.scrollWidth - track.clientWidth;
       if (track.scrollLeft >= max - 2) return items.length - 1;
-      const start = track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).paddingLeft);
+      const start = startEdge();
       let best = 0;
       let dist = Infinity;
       items.forEach((it, i) => {
@@ -206,9 +263,39 @@ const t = useStrings(getLang(Astro), 'common');
       return best;
     };
 
+    // Announce only after the visitor has moved the track (never on load).
+    let interacted = false;
+    let announced = -1;
+    const markInteracted = () => {
+      interacted = true;
+    };
+    for (const type of ['pointerdown', 'touchstart', 'keydown', 'wheel'] as const) {
+      track.addEventListener(type, markInteracted, { passive: true });
+    }
+
+    // Spacing around the control row (on load, resize and breakpoint changes).
+    const layout = () => {
+      track.style.marginTop = '';
+      ctrl.style.marginTop = '';
+      ctrl.style.marginBottom = '';
+      if (!MQ.matches) return;
+      // In a grid/flex-column parent the row gap would push the controls away
+      // from their track: pull them back so they always sit just above it.
+      const pcs = getComputedStyle(track.parentElement!);
+      const stacksRows = pcs.display.includes('grid') || (pcs.display.includes('flex') && pcs.flexDirection.startsWith('column'));
+      const rowGap = stacksRows ? parseFloat(pcs.rowGap) || 0 : 0;
+      if (rowGap) ctrl.style.marginBottom = `calc(var(--space-xs) - ${rowGap}px)`;
+      // A top margin on the list belongs above the controls now.
+      const mt = getComputedStyle(track).marginTop;
+      if (parseFloat(mt) > 0) {
+        ctrl.style.marginTop = mt;
+        track.style.marginTop = '0px';
+      }
+    };
+
     const update = () => {
       const active = MQ.matches;
-      // A focusable track lets keyboard users scroll it.
+      // A focusable track lets keyboard users scroll it with the arrow keys.
       if (active) track.tabIndex = 0;
       else track.removeAttribute('tabindex');
       if (!active) return;
@@ -219,12 +306,21 @@ const t = useStrings(getLang(Astro), 'common');
       thumb.style.setProperty('--m-x', `${i * 100}%`);
       prev.disabled = track.scrollLeft <= 2;
       next.disabled = track.scrollLeft >= max - 2;
+      if (interacted && i !== announced) {
+        announced = i;
+        status.textContent = fill(ctrl.dataset.status ?? '', {
+          group,
+          title: cardTitle(items[i]),
+          n: i + 1,
+          total: items.length,
+        }).replace(/^:\s*/, '');
+      }
     };
 
     const go = (dir: 1 | -1) => {
+      interacted = true;
       const target = items[Math.min(items.length - 1, Math.max(0, currentIndex() + dir))];
-      const start = track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).paddingLeft);
-      track.scrollBy({ left: target.getBoundingClientRect().left - start, behavior: reduced.matches ? 'auto' : 'smooth' });
+      track.scrollBy({ left: target.getBoundingClientRect().left - startEdge(), behavior: reduced.matches ? 'auto' : 'smooth' });
     };
     prev.addEventListener('click', () => go(-1));
     next.addEventListener('click', () => go(1));
@@ -242,8 +338,13 @@ const t = useStrings(getLang(Astro), 'common');
       },
       { passive: true },
     );
-    MQ.addEventListener('change', update);
-    addEventListener('resize', update, { passive: true });
-    update();
+    const relayout = () => {
+      layout();
+      update();
+    };
+    MQ.addEventListener('change', relayout);
+    addEventListener('resize', relayout, { passive: true });
+    announced = currentIndex();
+    relayout();
   });
 </script>

@@ -25,6 +25,7 @@ import { fmt, inline } from '../../lib/markup';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'caucasus');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'caucasus') === lang ? undefined : 'en';
 
@@ -37,7 +38,7 @@ const hours = (h: number | [number, number]) =>
   <div class="container">
     <SectionHead number={1} id="caucasus-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
 
-    <div class="caucasus__triptych m-slides" data-m-slides>
+    <div class="caucasus__triptych m-slides" data-m-slides data-m-label={common.slides.groups.countries}>
       {CARDS.map((card, i) => <CountryCard card={card} index={i} />)}
     </div>
 
@@ -171,7 +172,7 @@ const hours = (h: number | [number, number]) =>
     grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
     column-gap: var(--layout-gap);
     row-gap: var(--space-xl);
-    margin-top: clamp(3.5rem, 2rem + 5vw, 6.5rem);
+    margin-top: var(--space-2xl);
     padding-top: var(--space-l);
     border-top: var(--border-hair) solid var(--color-rule-strong);
   }

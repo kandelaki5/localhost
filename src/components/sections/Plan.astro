@@ -29,6 +29,7 @@ import PlanOutput from './plan/PlanOutput.astro';
 import NightMap from './plan/NightMap.astro';
 import { contentLang, getLang, useStrings } from '../../i18n';
 import { uid } from '../../lib/uid';
+import { isLive } from '../../lib/ai/config';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'plan');
@@ -37,6 +38,9 @@ const common = useStrings(lang, 'common');
 const textLang = contentLang(lang, 'plan') === lang ? undefined : 'en';
 
 const arcId = uid('plan-pm-arc');
+// No API key at build time → the planner answers with samples: say so before
+// visitors fill it in (adding the key needs a redeploy, which removes this).
+const demo = !isLive();
 // Strings for the lazy planner chunk (static copy from our own JSON; `<` escaped for the script context).
 const clientConfig = JSON.stringify({ lang, t }).replace(/</g, '\\u003c');
 const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.nojs.subject)}`;
@@ -58,6 +62,15 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.no
         <Button href={mailto} icon="arrow-right">{t.nojs.cta}</Button>
       </div>
     </noscript>
+
+    {
+      demo && (
+        <p class="plan__demo" role="note">
+          <span class="plan__demo-badge">{t.output.demoBadge}</span>
+          <span>{t.demoBefore}</span>
+        </p>
+      )
+    }
 
     <div class="planner" data-planner data-state="idle">
       <div class="planner__main">
@@ -178,6 +191,44 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.no
 </script>
 
 <style>
+  /* Demo notice, shown before the form while the AI is not switched on. */
+  .plan__demo {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+    max-width: 62rem;
+    margin: 0 0 var(--space-l);
+    padding: var(--space-s) var(--space-m);
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-left: 3px solid var(--color-amber);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--color-bg-raised) 70%, transparent);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+    color: var(--color-text-body);
+  }
+
+  .plan__demo-badge {
+    flex: none;
+    padding: 0.2em 0.55em;
+    border: var(--border-hair) solid var(--color-amber);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-amber);
+  }
+
+  @media (max-width: 39.99em) {
+    .plan__demo {
+      flex-direction: column;
+      gap: var(--space-2xs);
+      padding: var(--space-s);
+    }
+  }
+
   .plan {
     position: relative;
   }

@@ -66,8 +66,10 @@
     "balanced": "Umiarkowane",
     "active": "Aktywne"
   },
+  "demoBefore": "Wersja demo: planer AI nie jest jeszcze włączony. Po wypełnieniu formularza zobaczą Państwo gotowy przykładowy program, a nie plan przygotowany dla Państwa. Wybory zostaną zachowane i można je wysłać naszemu zespołowi jako zapytanie.",
   "output": {
     "title": "Szkic programu",
+    "sampleTitle": "Przykładowy program",
     "draft": "Szkic {n}",
     "connecting": "Łączenie z planerem podróży…",
     "designing": "Przygotowujemy szkic podróży…",

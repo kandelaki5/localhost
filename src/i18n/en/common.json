@@ -21,7 +21,7 @@
   },
   "cta": {
     "planWithAi": "Plan with AI",
-    "groupRequest": "Start a group request",
+    "groupRequest": "Request a programme",
     "draftTrip": "Draft a trip with AI",
     "writeToUs": "Write to us",
     "backHome": "Back to the home page"
@@ -80,8 +80,15 @@
     }
   },
   "slides": {
-    "prev": "Previous",
-    "next": "Next"
+    "prev": "{group}: previous",
+    "next": "{group}: next",
+    "status": "{group}: {title}, {n} of {total}",
+    "groups": {
+      "countries": "Countries",
+      "hosts": "Featured hosts",
+      "moreHosts": "More hosts",
+      "policy": "Policy commitments"
+    }
   },
   "footer": {
     "passport": "Passport to the South Caucasus",

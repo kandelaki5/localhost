@@ -7,8 +7,13 @@
  *
  * `wide` (Sisatura): landscape photo, quote and facts side by side.
  * `tall` (Leila): portrait crop for the narrower, dropped column.
+ *
+ * Phones: both take a landscape crop, and the facts fold behind an
+ * "At a glance" toggle so the card shows photo, name and quote at a glance
+ * (open everywhere else, and without JS).
  */
 import Figure from '../../ui/Figure.astro';
+import Icon from '../../ui/Icon.astro';
 import HostSeal from './HostSeal.astro';
 import HostQuote from './HostQuote.astro';
 import { POLICY_PDF, type Host } from './data';
@@ -61,7 +66,11 @@ const sub = copy.people ?? copy.tag;
 
     {
       copy.facts && copy.facts.length > 0 && (
-        <div class="fhost__facts">
+        <details class="fhost__facts" open data-fhost-facts>
+          <summary class="fhost__toggle">
+            <span class="kicker">{factsTitle}</span>
+            <Icon name="chevron" size={16} class="fhost__chev" />
+          </summary>
           {factsTitle && <p class="fhost__facts-title kicker">{factsTitle}</p>}
           <dl class="fhost__dl">
             {copy.facts.map((f) => (
@@ -71,7 +80,7 @@ const sub = copy.people ?? copy.tag;
               </div>
             ))}
           </dl>
-        </div>
+        </details>
       )
     }
   </div>
@@ -161,6 +170,11 @@ const sub = copy.people ?? copy.tag;
     color: var(--color-green-ink);
   }
 
+  /* The toggle only exists on phones; elsewhere the facts are always open. */
+  .fhost__toggle {
+    display: none;
+  }
+
   .fhost__dl {
     display: grid;
     grid-template-columns: max-content minmax(0, 1fr);
@@ -248,12 +262,40 @@ const sub = copy.people ?? copy.tag;
   }
 
   @media (max-width: 39.99em) {
-    .fhost--wide :global(.figure__media) {
+    .fhost--wide :global(.figure__media),
+    .fhost--tall :global(.figure__media) {
       aspect-ratio: 4 / 3;
     }
 
     .fhost__media :global(.fhost__seal) {
       --hseal-size: 5.25rem;
+    }
+
+    .fhost__body {
+      gap: var(--space-s);
+    }
+
+    .fhost__toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      min-height: 2.75rem;
+      color: var(--color-green-ink);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .fhost__toggle::-webkit-details-marker {
+      display: none;
+    }
+
+    .fhost__facts[open] :global(.fhost__chev) {
+      rotate: 180deg;
+    }
+
+    .fhost__facts-title {
+      display: none;
     }
   }
 
@@ -301,3 +343,13 @@ const sub = copy.people ?? copy.tag;
     }
   }
 </style>
+
+<script>
+  // Phones: fold the facts so the card stays short; open everywhere else.
+  const phone = matchMedia('(max-width: 39.99em)');
+  const sync = () => {
+    for (const d of document.querySelectorAll<HTMLDetailsElement>('[data-fhost-facts]')) d.open = !phone.matches;
+  };
+  sync();
+  phone.addEventListener('change', sync);
+</script>

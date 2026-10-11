@@ -353,6 +353,16 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
       visibility 0s var(--dur-base);
   }
 
+  /* Out of the way, but still reachable: while the visitor scrolls down to
+     read (data-down) or where the pill would cover a link, button, field or
+     flight-board row (data-covering), it fades out and ignores taps. Keyboard
+     focus brings it back, so Tab can always reach it. */
+  .toc:is([data-down], [data-covering]):not([data-hidden], [data-typing]) .toc-pill:not(:focus-visible) {
+    opacity: 0;
+    pointer-events: none;
+    translate: -50% 1.25rem;
+  }
+
   /* data-surface on the controls remaps the colour roles; keep our own backgrounds. */
   .toc-rail[data-surface] {
     background: color-mix(in srgb, var(--color-bg) 84%, transparent);
@@ -576,24 +586,67 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
     }
 
     // Page progress on the pill's ring.
-    let ticking = false;
     const updateProgress = () => {
-      ticking = false;
       const max = document.documentElement.scrollHeight - innerHeight;
       const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
       progress?.style.setProperty('stroke-dashoffset', String(100 - p * 100));
+    };
+
+    // Keep the pill out of the way: it slips away while the visitor scrolls
+    // down to read and returns when they scroll up; once scrolling settles it
+    // also stays away from anything it would cover.
+    const COVERABLE =
+      'a[href], button, input, select, textarea, summary, label, [role="button"], [role="tab"], [tabindex]:not([tabindex="-1"]), .bd__row';
+    const coversSomething = () => {
+      if (!pill || getComputedStyle(pill).display === 'none') return false;
+      // Where the pill sits when shown (independent of its hidden translate).
+      const w = pill.offsetWidth;
+      const h = pill.offsetHeight;
+      const bottom = innerHeight - parseFloat(getComputedStyle(pill).bottom);
+      const top = bottom - h;
+      const left = (innerWidth - w) / 2;
+      for (const y of [top + 4, top + h / 2, bottom - 4]) {
+        for (const x of [left + 6, left + w * 0.25, left + w / 2, left + w * 0.75, left + w - 6]) {
+          const under = document.elementsFromPoint(x, y).find((el) => !root.contains(el));
+          if (under?.closest(COVERABLE)) return true;
+        }
+      }
+      return false;
+    };
+    let ticking = false;
+    let lastY = scrollY;
+    let settle = 0;
+    const onFrame = () => {
+      ticking = false;
+      updateProgress();
+      const y = scrollY;
+      if (Math.abs(y - lastY) > 6) {
+        root.toggleAttribute('data-down', y > lastY && y > 120);
+        lastY = y;
+      }
+      clearTimeout(settle);
+      settle = window.setTimeout(() => root.toggleAttribute('data-covering', coversSomething()), 140);
     };
     addEventListener(
       'scroll',
       () => {
         if (!ticking) {
           ticking = true;
-          requestAnimationFrame(updateProgress);
+          requestAnimationFrame(onFrame);
         }
       },
       { passive: true },
     );
     updateProgress();
+    // Also check after load and after in-page jumps (no scrolling needed).
+    const recheck = () => {
+      clearTimeout(settle);
+      settle = window.setTimeout(() => root.toggleAttribute('data-covering', coversSomething()), 400);
+    };
+    addEventListener('load', recheck);
+    addEventListener('hashchange', recheck);
+    addEventListener('resize', recheck, { passive: true });
+    recheck();
 
     // Phone keyboards: hide the pill while a form field has focus.
     const isField = (el: EventTarget | null) =>

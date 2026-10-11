@@ -97,7 +97,7 @@ const q = t.quote;
       <section class="sus__practice" aria-labelledby="sus-practice-title">
         <p class="sus__kicker kicker">{p.kicker}</p>
         <h3 id="sus-practice-title" class="sus__practice-title display display--s" set:html={inline(p.title)} />
-        <ol class="sus__ledger m-slides" data-m-slides>
+        <ol class="sus__ledger m-slides" data-m-slides data-m-label={common.slides.groups.policy}>
           {
             p.items.map((item, i) => (
               <li class="sus__rule">
@@ -173,7 +173,7 @@ const q = t.quote;
     display: grid;
     grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
     column-gap: var(--layout-gap);
-    row-gap: var(--space-section-sm);
+    row-gap: var(--space-xl);
   }
 
   .sus__kicker {

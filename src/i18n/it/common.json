@@ -21,7 +21,7 @@
   },
   "cta": {
     "planWithAi": "Pianifica con l’AI",
-    "groupRequest": "Invia una richiesta di gruppo",
+    "groupRequest": "Richiedi un programma",
     "draftTrip": "Prepara una bozza con l’AI",
     "writeToUs": "Scrivici",
     "backHome": "Torna alla home"
@@ -83,8 +83,15 @@
     }
   },
   "slides": {
-    "prev": "Precedente",
-    "next": "Successivo"
+    "prev": "{group}: precedente",
+    "next": "{group}: successivo",
+    "status": "{group}: {title}, {n} di {total}",
+    "groups": {
+      "countries": "Paesi",
+      "hosts": "Host in evidenza",
+      "moreHosts": "Altri host",
+      "policy": "Impegni della nostra politica"
+    }
   },
   "footer": {
     "passport": "Passaporto per il Caucaso meridionale",

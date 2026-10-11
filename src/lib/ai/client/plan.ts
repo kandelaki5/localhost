@@ -407,6 +407,7 @@ interface MailText {
   route: string;
   notes: string;
   plan: string;
+  /** Demo mode: intro for an email that carries the visitor's choices only. */
   demo: string;
   shortened: string;
   moreDays: string;
@@ -420,7 +421,8 @@ const MAIL_TEXT: Readonly<Record<Locale, MailText>> = {
       'Hello Local Host team,\n\nI designed this trip with the trip designer on localhost.ge. Could you please confirm the details and send me a tailored proposal?',
     countries: 'Countries', interests: 'Interests', length: 'Length', days: '{n} days', month: 'Travel month',
     flexible: 'flexible', travellers: 'Travellers', pace: 'Pace', route: 'Route', notes: 'My notes', plan: 'Draft itinerary',
-    demo: '(This is the sample itinerary from the website demo.)',
+    demo:
+      'Hello Local Host team,\n\nI filled in the trip designer on localhost.ge. It showed me a sample itinerary because the AI planner isn’t live yet, so here are my own choices. Could you please send me a tailored proposal?',
     shortened: '(Shortened for email — I can send the full plan on request.)',
     moreDays: '… and {n} more days',
     footer: 'Name:\nPreferred dates:\nNumber of travellers:\n\nThank you!',
@@ -431,7 +433,8 @@ const MAIL_TEXT: Readonly<Record<Locale, MailText>> = {
       'გამარჯობა, Local Host-ის გუნდო!\n\nეს მოგზაურობა localhost.ge-ზე, მარშრუტის დამგეგმავით შევადგინე. გთხოვთ, დამიდასტუროთ დეტალები და გამომიგზავნოთ ინდივიდუალური შეთავაზება.',
     countries: 'ქვეყნები', interests: 'ინტერესები', length: 'ხანგრძლივობა', days: '{n} დღე', month: 'მოგზაურობის თვე',
     flexible: 'მოქნილი', travellers: 'მოგზაურები', pace: 'ტემპი', route: 'მარშრუტი', notes: 'ჩემი შენიშვნები', plan: 'მარშრუტის პროექტი',
-    demo: '(ეს არის საიტის დემო-ვერსიის მარშრუტის ნიმუში.)',
+    demo:
+      'გამარჯობა, Local Host-ის გუნდო!\n\nlocalhost.ge-ზე მარშრუტის დამგეგმავი შევავსე. AI დამგეგმავი ჯერ არ მუშაობს, ამიტომ მარშრუტის ნიმუში მაჩვენა — ქვემოთ ჩემს არჩევანს გიგზავნით. გთხოვთ, გამომიგზავნოთ ინდივიდუალური შეთავაზება.',
     shortened: '(ელფოსტისთვის შემოკლებულია — სრულ გეგმას მოთხოვნისთანავე გამოგიგზავნით.)',
     moreDays: '… და კიდევ {n} დღე',
     footer: 'სახელი:\nსასურველი თარიღები:\nმოგზაურთა რაოდენობა:\n\nგმადლობთ!',
@@ -442,7 +445,8 @@ const MAIL_TEXT: Readonly<Record<Locale, MailText>> = {
       'Dzień dobry, zespole Local Host,\n\nprzygotowałem/-am tę podróż w planerze na stronie localhost.ge. Proszę o potwierdzenie szczegółów i indywidualną ofertę.',
     countries: 'Kraje', interests: 'Zainteresowania', length: 'Długość', days: '{n} dni', month: 'Miesiąc podróży',
     flexible: 'elastyczny', travellers: 'Podróżni', pace: 'Tempo', route: 'Trasa', notes: 'Moje uwagi', plan: 'Wstępny plan',
-    demo: '(To przykładowy plan z wersji demo strony.)',
+    demo:
+      'Dzień dobry, zespole Local Host,\n\nwypełniłem/-am planer podróży na stronie localhost.ge. Pokazał przykładowy plan, bo planer AI nie jest jeszcze aktywny, dlatego przesyłam moje wybory. Proszę o indywidualną ofertę.',
     shortened: '(Skrócone na potrzeby e-maila — pełny plan mogę przesłać na życzenie.)',
     moreDays: '… i jeszcze {n} dni',
     footer: 'Imię i nazwisko:\nPreferowane terminy:\nLiczba podróżnych:\n\nDziękuję!',
@@ -453,7 +457,8 @@ const MAIL_TEXT: Readonly<Record<Locale, MailText>> = {
       'Buongiorno team di Local Host,\n\nho creato questo viaggio con il pianificatore sul sito localhost.ge. Potreste confermare i dettagli e inviarmi una proposta su misura?',
     countries: 'Paesi', interests: 'Interessi', length: 'Durata', days: '{n} giorni', month: 'Mese del viaggio',
     flexible: 'flessibile', travellers: 'Viaggiatori', pace: 'Ritmo', route: 'Itinerario', notes: 'Le mie note', plan: 'Bozza del programma',
-    demo: "(Questo è l'itinerario di esempio della demo del sito.)",
+    demo:
+      "Buongiorno team di Local Host,\n\nho compilato il pianificatore sul sito localhost.ge. Mi ha mostrato un itinerario di esempio perché il pianificatore AI non è ancora attivo, quindi vi invio le mie scelte. Potreste inviarmi una proposta su misura?",
     shortened: "(Versione ridotta per l'email — posso inviare il programma completo su richiesta.)",
     moreDays: '… e altri {n} giorni',
     footer: 'Nome:\nDate preferite:\nNumero di viaggiatori:\n\nGrazie!',
@@ -464,7 +469,8 @@ const MAIL_TEXT: Readonly<Record<Locale, MailText>> = {
       'Hallo Local-Host-Team,\n\nich habe diese Reise mit dem Reiseplaner auf localhost.ge zusammengestellt. Könnten Sie bitte die Details bestätigen und mir ein individuelles Angebot senden?',
     countries: 'Länder', interests: 'Interessen', length: 'Dauer', days: '{n} Tage', month: 'Reisemonat',
     flexible: 'flexibel', travellers: 'Reisende', pace: 'Tempo', route: 'Route', notes: 'Meine Anmerkungen', plan: 'Entwurf des Reiseplans',
-    demo: '(Dies ist die Beispielroute aus der Demo der Website.)',
+    demo:
+      'Hallo Local-Host-Team,\n\nich habe den Reiseplaner auf localhost.ge ausgefüllt. Er hat mir eine Beispielroute gezeigt, weil der KI-Planer noch nicht aktiv ist – hier deshalb meine eigenen Angaben. Könnten Sie mir bitte ein individuelles Angebot senden?',
     shortened: '(Für die E-Mail gekürzt — den vollständigen Plan sende ich gerne auf Anfrage.)',
     moreDays: '… und {n} weitere Tage',
     footer: 'Name:\nWunschtermine:\nAnzahl der Reisenden:\n\nVielen Dank!',
@@ -529,10 +535,14 @@ export function buildEmail(source: MailtoSource, options: MailtoOptions = {}): {
   if (req.pace) fields.push(`${t.pace}: ${PACE_LABELS[locale][req.pace]}`);
   if (req.notes?.trim()) fields.push(`${t.notes}: ${clip(req.notes.trim().replace(/\s+/g, ' '), 300)}`);
 
-  const head = [t.intro, '', ...fields];
-  if (source.mode === 'demo') head.push('', t.demo);
-  const routeLine = route.length ? `${t.route}: ${route.map((id) => placeName(id, locale)).join(' → ')}` : '';
   const footer = ['', '—', t.footer];
+  // Demo mode: the itinerary on screen is a ready-made sample, not this
+  // visitor's trip — send their own choices only, with an honest intro.
+  if (source.mode === 'demo') {
+    return { subject, body: [t.demo, '', ...fields, ...footer].join('\n').replace(/\n{3,}/g, '\n\n') };
+  }
+  const head = [t.intro, '', ...fields];
+  const routeLine = route.length ? `${t.route}: ${route.map((id) => placeName(id, locale)).join(' → ')}` : '';
 
   const dayHeading = (d: ParsedPlan['days'][number], titleMax = 200) =>
     `${labels.day} ${d.number} — ${clip(d.title, titleMax)}`;

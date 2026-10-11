@@ -33,6 +33,7 @@
     },
     "direct": "პირდაპირი",
     "seasonal": "სეზონური",
+    "allDirect": "ყველა ჩამოთვლილი რეისი პირდაპირია",
     "row": "{city} ({code}): {airlines}. {status}.",
     "showing": "ნაჩვენებია {total}-დან {shown}",
     "more": "ყველა ქალაქი ({total})",

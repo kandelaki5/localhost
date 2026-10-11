@@ -295,6 +295,7 @@ export function mount(planner: HTMLElement): PlannerApi {
     truncatedNote.hidden = true;
     demoStamp.hidden = true;
     demoBadge.hidden = true;
+    outTitle.textContent = t.output.title;
     actions.hidden = true;
     actionMsg.textContent = t.actions.sendHint;
     refineMsg.textContent = '';
@@ -370,6 +371,8 @@ export function mount(planner: HTMLElement): PlannerApi {
     demoBadge.hidden = !demo;
     demoNotice.hidden = !demo;
     demoStamp.hidden = !demo;
+    // A sample is not the visitor's plan: name it so.
+    outTitle.textContent = demo ? t.output.sampleTitle : t.output.title;
     if (result.truncated) {
       truncatedNote.textContent = planErrorMessage('truncated', locale);
       truncatedNote.hidden = false;

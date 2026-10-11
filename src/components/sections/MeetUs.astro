@@ -133,7 +133,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
                   <span class="fairs__season-title">{s.title}</span>
                   <span class="fairs__season-range">{s.range}</span>
                 </h3>
-                <ol class="fairs__list m-slides" role="list" style={`--n:${s.list.length}`} data-m-slides>
+                <ol class="fairs__list m-slides" role="list" style={`--n:${s.list.length}`} data-m-slides data-m-compact data-m-label={s.title}>
                   {s.list.map((item, j) => (
                     <FairStamp
                       fair={item.fair}
@@ -303,7 +303,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
     padding-block: var(--space-xs);
     border-top: var(--border-hair) solid var(--color-rule-strong);
     border-bottom: var(--border-hair) solid var(--color-rule);
-    margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    margin-bottom: var(--space-xl);
   }
 
   .fairs__next,

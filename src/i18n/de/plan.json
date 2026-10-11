@@ -66,8 +66,10 @@
     "balanced": "Ausgewogen",
     "active": "Aktiv"
   },
+  "demoBefore": "Demo-Vorschau: Der KI-Reiseplaner ist noch nicht eingeschaltet. Nach dem Ausfüllen sehen Sie eine fertige Beispielreise, keinen Plan für Sie. Ihre Auswahl bleibt erhalten, und Sie können sie unserem Team als Anfrage senden.",
   "output": {
     "title": "Reiseverlauf (Entwurf)",
+    "sampleTitle": "Beispielreise",
     "draft": "Entwurf {n}",
     "connecting": "Verbindung zum Reiseplaner …",
     "designing": "Ihre Reise wird entworfen …",

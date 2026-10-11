@@ -66,8 +66,10 @@
     "balanced": "Equilibrato",
     "active": "Attivo"
   },
+  "demoBefore": "Anteprima demo: il pianificatore AI non è ancora attivo. Dopo aver compilato il modulo vedrete un itinerario di esempio già pronto, non uno scritto per voi. Le vostre scelte restano salvate e potete inviarle al nostro team come richiesta.",
   "output": {
     "title": "Bozza di itinerario",
+    "sampleTitle": "Itinerario di esempio",
     "draft": "Bozza {n}",
     "connecting": "Connessione al progettista di viaggi…",
     "designing": "Stiamo progettando il vostro viaggio…",

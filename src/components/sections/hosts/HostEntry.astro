@@ -9,7 +9,8 @@
  * then a Forest layer in `screen` lifts the shadows to Forest — a smooth
  * two-colour ramp, like a two-ink print.
  *
- * Vertical card from tablet up; a thumbnail + text row on phones.
+ * A vertical card at every size; on phones the photo takes a landscape crop
+ * so the text below gets the card's full width.
  * Hovering a card (pointer devices only) brings the photo back to colour.
  */
 import Figure from '../../ui/Figure.astro';
@@ -201,17 +202,18 @@ const headingId = `host-${host.id}`;
     }
   }
 
-  /* ── phone: thumbnail + text row ── */
+  /* ── phone: photo above, text across the full card width ── */
   @media (max-width: 39.99em) {
-    .hentry {
-      grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
-      grid-template-rows: auto;
-      column-gap: var(--space-s);
-      align-items: start;
+    .hentry :global(.figure__media) {
+      aspect-ratio: 16 / 10;
     }
 
     .hentry__body {
-      padding-top: 0;
+      padding-top: var(--space-s);
+    }
+
+    .hentry__line {
+      max-width: none;
     }
 
     .hentry__media :global(.hentry__seal) {

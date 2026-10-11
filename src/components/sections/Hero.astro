@@ -1,7 +1,8 @@
 ---
 /**
  * 00 · Hero (#top) — the magazine cover.
- * Headline, the Georgian proverb, the offer line, two CTAs, the Gergeti
+ * Headline, the Georgian proverb, the short offer line, two CTAs (request a
+ * programme · draft with AI), the longer story under them, the Gergeti
  * plate with the "Local Host · 2015" stamp and postmark, and the B2B fact
  * strip. Staggered entrance in CSS only; nothing moves under reduced motion.
  */
@@ -59,6 +60,7 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
           <Button href="#contact" icon="arrow-right" size="lg">{t.ctaPrimary}</Button>
           <Button href="#plan" variant="secondary" iconStart="sparkle" size="lg">{t.ctaAi}</Button>
         </div>
+        <p class="hero__more">{t.more}</p>
       </div>
 
       <div class="hero__plate">
@@ -154,7 +156,7 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
       'prov prov prov copy copy copy copy copy plate plate plate plate';
     grid-template-rows: auto 1fr;
     column-gap: var(--layout-gap);
-    padding-top: clamp(1.75rem, 3.5vw, 3.25rem);
+    padding-top: clamp(1.25rem, 2vw, 2rem);
   }
 
   .hero__title {
@@ -175,7 +177,7 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
   .hero__proverb {
     grid-area: prov;
     align-self: start;
-    padding-top: clamp(2rem, 3.5vw, 3.25rem);
+    padding-top: clamp(1.5rem, 2.2vw, 2rem);
     padding-right: var(--space-s);
   }
 
@@ -217,7 +219,7 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
   .hero__copy {
     grid-area: copy;
     align-self: start;
-    padding-top: clamp(2rem, 3.5vw, 3.25rem);
+    padding-top: clamp(1.5rem, 2.2vw, 2rem);
   }
 
   .hero__lead {
@@ -236,6 +238,16 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
     flex-wrap: wrap;
     gap: var(--space-xs);
     margin-top: var(--space-l);
+  }
+
+  /* The longer story sits under the actions: the offer and the buttons come first. */
+  .hero__more {
+    margin-top: var(--space-m);
+    max-width: 52ch;
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    color: var(--color-text-body);
+    text-wrap: pretty;
   }
 
   /* ── plate ── */

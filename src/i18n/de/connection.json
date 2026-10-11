@@ -33,6 +33,7 @@
     },
     "direct": "Direkt",
     "seasonal": "Saisonal",
+    "allDirect": "Alle aufgeführten Flüge sind Direktflüge",
     "row": "{city} ({code}): {airlines}. {status}.",
     "showing": "{shown} von {total} angezeigt",
     "more": "Alle {total} Städte",

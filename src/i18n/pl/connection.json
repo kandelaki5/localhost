@@ -33,6 +33,7 @@
     },
     "direct": "Bezpośredni",
     "seasonal": "Sezonowy",
+    "allDirect": "Wszystkie wymienione loty są bezpośrednie",
     "row": "{city} ({code}): {airlines}. {status}.",
     "showing": "Pokazano {shown} z {total}",
     "more": "Wszystkie miasta ({total})",

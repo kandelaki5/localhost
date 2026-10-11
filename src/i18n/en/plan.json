@@ -65,8 +65,10 @@
     "balanced": "Balanced",
     "active": "Active"
   },
+  "demoBefore": "Demo preview: the AI trip designer isn’t switched on yet. After you fill this in you will see a ready-made sample itinerary, not one written for you. Your choices are kept, and you can send them to our team as an enquiry.",
   "output": {
     "title": "Draft itinerary",
+    "sampleTitle": "Sample itinerary",
     "draft": "Draft {n}",
     "connecting": "Connecting to the trip designer…",
     "designing": "Designing your trip…",
