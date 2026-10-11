@@ -1,8 +1,8 @@
 # Design proposals for review (October 2026)
 
-Changes that alter layout, structure or content order. **None of these is live** unless marked "previewable"; they wait for the owner's decision. Measurements are from the live site at 1440 px (desktop) or 390 px (phone), English, unless noted.
+Changes that alter layout, structure or content order. **None of these is live** unless marked "applied"; the rest wait for the owner's decision. Measurements are from the live site at 1440 px (desktop) or 390 px (phone), English, unless noted.
 
-Already applied (confirmed fixes, not listed here): stacked small host cards and shorter featured host cards on phones, carousel controls above the cards with section-specific names, the floating section pill that steps aside, the shorter hero with "Request a programme", the compact phone flight board, the planner's demo mode made explicit (notice, wording, "Sample" labels, request vs sample, "Send my choices"), months with their year, an interim "Request a programme by email" template in Contact, and tighter spacing (desktop 22,018 → about 20,600 px).
+Already applied (confirmed fixes, not listed here): stacked small host cards and shorter featured host cards on phones, carousel controls above the cards with section-specific names, the floating section pill that steps aside, the shorter hero with "Request a programme", the compact phone flight board, the planner's demo mode made explicit (notice, wording, "Sample" labels, request vs sample, "Send my choices"), months with their year, an interim "Request a programme by email" template in Contact, the compact phone formats of §1 (fairs, memberships, awards; We support in two slides), and tighter spacing (desktop 22,018 → about 20,600 px).
 
 ---
 
@@ -10,29 +10,29 @@ Already applied (confirmed fixes, not listed here): stacked small host cards and
 
 Rule of thumb: swipeable cards for rich, visual items you browse one by one (destinations, experiences, hosts); compact lists or grids for short facts you scan (fair dates, memberships, nominations).
 
-| Group | Items | Now | Proposal | Why |
+| Group | Items | Before | Now / proposal | Why |
 |---|---|---|---|---|
 | Caucasus countries | 3 | swipe cards | **keep swipe** | big photo + story per country |
 | Experiences | 6 | swipe cards | **keep swipe** | visual stamps, one theme each |
 | Featured hosts | 2 | swipe cards | **keep swipe** | photo + quote; facts fold behind "At a glance" |
 | More hosts | 4 | swipe cards | **keep swipe** | photo + short line each |
-| Trade fairs | 2 × 3 | swipe stamps | **compact dated list** — previewable | name + city + dates fit one row; scan by date |
-| Memberships | 3 + 2 | swipe permits | **2-column mini permits** — previewable | acronym + name is all a visitor needs |
-| Award nominations | 2 | swipe seals | **2-up grid** — previewable | two items; both visible at once |
+| Trade fairs | 2 × 3 | swipe stamps | **compact dated list** — applied | name + city + dates fit one row; scan by date |
+| Memberships | 3 + 2 | swipe permits | **2-column mini permits** — applied | acronym + name is all a visitor needs |
+| Award nominations | 2 | swipe seals | **2-up grid** — applied | two items; both visible at once |
 | Policy commitments | 5 | swipe cards | **numbered fold-out list** (five titles visible, text opens on tap), or merge with We support (§3.1) | text-only cards: the track is as tall as the longest card, leaving 130–260 px blank under short ones; titles-only list 279 px vs 356 px today (en 390), 374 vs 566 (ka 320) |
-| We support | 5 | swipe cards | keep swipe until §3.1 is decided (seal now sits beside the title on phones) | short text with a seal icon |
+| We support | 5 | 5 swipe cards | **two slides (3 + 2)** — applied | every commitment keeps its full text; one swipe instead of four. Stacking all five without a carousel measured 822–1,232 px against 575–883 px for two slides (all languages, 320–390 px), so two slides it is |
 
-**Previewable:** open any page with `?proposal=compact` (for example `https://localhost-ge.vercel.app/?proposal=compact` on a phone). The setting is kept while you switch language; `?proposal=off` turns it off. Without the parameter the site is unchanged (checked pixel for pixel at 320–1280 px).
+**Applied (October 2026)** after the owner's review of the `?proposal=compact` preview; the preview switch is gone. The live phone layouts match the reviewed preview pixel for pixel (320/360/390/430 px, all five languages), and tablet and desktop are unchanged.
 
-What the preview shows (390 px, English; Georgian 320 px in brackets):
+Measured in the preview (390 px, English; Georgian 320 px in brackets):
 
-| Group | Carousel now | Compact preview | What you see |
+| Group | Carousel before | Compact now | What you see |
 |---|---|---|---|
 | Trade fairs | 1,171 px (1,525) | 1,130 px (1,399) | one 64 px row per fair: a mini ink stamp, city and fair name, dates in a right-hand column, NEXT / ON NOW kept |
 | Memberships | 1,148 px (1,333) | 1,080 px (1,411) | mini permits: GNTA across the page, GTA and CEBG side by side, PIT and ŚIT on the Polish page; one column below 360 px so long names fit |
 | Award nominations | 1,070 px (1,207) | 880 px (1,033) | both seals side by side with year, category and segment |
 
-All six fairs, five memberships and both nominations are visible without swiping. Experiences, destinations and hosts stay as swipe cards.
+All six fairs, five memberships and both nominations are visible without swiping. Experiences, destinations and hosts stay as swipe cards. The policy commitments (Sustainability) are still five swipe cards; the fold-out list above is a proposal.
 
 ## 2. Enquiry form ("Request a programme")
 

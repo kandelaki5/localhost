@@ -133,7 +133,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
                   <span class="fairs__season-title">{s.title}</span>
                   <span class="fairs__season-range">{s.range}</span>
                 </h3>
-                <ol class="fairs__list m-slides" role="list" style={`--n:${s.list.length}`} data-m-slides data-m-compact data-m-label={s.title}>
+                <ol class="fairs__list" role="list" style={`--n:${s.list.length}`}>
                   {s.list.map((item, j) => (
                     <FairStamp
                       fair={item.fair}
@@ -578,15 +578,21 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
     }
   }
 
-  /* ── phone: one column, a vertical timeline ── */
+  /* ── phone: each season is a dated list (rows styled in FairStamp.astro) ── */
   @media (max-width: 39.99em) {
     .fairs__summary {
       flex-direction: column;
       gap: var(--space-xs);
     }
 
+    .fairs__seasons {
+      row-gap: var(--space-l);
+    }
+
     .fairs__season-head {
       padding-inline: 0;
+      margin-bottom: 0;
+      border-bottom-color: var(--color-rule-strong);
     }
 
     .fairs__season + .fairs__season .fairs__season-head {
@@ -595,23 +601,6 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
 
     .fairs__list {
       grid-template-columns: minmax(0, 1fr);
-      row-gap: var(--space-l);
-    }
-  }
-
-  /* ── Proposal ?proposal=compact (phones): each season is a dated list ──
-     (PhoneSlides drops the carousel; the rows are styled in FairStamp.astro) */
-  @media (max-width: 39.99em) {
-    :global(html[data-proposal~='compact']) .fairs__seasons {
-      row-gap: var(--space-l);
-    }
-
-    :global(html[data-proposal~='compact']) .fairs__season-head {
-      margin-bottom: 0;
-      border-bottom-color: var(--color-rule-strong);
-    }
-
-    :global(html[data-proposal~='compact']) .fairs__list {
       row-gap: 0;
     }
   }

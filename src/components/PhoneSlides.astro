@@ -5,9 +5,10 @@
  * a time with the next one peeking in.
  *
  * Opt in on the list itself:  <ul class="… m-slides" data-m-slides data-m-label="Countries">
- *   data-m-slides="inset"  stays inside a padded/bordered box (no edge-to-edge bleed)
  *   data-m-label           the group's name for the controls and announcements
  *                          (falls back to the list's aria-label / aria-labelledby)
+ *   data-m-title           on an element inside a card: its title for the announcement
+ *                          (several in one card are joined, e.g. a slide of 3 commitments)
  *   --m-pad-top / --m-pad-bottom: room above/below the cards (overhanging seals …)
  *
  * Below 40em the list becomes a snap-scrolling track (pure CSS, works without
@@ -77,16 +78,6 @@ const t = useStrings(getLang(Astro), 'common');
     }
 
     .m-slides::-webkit-scrollbar {
-      display: none;
-    }
-
-    .m-slides[data-m-slides='inset'] {
-      margin-inline: 0 !important;
-      padding-inline: 0 !important;
-      scroll-padding-inline: 0;
-    }
-
-    .m-slides[data-m-slides='inset']::after {
       display: none;
     }
 
@@ -210,19 +201,12 @@ const t = useStrings(getLang(Astro), 'common');
         .join(' '),
     );
 
-  // A card's title for announcements: its first heading, else its first line of text.
+  // A card's title for announcements: its [data-m-title] element(s), else its
+  // first heading, else its first line of text.
   const cardTitle = (card: HTMLElement) =>
-    squash(card.querySelector('[data-m-title], h2, h3, h4, h5, strong')?.textContent) ||
+    [...card.querySelectorAll('[data-m-title]')].map((el) => squash(el.textContent)).join('; ') ||
+    squash(card.querySelector('h2, h3, h4, h5, strong')?.textContent) ||
     squash(card.textContent).slice(0, 60);
-
-  // Proposal preview (?proposal=compact): groups marked data-m-compact become
-  // compact lists/grids instead of carousels (styled by their own components).
-  if ((document.documentElement.dataset.proposal ?? '').split(' ').includes('compact')) {
-    for (const el of document.querySelectorAll<HTMLElement>('[data-m-slides][data-m-compact]')) {
-      el.classList.remove('m-slides');
-      el.removeAttribute('data-m-slides');
-    }
-  }
 
   document.querySelectorAll<HTMLElement>('[data-m-slides]').forEach((track, k) => {
     // Cards only: components may render their <script>/<style> inside the list.
@@ -318,9 +302,14 @@ const t = useStrings(getLang(Astro), 'common');
       // At the end when scrolled out, or when the last card is in place and fully in view
       // (overflowing text inside a card can make scrollWidth a few px longer).
       const atEnd = track.scrollLeft >= max - 2 || (i === items.length - 1 && lastInView());
-      // Keyboard focus never falls to <body>: hand it to the other arrow first.
-      if (atEnd && document.activeElement === next && !atStart) prev.focus({ preventScroll: true });
-      if (atStart && document.activeElement === prev && !atEnd) next.focus({ preventScroll: true });
+      // Keyboard focus never falls to <body>: hand it to the other arrow first
+      // (enabled before it takes focus: a jump straight from the first to the
+      // last slide, e.g. with reduced motion, has no frame in between).
+      const focused = document.activeElement;
+      if (!atStart) prev.disabled = false;
+      if (!atEnd) next.disabled = false;
+      if (atEnd && focused === next && !atStart) prev.focus({ preventScroll: true });
+      if (atStart && focused === prev && !atEnd) next.focus({ preventScroll: true });
       prev.disabled = atStart;
       next.disabled = atEnd;
       if (interacted && i !== announced) {
@@ -379,6 +368,21 @@ const t = useStrings(getLang(Astro), 'common');
     };
     MQ.addEventListener('change', relayout);
     addEventListener('resize', relayout, { passive: true });
+    // Rotating a phone can report the track mid-change at the resize event;
+    // measure again whenever the track or its first card changes size.
+    if ('ResizeObserver' in window) {
+      let queued = false;
+      const ro = new ResizeObserver(() => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => {
+          queued = false;
+          relayout();
+        });
+      });
+      ro.observe(track);
+      ro.observe(items[0]!);
+    }
     announced = currentIndex();
     relayout();
   });

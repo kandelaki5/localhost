@@ -62,7 +62,7 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     <span class="fair__tag" data-role="tag" hidden={!tag}>{tag}</span>
 
     <h4 class="fair__name">
-      <a class="fair__link" href={fair.url} target="_blank" rel="noopener" aria-describedby={`fair-desc-${fair.id}`} data-m-title>
+      <a class="fair__link" href={fair.url} target="_blank" rel="noopener" aria-describedby={`fair-desc-${fair.id}`}>
         {fair.name}
       </a>
     </h4>
@@ -405,7 +405,13 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     display: none;
   }
 
-  .fair[data-state='held'] .fair__stamp {
+  /* The stamp's ink fades, but its text keeps full contrast (muted grey):
+     it is still the link to the fair's site. */
+  .fair[data-state='held'] {
+    --_fg: var(--color-text-muted);
+  }
+
+  .fair[data-state='held'] .fair__frame {
     opacity: 0.72;
   }
 
@@ -421,7 +427,7 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     stroke-width: 2.6;
     stroke-linecap: round;
     z-index: var(--z-raised);
-    opacity: 0.42;
+    opacity: 0.3; /* as before, when the whole stamp was faded to 0.72 */
     mix-blend-mode: multiply;
     transform: rotate(-8deg);
     pointer-events: none;
@@ -485,136 +491,22 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     }
   }
 
-  /* ── phone: landscape stamps ── */
-  @media (max-width: 39.99em) {
-    .fair {
-      display: block;
-      padding-inline: 0;
-    }
-
-    .fair__stamp,
-    .fair[data-shape] .fair__stamp {
-      display: grid;
-      /* the date column wraps before a city name breaks (Warschau, Poznań) */
-      grid-template-columns: minmax(min-content, 1fr) auto;
-      grid-template-areas:
-        'cc when'
-        'city when'
-        'name domain'
-        'tba tba';
-      align-items: center;
-      column-gap: var(--space-s);
-      max-width: none;
-      min-height: 0;
-      aspect-ratio: auto;
-      padding: var(--space-m) var(--space-m) var(--space-s);
-      text-align: start;
-    }
-
-    .fair[data-shape='oval'] .fair__stamp,
-    .fair[data-shape='round'] .fair__stamp {
-      --_radius: var(--radius-pill);
-      padding-inline: var(--space-l);
-    }
-
-    .fair[data-shape='arch'] .fair__stamp {
-      --_radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-sm);
-      padding-top: var(--space-m);
-    }
-
-    .fair__cc {
-      grid-area: cc;
-    }
-
-    .fair__city {
-      overflow-wrap: normal;
-      grid-area: city;
-      margin-top: 0.3rem;
-    }
-
-    .fair__name {
-      grid-area: name;
-      margin-top: 0.35rem;
-    }
-
-    .fair__when {
-      grid-area: when;
-      align-self: stretch;
-      justify-self: end;
-      display: flex;
-      align-items: center;
-      width: auto;
-      max-width: 8.5rem;
-      margin: 0;
-      padding: 0.15rem 0 0.15rem var(--space-s);
-      border-top: 0;
-      border-left: var(--border-hair) solid color-mix(in srgb, currentColor 45%, transparent);
-      text-align: start;
-    }
-
-    .fair__domain {
-      grid-area: domain;
-      justify-self: end;
-      margin: 0.35rem 0 0;
-    }
-
-    .fair__tba {
-      grid-area: tba;
-      max-width: none;
-      margin-top: var(--space-2xs);
-    }
-
-    .fair__tag {
-      left: var(--space-l);
-      transform: translate(0, -55%);
-    }
-  }
-
-  /* ≤ 360 px: a date column beside the city leaves too little room for
-     "Warschau" or "Poznań" next to a long German date, so the date moves
-     under the city and city names never break mid-word. */
-  @media (max-width: 22.49em) {
-    .fair__stamp,
-    .fair[data-shape] .fair__stamp {
-      grid-template-areas:
-        'cc cc'
-        'city city'
-        'when when'
-        'name domain'
-        'tba tba';
-    }
-
-    .fair__city {
-      overflow-wrap: normal;
-    }
-
-    .fair__when {
-      justify-self: stretch;
-      align-self: auto;
-      max-width: none;
-      margin-top: var(--space-2xs);
-      padding: var(--space-2xs) 0 0;
-      border-left: 0;
-      border-top: var(--border-hair) solid color-mix(in srgb, currentColor 45%, transparent);
-    }
-  }
-
-  /* ── Proposal ?proposal=compact (phones): one dated row per fair ──────────
+  /* ── phone: one dated row per fair ──────────────────────────────────────
        [✈ IT]  City                     dates
                FAIR NAME ↗       ● state tag
      The stamp shrinks to a small ink mark in the fair's own shape and ink, on
-     a hairline-ruled list; the whole row stays the link (stretched). Only
-     with html[data-proposal~='compact'] and below 40em: elsewhere the stamps
-     above apply unchanged. */
+     a hairline-ruled list; the whole row stays the link (stretched). */
   @media (max-width: 39.99em) {
-    :global(html[data-proposal~='compact']) .fair {
+    .fair {
       --_mark: 2.5rem;
       /* room always kept for the longest fair name + arrow ("TOUR SALON ↗") */
       --_name: 6.5rem;
+      display: block;
+      padding-inline: 0;
       border-bottom: var(--border-hair) solid var(--color-rule);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__stamp {
+    .fair[data-shape] .fair__stamp {
       display: grid;
       /* the dates wrap before the fair name does (long German dates on
          320px phones); city and fair name never break mid-word */
@@ -628,6 +520,7 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       align-items: baseline;
       column-gap: var(--space-xs);
       row-gap: 0;
+      max-width: none;
       min-height: 0;
       aspect-ratio: auto;
       padding: var(--space-xs) 0;
@@ -637,17 +530,18 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       isolation: isolate;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape]:is(:hover, :focus-within) .fair__stamp {
+    .fair[data-shape]:is(:hover, :focus-within) .fair__stamp {
       transform: none;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__stamp::before {
+    .fair[data-shape] .fair__stamp::before,
+    .fair[data-state='next'][data-shape='double'] .fair__stamp::before {
       content: none;
     }
 
     /* the mini stamp: frame + "✈ IT", pressed slightly askew */
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__frame,
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__cc {
+    .fair[data-shape] .fair__frame,
+    .fair[data-shape] .fair__cc {
       grid-area: mark;
       align-self: center;
       justify-self: center;
@@ -655,11 +549,11 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       transition: transform var(--dur-base) var(--ease-out);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape]:is(:hover, :focus-within) :is(.fair__frame, .fair__cc) {
+    .fair[data-shape]:is(:hover, :focus-within) :is(.fair__frame, .fair__cc) {
       transform: none;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__frame {
+    .fair[data-shape] .fair__frame {
       position: relative;
       inset: auto;
       width: var(--_mark);
@@ -669,56 +563,56 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       border-radius: var(--radius-xs);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__frame::after {
+    .fair[data-shape] .fair__frame::after {
       inset: var(--border-heavy);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape='double'] .fair__frame {
+    .fair[data-shape='double'] .fair__frame {
       border-style: double;
       border-width: calc(var(--border-heavy) + var(--border-thick));
       border-radius: var(--radius-sm);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape='dashed'] .fair__frame {
+    .fair[data-shape='dashed'] .fair__frame {
       border-style: dashed;
       border-width: var(--border-thick);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape='round'] .fair__frame {
+    .fair[data-shape='round'] .fair__frame {
       border-radius: var(--radius-round);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape='oval'] .fair__frame {
+    .fair[data-shape='oval'] .fair__frame {
       width: calc(var(--_mark) * 0.84);
       border-radius: var(--radius-round);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape='arch'] .fair__frame {
+    .fair[data-shape='arch'] .fair__frame {
       width: calc(var(--_mark) * 0.9);
       border-radius: 50% 50% var(--radius-xs) var(--radius-xs) / 42% 42% var(--radius-xs) var(--radius-xs);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__cc {
+    .fair[data-shape] .fair__cc {
       z-index: var(--z-raised);
       flex-direction: column;
       gap: 0.15rem;
       margin: 0;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape='arch'] .fair__cc {
+    .fair[data-shape='arch'] .fair__cc {
       margin-top: 0.2rem;
     }
 
     /* next: the mark is freshly inked (solid), the row itself stays on paper */
-    :global(html[data-proposal~='compact']) .fair[data-state='next'] .fair__frame {
+    .fair[data-state='next'] .fair__frame {
       background: var(--_ink);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-state='next'] .fair__cc {
+    .fair[data-state='next'] .fair__cc {
       color: var(--color-text-inverse);
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__city {
+    .fair[data-shape] .fair__city {
       grid-area: city;
       /* sits on the last line of a wrapped date, right above the fair name */
       align-self: last baseline;
@@ -728,22 +622,22 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       overflow-wrap: normal;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__city:lang(ka) {
+    .fair[data-shape] .fair__city:lang(ka) {
       font-size: var(--fs-md);
       line-height: 1.2;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__name {
+    .fair[data-shape] .fair__name {
       grid-area: name;
       margin: var(--space-3xs) 0 0;
     }
 
     /* the domain line gives way to an "opens the official site" arrow */
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__domain {
+    .fair[data-shape] .fair__domain {
       display: none;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__name::after {
+    .fair[data-shape] .fair__name::after {
       content: '';
       display: inline-block;
       width: 1em;
@@ -756,7 +650,7 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       opacity: 0.78;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__when {
+    .fair[data-shape] .fair__when {
       grid-area: when;
       display: block;
       justify-self: end;
@@ -772,7 +666,7 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       text-wrap: wrap;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__tag {
+    .fair[data-shape] .fair__tag {
       grid-area: tag;
       position: static;
       justify-self: end;
@@ -782,14 +676,14 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       background: none;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__tba {
+    .fair[data-shape] .fair__tba {
       grid-area: tba;
       max-width: none;
       margin-top: var(--space-3xs);
     }
 
     /* held: a small postmark cancels the mark, not the text */
-    :global(html[data-proposal~='compact']) .fair[data-state='held'] .fair__cancel {
+    .fair[data-state='held'] .fair__cancel {
       grid-area: mark;
       top: 22%;
       left: -18%;
@@ -797,25 +691,30 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       height: 56%;
     }
 
-    :global(html[data-proposal~='compact']) .fair[data-state='held'] .fair__cancel path {
+    .fair[data-state='held'] .fair__cancel path {
       stroke-width: var(--border-thin);
       vector-effect: non-scaling-stroke;
     }
 
-    /* the stretched link fills the row */
-    :global(html[data-proposal~='compact']) .fair[data-shape] .fair__link::after {
+    /* the stretched link fills the row; scrolling to the focused link brings
+       the whole row (city line above it, tag below) into view */
+    .fair[data-shape] .fair__link::after {
       inset: 0;
       border-radius: var(--radius-xs);
+    }
+
+    .fair__link {
+      scroll-margin-block: 2.25rem 1.25rem;
     }
   }
 
   /* entrance in the list: rows fade in, the marks are pressed on */
   @media screen and (max-width: 39.99em) and (prefers-reduced-motion: no-preference) {
-    :global(html[data-proposal~='compact'] [data-reveal='ready']) .fair[data-revealed] .fair__stamp {
+    :global([data-reveal='ready']) .fair[data-revealed] .fair__stamp {
       animation-name: fair-row-in;
     }
 
-    :global(html[data-proposal~='compact'] [data-reveal='ready']) .fair[data-revealed] :is(.fair__frame, .fair__cc) {
+    :global([data-reveal='ready']) .fair[data-revealed] :is(.fair__frame, .fair__cc) {
       animation: fair-mark-press var(--dur-base) var(--ease-overshoot) backwards;
       animation-delay: calc(var(--i, 0) * var(--dur-stagger) + var(--dur-fast));
     }

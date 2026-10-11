@@ -27,6 +27,8 @@ src/
   components/
     Header.astro · Footer.astro · HomePage.astro (section order)
     SectionIndex.astro ("On this page": desktop rail / phone pill + sheet; labels in common.json → toc)
+    PhoneSlides.astro (phones: opt-in swipe tracks with named controls — class="m-slides" data-m-slides
+                       on a list; each child is one slide; see its header)
     ui/          shared, presentational components (see §6)
     sections/    Hero.astro (done) + one STUB per section — yours to replace
     sections/<key>/   your sub-components, data helpers, scripts (create it)

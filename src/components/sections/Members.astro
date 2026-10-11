@@ -71,7 +71,7 @@ const guilloche = Array.from({ length: 16 }, (_, i) => {
             </h3>
 
             <div class="passport__stamps">
-              <ul class="passport__permits m-slides" role="list" data-m-slides="inset" data-m-compact data-m-label={`${common.toc.sections.members} · ${page.name}`}>
+              <ul class="passport__permits" role="list">
                 {page.orgs.map((org, oi) => (
                   <Permit
                     org={org}
@@ -328,14 +328,32 @@ const guilloche = Array.from({ length: 16 }, (_, i) => {
     }
   }
 
+  /* ── phone: mini permits in two columns, so every organisation reads at a
+     glance: Georgia in two rows (an odd count: the first permit runs across
+     the page), Poland in one. Below 22.5em two columns would leave the
+     longest words (Tourismusverband, ადმინისტრაცია) no room, so the permits
+     stack as wide mini permits. See members/Permit.astro for the permit. ── */
   @media (max-width: 39.99em) {
-    .passport__permits > :global(.permit) {
-      width: 100%;
+    .passport__permits {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-xs);
     }
 
+    /* :nth-child(n) matches the hand-placed odd/even rules above, so the
+       permits fill their cells on every page */
+    .passport__page .passport__permits > :global(.permit:nth-child(n)) {
+      width: auto;
+      justify-self: stretch;
+    }
+
+    .passport__permits > :global(.permit:first-child:nth-last-child(odd)) {
+      grid-column: 1 / -1;
+    }
+
+    /* Local Host's postmark strikes the last permit's lower edge (the MRZ),
+       clear of its name. */
     .passport__page--pl .passport__permits {
-      padding-bottom: 5.5rem;
-      --m-pad-bottom: 5.5rem; /* the same room when the permits are a slide track */
+      padding-bottom: var(--space-2xl);
     }
 
     .passport__postmark {
@@ -343,47 +361,14 @@ const guilloche = Array.from({ length: 16 }, (_, i) => {
       bottom: calc(-1 * var(--space-2xs));
     }
 
-    .passport__postmark :global(.seal) {
-      --seal-size: 6.5rem !important; /* beats the Seal's inline size */
-    }
-  }
-
-  /* ── Proposal preview (?proposal=compact), phones: no carousel ──
-     PhoneSlides drops the swipe track (data-m-compact); the permits sit as
-     mini permits in two columns, so every organisation reads at a glance:
-     Georgia in two rows (an odd count: the first permit runs across the
-     page), Poland in one. Below 22.5em two columns would leave the longest
-     words (Tourismusverband, ადმინისტრაცია) no room, so the permits stack as
-     wide mini permits. See members/Permit.astro for the permit itself. */
-  @media (max-width: 39.99em) {
-    :global(html[data-proposal~='compact']) .passport__permits {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-xs);
-    }
-
-    :global(html[data-proposal~='compact']) .passport__page .passport__permits > :global(.permit) {
-      width: auto;
-      justify-self: stretch;
-    }
-
-    :global(html[data-proposal~='compact']) .passport__permits > :global(.permit:first-child:nth-last-child(odd)) {
-      grid-column: 1 / -1;
-    }
-
-    /* Local Host's postmark strikes the last permit's lower edge (the MRZ),
-       clear of its name. */
-    :global(html[data-proposal~='compact']) .passport__page--pl .passport__permits {
-      padding-bottom: var(--space-2xl);
-    }
-
     /* Seal sets its size inline (the size prop), hence !important. */
-    :global(html[data-proposal~='compact']) .passport__postmark :global(.seal) {
+    .passport__postmark :global(.seal) {
       --seal-size: 5.5rem !important;
     }
   }
 
   @media (max-width: 22.49em) {
-    :global(html[data-proposal~='compact']) .passport__permits {
+    .passport__permits {
       grid-template-columns: minmax(0, 1fr);
     }
   }
