@@ -72,6 +72,10 @@ const common = useStrings(lang, 'common');
 const candidates = widths ?? [400, 640, 860, 1100, 1440, 1920, 2400];
 const usable = candidates.filter((w) => w <= image.width);
 const finalWidths = usable.length ? usable : [image.width];
+// The <img src> fallback (crawlers, browsers without srcset/AVIF/WebP) is capped
+// at 1440 w instead of the full-size original (up to 2400 w / 1.4 MB JPEG).
+const FALLBACK_MAX = 1440;
+const fallbackWidth = Math.min(image.width, FALLBACK_MAX, Math.max(...finalWidths));
 const hasCaption = Boolean(fig !== undefined || caption || coords || credit || Astro.slots.has('caption'));
 ---
 
@@ -82,6 +86,8 @@ const hasCaption = Boolean(fig !== undefined || caption || coords || credit || A
       alt={alt}
       formats={['avif', 'webp']}
       widths={finalWidths}
+      width={fallbackWidth}
+      height={Math.round((fallbackWidth * image.height) / image.width)}
       sizes={sizes}
       loading={priority ? 'eager' : 'lazy'}
       decoding={priority ? 'sync' : 'async'}

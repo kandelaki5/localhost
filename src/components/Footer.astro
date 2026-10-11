@@ -53,28 +53,12 @@ const POLICIES = [
   { key: 'inbound', file: 'inbound.pdf' },
 ] as const;
 
-// Guilloche: two families of rotated, modulated ellipses (a passport's
-// security engraving), generated once at build time.
-function rosette(cx: number, cy: number, r: number, amp: number, lobes: number, turns: number, phase: number) {
-  const pts: string[] = [];
-  for (let i = 0; i <= 720; i++) {
-    const a = (i / 720) * Math.PI * 2;
-    const rr = r + amp * Math.sin(lobes * a + phase);
-    pts.push(`${(cx + rr * Math.cos(a * turns)).toFixed(1)},${(cy + rr * Math.sin(a * turns)).toFixed(1)}`);
-  }
-  return `M${pts.join('L')}Z`;
-}
-const guilloche = [
-  ...Array.from({ length: 9 }, (_, i) => rosette(180, 520, 120 + i * 34, 16 + i * 1.5, 18, 1, i * 0.35)),
-  ...Array.from({ length: 9 }, (_, i) => rosette(1300, -40, 110 + i * 36, 14 + i * 1.5, 22, 1, i * 0.3)),
-];
 const tel = t.contact.phone.replace(/\s+/g, '');
 ---
 
 <footer class="site-footer" data-surface="forest">
-  <svg class="site-footer__guilloche" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-    {guilloche.map((d) => <path d={d} />)}
-  </svg>
+  {/* Guilloche: a cached static SVG (src/pages/brand/footer-guilloche.svg.ts) used as a mask. */}
+  <div class="site-footer__guilloche" aria-hidden="true"></div>
 
   <div class="container site-footer__inner">
     <!-- Meet us at the stand -->
@@ -181,8 +165,8 @@ const tel = t.contact.phone.replace(/\s+/g, '');
     <div class="site-footer__bar">
       <p>{fmt(t.footer.rights, { year })}</p>
       <a href={localizePath('/credits/', lang)}>{t.footer.photoCredits}</a>
-      <LangSwitch variant="list" class="site-footer__langs" />
-      <a class="site-footer__top" href="#top">
+      <LangSwitch variant="list" class="site-footer__langs" label={`${t.aria.languageNav} (${t.aria.footerNav})`} />
+      <a class="site-footer__top" href="#main">
         {t.footer.backToTop}
         <Icon name="arrow-up" size={14} />
       </a>
@@ -204,13 +188,11 @@ const tel = t.contact.phone.replace(/\s+/g, '');
     position: absolute;
     inset: 0;
     z-index: var(--z-below);
-    width: 100%;
-    height: 100%;
-    fill: none;
-    stroke: var(--color-foil);
-    stroke-width: 0.6;
+    background-color: var(--color-foil);
     opacity: var(--opacity-guilloche);
     pointer-events: none;
+    -webkit-mask: url('/brand/footer-guilloche.svg') center / cover no-repeat;
+    mask: url('/brand/footer-guilloche.svg') center / cover no-repeat;
   }
 
   .site-footer__inner {

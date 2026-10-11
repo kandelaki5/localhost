@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Georgian reviewed and edited by an AI editor (2026-10-11) for grammar, natural phrasing, register (polite თქვენ) and terminology; still needs a final check by a native speaker at Local Host (docs/CONTENT-TODO.md). Glossary used across ka/*.json: experience = შთაბეჭდილება; host = მასპინძელი; itinerary = მარშრუტი; trip designer = მარშრუტის (AI) დამგეგმავი; travel agency = ტურისტული სააგენტო; tour operator = ტუროპერატორი; inbound tour operator = შემომყვანი ტუროპერატორი; sustainability = მდგრადობა; AI = AI (AI-ის, AI-ით); departure board = გაფრენების დაფა; direct flight = პირდაპირი რეისი; Travelife Partner stays in Latin script (level name).",
   "meta": {
     "siteName": "Local Host",
-    "title": "Local Host · შემომყვანი ტუროპერატორი — საქართველო, სომხეთი, აზერბაიჯანი",
+    "title": "Local Host · შემომყვანი ტუროპერატორი საქართველოში, სომხეთსა და აზერბაიჯანში",
     "description": "Local Host 2015 წელს თბილისში დაფუძნებული შემომყვანი ტუროპერატორი და DMC-ია. ტურისტული სააგენტოებისა და ტუროპერატორებისთვის ვქმნით ჯგუფურ ტურებსა და ინდივიდუალურ მოგზაურობებს საქართველოში, სომხეთსა და აზერბაიჯანში.",
     "titleTemplate": "{page} · Local Host",
     "ogImageAlt": "Local Host — სადაც ყოველი სტუმარი საჩუქარია. გერგეტის სამება ყაზბეგის მასივის ძირას, საქართველო."
@@ -20,7 +20,7 @@
     "home": "მთავარი"
   },
   "cta": {
-    "planWithAi": "დაგეგმე AI-ით",
+    "planWithAi": "დაგეგმეთ AI-ით",
     "groupRequest": "ჯგუფური მოთხოვნის გაგზავნა",
     "draftTrip": "მარშრუტის მონახაზი AI-ით",
     "writeToUs": "მოგვწერეთ",
@@ -62,7 +62,7 @@
     "web": "www.localhost.ge"
   },
   "footer": {
-    "passport": "პასპორტი სამხრეთ კავკასიაში",
+    "passport": "პასპორტი სამხრეთ კავკასიისკენ",
     "tagline": "შემომყვანი ტუროპერატორი და DMC საქართველოში, სომხეთსა და აზერბაიჯანში. პროგრამები ტურისტული სააგენტოებისა და ტუროპერატორებისთვის 2015 წლიდან.",
     "greeting": "მოგესალმებით",
     "greetingGloss": "გელოდებით თბილისში.",
@@ -70,7 +70,7 @@
     "standText": "გვნახეთ ტურისტულ გამოფენებზე, სადაც ჩვენს პარტნიორებს ვხვდებით.",
     "standLink": "შეხვედრის დაჯავშნა",
     "contactTitle": "კონტაქტი",
-    "exploreTitle": "გაეცანით",
+    "exploreTitle": "აღმოაჩინეთ",
     "policiesTitle": "პოლიტიკები",
     "languagesTitle": "ენები",
     "addressLabel": "ოფისი",
@@ -95,7 +95,7 @@
   },
   "placeholder": {
     "label": "მზადდება",
-    "text": "ეს სექცია ამჟამად იკინძება."
+    "text": "ეს ნაწილი ამჟამად იწყობა."
   },
   "notFound": {
     "title": "გვერდი ვერ მოიძებნა",

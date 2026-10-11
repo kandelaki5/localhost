@@ -902,6 +902,14 @@ const mrz = [
     .doc__stamps:not(.doc__stamps--six) {
       gap: var(--space-s) var(--space-xs);
     }
+  }
+
+  @media (max-width: 29.99em) {
+    /* one horizontal country stamp per row (see StampToggle.astro) */
+    .doc__stamps:not(.doc__stamps--six) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xs);
+    }
 
     .doc__summary {
       flex-direction: column;

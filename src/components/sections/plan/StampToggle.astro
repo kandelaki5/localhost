@@ -109,7 +109,9 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
 
   .pstamp :global(.pstamp__stamp) {
     height: 100%;
-    filter: grayscale(1) brightness(0.62);
+    /* Unselected stamps stay in the night palette: muted brand tints, never
+       neutral grey (grey reads as "disabled"). */
+    filter: saturate(0.5) brightness(0.8);
     transition:
       filter var(--dur-base) var(--ease-out),
       transform var(--dur-base) var(--ease-out);
@@ -121,7 +123,7 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
   }
 
   .pstamp:hover :global(.pstamp__stamp) {
-    filter: grayscale(0.55) brightness(0.85);
+    filter: saturate(0.8) brightness(0.95);
     transform: translateY(-2px) rotate(var(--stamp-rotate, 0deg));
   }
 
@@ -196,6 +198,10 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
     letter-spacing: var(--tracking-caps);
     text-transform: var(--case-caps);
     line-height: 1.25;
+    /* names never break mid-word; the layout gives them room instead */
+    overflow-wrap: normal;
+    -webkit-hyphens: manual;
+    hyphens: manual;
   }
 
   .pstamp__label:lang(ka) {
@@ -347,6 +353,8 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
     }
   }
 
+  /* 30–40em: three narrow stamps in a row; the name sits under the code,
+     small and unbroken. */
   @media (max-width: 39.99em) {
     .pstamp--country .pstamp__face {
       min-height: 7.25rem;
@@ -359,14 +367,9 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
       min-width: 0;
     }
 
-    /* Long names ("AZERBAIJAN", "ASERBAIDSCHAN") must stay inside the stamp's
-       frame on a 320–390 px phone: hyphenate where the browser can, else wrap. */
     .pstamp--country .pstamp__label {
       font-size: var(--fs-3xs);
       letter-spacing: 0;
-      -webkit-hyphens: auto;
-      hyphens: auto;
-      overflow-wrap: anywhere;
     }
 
     .pstamp__outline {
@@ -380,6 +383,65 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
 
     .pstamp--experience .pstamp__postmark {
       width: 5rem;
+    }
+  }
+
+  /* Phones (< 30em): one horizontal stamp per row (outline · code · name),
+     so the longest names ("ASERBAIDSCHAN", "აზერბაიჯანი") fit on one line. */
+  @media (max-width: 29.99em) {
+    .pstamp--country .pstamp__face {
+      grid-template-columns: 3.25rem minmax(0, 1fr);
+      grid-template-rows: auto;
+      align-items: center;
+      column-gap: var(--space-s);
+      min-height: 4rem;
+      padding: var(--space-2xs) var(--space-xl) var(--space-2xs) var(--space-xs);
+    }
+
+    .pstamp--country .pstamp__no {
+      top: auto;
+      left: auto;
+      right: var(--space-xs);
+      bottom: var(--space-2xs);
+    }
+
+    .pstamp--country .pstamp__outline {
+      height: 2.5rem;
+      margin-top: 0;
+    }
+
+    .pstamp--country .pstamp__text {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-xs);
+    }
+
+    .pstamp--country .pstamp__label {
+      font-size: var(--fs-2xs);
+      letter-spacing: var(--tracking-caps);
+      white-space: nowrap;
+    }
+
+    .pstamp--country .pstamp__postmark {
+      top: -0.6rem;
+      width: 4.75rem;
+    }
+  }
+
+  /* ≤ 360 px: two experience stamps per row leave ~85 px for the name */
+  @media (max-width: 22.49em) {
+    .pstamp--experience .pstamp__face {
+      padding-inline: var(--space-2xs);
+    }
+
+    .pstamp--experience .pstamp__label {
+      font-size: var(--fs-sm);
+      overflow-wrap: normal;
+      hyphens: manual;
+    }
+
+    .pstamp--experience .pstamp__label:lang(ka) {
+      font-size: var(--fs-2xs);
     }
   }
 

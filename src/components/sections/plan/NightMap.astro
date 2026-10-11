@@ -28,6 +28,8 @@ interface Props {
 
 const { lang, t } = Astro.props;
 const grat = graticule();
+const MAP_W = Number(MAP_VIEWBOX.split(' ')[2]);
+const SEA_INSET = 14;
 ---
 
 <div class="nmap" data-map-panel>
@@ -52,11 +54,22 @@ const grat = graticule();
 
       <g class="nmap__labels" aria-hidden="true">
         {
-          nightMap.seas.map((s) => (
-            <text class="nmap__sea-label" x={s.x} y={s.y}>
-              {s.names[lang]}
-            </text>
-          ))
+          nightMap.seas.map((s) => {
+            // Anchor sea names to the map edge they belong to, so a long name
+            // ("Kaspisches Meer") stays inside the frame on a phone, where the
+            // labels are large in viewBox units.
+            const west = s.x < MAP_W / 2;
+            return (
+              <text
+                class="nmap__sea-label"
+                x={west ? SEA_INSET : MAP_W - SEA_INSET}
+                y={s.y}
+                text-anchor={west ? 'start' : 'end'}
+              >
+                {s.names[lang]}
+              </text>
+            );
+          })
         }
         {
           nightMap.neighbours.map((n) => (
@@ -73,11 +86,22 @@ const grat = graticule();
           ))
         }
         {
-          grat.map((g) => (
-            <text class:list={['nmap__grat-label', `nmap__grat-label--${g.axis}`]} x={g.x} y={g.y}>
-              {g.label}
-            </text>
-          ))
+          grat
+            // a longitude label hard against the frame would sit under a corner bracket
+            .filter((g) => g.axis === 'lat' || (g.x > 40 && g.x < MAP_W - 40))
+            .map((g) => (
+              <text
+                class:list={[
+                  'nmap__grat-label',
+                  `nmap__grat-label--${g.axis}`,
+                  { 'nmap__grat-label--minor': parseInt(g.label, 10) % 2 !== 0 },
+                ]}
+                x={g.x}
+                y={g.y}
+              >
+                {g.label}
+              </text>
+            ))
         }
       </g>
 
@@ -216,6 +240,14 @@ const grat = graticule();
     stroke: var(--color-bg-sunken);
     stroke-width: calc(3px * var(--u));
     stroke-linejoin: round;
+  }
+
+  .nmap__labels .nmap__sea-label[text-anchor='start'] {
+    text-anchor: start;
+  }
+
+  .nmap__labels .nmap__sea-label[text-anchor='end'] {
+    text-anchor: end;
   }
 
   .nmap__sea-label {
@@ -396,6 +428,41 @@ const grat = graticule();
     font-size: var(--fs-3xs);
     letter-spacing: var(--tracking-mono);
     color: color-mix(in srgb, var(--color-text-muted) 80%, transparent);
+  }
+
+  /* tablets: every other degree label, so "41°E42°E43°E" doesn't run together */
+  @media (max-width: 47.99em) {
+    .nmap__grat-label--minor {
+      display: none;
+    }
+  }
+
+  /* phones: no degree labels at all (the grid lines stay), the status line
+     wraps under the kicker instead of being cut off */
+  @media (max-width: 29.99em) {
+    .nmap__grat-label {
+      display: none;
+    }
+
+    .nmap__sea-label {
+      font-size: calc(10.5px * var(--u));
+    }
+
+    .nmap__bar {
+      flex-wrap: wrap;
+      row-gap: 0.15rem;
+    }
+
+    .nmap__label {
+      white-space: nowrap;
+    }
+
+    .nmap__status {
+      flex-basis: 100%;
+      margin-left: 0;
+      text-align: start;
+      white-space: normal;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {

@@ -13,16 +13,19 @@ interface Props {
   variant?: 'inline' | 'list';
   /** Page path without language prefix. Default: the current page. */
   path?: string;
+  /** Accessible name of the <nav>. Give each switcher on a page a distinct one
+      (the footer passes its own), so landmark lists don't show duplicates. */
+  label?: string;
   class?: string;
 }
 
-const { variant = 'inline', path, class: className } = Astro.props;
+const { variant = 'inline', path, label, class: className } = Astro.props;
 const lang = getLang(Astro);
 const t = useStrings(lang, 'common');
 const basePath = path ?? stripLang(Astro.url.pathname).path;
 ---
 
-<nav class:list={['langs', `langs--${variant}`, className]} aria-label={t.aria.languageNav}>
+<nav class:list={['langs', `langs--${variant}`, className]} aria-label={label ?? t.aria.languageNav}>
   <ul class="langs__list" role="list">
     {
       LOCALES.map((l) => {
@@ -32,7 +35,7 @@ const basePath = path ?? stripLang(Astro.url.pathname).path;
             <a
               class="langs__link"
               href={localizePath(basePath, l.code)}
-              hreflang={l.bcp47}
+              hreflang={l.code}
               data-keep-place
               {...(current ? { 'aria-current': 'true' } : {})}
             >

@@ -9,7 +9,7 @@ import Logo from './ui/Logo.astro';
 import Icon from './ui/Icon.astro';
 import Button from './ui/Button.astro';
 import LangSwitch from './ui/LangSwitch.astro';
-import { NAV, sectionsForNav, latinNumber } from '../lib/sections';
+import { NAV, sectionById, sectionsForNav, latinNumber } from '../lib/sections';
 import { getLang, localizePath, useStrings } from '../i18n';
 
 interface Props {
@@ -27,6 +27,15 @@ const items = NAV.map((item) => ({
   href: `${home}#${item.target}`,
   label: t.nav[item.key],
   sections: sectionsForNav(item.key).join(' '),
+  // Contents-page folio = the running-head number of the section the item
+  // leads to (Meet us 06, Sustainability 09, Contact 12). "Getting here" spans
+  // Airlines + Connection, so it reads "04–05".
+  folio:
+    item.key === 'gettingHere'
+      ? sectionsForNav(item.key)
+          .map((id) => latinNumber(sectionById(id)?.number ?? 0))
+          .join('–')
+      : latinNumber(sectionById(item.target)?.number ?? 0),
 }));
 ---
 
@@ -83,11 +92,11 @@ const items = NAV.map((item) => ({
       <nav class="container menu__nav" aria-label={t.aria.mainNav}>
         <ol class="menu__list" role="list">
           {
-            items.map((item, i) => (
+            items.map((item) => (
               <li>
                 <a class="menu__link" href={item.href} data-sections={item.sections}>
                   <span class="menu__no" aria-hidden="true">
-                    {latinNumber(i + 1)}
+                    {item.folio}
                   </span>
                   <span class="menu__label">{item.label}</span>
                 </a>
@@ -385,7 +394,9 @@ const items = NAV.map((item) => ({
   }
 
   .menu__no {
-    width: 2ch;
+    flex: none;
+    width: 4.5ch;
+    white-space: nowrap;
     font-family: var(--font-display);
     font-style: italic;
     font-size: var(--fs-sm);

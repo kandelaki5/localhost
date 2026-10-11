@@ -67,7 +67,8 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
           alt={t.photo.alt}
           ratio="4/5"
           focal="44% 62%"
-          sizes="(min-width: 64em) 32vw, (min-width: 40em) 50vw, 100vw"
+          widths={[400, 640, 860, 1100, 1440]}
+          sizes="(min-width: 80em) 30vw, (min-width: 64em) 38vw, (min-width: 40em) 50vw, 100vw"
           priority
           fig={1}
           caption={t.photo.caption}
@@ -368,26 +369,26 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
   /* ── laptop (1024–1279) ── */
   @media (min-width: 64em) and (max-width: 79.99em) {
     .hero__grid {
+      /* Lead + CTAs straight under the headline (they used to sit at the
+         fold at 1024); the proverb follows as an epigraph, stacked so its
+         gloss is no longer squeezed into a ~110 px column. */
       grid-template-areas:
         'title title title title title title title plate plate plate plate plate'
-        'prov prov prov prov prov prov prov plate plate plate plate plate'
-        'copy copy copy copy copy copy copy plate plate plate plate plate';
+        'copy copy copy copy copy copy copy plate plate plate plate plate'
+        'prov prov prov prov prov prov prov plate plate plate plate plate';
       grid-template-rows: auto auto 1fr;
-    }
-
-    .hero__proverb {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      column-gap: var(--space-l);
-      align-items: start;
-    }
-
-    .hero__gloss {
-      margin-top: 0.35rem;
     }
 
     .hero__copy {
       padding-top: var(--space-l);
+    }
+
+    .hero__proverb {
+      padding-top: var(--space-xl);
+    }
+
+    .hero__gloss {
+      max-width: 44ch;
     }
 
     .hero__next {
@@ -473,10 +474,17 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
     .hero__grid {
       grid-template-areas:
         'title title title title title title title title title title title title'
-        'prov prov prov prov prov prov prov prov prov prov prov prov'
+        'copy copy copy copy copy copy copy copy copy copy copy copy'
         'plate plate plate plate plate plate plate plate plate plate plate plate'
-        'copy copy copy copy copy copy copy copy copy copy copy copy';
+        'prov prov prov prov prov prov prov prov prov prov prov prov';
       grid-template-rows: auto;
+    }
+
+    /* Phones: the CTAs come right after the headline and lead, before the
+       full-width photo (they used to sit ~1.5 screens down). */
+    .hero__copy {
+      padding-top: var(--space-m);
+      padding-right: 0;
     }
 
     .hero__title {
@@ -500,7 +508,7 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
     }
 
     .hero__plate {
-      margin-top: var(--space-xl);
+      margin-top: calc(var(--space-xl) + var(--space-s));
     }
 
     .hero__vignette {
@@ -546,16 +554,15 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
       animation: hero-fade var(--dur-slower) var(--ease-out) both;
     }
 
+    /* LCP candidates (headline, lead, photo) are painted at full opacity
+       from the first frame and only move: transform-only entrance, no delay
+       on line 1, so LCP is timed by the network, not by the animation. */
     .hero__line {
       animation: hero-rise var(--dur-slower) var(--ease-out) both;
     }
 
-    .hero__line--1 {
-      animation-delay: 120ms;
-    }
-
     .hero__line--2 {
-      animation-delay: 260ms;
+      animation-delay: 120ms;
     }
 
     .hero__proverb {
@@ -563,19 +570,15 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
     }
 
     .hero__lead {
-      animation: hero-rise-sm var(--dur-slower) var(--ease-out) 580ms both;
+      animation: hero-nudge var(--dur-slower) var(--ease-out) 200ms both;
     }
 
     .hero__ctas {
       animation: hero-rise-sm var(--dur-slower) var(--ease-out) 700ms both;
     }
 
-    .hero__plate :global(.figure__media) {
-      animation: hero-curtain var(--dur-reveal) var(--ease-film) 200ms both;
-    }
-
     .hero__plate :global(.figure__img) {
-      animation: hero-settle 2400ms var(--ease-out) 200ms both;
+      animation: hero-settle 2400ms var(--ease-out) both;
     }
 
     .hero__plate :global(.figure__caption) {
@@ -605,8 +608,13 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
 
   @keyframes hero-rise {
     from {
-      opacity: 0;
-      transform: translateY(0.32em);
+      transform: translateY(0.18em);
+    }
+  }
+
+  @keyframes hero-nudge {
+    from {
+      transform: translateY(0.6rem);
     }
   }
 
@@ -617,18 +625,9 @@ const TBILISI: [number, number] = [41.7225, 44.7925];
     }
   }
 
-  @keyframes hero-curtain {
-    from {
-      clip-path: inset(100% 0 0 0);
-    }
-    to {
-      clip-path: inset(0 0 0 0);
-    }
-  }
-
   @keyframes hero-settle {
     from {
-      transform: scale(1.14);
+      transform: scale(1.08);
     }
   }
 

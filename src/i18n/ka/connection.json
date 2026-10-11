@@ -1,5 +1,5 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). City names are Georgian exonyms; compound airport names use the stem form (პარიზ-ბოვე, ფრანკფურტ-ჰანი).",
+  "_note": "Georgian reviewed and edited by an AI editor (2026-10-11); still needs a final check by a native speaker at Local Host (docs/CONTENT-TODO.md). City names are Georgian exonyms; compound airport names use the stem form (პარიზ-ბოვე, ფრანკფურტ-ჰანი).",
   "kicker": "ავიამიმოსვლა",
   "title": "ევროპა სულ\n*რამდენიმე საათის* სავალზეა.",
   "intro": "თბილისი და ქუთაისი ევროპის ბევრ ქალაქთან პირდაპირი რეისებით არის დაკავშირებული — ასე რომ, თქვენი მოგზაურები დასვენებულები ჩამოდიან და პირველი სუფრისთვის მზად არიან.",
@@ -35,12 +35,12 @@
     "seasonal": "სეზონური",
     "row": "{city} ({code}): {airlines}. {status}.",
     "showing": "ნაჩვენებია {total}-დან {shown}",
-    "more": "ყველა {total} ქალაქი",
+    "more": "ყველა ქალაქი ({total})",
     "less": "მხოლოდ პირველი {shown}",
     "checked": "შემოწმებულია აეროპორტის ოფიციალური განრიგით · {date}"
   },
   "note": "პირდაპირი რეისები სეზონის მიხედვით იცვლება — მიმდინარე განრიგის შესახებ გვკითხეთ.",
-  "noteLink": "მოგვწერეთ",
+  "noteLink": "გვკითხეთ",
   "cities": {
     "warsaw": "ვარშავა",
     "berlin": "ბერლინი",

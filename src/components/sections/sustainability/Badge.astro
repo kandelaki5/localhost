@@ -26,8 +26,8 @@ const { label, newTab, class: className } = Astro.props;
   aria-label={`${label} (${newTab})`}
 >
   <span class="tl-badge__inner" lang="en" aria-hidden="true">
-    <span class="tl-badge__name">{TRAVELIFE_BADGE.name}</span>
-    <span class="tl-badge__dot"></span>
+    <span class="tl-badge__name">{TRAVELIFE_BADGE.name}</span>{' '}
+    <span class="tl-badge__dot"></span>{' '}
     <span class="tl-badge__level">{TRAVELIFE_BADGE.level}</span>
   </span>
 </a>
