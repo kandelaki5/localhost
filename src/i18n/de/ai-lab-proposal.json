@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "Angebots-Baukasten",
   "title": "Vom Kundenbriefing *zum Programmentwurf.*",
-  "intro": "Beschreiben Sie Ihre Gruppe, und Claude entwirft einen Programmvorschlag — Tag für Tag, mit Orten, Leistungen und Hinweisen zur Nachhaltigkeit — bereit für die Kalkulation durch unser Team.",
+  "intro": "Beschreiben Sie Ihre Gruppe, und Claude entwirft einen Programmvorschlag – Tag für Tag, mit Orten, Leistungen und Hinweisen zur Nachhaltigkeit – bereit für die Kalkulation durch unser Team.",
   "form": {
     "title": "Das Briefing",
     "samples": "Beispielbriefing laden",
@@ -46,7 +46,7 @@
       "active": "Aktiv"
     },
     "requests": "Besondere Wünsche",
-    "requestsPlaceholder": "Sprache der Reiseleitung, Ernährung, Pflichtprogramm, Anlässe…",
+    "requestsPlaceholder": "Sprache der Reiseleitung, Ernährungswünsche, Pflichtprogramm, besondere Anlässe …",
     "count": "{n} / {max}",
     "submit": "Vorschlag entwerfen"
   },
@@ -65,7 +65,7 @@
   },
   "empty": {
     "title": "Hier wird Ihr Vorschlag gesetzt",
-    "text": "Füllen Sie das Briefing aus — oder laden Sie ein Beispiel — und klicken Sie auf „Vorschlag entwerfen“."
+    "text": "Füllen Sie das Briefing aus – oder laden Sie ein Beispiel – und klicken Sie auf „Vorschlag entwerfen“."
   },
   "progress": {
     "title": "Ihr Vorschlag entsteht",
@@ -91,8 +91,8 @@
     "places": "Orte",
     "meals": "Mahlzeiten",
     "overnight": "Übernachtung",
-    "included": "Inklusive",
-    "notIncluded": "Nicht inklusive",
+    "included": "Leistungen",
+    "notIncluded": "Nicht enthalten",
     "sustainability": "Nachhaltigkeit",
     "nextSteps": "Nächste Schritte",
     "pricing": "Preise"
@@ -103,12 +103,12 @@
     "edit": "Briefing bearbeiten"
   },
   "mail": {
-    "subject": "Anfrage endgültiges Angebot — {title}",
+    "subject": "Anfrage: endgültiges Angebot – {title}",
     "greeting": "Hallo Local-Host-Team,",
     "intro": "bitte erstellen Sie ein endgültiges Angebot für diesen Programmentwurf aus Ihrem KI-Labor:",
     "brief": "Unser Briefing",
     "programme": "Programm",
     "contact": "Unsere Agentur und Kontaktdaten:",
-    "signoff": "Vielen Dank,"
+    "signoff": "Vielen Dank"
   }
 }

@@ -1,20 +1,20 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "KI-Connector (MCP)",
   "title": "Verbinden Sie Ihren *KI-Assistenten.*",
-  "intro": "Immer mehr Reiseprofis planen mit einem KI-Assistenten wie Claude. Binden Sie den Katalog von Local Host ein und erhalten Sie Antworten aus unseren Daten — nicht von beliebigen Webseiten.",
+  "intro": "Immer mehr Reiseprofis planen mit einem KI-Assistenten wie Claude. Binden Sie den Katalog von Local Host ein und erhalten Sie Antworten aus unseren Daten – nicht von beliebigen Webseiten.",
   "why": [
     {
       "title": "Antworten aus erster Hand",
-      "text": "Erlebnisse, Orte, Direktflüge, Messetermine und Fakten zur Nachhaltigkeit — mit denselben Ehrlichkeitsregeln wie diese Website."
+      "text": "Erlebnisse, Orte, Direktflüge, Messetermine und Fakten zur Nachhaltigkeit – mit denselben Ehrlichkeitsregeln wie diese Website."
     },
     {
       "title": "Sauberere Anfragen, schneller",
-      "text": "Bitten Sie um eine Reiseanfrage und erhalten Sie eine versandfertige E-Mail an unser Team: Länder, Interessen, Dauer, Monat und Gruppengröße."
+      "text": "Lassen Sie eine Reiseanfrage erstellen und erhalten Sie eine versandfertige E-Mail an unser Team: Länder, Interessen, Dauer, Monat und Gruppengröße."
     },
     {
       "title": "Nachhaltigkeit in Sekunden",
-      "text": "Unsere freigegebene Travelife-Partner-Aussage und die Links zu allen fünf Richtlinien sind immer nur eine Frage entfernt."
+      "text": "Unsere freigegebene Travelife-Partner-Erklärung und die Links zu allen fünf Richtlinien sind immer nur eine Frage entfernt."
     }
   ],
   "endpoint": {
@@ -23,22 +23,22 @@
     "copy": "URL kopieren"
   },
   "steps": {
-    "title": "So fügen Sie ihn in Claude hinzu",
+    "title": "So fügen Sie ihn zu Claude hinzu",
     "items": [
       "Öffnen Sie Claude (claude.ai oder die Desktop-App) und gehen Sie zu **Settings → Connectors**.",
       "Wählen Sie **Add custom connector**.",
       "Nennen Sie ihn **Local Host** und fügen Sie die URL oben ein. Lassen Sie die Anmeldefelder (OAuth) leer.",
-      "Klicken Sie auf **Add**, schalten Sie den Local-Host-Connector im Chat ein — und fragen Sie los."
+      "Klicken Sie auf **Add**, schalten Sie den Local-Host-Connector im Chat ein – und fragen Sie los."
     ],
-    "teams": "In den Tarifen Claude Team und Enterprise muss eventuell zuerst ein Owner oder Admin den Connector für die Organisation hinzufügen.",
+    "teams": "In den Tarifen Claude Team und Enterprise muss eventuell zuerst ein Inhaber oder Admin den Connector für die Organisation hinzufügen.",
     "other": "Nutzen Sie Claude Code oder einen anderen MCP-Client?",
-    "otherText": "Jeder Client, der entfernte MCP-Server über Streamable HTTP unterstützt, kann dieselbe URL verwenden.",
+    "otherText": "Jeder Client, der Remote-MCP-Server über Streamable HTTP unterstützt, kann dieselbe URL verwenden.",
     "copyCommand": "Befehl kopieren"
   },
   "tools": {
     "title": "Was Ihr Assistent nachschlagen kann",
-    "count": "{n} Werkzeuge, nur lesend",
-    "readOnly": "Nur lesend",
+    "count": "{n} Tools, nur Lesezugriff",
+    "readOnly": "Nur Lesezugriff",
     "descriptions": {
       "list_experiences": "Die sechs Erlebnisse: Kultur, Wein, Trekking, Gastronomie, Pilgerreisen und Erholung.",
       "get_experience": "Ein Erlebnis im Detail: Höhepunkte, beste Orte, Reisezeiten und für wen es passt.",
@@ -47,7 +47,7 @@
       "list_flight_connections": "Direktflüge nach Tiflis (TBS) und Kutaissi (KUT) und welche Airlines sie fliegen.",
       "get_trade_fairs": "Die Messen, auf denen Sie uns treffen können, mit den nächsten bekannten Terminen.",
       "get_sustainability_commitments": "Unser Travelife-Partner-Status, unsere Verpflichtungen und die fünf Richtlinien als PDF.",
-      "get_contact": "Adresse, Telefon und E-Mail — und was in eine Angebotsanfrage gehört.",
+      "get_contact": "Adresse, Telefon und E-Mail – und was in eine Angebotsanfrage gehört.",
       "draft_trip_request": "Entwirft eine versandfertige Anfrage-E-Mail an unser Team. Keine Preise, keine Buchung."
     },
     "params": "Eingaben",

@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
   "kicker": "Nachhaltigkeit",
   "title": "Gute Gastgeber *pflegen ihr Haus.*",
-  "intro": "Wir arbeiten nach den Travelife-Kriterien für Reiseveranstalter und Reisebüros, mit einem geschulten Nachhaltigkeitskoordinator im Team – und wir erwarten von jedem Partner dieselben Standards.",
+  "intro": "Wir arbeiten nach den Travelife-Kriterien für Reiseveranstalter und Reisebüros, mit einem geschulten Nachhaltigkeitskoordinator im Team – und wir bitten jeden Partner, diese Standards mitzutragen.",
   "running": "Travelife Partner",
   "recognition": {
     "kicker": "Unabhängige Anerkennung",
@@ -59,7 +59,7 @@
       },
       {
         "title": "Nahverkehr und Homeoffice",
-        "text": "Wir erstatten allen Mitarbeitenden das Jahresticket für den öffentlichen Nahverkehr. Alle können einen Tag pro Woche von zu Hause arbeiten, einen zweiten, wenn das Büro nicht nötig ist.",
+        "text": "Wir erstatten allen Mitarbeitenden das Jahresticket für den öffentlichen Nahverkehr. Alle können einen Tag pro Woche im Homeoffice arbeiten – und einen zweiten, wenn sie im Büro nicht gebraucht werden.",
         "source": "Nachhaltigkeitsrichtlinie"
       },
       {
@@ -87,8 +87,8 @@
     "note": "PDF · auf Englisch",
     "effective": "Gültig ab {date}",
     "published": "Veröffentlicht am {date}",
-    "pages": "{n} S.",
-    "size": "{n} KB",
+    "pages": "{n} S.",
+    "size": "{n} KB",
     "items": {
       "sustainability": "Nachhaltigkeitsrichtlinie",
       "report": "Nachhaltigkeitsbericht",
@@ -100,11 +100,11 @@
   },
   "ask": {
     "kicker": "KI-Labor",
-    "title": "Fragen Sie unsere Richtlinien",
+    "title": "Fragen an unsere Richtlinien",
     "text": "Stellen Sie eine Frage in Ihrer Sprache. Die Antwort zitiert diese Dokumente wörtlich und nennt die Quelle.",
     "examplesLabel": "Zum Beispiel",
     "examples": [
-      "Bieten Sie in Ihren Touren Tierattraktionen an?",
+      "Gehören Tierattraktionen zu Ihren Touren?",
       "Wie wählen Sie Hotels aus?"
     ],
     "cta": "Frage stellen"

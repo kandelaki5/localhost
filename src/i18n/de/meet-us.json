@@ -1,12 +1,12 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "Treffen Sie uns",
   "title": "Sechs Messen, *zwei Saisons.*",
   "intro": "Unsere Partner treffen wir auf den Reisemessen in Italien, Deutschland und Polen. Sie besuchen eine davon? Schreiben Sie uns – wir finden gern einen Termin.",
   "running": "Reisemessen",
   "cta": "Termin am Messestand vereinbaren",
   "mail": {
-    "subject": "Termin auf einer Messe — Local Host",
+    "subject": "Termin auf einer Messe – Local Host",
     "body": "Hallo Local Host,\n\nwir würden Sie gern auf einer Messe treffen.\n\nMesse:\nGewünschte Tage:\nUnternehmen:\nLand:\n\nMit freundlichen Grüßen"
   },
   "calendarLabel": "Messekalender",

@@ -1,5 +1,5 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "meta": {
     "title": "Bildnachweise",
     "description": "Urheber und Lizenzen der Fotos auf localhost.ge."
@@ -9,7 +9,7 @@
   "lead": "Die Fotos aus Georgien stammen aus der eigenen Sammlung von Local Host, sofern unten nicht anders angegeben. Frei lizenzierte Bilder sind mit Urheber und Lizenz aufgeführt.",
   "siteHeading": "Fotos auf dieser Website",
   "aiHeading": "Bilder in den KI-Demos",
-  "aiNote": "Nur als Beispielbilder für die Foto-Abgleich-Demo verwendet — es sind keine Fotos aus Georgien, Armenien oder Aserbaidschan.",
+  "aiNote": "Nur als Beispielbilder für die Foto-Abgleich-Demo verwendet – es sind keine Fotos aus Georgien, Armenien oder Aserbaidschan.",
   "pending": "Die vollständige Liste der Bildnachweise wird gerade zusammengestellt und erscheint bald hier.",
   "owned": "© Local Host LLC",
   "labels": {

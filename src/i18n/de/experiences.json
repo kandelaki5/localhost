@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "Erlebnisse",
   "title": "Sechs Wege *in* den Kaukasus.",
-  "intro": "Bauen Sie ein Programm um ein Thema oder verbinden Sie mehrere. Jede Route entwirft unser Team in Tiflis und passt sie an Ihre Kunden, Ihre Saison und Ihr Budget an.",
+  "intro": "Bauen Sie ein Programm rund um ein Thema auf oder verbinden Sie mehrere. Jeden Reiseverlauf entwirft unser Team in Tiflis und passt ihn an Ihre Kunden, Ihre Saison und Ihr Budget an.",
   "running": "Sechs Wege",
   "carousel": {
     "label": "Erlebnisse",
@@ -23,16 +23,16 @@
     "harvest": "Weinlese {months}",
     "harvestTable": "Erntezeit {months}",
     "highRoutes": "Hochgebirge {months}",
-    "lowerRoutes": "tiefere Routen {months}",
-    "beach": "Strand {months}",
-    "ski": "Ski {months}",
+    "lowerRoutes": "tiefere Lagen {months}",
+    "beach": "Badesaison {months}",
+    "ski": "Skisaison {months}",
     "feasts": "Festtage prüfen wir jedes Jahr"
   },
   "cards": {
     "culture": {
       "text": "Altstädte, Höhlenstädte und Freskenkirchen, wo Reiche und Religionen aufeinandertrafen und Traditionen gelebt statt inszeniert werden.",
       "subject": "Narikala, Alt-Tiflis",
-      "alt": "Alt-Tiflis im Abendlicht: rote Dächer steigen zur Festung Narikala an, auf dem Hügel eine Kirche mit Kuppel"
+      "alt": "Alt-Tiflis zur goldenen Stunde: rote Dächer steigen zur Festung Narikala an, auf dem Hügel eine Kirche mit Kuppel"
     },
     "wine": {
       "text": "Achttausend Jahrgänge: Qvevri-Wein in Familienkellern und ein Platz an der Erntetafel.",
@@ -55,7 +55,7 @@
       "alt": "Die Klosteranlage Dawit Garedscha: Felszellen und Steinbauten an einem grünen Hang inmitten halbwüstenartiger Hügel"
     },
     "leisure": {
-      "text": "Schwarzmeerküste, Kurorte, Seen und Skipisten: als eigener Urlaub oder ruhiger Ausklang einer vollen Rundreise.",
+      "text": "Schwarzmeerküste, Kurorte, Seen und Skipisten: als eigenständiger Urlaub oder als ruhiger Ausklang einer intensiven Rundreise.",
       "subject": "Batumi zur blauen Stunde",
       "alt": "Batumi zur blauen Stunde: die beleuchtete Strandpromenade und die Türme der Stadt am Schwarzen Meer"
     }

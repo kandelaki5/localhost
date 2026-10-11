@@ -1,21 +1,21 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "Anfragen-Triage",
-  "title": "Das Postfach *vor dem ersten Kaffee.*",
-  "intro": "Fügen Sie die E-Mail eines Partners ein: Claude liest sie in jeder Sprache, leitet sie an den richtigen Schreibtisch, zieht die Reisefakten heraus, listet auf, was fehlt, und entwirft eine Antwort in der Sprache des Absenders, die unser Team prüft.",
-  "staffLabel": "Team-Werkzeug — Demo",
+  "title": "Postfach sortiert – *vor dem ersten Kaffee.*",
+  "intro": "Fügen Sie die E-Mail eines Partners ein: Claude liest sie in jeder Sprache, leitet sie an das zuständige Team weiter, extrahiert die Reisedaten, listet fehlende Angaben auf und entwirft eine Antwort in der Sprache des Absenders, die unser Team prüft.",
+  "staffLabel": "Team-Werkzeug – Demo",
   "staffNote": "Für das Local-Host-Team gebaut. Echte E-Mails enthalten personenbezogene Daten, deshalb verlangt das Live-Werkzeug einen Team-Zugangsschlüssel.",
   "inbox": {
     "title": "Eine Beispiel-E-Mail testen",
     "samples": {
-      "it-wine-group": "Italienische Agentur — 9-tägige Weinreise, 30 Gäste",
-      "pl-family-hiking": "Polnische Familie — Wandern in Georgien und Armenien",
-      "de-transfer-complaint": "Deutsche Agentur — Beschwerde über einen verspäteten Transfer"
+      "it-wine-group": "Italienische Agentur – 9-tägige Weinreise, 30 Gäste",
+      "pl-family-hiking": "Polnische Familie – Wandern in Georgien und Armenien",
+      "de-transfer-complaint": "Deutsche Agentur – Beschwerde über einen verspäteten Transfer"
     }
   },
   "form": {
     "label": "E-Mail einfügen",
-    "placeholder": "Betreff, Nachricht und Signatur…",
+    "placeholder": "Betreff, Nachricht und Signatur …",
     "count": "{n} / {max}",
     "submit": "E-Mail sortieren",
     "clear": "Leeren",
@@ -31,9 +31,9 @@
   },
   "empty": {
     "title": "Triage-Karte",
-    "text": "Wählen Sie eine Beispiel-E-Mail oder fügen Sie eine ein — das Ergebnis erscheint hier."
+    "text": "Wählen Sie eine Beispiel-E-Mail oder fügen Sie eine ein – das Ergebnis erscheint hier."
   },
-  "working": "Wir lesen die E-Mail…",
+  "working": "Wir lesen die E-Mail …",
   "card": {
     "label": "Ergebnis",
     "routeTo": "Weiterleiten an",
@@ -45,12 +45,12 @@
     "summary": "Zusammenfassung",
     "extracted": "Erkannte Angaben",
     "missing": "Fehlende Angaben",
-    "nothingMissing": "Nichts fehlt — bereit für den Schreibtisch.",
+    "nothingMissing": "Nichts fehlt – bereit zur Bearbeitung.",
     "reply": "Antwortentwurf",
     "replyIn": "auf {language}",
     "subject": "Betreff",
     "copy": "Antwort kopieren",
-    "open": "In E-Mail öffnen",
+    "open": "Im E-Mail-Programm öffnen",
     "fields": {
       "travelDates": "Reisedaten",
       "groupSize": "Gruppengröße",
@@ -85,15 +85,15 @@
     "Poland desk": "Polen-Desk",
     "DACH desk": "DACH-Desk",
     "CIS & Ukraine desk": "GUS- & Ukraine-Desk",
-    "UK, US & Nordics desk": "UK-, USA- & Nordics-Desk",
+    "UK, US & Nordics desk": "UK-, USA- & Nordeuropa-Desk",
     "Western Europe & Asia desk": "Westeuropa- & Asien-Desk",
     "Reservations": "Reservierungen",
     "Finance": "Buchhaltung",
     "Management": "Geschäftsleitung"
   },
   "sample": {
-    "exact": "Beispiel-E-Mail — vorbereitetes Ergebnis.",
-    "other": "Demo — dies ist das vorbereitete Ergebnis eines ähnlichen Beispiels („{label}“). Mit aktivierter KI sortiert Claude genau Ihre E-Mail.",
+    "exact": "Beispiel-E-Mail – vorbereitetes Ergebnis.",
+    "other": "Demo – dies ist das vorbereitete Ergebnis eines ähnlichen Beispiels („{label}“). Mit aktivierter KI sortiert Claude genau Ihre E-Mail.",
     "englishNote": "Die Demo-Notizen sind auf Englisch."
   }
 }

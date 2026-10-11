@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "Kaukasus",
   "title": "Drei Länder. *Ein Gastgeber.*",
-  "intro": "Georgien ist unser Zuhause, Armenien und Aserbaidschan sind die Nachbarn. Ein Team in Tiflis plant und führt Programme in allen drei Ländern durch – einzeln oder zu einer Reise kombiniert. Die Grenzübertritte organisieren wir.",
+  "intro": "Georgien ist unser Zuhause, Armenien und Aserbaidschan sind unsere Nachbarn. Ein einziges Team in Tiflis plant und betreut Programme in allen drei Ländern – einzeln oder zu einer Reise kombiniert. Die Grenzübertritte organisieren wir.",
   "running": "Georgien · Armenien · Aserbaidschan",
   "countries": [
     {
@@ -20,7 +20,7 @@
     },
     {
       "tag": "Nachbarland · Jerewan",
-      "summary": "Ein Hochland der Klöster, des vulkanischen Tuffsteins und der Blicke auf den Ararat – mit einer lebendigen Hauptstadt, Jerewan.",
+      "summary": "Ein Hochland mit Klöstern, vulkanischem Tuffstein und Blick auf den Ararat – und mit Jerewan als lebendiger Hauptstadt.",
       "highlights": [
         "Jerewan, Tempel von Garni und Geghard",
         "Chor Virap mit Blick auf den Ararat",
@@ -35,7 +35,7 @@
       "tag": "Nachbarland · Baku",
       "summary": "Das Land des Feuers am Kaspischen Meer: eine ummauerte Altstadt, prähistorische Felsbilder und Bergdörfer, bekannt für Seide und Kupfer.",
       "highlights": [
-        "Bakus Altstadt und Strandboulevard",
+        "Bakus Altstadt und die Strandpromenade",
         "Felsbilder von Gobustan und die Halbinsel Abşeron",
         "Scheki, Lahıc und die Dörfer des Großen Kaukasus"
       ],
@@ -71,7 +71,7 @@
       "IR": "Iran"
     },
     "range": "Großer Kaukasus",
-    "scale": "100 km",
+    "scale": "100 km",
     "north": "N"
   },
   "aside": {
@@ -79,7 +79,7 @@
     "title": "Zwei Meere, *drei Hauptstädte.*",
     "text": "Tiflis liegt zwischen dem Schwarzen und dem Kaspischen Meer, mit Jerewan im Süden und Baku im Osten. Verbindet ein Programm zwei oder drei Länder, organisiert unser Team Transfers, Zeitplan und Grenzübertritte – so reist Ihre Gruppe mit einem Plan und einem Team im Rücken.",
     "timesLabel": "Ungefähre Fahrzeiten",
-    "hours": "ca. {h} Std.",
+    "hours": "ca. {h} Std.",
     "border": "inkl. Grenze",
     "note": "Mit dem Auto. Verkehr, Wetter und Wartezeiten an der Grenze können sie verändern. Auch die Grenzregeln ändern sich, vor allem in Aserbaidschan – fragen Sie uns vor der Planung nach dem aktuellen Stand.",
     "cta": "Route durch drei Länder entwerfen"

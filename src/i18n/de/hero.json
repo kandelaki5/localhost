@@ -1,5 +1,5 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "masthead": {
     "left": "Incoming-Reiseveranstalter · DMC",
     "right": "Georgien · Armenien · Aserbaidschan"
@@ -10,9 +10,9 @@
   },
   "proverb": {
     "text": "სტუმარი ღვთის საჩუქარია",
-    "gloss": "„Ein Gast ist ein Geschenk Gottes.“ Ein georgisches Sprichwort — und die einzige Hausregel, der wir seit 2015 folgen."
+    "gloss": "„Ein Gast ist ein Geschenk Gottes.“ Ein georgisches Sprichwort – und die einzige Hausregel, der wir seit 2015 folgen."
   },
-  "lead": "Local Host ist ein Incoming-Reiseveranstalter mit Sitz in Tiflis. Für Reisebüros und Reiseveranstalter in ganz Europa gestalten wir Gruppenreisen und maßgeschneiderte Touren durch Georgien, Armenien und Aserbaidschan — von unserem eigenen Team in Tiflis betreut und geöffnet von Familien, die wir stolz unsere Freunde nennen.",
+  "lead": "Local Host ist ein Incoming-Reiseveranstalter mit Sitz in Tiflis. Für Reisebüros und Reiseveranstalter in ganz Europa konzipieren wir Gruppenreisen und maßgeschneiderte Rundreisen durch Georgien, Armenien und Aserbaidschan – organisiert von unserem eigenen Team in Tiflis, mit offenen Türen bei Familien, die wir stolz unsere Freunde nennen.",
   "ctaPrimary": "Gruppenanfrage starten",
   "ctaAi": "Reise mit KI entwerfen",
   "factsLabel": "Local Host auf einen Blick",
@@ -24,7 +24,7 @@
   ],
   "photo": {
     "alt": "Die Dreifaltigkeitskirche von Gergeti, eine Steinkirche mit Glockenturm auf einem grünen Bergrücken unter den steilen Hängen des Kasbek-Massivs",
-    "caption": "Dreifaltigkeitskirche Gergeti, Kasbegi, 2.170 m"
+    "caption": "Dreifaltigkeitskirche Gergeti, Kasbegi, 2170 m"
   },
   "seal": {
     "name": "Local Host",

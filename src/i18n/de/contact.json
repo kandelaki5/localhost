@@ -1,11 +1,11 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "kicker": "Kontakt",
-  "title": "Gemeinsam Gastgeber für Ihre *nächste Gruppe*.",
+  "title": "Empfangen wir Ihre *nächste Gruppe* gemeinsam.",
   "intro": "Sagen Sie uns, wer kommt, wann und was Ihre Gäste lieben. Wir melden uns mit einem ersten Programmentwurf.",
   "running": "Büro in Tiflis",
   "office": "Büro",
-  "write": "Schreiben & anrufen",
+  "write": "Schreiben oder anrufen",
   "emailLabel": "E-Mail",
   "phoneLabel": "Telefon",
   "webLabel": "Web",
@@ -16,15 +16,15 @@
   "b2b": {
     "kicker": "Für Reisebüros & Reiseveranstalter",
     "title": "Lassen Sie uns *zusammenarbeiten*.",
-    "text": "Erzählen Sie uns von Ihrer Agentur und den Märkten, in denen Sie verkaufen — wir melden uns zu einer möglichen Zusammenarbeit.",
-    "cta": "Als Agentur schreiben",
-    "subject": "Anfrage Zusammenarbeit",
+    "text": "Erzählen Sie uns von Ihrem Unternehmen und den Märkten, die Sie bedienen – wir melden uns bei Ihnen wegen einer Zusammenarbeit.",
+    "cta": "Partneranfrage senden",
+    "subject": "Anfrage zur Zusammenarbeit",
     "body": "Hallo Local-Host-Team,\n\nwir sind ein Reisebüro / Reiseveranstalter und würden gern über eine Zusammenarbeit sprechen.\n\nAgentur:\nLand und Märkte:\nWebsite:\n\nVielen Dank!"
   },
   "plan": {
-    "kicker": "KI-Reise-Designer",
+    "kicker": "KI-Reiseplaner",
     "title": "Lieber erst eine Reise skizzieren?",
-    "text": "Unser KI-Reise-Designer entwirft in einer Minute einen Plan Tag für Tag — schicken Sie ihn uns, den Rest übernehmen wir.",
+    "text": "Unser KI-Reiseplaner entwirft in einer Minute einen Reiseverlauf Tag für Tag – schicken Sie ihn uns, den Rest übernehmen wir.",
     "cta": "Mit KI planen"
   },
   "envelope": {

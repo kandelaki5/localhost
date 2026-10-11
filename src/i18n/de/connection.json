@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). City names use German exonyms (Tiflis, Kutaissi, Kattowitz, Posen, Breslau).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md). City names use German exonyms (Tiflis, Kutaissi, Kattowitz, Posen, Breslau).",
   "kicker": "Verbindungen",
   "title": "Europa ist nur\n*wenige Stunden* entfernt.",
-  "intro": "Tiflis und Kutaissi sind per Direktflug mit Städten in ganz Europa verbunden — Ihre Reisenden kommen ausgeruht an, bereit für ihre erste Supra.",
+  "intro": "Tiflis und Kutaissi sind per Direktflug mit Städten in ganz Europa verbunden – Ihre Reisenden kommen ausgeruht an, bereit für ihre erste Supra.",
   "running": "Tiflis TBS · Kutaissi KUT",
   "tabsLabel": "Flughafen",
   "airports": {
@@ -16,7 +16,7 @@
       "tab": "Kutaissi",
       "name": "Flughafen Kutaissi",
       "caption": "Direktflüge ab dem internationalen Flughafen Kutaissi (KUT)",
-      "footnote": "Einige dieser Flughäfen liegen außerhalb der Stadt in ihrem Namen. Auf der Straße ist Paris-Beauvais rund 85 km von Paris entfernt, Brüssel-Charleroi 55 km von Brüssel, Frankfurt-Hahn 120 km von Frankfurt und Memmingen 110 km von München."
+      "footnote": "Einige dieser Flughäfen liegen außerhalb der Stadt, deren Namen sie tragen. Auf der Straße ist Paris-Beauvais rund 85 km von Paris entfernt, Brüssel-Charleroi 55 km von Brüssel, Frankfurt-Hahn 120 km von Frankfurt und Memmingen 110 km von München."
     }
   },
   "board": {
@@ -39,7 +39,7 @@
     "less": "Nur die ersten {shown}",
     "checked": "Abgeglichen mit dem offiziellen Flugplan des Flughafens · {date}"
   },
-  "note": "Direktverbindungen wechseln je nach Saison — fragen Sie uns nach dem aktuellen Flugplan.",
+  "note": "Direktverbindungen wechseln je nach Saison – fragen Sie uns nach dem aktuellen Flugplan.",
   "noteLink": "Fragen Sie uns",
   "cities": {
     "warsaw": "Warschau",
