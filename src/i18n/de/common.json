@@ -64,6 +64,24 @@
     "email": "info@localhost.ge",
     "web": "www.localhost.ge"
   },
+  "toc": {
+    "title": "Auf dieser Seite",
+    "close": "Schließen",
+    "sections": {
+      "caucasus": "Kaukasus",
+      "experiences": "Erlebnisse",
+      "hosts": "Gastgeber",
+      "airlines": "Airlines",
+      "connection": "Direktflüge",
+      "meet-us": "Reisemessen",
+      "members": "Mitgliedschaften",
+      "awards": "Auszeichnungen",
+      "sustainability": "Nachhaltigkeit",
+      "support": "Wir unterstützen",
+      "plan": "Mit KI planen",
+      "contact": "Kontakt"
+    }
+  },
   "footer": {
     "passport": "Reisepass für den Südkaukasus",
     "tagline": "Incoming-Reiseveranstalter und DMC für Georgien, Armenien und Aserbaidschan. Programme für Reisebüros und Reiseveranstalter seit 2015.",

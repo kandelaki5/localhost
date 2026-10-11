@@ -1,0 +1,632 @@
+---
+/**
+ * "On this page" navigator for the long one-page home.
+ *
+ *  - Desktop (≥ 75em): a slim rail on the right edge, one tick per section,
+ *    the current one long and red. Hover or keyboard focus expands it into a
+ *    labelled contents list; ↑ goes back to the top.
+ *  - Smaller screens: a floating pill (page-progress ring, current section)
+ *    that opens a bottom sheet listing every section.
+ *
+ * Both hide on the hero and over the footer; the pill also steps aside while
+ * a form field has focus (phone keyboards). The current section comes from the
+ * header's scroll-spy (html[data-active-section], see Header.astro); the night
+ * sections (src/lib/sections.ts) flip the controls to the night surface.
+ * Without JS the rail still works as plain links and the pill stays hidden.
+ */
+import Icon from './ui/Icon.astro';
+import { SECTIONS, latinNumber } from '../lib/sections';
+import { getLang, useStrings } from '../i18n';
+
+const lang = getLang(Astro);
+const t = useStrings(lang, 'common');
+const labels: Record<string, string> = t.toc.sections;
+const items = SECTIONS.filter((s) => s.number > 0).map((s) => ({
+  id: s.id,
+  no: latinNumber(s.number),
+  label: labels[s.id] ?? s.id,
+  night: s.surface === 'night',
+}));
+---
+
+<div class="toc" data-toc>
+  <nav class="toc-rail" aria-label={t.toc.title} data-toc-rail>
+    <a class="toc-rail__link toc-rail__link--top" href="#top">
+      <span class="toc-rail__label">{t.footer.backToTop}</span>
+      <Icon name="arrow-up" size={14} class="toc-rail__arrow" />
+    </a>
+    <ol class="toc-rail__list" role="list">
+      {
+        items.map((it) => (
+          <li>
+            <a class="toc-rail__link" href={`#${it.id}`} data-toc-link={it.id} data-night={it.night ? '' : undefined}>
+              <span class="toc-rail__label">{it.label}</span>
+              <span class="toc-rail__no" aria-hidden="true">
+                {it.no}
+              </span>
+              <span class="toc-rail__tick" aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  <button
+    class="toc-pill"
+    type="button"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="toc-sheet"
+    data-toc-open
+  >
+    <span class="toc-pill__ring" aria-hidden="true">
+      <svg viewBox="0 0 36 36" focusable="false">
+        <circle class="toc-pill__track" cx="18" cy="18" r="16.5" />
+        <circle class="toc-pill__fill" cx="18" cy="18" r="16.5" pathLength="100" data-toc-progress />
+      </svg>
+      <span class="toc-pill__no" data-toc-no>{items[0].no}</span>
+    </span>
+    <span class="visually-hidden">{t.toc.title}:</span>
+    <span class="toc-pill__label" data-toc-label>{items[0].label}</span>
+    <Icon name="chevron" size={16} class="toc-pill__chev" />
+  </button>
+
+  <dialog id="toc-sheet" class="toc-sheet" aria-labelledby="toc-sheet-title" data-toc-sheet>
+    <div class="toc-sheet__head">
+      <p id="toc-sheet-title" class="kicker toc-sheet__title">{t.toc.title}</p>
+      <button class="toc-sheet__close" type="button" data-toc-close>
+        <Icon name="x" size={18} />
+        <span class="visually-hidden">{t.toc.close}</span>
+      </button>
+    </div>
+    <nav aria-labelledby="toc-sheet-title">
+      <ol class="toc-sheet__list" role="list">
+        {
+          items.map((it) => (
+            <li>
+              <a class="toc-sheet__link" href={`#${it.id}`} data-toc-link={it.id} data-no={it.no}>
+                <span class="toc-sheet__no" aria-hidden="true">
+                  {it.no}
+                </span>
+                <span class="toc-sheet__label">{it.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+    <a class="toc-sheet__top" href="#top">
+      <Icon name="arrow-up" size={14} />
+      {t.footer.backToTop}
+    </a>
+  </dialog>
+</div>
+
+<style>
+  /* ── desktop rail ── */
+  .toc-rail {
+    position: fixed;
+    top: 50%;
+    right: 0.5rem; /* rail + offset ≈ 46px: inside the 53px gutter at 1200px */
+    z-index: calc(var(--z-sticky) - 1);
+    display: none;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0.4rem 0.3rem;
+    border: var(--border-hair) solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-bg) 84%, transparent);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    backdrop-filter: blur(10px) saturate(1.2);
+    color: var(--color-text);
+    translate: 0 -50%;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      translate var(--dur-base) var(--ease-out),
+      visibility 0s,
+      background-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  @media (min-width: 75em) {
+    .toc-rail {
+      display: flex;
+    }
+  }
+
+  .toc-rail__list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 0;
+    padding-top: 0.25rem;
+    border-top: var(--border-hair) solid var(--color-rule);
+  }
+
+  .toc-rail__link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 1.6rem;
+    padding-inline: 0.2rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .toc-rail__link--top {
+    min-height: 1.9rem;
+    color: var(--color-text);
+  }
+
+  .toc-rail :global(.toc-rail__arrow) {
+    margin-inline: 0.15rem;
+  }
+
+  /* Ticks: sections already read are ink, the ones ahead are faint,
+     the current one is long and sun-red. */
+  .toc-rail__tick {
+    width: 0.7rem;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+    opacity: 0.45;
+    transition:
+      width var(--dur-base) var(--ease-out),
+      opacity var(--dur-base) var(--ease-out),
+      background-color var(--dur-base) var(--ease-out);
+  }
+
+  .toc-rail__link[data-state='past'] .toc-rail__tick {
+    opacity: 0.85;
+  }
+
+  .toc-rail__link[aria-current] .toc-rail__tick {
+    width: 1.25rem;
+    opacity: 1;
+    background: var(--color-accent);
+  }
+
+  .toc-rail__link:hover .toc-rail__tick {
+    width: 1.25rem;
+    opacity: 1;
+  }
+
+  /* Collapsed: labels and numbers take no room. */
+  .toc-rail__label,
+  .toc-rail__no {
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      max-width var(--dur-base) var(--ease-out),
+      opacity var(--dur-fast) var(--ease-out),
+      margin var(--dur-base) var(--ease-out);
+  }
+
+  .toc-rail__no {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  /* Expanded on hover / keyboard focus: a labelled contents list. */
+  .toc-rail:is(:hover, :focus-within) {
+    background: var(--color-bg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .toc-rail:is(:hover, :focus-within) .toc-rail__label {
+    max-width: 16rem;
+    margin-right: 0.6rem;
+    opacity: 1;
+  }
+
+  .toc-rail:is(:hover, :focus-within) .toc-rail__no {
+    max-width: 3ch;
+    margin-right: 0.5rem;
+    opacity: 1;
+  }
+
+  .toc-rail:is(:hover, :focus-within) .toc-rail__link--top .toc-rail__label {
+    margin-right: 0.35rem;
+  }
+
+  .toc-rail__link:hover,
+  .toc-rail__link[aria-current] {
+    color: var(--color-text);
+  }
+
+  .toc-rail__link[aria-current] .toc-rail__label {
+    font-weight: var(--fw-medium);
+  }
+
+  /* ── phone / tablet pill ── */
+  .toc-pill {
+    position: fixed;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem);
+    z-index: var(--z-sticky);
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    max-width: calc(100vw - 2rem);
+    min-height: 3rem;
+    padding: 0.3rem 0.9rem 0.3rem 0.3rem;
+    border: var(--border-hair) solid color-mix(in srgb, var(--color-text-inverse) 16%, transparent);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    box-shadow: var(--shadow-lg);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    line-height: 1.2;
+    translate: -50% 0;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      translate var(--dur-base) var(--ease-out),
+      visibility 0s,
+      background-color var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out);
+  }
+
+  @media (max-width: 74.99em) {
+    .toc[data-ready] .toc-pill {
+      display: inline-flex;
+    }
+  }
+
+  .toc-pill__ring {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    flex: none;
+  }
+
+  .toc-pill__ring svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    rotate: -90deg;
+    fill: none;
+    stroke-width: 2.5;
+  }
+
+  .toc-pill__track {
+    stroke: currentColor;
+    opacity: 0.22;
+  }
+
+  .toc-pill__fill {
+    stroke: var(--color-accent);
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+  }
+
+  .toc-pill__no {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    letter-spacing: 0.02em;
+  }
+
+  .toc-pill__label {
+    min-width: 0;
+    max-width: 52vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .toc-pill :global(.toc-pill__chev) {
+    flex: none;
+    rotate: 180deg;
+    opacity: 0.75;
+  }
+
+  /* Hidden: on the hero, over the footer, while typing in a form. */
+  .toc[data-hidden] .toc-rail {
+    opacity: 0;
+    visibility: hidden;
+    translate: 0.5rem -50%;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      translate var(--dur-base) var(--ease-out),
+      visibility 0s var(--dur-base);
+  }
+
+  .toc:is([data-hidden], [data-typing]) .toc-pill {
+    opacity: 0;
+    visibility: hidden;
+    translate: -50% 1.25rem;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      translate var(--dur-base) var(--ease-out),
+      visibility 0s var(--dur-base);
+  }
+
+  /* data-surface on the controls remaps the colour roles; keep our own backgrounds. */
+  .toc-rail[data-surface] {
+    background: color-mix(in srgb, var(--color-bg) 84%, transparent);
+  }
+
+  .toc-rail[data-surface]:is(:hover, :focus-within) {
+    background: var(--color-bg);
+  }
+
+  .toc-pill[data-surface] {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  /* ── bottom sheet ── */
+  .toc-sheet {
+    position: fixed;
+    inset: auto 0 0;
+    width: 100%;
+    max-width: 40rem;
+    max-height: min(85dvh, 46rem);
+    margin: 0 auto;
+    padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + var(--space-s));
+    border: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    background: var(--color-paper);
+    background-image: var(--texture-paper);
+    color: var(--color-ink);
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .toc-sheet::backdrop {
+    background: var(--color-scrim);
+  }
+
+  .toc-sheet[open] {
+    animation: toc-sheet-in var(--dur-slow) var(--ease-out);
+  }
+
+  @keyframes toc-sheet-in {
+    from {
+      transform: translateY(100%);
+    }
+  }
+
+  .toc-sheet__head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-s) var(--space-m) var(--space-xs);
+    background: var(--color-paper);
+  }
+
+  /* Grab handle: the usual bottom-sheet affordance. */
+  .toc-sheet__head::before {
+    content: '';
+    position: absolute;
+    top: 0.45rem;
+    left: 50%;
+    width: 2.25rem;
+    height: 4px;
+    margin-left: -1.125rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-rule-strong);
+  }
+
+  .toc-sheet__title {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .toc-sheet__close {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: var(--border-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-round);
+    color: var(--color-text);
+  }
+
+  .toc-sheet__close:hover {
+    background: var(--color-bg-sunken);
+  }
+
+  .toc-sheet__list {
+    margin: 0;
+    padding-inline: var(--space-m);
+    border-top: var(--border-hair) solid var(--color-rule-section);
+  }
+
+  @media (min-width: 36em) {
+    .toc-sheet__list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(6, auto);
+      grid-auto-flow: column;
+      column-gap: var(--space-l);
+    }
+  }
+
+  .toc-sheet__link {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-s);
+    min-height: 3rem;
+    padding-block: 0.65rem;
+    border-bottom: var(--border-hair) solid var(--color-rule);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .toc-sheet__no {
+    flex: none;
+    width: 2.5ch;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .toc-sheet__label {
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-display-sm);
+    font-variation-settings: var(--fvs-heading);
+    line-height: 1.2;
+  }
+
+  .toc-sheet__link[aria-current] .toc-sheet__label::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-left: 0.5rem;
+    border-radius: var(--radius-round);
+    background: var(--color-accent);
+    vertical-align: super;
+  }
+
+  .toc-sheet__top {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    margin: var(--space-xs) var(--space-m) 0;
+    color: var(--color-text);
+    font-size: var(--fs-sm);
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-toc]');
+  if (root) {
+    root.toggleAttribute('data-ready', true);
+    const rail = root.querySelector<HTMLElement>('[data-toc-rail]');
+    const pill = root.querySelector<HTMLButtonElement>('[data-toc-open]');
+    const sheet = root.querySelector<HTMLDialogElement>('[data-toc-sheet]');
+    const progress = root.querySelector<SVGCircleElement>('[data-toc-progress]');
+    const pillNo = root.querySelector<HTMLElement>('[data-toc-no]');
+    const pillLabel = root.querySelector<HTMLElement>('[data-toc-label]');
+    const links = [...root.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')];
+    const order = [...new Set(links.map((l) => l.dataset.tocLink ?? ''))];
+    const sheetLinks = links.filter((l) => l.closest('[data-toc-sheet]'));
+    const night = new Set(links.filter((l) => l.hasAttribute('data-night')).map((l) => l.dataset.tocLink));
+
+    let current = '';
+    let overFooter = false;
+
+    const render = () => {
+      const idx = order.indexOf(current);
+      root.toggleAttribute('data-hidden', idx < 0 || overFooter);
+      for (const link of links) {
+        const i = order.indexOf(link.dataset.tocLink ?? '');
+        link.dataset.state = idx < 0 || i > idx ? 'next' : i < idx ? 'past' : 'current';
+        if (i === idx) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      }
+      const active = sheetLinks.find((l) => l.dataset.tocLink === current);
+      if (active && pillNo && pillLabel) {
+        pillNo.textContent = active.dataset.no ?? '';
+        pillLabel.textContent = active.querySelector('.toc-sheet__label')?.textContent ?? '';
+      }
+      // Night sections: flip the controls to the night surface.
+      for (const el of [rail, pill]) {
+        if (!el) continue;
+        if (night.has(current)) el.dataset.surface = 'night';
+        else delete el.dataset.surface;
+      }
+    };
+
+    // Current section: the header's scroll-spy writes html[data-active-section].
+    // Between sections it is briefly removed: keep the last one.
+    const html = document.documentElement;
+    const syncSection = () => {
+      const id = html.dataset.activeSection;
+      if (id && id !== current) {
+        current = id;
+        render();
+      }
+    };
+    new MutationObserver(syncSection).observe(html, { attributes: true, attributeFilter: ['data-active-section'] });
+    syncSection();
+    render();
+
+    // Step aside over the footer (its own back-to-top and links take over).
+    const footer = document.querySelector('body > footer, .site-footer');
+    if (footer && 'IntersectionObserver' in window) {
+      new IntersectionObserver(
+        ([e]) => {
+          overFooter = e.isIntersecting;
+          render();
+        },
+        { rootMargin: '0px 0px -35% 0px' },
+      ).observe(footer);
+    }
+
+    // Page progress on the pill's ring.
+    let ticking = false;
+    const updateProgress = () => {
+      ticking = false;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+      progress?.style.setProperty('stroke-dashoffset', String(100 - p * 100));
+    };
+    addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(updateProgress);
+        }
+      },
+      { passive: true },
+    );
+    updateProgress();
+
+    // Phone keyboards: hide the pill while a form field has focus.
+    const isField = (el: EventTarget | null) =>
+      el instanceof HTMLElement && el.matches('input, textarea, select, [contenteditable="true"]');
+    document.addEventListener('focusin', (e) => root.toggleAttribute('data-typing', isField(e.target)));
+    document.addEventListener('focusout', () => root.toggleAttribute('data-typing', false));
+
+    // Sheet.
+    if (pill && sheet) {
+      let jumping = false;
+      pill.addEventListener('click', () => {
+        jumping = false;
+        sheet.showModal();
+        pill.setAttribute('aria-expanded', 'true');
+        html.classList.add('menu-open');
+        (sheetLinks.find((l) => l.hasAttribute('aria-current')) ?? sheetLinks[0])?.focus();
+      });
+      sheet.addEventListener('close', () => {
+        pill.setAttribute('aria-expanded', 'false');
+        html.classList.remove('menu-open');
+        // After a jump, focus follows the link target; otherwise back to the pill.
+        if (!jumping) pill.focus();
+      });
+      sheet.querySelector('[data-toc-close]')?.addEventListener('click', () => sheet.close());
+      sheet.addEventListener('click', (e) => {
+        if (e.target === sheet) sheet.close(); // backdrop
+        else if ((e.target as Element).closest('a')) {
+          jumping = true;
+          html.classList.remove('menu-open');
+          sheet.close();
+        }
+      });
+      matchMedia('(min-width: 75em)').addEventListener('change', (m) => m.matches && sheet.open && sheet.close());
+    }
+  }
+</script>

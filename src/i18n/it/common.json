@@ -64,6 +64,24 @@
     "email": "info@localhost.ge",
     "web": "www.localhost.ge"
   },
+  "toc": {
+    "title": "In questa pagina",
+    "close": "Chiudi",
+    "sections": {
+      "caucasus": "Caucaso",
+      "experiences": "Esperienze",
+      "hosts": "Host",
+      "airlines": "Compagnie aeree",
+      "connection": "Voli diretti",
+      "meet-us": "Fiere",
+      "members": "Affiliazioni",
+      "awards": "Riconoscimenti",
+      "sustainability": "Sostenibilità",
+      "support": "Sosteniamo",
+      "plan": "Pianifica con l’AI",
+      "contact": "Contatti"
+    }
+  },
   "footer": {
     "passport": "Passaporto per il Caucaso meridionale",
     "tagline": "Tour operator incoming e DMC per Georgia, Armenia e Azerbaigian. Programmi per agenzie di viaggi e tour operator dal 2015.",

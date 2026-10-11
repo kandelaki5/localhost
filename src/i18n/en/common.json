@@ -61,6 +61,24 @@
     "email": "info@localhost.ge",
     "web": "www.localhost.ge"
   },
+  "toc": {
+    "title": "On this page",
+    "close": "Close",
+    "sections": {
+      "caucasus": "Caucasus",
+      "experiences": "Experiences",
+      "hosts": "Hosts",
+      "airlines": "Airlines",
+      "connection": "Direct flights",
+      "meet-us": "Trade fairs",
+      "members": "Memberships",
+      "awards": "Awards",
+      "sustainability": "Sustainability",
+      "support": "We support",
+      "plan": "Plan with AI",
+      "contact": "Contact"
+    }
+  },
   "footer": {
     "passport": "Passport to the South Caucasus",
     "tagline": "Inbound tour operator and DMC for Georgia, Armenia and Azerbaijan. Programmes for travel agencies and tour operators since 2015.",

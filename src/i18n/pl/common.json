@@ -64,6 +64,24 @@
     "email": "info@localhost.ge",
     "web": "www.localhost.ge"
   },
+  "toc": {
+    "title": "Na tej stronie",
+    "close": "Zamknij",
+    "sections": {
+      "caucasus": "Kaukaz",
+      "experiences": "Tematy",
+      "hosts": "Gospodarze",
+      "airlines": "Linie lotnicze",
+      "connection": "Loty bezpośrednie",
+      "meet-us": "Targi",
+      "members": "Członkostwa",
+      "awards": "Nagrody",
+      "sustainability": "Zrównoważony rozwój",
+      "support": "Wspieramy",
+      "plan": "Zaplanuj z AI",
+      "contact": "Kontakt"
+    }
+  },
   "footer": {
     "passport": "Paszport na Kaukaz Południowy",
     "tagline": "Touroperator incomingowy i DMC w Gruzji, Armenii i Azerbejdżanie. Programy dla biur podróży i touroperatorów od 2015 roku.",

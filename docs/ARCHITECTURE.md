@@ -26,6 +26,7 @@ src/
   layouts/       Base.astro — <html lang>, head/SEO/hreflang/OG/JSON-LD, skip link, Header, <main id="main">, Footer
   components/
     Header.astro · Footer.astro · HomePage.astro (section order)
+    SectionIndex.astro ("On this page": desktop rail / phone pill + sheet; labels in common.json → toc)
     ui/          shared, presentational components (see §6)
     sections/    Hero.astro (done) + one STUB per section — yours to replace
     sections/<key>/   your sub-components, data helpers, scripts (create it)
@@ -65,7 +66,7 @@ docs/            BRIEF · DESIGN · ARCHITECTURE (this) · CONTENT-TODO · reque
 
 Section X owns **`src/components/sections/X.astro`, `src/components/sections/x/**` and `src/i18n/*/x.json`** — nothing else.
 
-- Keep the **root element, its `id` and its `aria-labelledby`** exactly as in the stub. The header's active-section dot, the language switcher's "keep my place" and every nav link depend on them. Night sections keep `<NightSurface as="section" id=… labelledby=…>`.
+- Keep the **root element, its `id` and its `aria-labelledby`** exactly as in the stub. The header's active-section dot, the "On this page" navigator, the language switcher's "keep my place" and every nav link depend on them. Night sections keep `<NightSurface as="section" id=… labelledby=…>`.
 - Keep the `<SectionHead number={…} id="<id>-title" …>` (number = the table above). You may pass extra content into its slot (tabs, arrows).
 - Delete the `<Placeholder>` when you ship.
 
