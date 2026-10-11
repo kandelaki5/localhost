@@ -16,6 +16,8 @@ const lang = getLang(Astro);
 const t = useStrings(lang, 'common');
 const home = localizePath('/', lang);
 const year = new Date().getFullYear();
+// "Powered by {name}": the studio name is set apart in the bar.
+const [madeBefore = '', madeAfter = ''] = t.footer.poweredBy.split('{name}');
 
 // The six fairs from the owner's template. Dates come from the researched
 // src/data/fairs.json when it is present (glob, so its absence never breaks).
@@ -170,6 +172,7 @@ const tel = t.contact.phone.replace(/\s+/g, '');
         {t.footer.backToTop}
         <Icon name="arrow-up" size={14} />
       </a>
+      <p class="site-footer__made">{madeBefore}<span class="site-footer__maker">AguliGames</span>{madeAfter}</p>
     </div>
   </div>
 </footer>
@@ -448,7 +451,7 @@ const tel = t.contact.phone.replace(/\s+/g, '');
     color: var(--color-text-muted);
   }
 
-  .site-footer__bar > p {
+  .site-footer__bar > p:first-child {
     margin-right: auto;
   }
 
@@ -468,6 +471,17 @@ const tel = t.contact.phone.replace(/\s+/g, '');
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+  }
+
+  /* Studio credit: always the last item, bottom-right. */
+  .site-footer__made {
+    margin-left: auto;
+  }
+
+  .site-footer__maker {
+    color: var(--color-foil);
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
 
   @media (max-width: 63.99em) {
@@ -531,6 +545,10 @@ const tel = t.contact.phone.replace(/\s+/g, '');
     .site-footer__bar {
       flex-direction: column;
       align-items: flex-start;
+    }
+
+    .site-footer__made {
+      align-self: flex-end;
     }
   }
 </style>

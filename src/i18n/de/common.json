@@ -82,7 +82,8 @@
     "photoCredits": "Bildnachweise",
     "rights": "© {year} Local Host LLC · Tiflis, Georgien",
     "pdfNote": "PDF · auf Englisch",
-    "backToTop": "Nach oben"
+    "backToTop": "Nach oben",
+    "poweredBy": "Umsetzung: {name}"
   },
   "policies": {
     "sustainability": "Nachhaltigkeitsrichtlinie",

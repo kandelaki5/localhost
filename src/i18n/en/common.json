@@ -79,7 +79,8 @@
     "photoCredits": "Photo credits",
     "rights": "© {year} Local Host LLC · Tbilisi, Georgia",
     "pdfNote": "PDF",
-    "backToTop": "Back to top"
+    "backToTop": "Back to top",
+    "poweredBy": "Powered by {name}"
   },
   "policies": {
     "sustainability": "Sustainability Policy",

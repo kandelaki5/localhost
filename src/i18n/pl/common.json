@@ -82,7 +82,8 @@
     "photoCredits": "Autorzy zdjęć",
     "rights": "© {year} Local Host LLC · Tbilisi, Gruzja",
     "pdfNote": "PDF · po angielsku",
-    "backToTop": "Do góry"
+    "backToTop": "Do góry",
+    "poweredBy": "Realizacja: {name}"
   },
   "policies": {
     "sustainability": "Polityka zrównoważonego rozwoju",
