@@ -1,5 +1,5 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). City names use Italian exonyms.",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md). City names use Italian exonyms.",
   "kicker": "Collegamenti",
   "title": "L’Europa è a\n*poche ore* di volo.",
   "intro": "Tbilisi e Kutaisi sono collegate con voli diretti a città di tutta Europa: i vostri viaggiatori arrivano riposati, pronti per la loro prima supra.",
@@ -16,7 +16,7 @@
       "tab": "Kutaisi",
       "name": "Aeroporto di Kutaisi",
       "caption": "Voli diretti dall’aeroporto internazionale di Kutaisi (KUT)",
-      "footnote": "Alcuni di questi aeroporti si trovano fuori dalla città di cui portano il nome. Su strada, Parigi-Beauvais dista circa 85 km da Parigi, Bruxelles-Charleroi 55 km da Bruxelles, Francoforte-Hahn 120 km da Francoforte e Memmingen 110 km da Monaco di Baviera."
+      "footnote": "Alcuni di questi aeroporti si trovano fuori dalla città di cui portano il nome. Su strada, Parigi-Beauvais dista circa 85 km da Parigi, Bruxelles-Charleroi 55 km da Bruxelles, Francoforte-Hahn 120 km da Francoforte e Memmingen 110 km da Monaco di Baviera."
     }
   },
   "board": {

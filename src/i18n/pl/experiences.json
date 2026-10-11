@@ -1,15 +1,15 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
-  "kicker": "Doświadczenia",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
+  "kicker": "Tematy",
   "title": "Sześć dróg *w głąb* Kaukazu.",
-  "intro": "Zbuduj program wokół jednego tematu albo połącz kilka. Każdą trasę przygotowuje nasz zespół w Tbilisi i dopasowuje ją do Twoich klientów, sezonu i budżetu.",
+  "intro": "Program można zbudować wokół jednego tematu albo połączyć kilka. Każdy program wycieczki przygotowuje nasz zespół w Tbilisi i dopasowuje go do Państwa klientów, sezonu i budżetu.",
   "running": "Sześć dróg",
   "carousel": {
-    "label": "Doświadczenia",
-    "prev": "Poprzednie doświadczenia",
-    "next": "Następne doświadczenia",
-    "status": "Doświadczenia od {from} do {to} z {total}",
-    "statusOne": "Doświadczenie {from} z {total}"
+    "label": "Tematy",
+    "prev": "Poprzednie tematy",
+    "next": "Następne tematy",
+    "status": "Tematy od {from} do {to} z {total}",
+    "statusOne": "Temat {from} z {total}"
   },
   "card": {
     "number": "Nº",
@@ -22,15 +22,15 @@
     "best": "najlepiej {months}",
     "harvest": "winobranie {months}",
     "harvestTable": "smaki zbiorów {months}",
-    "highRoutes": "wysokie trasy {months}",
-    "lowerRoutes": "niższe trasy {months}",
-    "beach": "plaża {months}",
-    "ski": "narty {months}",
+    "highRoutes": "trasy wysokogórskie {months}",
+    "lowerRoutes": "trasy niżej położone {months}",
+    "beach": "sezon plażowy {months}",
+    "ski": "sezon narciarski {months}",
     "feasts": "daty świąt sprawdzamy co roku"
   },
   "cards": {
     "culture": {
-      "text": "Stare miasta, skalne miasta i cerkwie pełne fresków: tu spotykały się imperia i wiary, a tradycje wciąż są żywe, nie odgrywane.",
+      "text": "Stare miasta, skalne miasta i cerkwie pełne fresków — tu spotykały się imperia i religie, a tradycje są żywe, nie inscenizowane.",
       "subject": "Narikala, Stare Tbilisi",
       "alt": "Stare Tbilisi o złotej godzinie: czerwone dachy pną się ku twierdzy Narikala, na wzgórzu cerkiew z kopułą"
     },
@@ -55,7 +55,7 @@
       "alt": "Kompleks klasztorny Dawit Garedża: skalne cele i kamienne budynki na zielonym zboczu wśród półpustynnych wzgórz"
     },
     "leisure": {
-      "text": "Wybrzeże Morza Czarnego, uzdrowiska, jeziora i stoki narciarskie: osobny urlop albo spokojny finał intensywnej wycieczki.",
+      "text": "Wybrzeże Morza Czarnego, uzdrowiska, jeziora i stoki narciarskie: osobny wyjazd wypoczynkowy albo spokojne zakończenie intensywnej wycieczki objazdowej.",
       "subject": "Batumi o zmierzchu",
       "alt": "Batumi o zmierzchu: oświetlony nadmorski bulwar i wieżowce nad Morzem Czarnym"
     }

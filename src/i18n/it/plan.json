@@ -1,19 +1,19 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Pianifica con l’AI",
-  "title": "Abbozza un viaggio *in un minuto.*",
-  "intro": "Scegli paesi e interessi, scrivici due righe e il nostro progettista di viaggi AI abbozza un programma giorno per giorno. Poi il nostro team a Tbilisi lo trasforma in realtà.",
+  "title": "Una bozza di viaggio *in un minuto.*",
+  "intro": "Scegliete paesi e interessi, scriveteci due righe e il nostro progettista di viaggi AI preparerà una bozza di itinerario giorno per giorno. Poi il nostro team a Tbilisi la trasformerà in un viaggio vero.",
   "running": "Progettista di viaggi AI",
   "form": {
     "label": "Documento di viaggio",
     "serial": "Modulo LH · 11",
-    "title": "Il tuo viaggio, *in pochi francobolli.*",
-    "hint": "Tocca i francobolli adatti al tuo viaggio, poi scrivici due righe. Nessuna prenotazione: ricevi una bozza da inviarci.",
+    "title": "Il vostro viaggio, *in pochi francobolli.*",
+    "hint": "Selezionate i francobolli adatti al vostro viaggio, poi scriveteci due righe. Nessuna prenotazione: riceverete una bozza da inviarci.",
     "countries": "Paesi",
     "countriesHint": "Uno, due o tutti e tre.",
-    "countriesError": "Scegli almeno un paese.",
+    "countriesError": "Scegliete almeno un paese.",
     "experiences": "Esperienze",
-    "experiencesHint": "Nessuna scelta? Ti proponiamo un mix equilibrato.",
+    "experiencesHint": "Nessuna scelta? Vi proporremo un mix equilibrato.",
     "length": "Durata",
     "daysUnit": "giorni",
     "daysValue": "{n} giorni",
@@ -25,19 +25,19 @@
     "travellers": "Chi viaggia",
     "optional": "facoltativo",
     "pace": "Ritmo",
-    "letter": "La tua lettera",
+    "letter": "La vostra lettera",
     "salutation": "Caro Local Host,",
-    "letterLabel": "La tua lettera a Local Host (facoltativa)",
+    "letterLabel": "La vostra lettera a Local Host (facoltativa)",
     "letterPlaceholder": "siamo dodici amici di Verona, amiamo il vino, i pranzi lunghi e le passeggiate tranquille…",
-    "letterHint": "Chi viaggia, cosa ama, cosa evitare. Per favore, non inserire dati personali.",
+    "letterHint": "Chi viaggia, cosa ama, cosa evitare. Vi preghiamo di non inserire dati personali.",
     "dictate": "Detta",
     "dictateStop": "Interrompi la dettatura",
-    "listening": "Ti ascolto… parla pure.",
-    "micPrivacy": "L’input vocale usa il servizio di riconoscimento vocale del tuo browser: la tua voce viene elaborata dall’azienda che lo fornisce (ad esempio Google o Apple), non da Local Host.",
+    "listening": "In ascolto… parlate pure.",
+    "micPrivacy": "La dettatura usa il servizio di riconoscimento vocale del vostro browser: la vostra voce viene elaborata dall’azienda che lo fornisce (ad esempio Google o Apple), non da Local Host.",
     "submit": "Progetta il mio viaggio",
-    "privacy": "Per preparare la bozza, le tue scelte e la tua lettera vengono elaborate da un modello AI (Claude, di Anthropic).",
+    "privacy": "Per preparare la bozza, le vostre scelte e la vostra lettera vengono elaborate da un modello AI (Claude, di Anthropic).",
     "disclaimer": "Una bozza AI è un punto di partenza, non un’offerta: prezzi, disponibilità e ogni dettaglio vengono confermati dal team di Local Host.",
-    "summaryLabel": "Le tue scelte",
+    "summaryLabel": "Le vostre scelte",
     "edit": "Modifica le scelte"
   },
   "countries": {
@@ -70,11 +70,11 @@
     "title": "Bozza di itinerario",
     "draft": "Bozza {n}",
     "connecting": "Connessione al progettista di viaggi…",
-    "designing": "Stiamo progettando il tuo viaggio…",
-    "writingDay": "Scrivo il giorno {day} di {days}…",
+    "designing": "Stiamo progettando il vostro viaggio…",
+    "writingDay": "Stiamo scrivendo il giorno {day} di {days}…",
     "done": "Bozza pronta: {days} giorni, {stops} tappe sulla mappa.",
     "doneDemo": "Esempio pronto: {days} giorni, {stops} tappe sulla mappa.",
-    "stopped": "Interrotto. Qui sotto trovi la bozza scritta finora.",
+    "stopped": "Interrotto. Qui sotto trovate la bozza scritta finora.",
     "failed": "Non è stato possibile completare questa bozza.",
     "stop": "Interrompi",
     "retry": "Riprova",
@@ -82,19 +82,19 @@
     "demoStampTop": "Itinerario di esempio",
     "demoStampMain": "Demo",
     "demoStampLabel": "Itinerario di esempio — demo",
-    "demoNotice": "Modalità demo: il progettista AI non è ancora collegato, quindi vedi un esempio già pronto, non un piano scritto per te. Puoi comunque inviare le tue scelte al nostro team.",
-    "rateLimited": "Attendi circa {minutes} min prima di riprovare."
+    "demoNotice": "Modalità demo: il progettista AI non è ancora collegato, quindi vedete un esempio già pronto, non un piano scritto per voi. Potete comunque inviare le vostre scelte al nostro team.",
+    "rateLimited": "Attendete circa {minutes} min prima di riprovare."
   },
   "actions": {
     "refineLabel": "Perfeziona questa bozza",
     "refinePlaceholder": "es. Rendi il giorno 3 più rilassato",
     "refine": "Perfeziona",
-    "refineEmpty": "Scrivi cosa vorresti cambiare, poi premi «Perfeziona».",
+    "refineEmpty": "Scrivete cosa vorreste cambiare, poi premete «Perfeziona».",
     "send": "Invia il piano a Local Host",
-    "sendHint": "Si apre la tua app di posta con il piano già inserito. Non parte nulla finché non premi «Invia».",
+    "sendHint": "Si apre il vostro programma di posta con il piano già inserito. Non parte nulla finché non premete «Invia».",
     "copy": "Copia il piano",
     "copied": "Copiato negli appunti.",
-    "copyFailed": "Impossibile copiare. Seleziona il testo a mano.",
+    "copyFailed": "Impossibile copiare. Selezionate il testo manualmente.",
     "read": "Leggi ad alta voce",
     "readStop": "Interrompi la lettura",
     "restart": "Ricomincia"
@@ -103,15 +103,15 @@
     "label": "Mappa del percorso",
     "title": "Mappa di Georgia, Armenia e Azerbaigian",
     "routeTitle": "Mappa del percorso previsto: {route}",
-    "idle": "Qui verrà tracciato il tuo percorso",
-    "drawing": "Sto tracciando il percorso",
+    "idle": "Qui verrà tracciato il vostro percorso",
+    "drawing": "Stiamo tracciando il percorso",
     "office": "Local Host · Tbilisi",
     "routeLabel": "Percorso, in ordine di visita",
     "credit": "Dati cartografici: Natural Earth"
   },
   "nojs": {
     "title": "Il progettista di viaggi richiede JavaScript",
-    "text": "Funziona nel tuo browser. Puoi anche semplicemente scriverci: indicaci paesi, interessi, date e dimensioni del gruppo, e ti risponderemo con una prima bozza.",
+    "text": "Funziona nel vostro browser. Potete anche semplicemente scriverci: indicateci paesi, interessi, date e dimensioni del gruppo e vi risponderemo con una prima bozza.",
     "cta": "Scrivi a Local Host",
     "subject": "Richiesta di viaggio"
   },
@@ -119,16 +119,16 @@
     "title": "Come funziona",
     "steps": [
       {
-        "title": "Scegli i francobolli",
+        "title": "Scegliete i francobolli",
         "text": "Paesi, esperienze, durata e ritmo — e due righe su chi viaggia."
       },
       {
-        "title": "Guarda nascere la bozza",
-        "text": "Il nostro progettista di viaggi AI scrive un piano giorno per giorno e traccia il percorso, con i luoghi e le esperienze con cui lavoriamo."
+        "title": "Guardate nascere la bozza",
+        "text": "Il nostro progettista di viaggi AI scrive un itinerario giorno per giorno e traccia il percorso, con i luoghi e le esperienze con cui lavoriamo."
       },
       {
-        "title": "Inviala a Tbilisi",
-        "text": "Il nostro team controlla ogni dettaglio e trasforma la tua bozza in un programma su misura."
+        "title": "Inviatela a Tbilisi",
+        "text": "Il nostro team controlla ogni dettaglio e trasforma la vostra bozza in un programma su misura."
       }
     ]
   }

@@ -283,7 +283,13 @@ html {
   padding-block: var(--space-section);
 }
 
-.visually-hidden:not(:focus):not(:active) {
+/* Always hidden, focused or not: also used on real form controls (the
+   Photo Match file inputs, custom radios/checkboxes) whose visible focus ring
+   is drawn on the styled wrapper — a :focus reveal would flash the raw native
+   control. For content that must appear on focus, use .visually-hidden-focusable
+   (the skip link has its own .skip-link rule). */
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within):not(:active) {
   position: absolute !important;
   width: 1px;
   height: 1px;
@@ -368,6 +374,18 @@ html {
   font-variation-settings: var(--fvs-accent);
   letter-spacing: calc(var(--tracking-display) - 0.008em);
   color: var(--color-emphasis);
+}
+
+/* Short accents (2–3 words, marked by lib/markup inline()) read as one unit:
+   keep them on one line. Not for Georgian (long words, no italic). */
+.display em.accent-keep:not(.accent-keep--long):not(:lang(ka)) {
+  white-space: nowrap;
+}
+
+@media (min-width: 30em) {
+  .display em.accent-keep--long:not(:lang(ka)) {
+    white-space: nowrap;
+  }
 }
 
 /* Georgian has no italic: accent words keep their colour, not a fake slant. */

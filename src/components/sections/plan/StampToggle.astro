@@ -386,23 +386,23 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
     }
   }
 
-  /* Phones (< 30em): one horizontal stamp per row (outline · code · name),
-     so the longest names ("ASERBAIDSCHAN", "აზერბაიჯანი") fit on one line. */
-  @media (max-width: 29.99em) {
+  /* Narrow country row (phones, and the two-column Plan layout at 64–80em,
+     where the row is under 34rem): one horizontal stamp per row
+     (outline · code · name), so the longest names ("ASERBAIDSCHAN",
+     "აზერბაიჯანი") fit on one line. The container is set in TravelDocument. */
+  @container plan-countries (max-width: 34rem) {
     .pstamp--country .pstamp__face {
       grid-template-columns: 3.25rem minmax(0, 1fr);
       grid-template-rows: auto;
       align-items: center;
       column-gap: var(--space-s);
       min-height: 4rem;
-      padding: var(--space-2xs) var(--space-xl) var(--space-2xs) var(--space-xs);
+      padding: var(--space-2xs) var(--space-l) var(--space-2xs) var(--space-xs);
     }
 
     .pstamp--country .pstamp__no {
-      top: auto;
       left: auto;
       right: var(--space-xs);
-      bottom: var(--space-2xs);
     }
 
     .pstamp--country .pstamp__outline {
@@ -422,26 +422,84 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
       white-space: nowrap;
     }
 
+    .pstamp--country .pstamp__label:lang(ka) {
+      font-size: var(--fs-xs);
+      letter-spacing: 0;
+    }
+
     .pstamp--country .pstamp__postmark {
       top: -0.6rem;
       width: 4.75rem;
     }
   }
 
-  /* ≤ 360 px: two experience stamps per row leave ~85 px for the name */
-  @media (max-width: 22.49em) {
+  /* Each experience stamp sizes its name to its own width: at 320 px (two per
+     row) and in the 64–80em Plan layout (three per row) a stamp is ~115–150 px
+     wide, too narrow for "Gastronomie" or "მომლოცველობა" at the full size. */
+  .pstamp :global(.pstamp__stamp) {
+    container: pstamp / inline-size;
+  }
+
+  @container pstamp (max-width: 12rem) {
+    .pstamp--country .pstamp__label {
+      letter-spacing: 0.04em;
+    }
+
+    .pstamp--experience .pstamp__label:lang(ka) {
+      font-size: var(--fs-xs);
+    }
+  }
+
+  @container pstamp (max-width: 10rem) {
     .pstamp--experience .pstamp__face {
       padding-inline: var(--space-2xs);
     }
 
     .pstamp--experience .pstamp__label {
       font-size: var(--fs-sm);
-      overflow-wrap: normal;
-      hyphens: manual;
+      white-space: nowrap;
     }
 
     .pstamp--experience .pstamp__label:lang(ka) {
       font-size: var(--fs-2xs);
+    }
+  }
+
+  /* 320 px phones: one horizontal experience stamp per row (glyph · name) */
+  @container plan-experiences (max-width: 17.5rem) {
+    .pstamp--experience .pstamp__face {
+      grid-template-columns: 1.75rem minmax(0, 1fr);
+      grid-template-rows: auto;
+      align-items: center;
+      justify-items: stretch;
+      column-gap: var(--space-xs);
+      min-height: 3.5rem;
+      padding: var(--space-2xs) var(--space-xl) var(--space-2xs) var(--space-xs);
+    }
+
+    .pstamp--experience .pstamp__no {
+      top: auto;
+      left: auto;
+      right: var(--space-xs);
+      bottom: var(--space-2xs);
+    }
+
+    .pstamp--experience .pstamp__glyph {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    .pstamp--experience .pstamp__label {
+      white-space: nowrap;
+    }
+
+    .pstamp--experience .pstamp__label:lang(ka) {
+      font-size: var(--fs-xs);
+    }
+
+    .pstamp--experience .pstamp__postmark {
+      top: -0.7rem;
+      width: 4.5rem;
     }
   }
 

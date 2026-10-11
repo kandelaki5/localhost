@@ -1,8 +1,6 @@
 # localhost.ge — Local Host LLC
 User-agent: *
 Allow: /
-Disallow: /styleguide/
-Disallow: /ai-lab/dev/
 Disallow: /api/
 
 Sitemap: https://www.localhost.ge/sitemap-index.xml

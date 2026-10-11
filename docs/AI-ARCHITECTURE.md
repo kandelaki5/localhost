@@ -30,7 +30,7 @@ The short version: every AI feature is an on-demand Astro API route under `src/p
 
 The request and response shapes are documented at the top of each route file and in the matching `src/lib/ai/client/*.ts` module, which is the single source of truth for the request format (`validate…Request()` is used by both the browser and the server). Every JSON answer has the same shape in demo and live mode, plus `mode: "demo" | "live"`; demo answers also carry a `sample` object (`null` in live mode) with a localised label to show.
 
-Dev harness pages (noindex, not in the sitemap) live under `/ai-lab/dev/`: `trip-designer`, `photo-match`, `proposal`, `policy-qa`, `triage`, `mcp`.
+Dev harness pages (source in `src/dev-pages/ai-lab/dev/`; routed only in `astro dev` or a build with `SHOW_DEV_PAGES=1`, never in production) live under `/ai-lab/dev/`: `trip-designer`, `photo-match`, `proposal`, `policy-qa`, `triage`, `mcp`.
 
 ## Files
 

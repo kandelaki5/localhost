@@ -1,25 +1,25 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Domande sulle politiche",
-  "title": "Chiedi alle nostre politiche — *con la fonte.*",
-  "intro": "Chiedi di sostenibilità, escursioni, hotel o regole per i partner. Claude risponde solo dai nostri cinque documenti e cita il passaggio esatto dietro ogni affermazione.",
+  "title": "Interrogate le nostre politiche — *con la fonte.*",
+  "intro": "Fate domande su sostenibilità, escursioni, hotel o regole per i partner. Claude risponde solo in base ai nostri cinque documenti e cita il passaggio esatto a sostegno di ogni affermazione.",
   "library": {
     "title": "La biblioteca",
-    "text": "I cinque documenti che l’AI legge. Aprili quando vuoi.",
+    "text": "I cinque documenti che l’AI legge. Potete aprirli quando volete.",
     "pdf": "PDF",
     "lang": "in inglese"
   },
   "suggested": {
-    "title": "Prova una domanda",
+    "title": "Domande di esempio",
     "questions": {
       "footprint": "Come riducete il vostro impatto ambientale?",
-      "animals": "Nei tour ci sono attrazioni con animali?",
+      "animals": "Nei vostri tour includete attrazioni con animali?",
       "hotels": "Come scegliete gli hotel?",
       "rights": "Come tutelate i diritti dei bambini e dei lavoratori?"
     }
   },
   "composer": {
-    "label": "La tua domanda",
+    "label": "La vostra domanda",
     "placeholder": "es. Lavorate con guide locali?",
     "submit": "Chiedi",
     "count": "{n} / {max}",
@@ -28,16 +28,16 @@
   },
   "chat": {
     "label": "Conversazione",
-    "you": "Tu",
+    "you": "Voi",
     "ai": "Politiche di Local Host",
     "working": "Stiamo leggendo le politiche…",
-    "empty": "La conversazione appare qui. Ogni risposta arriva con le sue fonti.",
+    "empty": "La conversazione apparirà qui. Ogni risposta arriva con le sue fonti.",
     "sources": "Fonti",
     "source": "Fonte {n}",
-    "noSources": "Nessun passaggio citato — forse le nostre politiche non trattano questa domanda. Il nostro team ti risponde volentieri a info@localhost.ge.",
+    "noSources": "Nessun passaggio citato — forse le nostre politiche non trattano questa domanda. Il nostro team vi risponde volentieri a info@localhost.ge.",
     "englishNote": "Le risposte demo sono preparate in inglese.",
-    "otherQuestion": "Hai chiesto qualcosa di diverso — questa è la risposta preparata a: “{q}”",
-    "generic": "Questa risposta demo preparata è generica. Con l’AI collegata, Claude risponde alla tua domanda esatta.",
+    "otherQuestion": "Avete chiesto qualcosa di diverso — questa è la risposta preparata a: «{q}»",
+    "generic": "Questa risposta demo preparata è generica. Con l’AI collegata, Claude risponde esattamente alla vostra domanda.",
     "showAll": "Mostra tutte le {n} fonti"
   }
 }

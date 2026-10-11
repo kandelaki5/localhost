@@ -1,7 +1,7 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "masthead": {
-    "left": "Touroperator przyjazdowy · DMC",
+    "left": "Touroperator incomingowy · DMC",
     "right": "Gruzja · Armenia · Azerbejdżan"
   },
   "title": {
@@ -12,7 +12,7 @@
     "text": "სტუმარი ღვთის საჩუქარია",
     "gloss": "„Gość jest darem od Boga”. Gruzińskie przysłowie — i jedyna zasada naszego domu, której trzymamy się od 2015 roku."
   },
-  "lead": "Local Host to touroperator przyjazdowy z siedzibą w Tbilisi. Dla biur podróży i touroperatorów z całej Europy projektujemy wycieczki grupowe i podróże szyte na miarę po Gruzji, Armenii i Azerbejdżanie — prowadzone z Tbilisi przez nasz własny zespół i otwierane przez rodziny, które z dumą nazywamy przyjaciółmi.",
+  "lead": "Local Host to touroperator incomingowy z siedzibą w Tbilisi. Dla biur podróży i touroperatorów z całej Europy tworzymy wycieczki grupowe i podróże szyte na miarę po Gruzji, Armenii i Azerbejdżanie — prowadzone z Tbilisi przez nasz własny zespół. Drzwi otwierają przed nimi rodziny, które z dumą nazywamy przyjaciółmi.",
   "ctaPrimary": "Wyślij zapytanie grupowe",
   "ctaAi": "Naszkicuj podróż z AI",
   "factsLabel": "Local Host w skrócie",
@@ -24,7 +24,7 @@
   ],
   "photo": {
     "alt": "Cerkiew Świętej Trójcy w Gergeti — kamienna świątynia z dzwonnicą na zielonym grzbiecie u stóp stromych zboczy masywu Kazbegi",
-    "caption": "Cerkiew Świętej Trójcy w Gergeti, Kazbegi, 2170 m n.p.m."
+    "caption": "Cerkiew Świętej Trójcy w Gergeti, Kazbegi, 2170 m n.p.m."
   },
   "seal": {
     "name": "Local Host",

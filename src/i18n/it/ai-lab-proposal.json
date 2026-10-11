@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Proposte per agenzie",
   "title": "Dal brief del cliente *alla bozza di programma.*",
-  "intro": "Descrivi il tuo gruppo e Claude prepara una proposta di programma — giorno per giorno, con luoghi, servizi inclusi e note sulla sostenibilità — pronta perché il nostro team la quoti.",
+  "intro": "Descrivete il vostro gruppo e Claude preparerà una proposta di programma — giorno per giorno, con luoghi, servizi inclusi e note sulla sostenibilità — pronta per il preventivo del nostro team.",
   "form": {
     "title": "Il brief",
     "samples": "Carica un brief di esempio",
@@ -14,7 +14,7 @@
     "agencyPlaceholder": "Facoltativo",
     "market": "Mercato di provenienza",
     "marketPlaceholder": "es. Italia",
-    "groupSize": "Dimensione del gruppo",
+    "groupSize": "Numero di partecipanti",
     "travellers": "viaggiatori",
     "when": "Quando",
     "months": "Mese",
@@ -51,21 +51,21 @@
     "submit": "Prepara la proposta"
   },
   "fieldErrors": {
-    "groupSize": "Inserisci una dimensione del gruppo da 1 a 200.",
-    "month": "Scegli un mese o una stagione.",
-    "season": "Scegli un mese o una stagione.",
-    "days": "Scegli una durata da 3 a 21 giorni.",
-    "countries": "Scegli almeno un paese.",
-    "interests": "Controlla gli interessi.",
-    "hotelCategory": "Scegli una categoria di hotel.",
-    "pace": "Scegli un ritmo.",
+    "groupSize": "Inserite un numero di partecipanti da 1 a 200.",
+    "month": "Scegliete un mese o una stagione.",
+    "season": "Scegliete un mese o una stagione.",
+    "days": "Scegliete una durata da 3 a 21 giorni.",
+    "countries": "Scegliete almeno un paese.",
+    "interests": "Controllate gli interessi.",
+    "hotelCategory": "Scegliete una categoria di hotel.",
+    "pace": "Scegliete un ritmo.",
     "specialRequests": "Le richieste particolari possono avere al massimo 1.500 caratteri.",
     "agency": "Il nome dell’agenzia può avere al massimo 120 caratteri.",
     "market": "Il mercato può avere al massimo 80 caratteri."
   },
   "empty": {
-    "title": "Qui verrà impaginata la tua proposta",
-    "text": "Compila il brief — o carica un esempio — e premi “Prepara la proposta”."
+    "title": "Qui verrà impaginata la vostra proposta",
+    "text": "Compilate il brief — o caricate un esempio — e premete «Prepara la proposta»."
   },
   "progress": {
     "title": "Stiamo preparando la proposta",

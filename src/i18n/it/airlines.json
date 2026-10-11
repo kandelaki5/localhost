@@ -1,5 +1,5 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Compagnie aeree",
   "title": "Dodici compagnie, *un breve volo.*",
   "intro": "Compagnie tradizionali e low cost collegano la Georgia al resto d’Europa. Quasi tutte volano a Tbilisi; Kutaisi è la base georgiana di Wizz Air.",
@@ -17,6 +17,6 @@
     }
   },
   "legend": "L’esponente indica l’aeroporto: **TBS** Tbilisi · **KUT** Kutaisi.",
-  "hint": "Passate il cursore su un nome o toccatelo per vedere alcune rotte.",
+  "hint": "Passate il cursore su un nome o toccatelo per vedere alcuni esempi di rotte.",
   "boards": "Vedi i tabelloni delle partenze"
 }

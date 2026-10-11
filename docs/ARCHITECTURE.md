@@ -37,7 +37,8 @@ src/
   lib/ai/        AI core (owned by the AI agents — read docs/AI-ARCHITECTURE.md)
   data/          researched JSON (flights, fairs, research-orgs, caucasus-map, photo-credits …) — read-only for sections
   assets/brand/  the chosen logo (read-only)    assets/photos/  photographs    assets/inspiration/ (AI demos, read-only)
-  pages/         index.astro · [lang]/index.astro · credits · ai-lab · styleguide · 404 · icon PNG endpoints
+  pages/         index.astro · [lang]/index.astro · credits · ai-lab · 404 · icon/favicon endpoints · brand/footer-guilloche.svg
+  dev-pages/     styleguide + AI dev harnesses — routed only in `astro dev` (or a build with SHOW_DEV_PAGES=1)
 public/          favicon.svg · robots.txt · og/og-default.png · assets/policies/*.pdf (old URLs — keep)
 design/tokens/   tokens.json (Tokens Studio) + README for the designer
 docs/            BRIEF · DESIGN · ARCHITECTURE (this) · CONTENT-TODO · requests/
@@ -72,7 +73,7 @@ Section X owns **`src/components/sections/X.astro`, `src/components/sections/x/*
 
 Everything else: `src/styles/**`, `src/layouts/**`, `src/components/{Header,Footer,HomePage}.astro`, `src/components/ui/**`, `src/components/pages/**`, `src/components/sections/Hero.astro`, `src/i18n/index.ts`, `src/i18n/*/{common,hero,ai-lab,credits}.json`, `src/lib/*` (except `lib/ai`), `src/pages/**`, `public/**`, `astro.config.mjs`, `package.json`, `scripts/export-tokens.mjs`, `design/tokens/**`, this file.
 
-AI agents own `src/lib/ai/**`, `src/pages/api/**`, `src/pages/ai-lab/dev/**`, `scripts/mock-anthropic.mjs`. Research/data agents own `src/data/*.json`, `scripts/data/**`, `docs/research/**`. Read their files; don't edit them.
+AI agents own `src/lib/ai/**`, `src/pages/api/**`, `src/dev-pages/ai-lab/dev/**`, `scripts/mock-anthropic.mjs`. Research/data agents own `src/data/*.json`, `scripts/data/**`, `docs/research/**`. Read their files; don't edit them.
 
 ### Requests for shared files
 
@@ -129,7 +130,7 @@ const common = useStrings(lang, 'common');    // shared strings (nav, CTAs, cont
 - Type: `.display .display--xl|l|m|s` for headlines (accent words in `<em>`), `.kicker` for small caps, `.fig-caption` for italic captions, `.lead` for intro paragraphs. Sizes `--fs-3xs … --fs-5xl` are fluid. Fraunces: weight ≥ 360 below 40 px (`--fw-display-sm` / `--fw-display-m`), Noto Serif Georgian ≥ 400 at small sizes.
 - Layout: `.container` (max 1312 px + fluid gutter), `.grid-12` (12 columns, `--layout-gap`), `.section` (vertical padding `--space-section`).
 - Red is the sun/pin accent only (`--color-accent`): marks, the active dot, map pins, quote marks, the AI sparkle. Small red **text** uses `--color-red-ink`.
-- `/styleguide/` shows every token with contrast ratios and every component.
+- `/styleguide/` (dev server only, or `SHOW_DEV_PAGES=1`) shows every token with contrast ratios and every component.
 
 ## 6. Shared components (`src/components/ui/`)
 

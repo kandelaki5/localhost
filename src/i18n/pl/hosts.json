@@ -1,5 +1,5 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Gospodarze, których kochamy",
   "title": "Ludzie, o których Państwa podróżni *opowiedzą po powrocie.*",
   "intro": "Nasze trasy prowadzą przez bramy rodzin, które znamy z imienia. Gdy włączają je Państwo do programu, pieniądze z turystyki zostają tam, gdzie powinny: we wsiach, u ludzi, którzy gotują, goszczą i opowiadają historie.",
@@ -9,7 +9,7 @@
     "portraits": "Portrety gospodarzy wkrótce"
   },
   "note": "Wszystkie zdjęcia w tej części przedstawiają gruzińskie krajobrazy, a nie gospodarzy ani ich domy. Portrety gospodarzy dodamy za ich zgodą.",
-  "quoteSource": "Z naszej Polityki zrównoważonego rozwoju",
+  "quoteSource": "Z naszej Polityki zrówno­ważonego rozwoju",
   "factsTitle": "W skrócie",
   "hosts": {
     "sisatura": {
@@ -47,7 +47,7 @@
     },
     "samvel": {
       "name": "Samvel z rodziną",
-      "quote": "Samvel i jego rodzina, z ich niezwykle serdeczną gościnnością, przez cały czas Państwa rozśmieszają, serwując pyszne jedzenie z własnych upraw.",
+      "quote": "Samvel i jego rodzina, niezwykle serdeczni gospodarze, rozśmieszają Państwa bez przerwy, podając przy tym pyszne jedzenie z własnych upraw.",
       "alt": "Spokojne jezioro, w którym odbijają się zalesione wzgórza pod błękitnym niebem"
     },
     "aluda": {
@@ -64,8 +64,8 @@
   "more": {
     "kicker": "Więcej gospodarzy, których kochamy",
     "title": "Drzwi, do których *wciąż wracamy.*",
-    "quote": "W Gruzji jest niezliczenie wielu ludzi i rodzin, którzy dają niezrównaną dawkę pozytywnych emocji — emocji, których nigdy nie da się kupić. Naszą misją jest ich wspierać."
+    "quote": "W Gruzji jest mnóstwo ludzi i rodzin, którzy dają niezrównaną dawkę pozytywnych emocji — emocji, których nigdy nie da się kupić. Naszą misją jest ich wspierać."
   },
-  "cta": "Zaplanuj wizytę u gospodarzy",
+  "cta": "Zaplanuj wizytę u naszych gospodarzy",
   "policyLink": "Przeczytaj Politykę zrównoważonego rozwoju"
 }

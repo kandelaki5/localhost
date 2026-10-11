@@ -1,5 +1,5 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Sosteniamo",
   "title": "Ciò in cui *crediamo.*",
   "intro": "Cinque impegni tratti dalle nostre politiche: le persone, i luoghi e i principi da cui dipende ogni nostro viaggio.",
@@ -7,7 +7,7 @@
   "listLabel": "Cinque impegni",
   "items": [
     {
-      "title": "Famiglie e padroni di casa locali",
+      "title": "Famiglie e host locali",
       "text": "Costruiamo i viaggi attorno alle famiglie che accolgono i nostri ospiti e preferiamo cibo, prodotti e servizi locali.",
       "ring": "POLITICA DI SOSTENIBILITÀ • COMUNITÀ LOCALI •"
     },

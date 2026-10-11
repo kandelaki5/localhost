@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Photo credits",
-    "description": "Credits and licences for the photographs used on localhost.ge."
+    "description": "Photo credits for localhost.ge: authors, licences and sources of the openly licensed photos of Armenia and Azerbaijan, and of the images used in the AI demos."
   },
   "kicker": "Colophon",
   "title": "Photo *credits*",
@@ -13,6 +13,7 @@
   "owned": "© Local Host LLC",
   "labels": {
     "photo": "Photograph",
+    "file": "File",
     "author": "Author",
     "licence": "Licence",
     "source": "Source",

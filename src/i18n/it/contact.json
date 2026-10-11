@@ -1,30 +1,30 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Contatti",
-  "title": "Ospitiamo insieme il tuo *prossimo gruppo*.",
-  "intro": "Raccontaci chi arriva, quando e che cosa ama. Ti risponderemo con una prima bozza del programma.",
+  "title": "Ospitiamo insieme il vostro *prossimo gruppo*.",
+  "intro": "Raccontateci chi arriva, quando e che cosa ama: vi risponderemo con una prima bozza del programma.",
   "running": "Ufficio di Tbilisi",
   "office": "Ufficio",
-  "write": "Scrivici o chiamaci",
+  "write": "Scriveteci o chiamateci",
   "emailLabel": "E-mail",
-  "phoneLabel": "Telefono",
+  "phoneLabel": "Tel.",
   "webLabel": "Web",
   "maps": {
     "google": "Apri in Google Maps",
     "osm": "OpenStreetMap"
   },
   "b2b": {
-    "kicker": "Per agenzie di viaggio e tour operator",
+    "kicker": "Per agenzie di viaggi e tour operator",
     "title": "*Lavoriamo insieme*.",
-    "text": "Parlaci della tua agenzia e dei mercati in cui vendi: ti ricontatteremo per parlare di una collaborazione.",
+    "text": "Parlateci della vostra agenzia e dei mercati in cui operate: vi ricontatteremo per valutare una collaborazione.",
     "cta": "Scrivici come agenzia",
     "subject": "Richiesta di collaborazione",
     "body": "Buongiorno team di Local Host,\n\nsiamo un’agenzia di viaggi / un tour operator e vorremmo parlare di una collaborazione.\n\nAgenzia:\nPaese e mercati:\nSito web:\n\nGrazie!"
   },
   "plan": {
     "kicker": "Progettista di viaggi AI",
-    "title": "Preferisci abbozzare prima un viaggio?",
-    "text": "Il nostro progettista di viaggi AI prepara in un minuto una bozza giorno per giorno: inviacela e al resto pensiamo noi.",
+    "title": "Preferite prima abbozzare un viaggio?",
+    "text": "Il nostro progettista di viaggi AI prepara in un minuto una bozza giorno per giorno: inviatecela e al resto pensiamo noi.",
     "cta": "Pianifica con l’AI"
   },
   "envelope": {
@@ -32,7 +32,7 @@
     "airmail": "Par avion",
     "airmailSub": "Posta aerea",
     "from": "Mittente",
-    "fromText": "la tua agenzia",
+    "fromText": "la vostra agenzia",
     "to": "Destinatario",
     "company": "Local Host LLC",
     "country": "Georgia",

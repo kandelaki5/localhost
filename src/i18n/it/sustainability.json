@@ -1,24 +1,24 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
   "kicker": "Sostenibilità",
   "title": "Chi ospita bene *ha cura della casa.*",
-  "intro": "Lavoriamo secondo i criteri Travelife per tour operator e agenzie di viaggio, con un coordinatore della sostenibilità formato nel nostro team, e chiediamo a ogni partner di condividere questi standard.",
+  "intro": "Lavoriamo secondo i criteri Travelife per tour operator e agenzie di viaggi, con un coordinatore della sostenibilità formato nel nostro team, e chiediamo a ogni partner di condividere questi standard.",
   "running": "Travelife Partner",
   "recognition": {
     "kicker": "Riconoscimento indipendente",
     "badgeLabel": "Travelife Partner: verifica la nostra scheda nel registro pubblico Travelife",
-    "statement": "**Travelife Partner** — valutati in modo indipendente secondo i criteri Travelife Partner per tour operator e agenzie di viaggio (riconoscimento da novembre 2025).",
+    "statement": "**Travelife Partner** — valutati in modo indipendente secondo i criteri Travelife Partner per tour operator e agenzie di viaggi (riconoscimento da novembre 2025).",
     "explain": "Partner è il primo dei due livelli di riconoscimento Travelife: una valutazione indipendente di come gestiamo la sostenibilità rispetto a circa 60 criteri obbligatori, rinnovata ogni due anni.",
     "register": "Verificaci nel registro pubblico Travelife"
   },
   "certificate": {
     "kicker": "Certificato Partner",
-    "scope": "Criteri Travelife per tour operator e agenzie di viaggio",
+    "scope": "Criteri Travelife per tour operator e agenzie di viaggi",
     "holderLabel": "Titolare",
     "holder": "Local Host LLC, Georgia",
     "levelLabel": "Livello",
     "level": "Travelife Partner",
-    "firstLabel": "Prima approvazione",
+    "firstLabel": "Primo riconoscimento",
     "validLabel": "Valido fino al",
     "pending": "Immagine del certificato in arrivo",
     "imageAlt": "Certificato Travelife Partner rilasciato a Local Host LLC",
@@ -31,7 +31,7 @@
     "items": [
       {
         "label": "Consumo di energia",
-        "text": "Luci e apparecchi si spengono a fine giornata e ogni volta che una stanza non è in uso."
+        "text": "Luci e apparecchiature vengono spente a fine giornata e ogni volta che una stanza non è in uso."
       },
       {
         "label": "Consumo di gas",
@@ -43,10 +43,10 @@
   },
   "quote": {
     "translationLabel": "Traduzione",
-    "translation": "Amiamo le montagne dello Svaneti, i paesaggi del Samtskhe-Javakheti, la vista sulla catena del Caucaso da Telavi, la bellezza del canyon di Martvili, il mistero del lago Paravani e l’autenticità dei villaggi dell’Agiaria.",
+    "translation": "Amiamo le montagne della Svanezia, i paesaggi del Samtskhe-Javakheti, la vista sulla catena del Caucaso da Telavi, la bellezza del canyon di Martvili, il mistero del lago Paravani e l’autenticità dei villaggi dell’Agiaria.",
     "source": "Politica di sostenibilità",
-    "photoAlt": "Un villaggio di torri svane in pietra tra prati verdi e alberi, con pendii boscosi e una catena innevata alle spalle, Svaneti, Georgia.",
-    "photoCaption": "Torri svane ai piedi del Grande Caucaso, Svaneti"
+    "photoAlt": "Un villaggio di torri svane in pietra tra prati verdi e alberi, con pendii boscosi e una catena innevata alle spalle, Svanezia, Georgia.",
+    "photoCaption": "Torri svane ai piedi del Grande Caucaso, Svanezia"
   },
   "practice": {
     "kicker": "In pratica",
@@ -64,13 +64,13 @@
       },
       {
         "title": "Alloggi e ristoranti: prima i certificati",
-        "text": "Preferiamo strutture ricettive e ristoranti con certificazioni di sostenibilità riconosciute. Il nostro obiettivo per il 2026: almeno metà delle strutture ricettive partner soddisfa almeno uno dei criteri ambientali o sociali della nostra Politica sulle strutture ricettive.",
+        "text": "Preferiamo strutture ricettive e ristoranti con certificazioni di sostenibilità riconosciute. Il nostro obiettivo per il 2026: almeno la metà delle strutture ricettive partner in linea con almeno uno dei criteri ambientali o sociali della nostra Politica sulle strutture ricettive.",
         "source": "Politica sulle strutture ricettive"
       },
       {
-        "title": "Nessuna escursione che faccia danni",
+        "title": "Nessuna escursione dannosa",
         "text": "Nessuna escursione che danneggi persone, animali o natura, e nessuna che preveda commercio, consumo, contatto ravvicinato o spettacoli con animali.",
-        "source": "Politica sulle escursioni"
+        "source": "Politica su escursioni e destinazioni"
       },
       {
         "title": "Tolleranza zero sullo sfruttamento dei minori",
@@ -78,17 +78,17 @@
         "source": "Politica di sostenibilità"
       }
     ],
-    "partnersTranslation": "Ci aspettiamo da tutti i nostri partner e fornitori impegno e un ulteriore rafforzamento di questi valori.",
+    "partnersTranslation": "Ci aspettiamo che tutti i nostri partner e fornitori si impegnino per questi valori e contribuiscano a rafforzarli.",
     "partnersSource": "Politica di sostenibilità"
   },
   "documents": {
     "kicker": "I documenti",
-    "title": "Leggi le politiche",
+    "title": "Consultate le politiche",
     "note": "PDF · in inglese",
     "effective": "In vigore: {date}",
     "published": "Pubblicato: {date}",
-    "pages": "{n} pp.",
-    "size": "{n} KB",
+    "pages": "{n} pp.",
+    "size": "{n} KB",
     "items": {
       "sustainability": "Politica di sostenibilità",
       "report": "Rapporto di sostenibilità",
@@ -96,15 +96,15 @@
       "accommodations": "Politica per strutture ricettive sostenibili",
       "inbound": "Politica per le agenzie partner incoming"
     },
-    "reportNote": "Secondo i criteri Travelife per tour operator e agenzie di viaggio"
+    "reportNote": "Secondo i criteri Travelife per tour operator e agenzie di viaggi"
   },
   "ask": {
     "kicker": "AI Lab",
-    "title": "Chiedi alle nostre politiche",
-    "text": "Fai una domanda nella tua lingua. La risposta cita questi documenti parola per parola e ne indica la fonte.",
+    "title": "Interrogate le nostre politiche",
+    "text": "Fate una domanda nella vostra lingua: la risposta cita questi documenti parola per parola e ne indica la fonte.",
     "examplesLabel": "Per esempio",
     "examples": [
-      "Nei tour includete attrazioni con animali?",
+      "Nei vostri tour includete attrazioni con animali?",
       "Come scegliete gli hotel?"
     ],
     "cta": "Fai una domanda"

@@ -1,20 +1,20 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "meta": {
     "title": "Laboratorium AI",
-    "description": "Wypróbuj eksperymenty AI Local Host, zbudowane z Claude od Anthropic: projektant podróży z obsługą głosu, dopasowanie zdjęć, oferty dla agencji, odpowiedzi z naszych polityk, segregacja zapytań dla zespołu i konektor dla Twojego asystenta AI."
+    "description": "Zapraszamy do wypróbowania eksperymentów AI Local Host opartych na Claude firmy Anthropic: planer podróży z obsługą głosu, dopasowanie zdjęć, propozycje programów dla biur podróży, odpowiedzi na podstawie naszych polityk, segregacja zapytań dla naszego zespołu i konektor dla Państwa asystenta AI."
   },
   "hero": {
     "kicker": "Local Host · Laboratorium AI",
-    "title": "Local Host *AI Lab*",
-    "lead": "Sześć działających eksperymentów z gościnnością wspieraną przez AI — a na końcu każdej odpowiedzi czeka prawdziwy człowiek w Tbilisi.",
+    "title": "Local Host *Laboratorium AI*",
+    "lead": "Sześć działających eksperymentów z zakresu gościnności wspieranej przez AI — a na końcu każdej odpowiedzi czeka prawdziwy człowiek w Tbilisi.",
     "note": "Wersja eksperymentalna. Odpowiedzi to szkice — każdy szczegół potwierdza nasz zespół.",
     "cta": "Zacznij od zdjęcia",
     "back": "Wróć na stronę główną"
   },
   "console": {
-    "label": "Status laboratorium AI",
-    "title": "Local Host · AI Lab",
+    "label": "Status Laboratorium AI",
+    "title": "Local Host · Laboratorium AI",
     "coords": "TBS 41°43′N 44°47′E",
     "system": "System",
     "online": "Online",
@@ -24,48 +24,48 @@
     "demo": "Demo",
     "live": "Na żywo",
     "demoNote": "Tryb demo — przykładowe odpowiedzi, dopóki klucz AI nie zostanie podłączony.",
-    "liveNote": "Na żywo — Claude pisze każdą odpowiedź dla Twojego zapytania.",
+    "liveNote": "Na żywo — Claude pisze każdą odpowiedź do konkretnego zapytania.",
     "index": "Eksperymenty",
     "ready": "Gotowe",
     "staff": "Zespół"
   },
   "audience": {
     "travellers": "Dla podróżnych",
-    "agencies": "Dla agencji",
-    "staff": "Narzędzie zespołu",
+    "agencies": "Dla biur podróży",
+    "staff": "Narzędzie wewnętrzne",
     "developers": "Dla asystentów AI"
   },
   "teaser": {
-    "kicker": "Projektant podróży i głos",
+    "kicker": "Planer podróży i głos",
     "title": "Zaplanuj podróż *na głos.*",
-    "intro": "Nasze główne narzędzie jest na stronie głównej. Wybierz kraje i zainteresowania, napisz — albo powiedz — kilka słów i zobacz, jak na mapie powstaje szkic planu dzień po dniu.",
+    "intro": "Nasze flagowe narzędzie znajduje się na stronie głównej. Wystarczy wybrać kraje i zainteresowania, napisać — albo powiedzieć — kilka słów, a na mapie powstanie szkic programu dzień po dniu.",
     "points": [
-      "Szkic dzień po dniu, w Twoim języku",
-      "Powiedz, czego szukasz, i posłuchaj planu",
-      "Wyślij szkic naszemu zespołowi jednym kliknięciem"
+      "Szkic programu dzień po dniu — w Państwa języku",
+      "Życzenia można podyktować, a plan odsłuchać",
+      "Szkic trafia do naszego zespołu jednym kliknięciem"
     ],
-    "cta": "Otwórz projektanta podróży",
+    "cta": "Otwórz planer",
     "mapCaption": "Przykładowa trasa — Tbilisi, Mccheta, Ananuri, Kazbegi, Signagi i Telawi.",
-    "voiceNote": "Głos działa w przeglądarkach z obsługą mowy; przetwarza go usługa rozpoznawania mowy Twojej przeglądarki.",
+    "voiceNote": "Funkcja głosowa działa w przeglądarkach obsługujących rozpoznawanie mowy; nagranie przetwarza usługa mowy przeglądarki.",
     "days": [
       "Dzień 1 — Tbilisi",
       "Dzień 2 — Mccheta i Ananuri",
       "Dzień 3 — Kazbegi",
       "Dzień 4 — Signagi i Telawi"
     ],
-    "ticket": "Szkic planu"
+    "ticket": "Szkic programu"
   },
   "how": {
     "kicker": "Jak to działa",
     "title": "Mądre szkice, *ludzkie odpowiedzi.*",
     "items": [
       {
-        "title": "Claude od Anthropic",
-        "text": "Każdy eksperyment działa na Claude, modelu AI firmy Anthropic, i opiera się na własnych doświadczeniach, miejscach i politykach Local Host."
+        "title": "Claude firmy Anthropic",
+        "text": "Każdy eksperyment korzysta z Claude, modelu AI firmy Anthropic, i opiera się na tematach, miejscach i politykach Local Host."
       },
       {
         "title": "Co jest wysyłane",
-        "text": "Tylko to, co wpiszesz, wybrane zdjęcie lub wklejony e-mail. Trafia to do Anthropic, by powstała odpowiedź; ta strona niczego nie przechowuje."
+        "text": "Tylko wpisany tekst, wybrane zdjęcie lub wklejony e-mail. Dane trafiają do firmy Anthropic, aby mogła powstać odpowiedź; ta strona ich nie przechowuje."
       },
       {
         "title": "Bez cen i rezerwacji",
@@ -73,10 +73,10 @@
       },
       {
         "title": "Nasz zespół potwierdza",
-        "text": "Każda odpowiedź to szkic. Osoba z Local Host w Tbilisi sprawdza każdy szczegół, zanim cokolwiek ustalimy."
+        "text": "Każda odpowiedź to szkic. Osoba z Local Host w Tbilisi sprawdza każdy szczegół, zanim cokolwiek zostanie uzgodnione."
       }
     ],
-    "contact": "Pytania o laboratorium AI? Napisz do nas:"
+    "contact": "Pytania o Laboratorium AI? Zapraszamy do kontaktu:"
   },
   "ui": {
     "demoBadge": "Demo — przykładowa odpowiedź",
@@ -84,23 +84,23 @@
     "cancel": "Anuluj",
     "cancelled": "Anulowano.",
     "elapsed": "{s} s",
-    "noScript": "Włącz JavaScript, aby wypróbować ten eksperyment.",
+    "noScript": "Aby wypróbować ten eksperyment, należy włączyć JavaScript.",
     "copied": "Skopiowano",
-    "copyFailed": "Nie udało się skopiować — zaznacz tekst ręcznie.",
+    "copyFailed": "Nie udało się skopiować — prosimy zaznaczyć tekst ręcznie.",
     "newTab": "otwiera się w nowej karcie"
   },
   "errors": {
-    "network": "Nie udało się połączyć z usługą AI. Sprawdź połączenie i spróbuj ponownie.",
-    "rateLimited": "Za dużo zapytań w krótkim czasie. Możesz spróbować ponownie za {time}.",
-    "rateLimitedNow": "Możesz już spróbować ponownie.",
-    "dailyCap": "Laboratorium AI osiągnęło dzisiejszy limit. Spróbuj jutro — albo napisz na info@localhost.ge.",
-    "refusal": "AI nie może pomóc w tej sprawie. Spróbuj sformułować to inaczej albo napisz do nas na info@localhost.ge.",
-    "truncated": "Odpowiedź wyszła za długa i została ucięta. Spróbuj prostszego zapytania.",
-    "timeout": "To trwało zbyt długo. Spróbuj krótszego zapytania.",
-    "busy": "Usługa AI jest teraz zajęta. Spróbuj za chwilę.",
-    "tooLarge": "To za dużo, by wysłać. Spróbuj czegoś krótszego lub mniejszego.",
-    "badRequest": "Coś w zapytaniu się nie zgadza. Sprawdź formularz.",
+    "network": "Nie udało się połączyć z usługą AI. Prosimy sprawdzić połączenie i spróbować ponownie.",
+    "rateLimited": "Za dużo zapytań w krótkim czasie. Ponowna próba będzie możliwa za {time}.",
+    "rateLimitedNow": "Można już spróbować ponownie.",
+    "dailyCap": "Laboratorium AI osiągnęło dzisiejszy limit. Prosimy spróbować jutro — albo napisać na adres info@localhost.ge.",
+    "refusal": "AI nie może pomóc w tej sprawie. Prosimy sformułować pytanie inaczej albo napisać do naszego zespołu na adres info@localhost.ge.",
+    "truncated": "Odpowiedź okazała się za długa i została ucięta. Prosimy spróbować prostszego zapytania.",
+    "timeout": "Trwało to zbyt długo. Prosimy spróbować krótszego zapytania.",
+    "busy": "Usługa AI jest w tej chwili przeciążona. Prosimy spróbować za moment.",
+    "tooLarge": "Ta treść jest za duża, by ją wysłać. Prosimy spróbować z czymś krótszym lub mniejszym.",
+    "badRequest": "Coś w zapytaniu się nie zgadza. Prosimy sprawdzić formularz.",
     "unauthorized": "To narzędzie wymaga klucza dostępu zespołu.",
-    "generic": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę."
+    "generic": "Wystąpił błąd po naszej stronie. Prosimy spróbować ponownie za chwilę."
   }
 }

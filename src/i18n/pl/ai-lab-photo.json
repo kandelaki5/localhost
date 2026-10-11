@@ -1,27 +1,27 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Dopasowanie zdjęć",
-  "title": "Pokaż nam miejsce, *które kochasz.*",
-  "intro": "Winnica w Toskanii, dolina w Dolomitach, wybrzeże, którego nie zapomnisz — wyślij zdjęcie, a Claude znajdzie miejsce na Południowym Kaukazie o tym samym klimacie.",
+  "title": "Pokaż nam *ulubione miejsce.*",
+  "intro": "Winnica w Toskanii, dolina w Dolomitach, niezapomniane wybrzeże — wystarczy przesłać zdjęcie, a Claude znajdzie na Kaukazie Południowym miejsca o tym samym klimacie.",
   "upload": {
-    "title": "Twoje zdjęcie",
+    "title": "Państwa zdjęcie",
     "drop": "Upuść zdjęcie tutaj",
     "or": "lub",
     "choose": "Wybierz zdjęcie",
     "camera": "Zrób zdjęcie",
-    "hint": "JPEG, PNG lub WebP. Przed wysłaniem zmniejszamy je w Twojej przeglądarce.",
+    "hint": "JPEG, PNG lub WebP. Przed wysłaniem zmniejszamy je w przeglądarce.",
     "dragActive": "Upuść, aby dopasować"
   },
   "samples": {
-    "title": "Albo wypróbuj nasze",
+    "title": "Albo jedno z naszych zdjęć",
     "action": "Dopasuj to zdjęcie",
     "credit": "„{title}”, autor: {creator}"
   },
   "screen": {
     "label": "Wizjer",
     "idle": "Czekamy na zdjęcie",
-    "idleHint": "Wybierz zdjęcie albo jedno z naszych — wynik pojawi się tutaj.",
-    "working": "Oglądamy Twoje zdjęcie…",
+    "idleHint": "Po wybraniu zdjęcia — własnego lub jednego z naszych — wynik pojawi się tutaj.",
+    "working": "Oglądamy zdjęcie…",
     "steps": [
       "Czytamy światło i krajobraz",
       "Przeszukujemy 51 miejsc w Gruzji, Armenii i Azerbejdżanie",
@@ -29,7 +29,7 @@
     ],
     "mood": "Nastrój",
     "whatISee": "Co widzę",
-    "yourPhoto": "Twoje zdjęcie"
+    "yourPhoto": "Państwa zdjęcie"
   },
   "result": {
     "title": "Trzy miejsca o tym samym klimacie",
@@ -41,10 +41,10 @@
     "notTravel": "Brak krajobrazu na tym zdjęciu"
   },
   "errors": {
-    "not_an_image": "Ten plik nie jest obrazem. Wybierz zdjęcie JPEG, PNG lub WebP.",
-    "file_too_large": "To zdjęcie jest za duże. Wybierz mniejsze.",
-    "decode_failed": "Nie udało się otworzyć zdjęcia. Spróbuj innego albo zapisz je najpierw jako JPEG.",
-    "encode_failed": "Przeglądarka nie mogła przygotować zdjęcia. Spróbuj innego.",
-    "refusal": "Nie możemy dopasować tego zdjęcia. Spróbuj krajobrazu lub zdjęcia z podróży."
+    "not_an_image": "Ten plik nie jest obrazem. Prosimy wybrać zdjęcie JPEG, PNG lub WebP.",
+    "file_too_large": "To zdjęcie jest za duże. Prosimy wybrać mniejsze.",
+    "decode_failed": "Nie udało się otworzyć zdjęcia. Prosimy spróbować z innym albo najpierw zapisać je jako JPEG.",
+    "encode_failed": "Przeglądarka nie mogła przygotować zdjęcia. Prosimy spróbować z innym.",
+    "refusal": "Nie możemy dopasować tego zdjęcia. Prosimy spróbować z krajobrazem lub zdjęciem z podróży."
   }
 }

@@ -1,10 +1,10 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Orgogliosi di far parte di",
   "title": "In buona *compagnia.*",
   "intro": "Le associazioni e le camere del turismo di cui facciamo parte e gli enti nazionali con cui collaboriamo, in Georgia e in Polonia.",
-  "running": "Associazioni",
-  "spreadLabel": "Associazioni per paese",
+  "running": "Affiliazioni",
+  "spreadLabel": "Affiliazioni per paese",
   "countries": {
     "ge": "Georgia",
     "pl": "Polonia"
@@ -12,7 +12,7 @@
   "types": {
     "administration": "Ente nazionale del turismo",
     "association": "Associazione turistica",
-    "bureau": "Convention & exhibition bureau",
+    "bureau": "Ufficio congressi e fiere",
     "chamber": "Camera nazionale del turismo",
     "regional": "Camera regionale del turismo"
   },

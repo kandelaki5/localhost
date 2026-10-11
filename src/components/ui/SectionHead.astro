@@ -128,7 +128,9 @@ const hasExtra = Astro.slots.has('default');
     grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
     column-gap: var(--layout-gap);
     row-gap: var(--space-m);
-    align-items: end;
+    /* Top-aligned: the rule → headline gap stays the same in every section,
+       whatever the length of the intro (Georgian) or extra slot content. */
+    align-items: start;
   }
 
   .shead__title {
@@ -141,7 +143,8 @@ const hasExtra = Astro.slots.has('default');
     display: grid;
     gap: var(--space-m);
     justify-items: start;
-    padding-bottom: 0.35em;
+    /* first intro line level with the headline's first line */
+    padding-top: 0.55em;
   }
 
   .shead__intro {
@@ -162,7 +165,7 @@ const hasExtra = Astro.slots.has('default');
   }
 
   .shead--stack .shead__aside {
-    padding-bottom: 0;
+    padding-top: 0;
   }
 
   @media (max-width: 63.99em) {
@@ -172,6 +175,7 @@ const hasExtra = Astro.slots.has('default');
 
     .shead__aside {
       grid-column: 1 / span 10;
+      padding-top: 0;
     }
   }
 

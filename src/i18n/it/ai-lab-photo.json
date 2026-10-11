@@ -1,27 +1,27 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Abbinamento foto",
-  "title": "Mostraci un luogo *che ami.*",
-  "intro": "Un vigneto in Toscana, una valle nelle Dolomiti, una costa che non dimentichi — condividi una foto e Claude trova dove, nel Caucaso meridionale, si respira la stessa atmosfera.",
+  "title": "Mostrateci un luogo *che amate.*",
+  "intro": "Un vigneto in Toscana, una valle nelle Dolomiti, una costa che non riuscite a dimenticare — condividete una foto e Claude troverà i luoghi del Caucaso meridionale dove si respira la stessa atmosfera.",
   "upload": {
-    "title": "La tua foto",
+    "title": "La vostra foto",
     "drop": "Trascina qui una foto",
     "or": "oppure",
     "choose": "Scegli una foto",
     "camera": "Scatta una foto",
-    "hint": "JPEG, PNG o WebP. La riduciamo nel tuo browser prima di inviarla.",
+    "hint": "JPEG, PNG o WebP. La riduciamo nel vostro browser prima di inviarla.",
     "dragActive": "Rilascia per abbinare"
   },
   "samples": {
-    "title": "Oppure prova una delle nostre",
+    "title": "Oppure provate una delle nostre",
     "action": "Abbina questa foto",
-    "credit": "“{title}” di {creator}"
+    "credit": "«{title}» di {creator}"
   },
   "screen": {
     "label": "Mirino",
     "idle": "In attesa di una foto",
-    "idleHint": "Scegli una foto, o una delle nostre — il risultato appare qui.",
-    "working": "Stiamo guardando la tua foto…",
+    "idleHint": "Scegliete una foto, vostra o nostra — il risultato apparirà qui.",
+    "working": "Stiamo osservando la vostra foto…",
     "steps": [
       "Leggiamo la luce e il paesaggio",
       "Cerchiamo tra 51 luoghi in Georgia, Armenia e Azerbaigian",
@@ -29,7 +29,7 @@
     ],
     "mood": "Atmosfera",
     "whatISee": "Cosa vedo",
-    "yourPhoto": "La tua foto"
+    "yourPhoto": "La vostra foto"
   },
   "result": {
     "title": "Tre luoghi con la stessa atmosfera",
@@ -41,10 +41,10 @@
     "notTravel": "Nessun paesaggio in questa foto"
   },
   "errors": {
-    "not_an_image": "Questo file non è un’immagine. Scegli una foto JPEG, PNG o WebP.",
-    "file_too_large": "La foto è troppo grande. Scegline una più piccola.",
-    "decode_failed": "Non riusciamo ad aprire la foto. Provane un’altra o salvala prima come JPEG.",
-    "encode_failed": "Il browser non è riuscito a preparare la foto. Provane un’altra.",
-    "refusal": "Non possiamo abbinare questa foto. Prova con un paesaggio o una scena di viaggio."
+    "not_an_image": "Questo file non è un’immagine. Scegliete una foto JPEG, PNG o WebP.",
+    "file_too_large": "La foto è troppo grande. Sceglietene una più piccola.",
+    "decode_failed": "Non riusciamo ad aprire la foto. Provatene un’altra o salvatela prima in formato JPEG.",
+    "encode_failed": "Il browser non è riuscito a preparare la foto. Provatene un’altra.",
+    "refusal": "Non possiamo abbinare questa foto. Provate con un paesaggio o una scena di viaggio."
   }
 }

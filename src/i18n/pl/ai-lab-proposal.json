@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
-  "kicker": "Kreator ofert dla agencji",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
+  "kicker": "Kreator propozycji dla biur podróży",
   "title": "Od briefu klienta *do szkicu programu.*",
-  "intro": "Opisz grupę, a Claude przygotuje propozycję programu — dzień po dniu, z miejscami, tym, co zawiera cena, i uwagami o zrównoważonym rozwoju — gotową do wyceny przez nasz zespół.",
+  "intro": "Wystarczy opisać grupę, a Claude przygotuje propozycję programu — dzień po dniu, z miejscami, świadczeniami i uwagami dotyczącymi zrównoważonego rozwoju — gotową do wyceny przez nasz zespół.",
   "form": {
     "title": "Brief",
     "samples": "Wczytaj przykładowy brief",
@@ -10,7 +10,7 @@
       "it-georgia-wine-8d": "Włochy · 8 dni · wino i kultura",
       "pl-ge-am-trek-10d": "Polska · 10 dni · trekking"
     },
-    "agency": "Agencja",
+    "agency": "Biuro podróży",
     "agencyPlaceholder": "Opcjonalnie",
     "market": "Rynek źródłowy",
     "marketPlaceholder": "np. Polska",
@@ -26,11 +26,11 @@
       "winter": "Zima",
       "flexible": "Elastyczne terminy"
     },
-    "days": "Długość",
+    "days": "Czas trwania",
     "daysValue": "{n} dni",
     "countries": "Kraje",
     "interests": "Zainteresowania",
-    "interestsHint": "Brak wyboru = zrównoważona mieszanka",
+    "interestsHint": "Brak wyboru = zrównoważone połączenie",
     "hotel": "Hotele",
     "hotels": {
       "boutique": "Butikowe",
@@ -42,40 +42,40 @@
     "pace": "Tempo",
     "paces": {
       "relaxed": "Spokojne",
-      "balanced": "Zrównoważone",
+      "balanced": "Umiarkowane",
       "active": "Aktywne"
     },
-    "requests": "Specjalne życzenia",
+    "requests": "Życzenia specjalne",
     "requestsPlaceholder": "Język przewodnika, dieta, punkty obowiązkowe, uroczystości…",
     "count": "{n} / {max}",
-    "submit": "Przygotuj ofertę"
+    "submit": "Przygotuj propozycję"
   },
   "fieldErrors": {
-    "groupSize": "Podaj wielkość grupy od 1 do 200.",
-    "month": "Wybierz miesiąc lub porę roku.",
-    "season": "Wybierz miesiąc lub porę roku.",
-    "days": "Wybierz długość od 3 do 21 dni.",
-    "countries": "Wybierz co najmniej jeden kraj.",
-    "interests": "Sprawdź zainteresowania.",
-    "hotelCategory": "Wybierz kategorię hoteli.",
-    "pace": "Wybierz tempo.",
-    "specialRequests": "Specjalne życzenia mogą mieć do 1500 znaków.",
-    "agency": "Nazwa agencji może mieć do 120 znaków.",
-    "market": "Rynek może mieć do 80 znaków."
+    "groupSize": "Prosimy podać wielkość grupy od 1 do 200.",
+    "month": "Prosimy wybrać miesiąc lub porę roku.",
+    "season": "Prosimy wybrać miesiąc lub porę roku.",
+    "days": "Prosimy wybrać czas trwania od 3 do 21 dni.",
+    "countries": "Prosimy wybrać co najmniej jeden kraj.",
+    "interests": "Prosimy sprawdzić zainteresowania.",
+    "hotelCategory": "Prosimy wybrać kategorię hoteli.",
+    "pace": "Prosimy wybrać tempo.",
+    "specialRequests": "Życzenia specjalne mogą mieć maksymalnie 1500 znaków.",
+    "agency": "Nazwa biura może mieć maksymalnie 120 znaków.",
+    "market": "Rynek może mieć maksymalnie 80 znaków."
   },
   "empty": {
-    "title": "Tu powstanie Twoja oferta",
-    "text": "Wypełnij brief — albo wczytaj przykład — i kliknij „Przygotuj ofertę”."
+    "title": "Tu pojawi się propozycja programu",
+    "text": "Wystarczy wypełnić brief — albo wczytać przykład — i kliknąć „Przygotuj propozycję”."
   },
   "progress": {
-    "title": "Przygotowujemy ofertę",
+    "title": "Przygotowujemy propozycję",
     "steps": [
       "Czytamy brief",
       "Wybieramy trasę",
       "Piszemy kolejne dni",
       "Dodajemy świadczenia i uwagi"
     ],
-    "note": "Na żywo przygotowanie może potrwać minutę lub dwie."
+    "note": "W trybie na żywo przygotowanie może potrwać minutę lub dwie."
   },
   "doc": {
     "kind": "Propozycja programu",
@@ -91,8 +91,8 @@
     "places": "Miejsca",
     "meals": "Posiłki",
     "overnight": "Nocleg",
-    "included": "W cenie",
-    "notIncluded": "Poza ceną",
+    "included": "Cena obejmuje",
+    "notIncluded": "Cena nie obejmuje",
     "sustainability": "Zrównoważony rozwój",
     "nextSteps": "Kolejne kroki",
     "pricing": "Wycena"
@@ -104,11 +104,11 @@
   },
   "mail": {
     "subject": "Prośba o ostateczną wycenę — {title}",
-    "greeting": "Dzień dobry, zespole Local Host,",
-    "intro": "prosimy o ostateczną wycenę tego szkicu programu z Waszego laboratorium AI:",
+    "greeting": "Szanowni Państwo,",
+    "intro": "Prosimy o ostateczną wycenę tego szkicu programu z Państwa Laboratorium AI:",
     "brief": "Nasz brief",
     "programme": "Program",
-    "contact": "Nasza agencja i dane kontaktowe:",
-    "signoff": "Dziękujemy,"
+    "contact": "Nasze biuro i dane kontaktowe:",
+    "signoff": "Dziękujemy i pozdrawiamy"
   }
 }

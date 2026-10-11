@@ -31,6 +31,8 @@ interface CreditRecord {
   modifications?: string | null;
   owner?: string | null;
   usage?: string | null;
+  place?: string | null;
+  country?: string | null;
 }
 
 const lang = getLang(Astro);
@@ -68,9 +70,36 @@ function thumbFor(record: CreditRecord, pool: 'site' | 'ai'): ImageMetadata | un
   return hit?.[1].default;
 }
 
+// Display titles are place names, never raw Wikimedia file titles
+// ("20160821T071234 Lat 41 9 48…", "Shaki KhanPalace 004 3721"):
+// place (+ country) → a clean source title → the file name, prettified.
+const prettyStem = (name: string) =>
+  name
+    .replace(/[-_]\d+$/, '')
+    .split(/[-_]+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+const looksRaw = (title: string) => /\d{4}-\d{2}-\d{2}|\d{8}T\d{4}|\bDD\s?\d|\b\d{3,}\b|_/.test(title);
+const tidy = (title: string) =>
+  title
+    .replace(/\s*\((?:edit|crop|cropped)\s*\d*\)\s*$/i, '')
+    .replace(/(\p{L})\d+$/u, '$1')
+    .trim();
+function displayTitle(record: CreditRecord): string {
+  if (record.place) {
+    return record.country && !record.place.includes(record.country) ? `${record.place}, ${record.country}` : record.place;
+  }
+  if (record.title && !looksRaw(record.title)) return tidy(record.title);
+  return prettyStem(stem(record.file, record.id));
+}
+
 function view(record: CreditRecord, pool: 'site' | 'ai') {
+  const title = displayTitle(record);
   return {
-    title: record.title ?? stem(record.file, record.id),
+    title,
+    /** The source's own file title, shown small when it differs from the display title. */
+    fileTitle: record.title && record.title !== title ? record.title : null,
     author: record.creator ?? record.author ?? record.owner ?? null,
     authorUrl: record.creatorUrl ?? null,
     licence: record.license ?? record.licence ?? null,
@@ -121,6 +150,12 @@ const host = (url: string) => {
                   <div class="credit__body">
                     <p class="credit__title">{c.title}</p>
                     <dl class="credit__meta">
+                      {c.fileTitle && (
+                        <div class="credit__file">
+                          <dt>{t.labels.file}</dt>
+                          <dd>{c.fileTitle}</dd>
+                        </div>
+                      )}
                       {c.author && (
                         <div>
                           <dt>{t.labels.author}</dt>
@@ -239,6 +274,11 @@ const host = (url: string) => {
     font-weight: var(--fw-display-sm);
     font-variation-settings: var(--fvs-heading);
     line-height: var(--lh-heading);
+  }
+
+  .credit__meta .credit__file dd {
+    font: var(--fs-2xs) / 1.4 var(--font-mono);
+    overflow-wrap: anywhere;
   }
 
   .credit__meta {

@@ -246,7 +246,9 @@ export interface AlternateLink {
 export function alternateLinks(path: string): AlternateLink[] {
   const links: AlternateLink[] = LOCALES.map((l) => ({
     lang: l.code,
-    hreflang: l.bcp47,
+    // Language-only (ka, pl, it, de, en): a region code (de-DE) would leave
+    // e.g. Austrian or Swiss German speakers matching only x-default.
+    hreflang: l.code,
     href: absoluteUrl(localizePath(path, l.code)),
   }));
   links.push({ lang: 'x-default', hreflang: 'x-default', href: absoluteUrl(localizePath(path, DEFAULT_LANG)) });

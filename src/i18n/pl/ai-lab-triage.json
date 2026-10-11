@@ -1,16 +1,16 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Segregacja zapytań",
   "title": "Posegreguj skrzynkę *przed kawą.*",
-  "intro": "Wklej e-mail od partnera: Claude przeczyta go w każdym języku, skieruje do właściwego działu, wyciągnie fakty o podróży, wypisze, czego brakuje, i przygotuje szkic odpowiedzi w języku nadawcy do sprawdzenia przez nasz zespół.",
-  "staffLabel": "Narzędzie zespołu — demo",
+  "intro": "Wystarczy wkleić e-mail od partnera: Claude przeczyta go w dowolnym języku, skieruje do właściwego działu, wyodrębni dane o podróży, wypisze, czego brakuje, i przygotuje szkic odpowiedzi w języku nadawcy do sprawdzenia przez nasz zespół.",
+  "staffLabel": "Narzędzie wewnętrzne — demo",
   "staffNote": "Zbudowane dla zespołu Local Host. Prawdziwe e-maile zawierają dane osobowe, dlatego wersja na żywo wymaga klucza dostępu.",
   "inbox": {
     "title": "Wypróbuj przykładowy e-mail",
     "samples": {
-      "it-wine-group": "Włoska agencja — 9-dniowa wycieczka winiarska, 30 osób",
+      "it-wine-group": "Włoskie biuro podróży — 9-dniowa wycieczka winiarska, 30 osób",
       "pl-family-hiking": "Polska rodzina — wędrówki po Gruzji i Armenii",
-      "de-transfer-complaint": "Niemiecka agencja — reklamacja spóźnionego transferu"
+      "de-transfer-complaint": "Niemieckie biuro podróży — reklamacja spóźnionego transferu"
     }
   },
   "form": {
@@ -23,15 +23,15 @@
   },
   "key": {
     "label": "Klucz dostępu zespołu",
-    "prompt": "Podaj klucz dostępu zespołu, aby segregować własne e-maile.",
+    "prompt": "Aby segregować własne e-maile, należy podać klucz dostępu zespołu.",
     "remember": "Zapamiętaj na tym urządzeniu",
-    "wrong": "Ten klucz nie zadziałał. Sprawdź go i spróbuj ponownie.",
+    "wrong": "Ten klucz nie zadziałał. Prosimy go sprawdzić i spróbować ponownie.",
     "submit": "Odblokuj i posegreguj",
     "forget": "Zapomnij klucz"
   },
   "empty": {
     "title": "Karta zapytania",
-    "text": "Wybierz przykładowy e-mail lub wklej własny — wynik pojawi się tutaj."
+    "text": "Po wybraniu przykładowego e-maila lub wklejeniu własnego wynik pojawi się tutaj."
   },
   "working": "Czytamy e-mail…",
   "card": {
@@ -43,7 +43,7 @@
     "sender": "Nadawca",
     "intent": "Cel",
     "summary": "Podsumowanie",
-    "extracted": "Wyciągnięte fakty",
+    "extracted": "Wyodrębnione dane",
     "missing": "Brakujące informacje",
     "nothingMissing": "Niczego nie brakuje — gotowe dla działu.",
     "reply": "Szkic odpowiedzi",
@@ -62,14 +62,14 @@
     }
   },
   "senderTypes": {
-    "agency": "Agencja",
+    "agency": "Biuro podróży",
     "traveller": "Podróżny",
     "supplier": "Dostawca",
     "other": "Inny"
   },
   "intents": {
     "new-request": "Nowe zapytanie",
-    "quote-follow-up": "Dopytanie o ofertę",
+    "quote-follow-up": "Pytanie do oferty",
     "booking-change": "Zmiana rezerwacji",
     "complaint": "Reklamacja",
     "partnership": "Współpraca",
@@ -93,7 +93,7 @@
   },
   "sample": {
     "exact": "Przykładowy e-mail — przygotowany wynik.",
-    "other": "Demo — to przygotowany wynik podobnego przykładu („{label}”). Po podłączeniu AI Claude posegreguje dokładnie Twój e-mail.",
+    "other": "Demo — to przygotowany wynik podobnego przykładu („{label}”). Po podłączeniu AI Claude posegreguje dokładnie ten e-mail.",
     "englishNote": "Notatki demo są po angielsku."
   }
 }

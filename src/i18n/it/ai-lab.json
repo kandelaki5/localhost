@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "meta": {
     "title": "AI Lab",
-    "description": "Prova gli esperimenti AI di Local Host, realizzati con Claude di Anthropic: progettista di viaggi con la voce, abbinamento foto, proposte per agenzie, risposte dalle nostre politiche, smistamento delle email per il team e un connettore per il tuo assistente AI."
+    "description": "Provate gli esperimenti AI di Local Host, realizzati con Claude di Anthropic: un progettista di viaggi con comandi vocali, l’abbinamento foto, proposte di programma per agenzie, risposte basate sulle nostre politiche, lo smistamento delle email per il nostro team e un connettore per il vostro assistente AI."
   },
   "hero": {
     "kicker": "Local Host · AI Lab",
@@ -24,7 +24,7 @@
     "demo": "Demo",
     "live": "Live",
     "demoNote": "Modalità demo — risposte di esempio finché la chiave AI non è collegata.",
-    "liveNote": "Live — Claude scrive ogni risposta per la tua richiesta.",
+    "liveNote": "Live — Claude scrive ogni risposta per la vostra richiesta.",
     "index": "Esperimenti",
     "ready": "Pronto",
     "staff": "Staff"
@@ -37,16 +37,16 @@
   },
   "teaser": {
     "kicker": "Progettista di viaggi e voce",
-    "title": "Progetta un viaggio *a voce.*",
-    "intro": "Il nostro strumento principale è sulla home. Scegli paesi e interessi, scrivi — o di’ — due parole e guarda comparire sulla mappa una bozza giorno per giorno.",
+    "title": "Progettate un viaggio *a voce.*",
+    "intro": "Il nostro strumento di punta è in home page. Scegliete paesi e interessi, scrivete — o dite — due parole e guardate comparire sulla mappa una bozza giorno per giorno.",
     "points": [
-      "Una bozza giorno per giorno, nella tua lingua",
-      "Racconta a voce i tuoi desideri e ascolta il piano",
-      "Invia la bozza al nostro team con un clic"
+      "Una bozza giorno per giorno, nella vostra lingua",
+      "Raccontate a voce i vostri desideri e ascoltate il piano",
+      "Inviate la bozza al nostro team con un clic"
     ],
-    "cta": "Apri il progettista di viaggi",
+    "cta": "Apri il progettista",
     "mapCaption": "Un percorso di esempio — Tbilisi, Mtskheta, Ananuri, Kazbegi, Sighnaghi e Telavi.",
-    "voiceNote": "La voce funziona nei browser che supportano il riconoscimento vocale; la elabora il servizio vocale del tuo browser.",
+    "voiceNote": "La voce funziona nei browser che supportano il riconoscimento vocale; la elabora il servizio vocale del vostro browser.",
     "days": [
       "Giorno 1 — Tbilisi",
       "Giorno 2 — Mtskheta e Ananuri",
@@ -61,11 +61,11 @@
     "items": [
       {
         "title": "Claude di Anthropic",
-        "text": "Ogni esperimento funziona con Claude, il modello AI di Anthropic, basato sulle esperienze, i luoghi e le politiche di Local Host."
+        "text": "Ogni esperimento funziona con Claude, il modello AI di Anthropic, e si basa sulle esperienze, sui luoghi e sulle politiche di Local Host."
       },
       {
         "title": "Che cosa viene inviato",
-        "text": "Solo ciò che scrivi, la foto che scegli o l’email che incolli. Viene inviato ad Anthropic per scrivere la risposta; questo sito non lo conserva."
+        "text": "Solo ciò che scrivete, la foto che scegliete o l’email che incollate. Questi dati vengono inviati ad Anthropic per generare la risposta; questo sito non li conserva."
       },
       {
         "title": "Niente prezzi, niente prenotazioni",
@@ -73,10 +73,10 @@
       },
       {
         "title": "Il nostro team conferma",
-        "text": "Ogni risposta è una bozza. Una persona di Local Host a Tbilisi controlla ogni dettaglio prima che si concordi qualcosa."
+        "text": "Ogni risposta è una bozza. Una persona di Local Host a Tbilisi controlla ogni dettaglio prima di qualsiasi accordo."
       }
     ],
-    "contact": "Domande sull’AI Lab? Scrivici a"
+    "contact": "Domande sull’AI Lab? Scriveteci a"
   },
   "ui": {
     "demoBadge": "Demo — risposta di esempio",
@@ -84,23 +84,23 @@
     "cancel": "Annulla",
     "cancelled": "Annullato.",
     "elapsed": "{s} s",
-    "noScript": "Attiva JavaScript per provare questo esperimento.",
+    "noScript": "Attivate JavaScript per provare questo esperimento.",
     "copied": "Copiato",
-    "copyFailed": "Impossibile copiare — seleziona il testo a mano.",
+    "copyFailed": "Impossibile copiare — selezionate il testo manualmente.",
     "newTab": "si apre in una nuova scheda"
   },
   "errors": {
-    "network": "Non riusciamo a raggiungere il servizio AI. Controlla la connessione e riprova.",
-    "rateLimited": "Troppe richieste in poco tempo. Puoi riprovare tra {time}.",
-    "rateLimitedNow": "Ora puoi riprovare.",
-    "dailyCap": "L’AI Lab ha raggiunto il limite di oggi. Riprova domani — oppure scrivi a info@localhost.ge.",
-    "refusal": "L’AI non può aiutarti con questa richiesta. Prova a riformularla oppure scrivi al nostro team a info@localhost.ge.",
-    "truncated": "La risposta è diventata troppo lunga ed è stata interrotta. Prova una richiesta più semplice.",
-    "timeout": "Ci è voluto troppo tempo. Prova una richiesta più breve.",
-    "busy": "Il servizio AI è occupato in questo momento. Riprova tra poco.",
-    "tooLarge": "È troppo grande da inviare. Prova con qualcosa di più breve o più piccolo.",
-    "badRequest": "Qualcosa nella richiesta non va. Controlla il modulo.",
+    "network": "Non riusciamo a raggiungere il servizio AI. Controllate la connessione e riprovate.",
+    "rateLimited": "Troppe richieste in poco tempo. Potrete riprovare tra {time}.",
+    "rateLimitedNow": "Ora potete riprovare.",
+    "dailyCap": "L’AI Lab ha raggiunto il limite di oggi. Riprovate domani — oppure scrivete a info@localhost.ge.",
+    "refusal": "L’AI non può aiutarvi con questa richiesta. Provate a riformularla oppure scrivete al nostro team a info@localhost.ge.",
+    "truncated": "La risposta è diventata troppo lunga ed è stata interrotta. Provate con una richiesta più semplice.",
+    "timeout": "L’operazione ha richiesto troppo tempo. Provate con una richiesta più breve.",
+    "busy": "Il servizio AI è occupato in questo momento. Riprovate tra poco.",
+    "tooLarge": "Il contenuto è troppo grande per essere inviato. Provate con qualcosa di più breve o più piccolo.",
+    "badRequest": "Qualcosa nella richiesta non va. Controllate il modulo.",
     "unauthorized": "Questo strumento richiede la chiave di accesso dello staff.",
-    "generic": "Qualcosa è andato storto da parte nostra. Riprova tra poco."
+    "generic": "Qualcosa è andato storto da parte nostra. Riprovate tra poco."
   }
 }

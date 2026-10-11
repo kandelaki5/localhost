@@ -1,5 +1,5 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Linie lotnicze",
   "title": "Dwanaście linii, *jeden krótki lot.*",
   "intro": "Tradycyjni i tani przewoźnicy łączą Gruzję z resztą Europy. Większość z nich lata do Tbilisi, a Kutaisi to gruzińska baza Wizz Air.",
@@ -13,10 +13,10 @@
     },
     "more": "+ jeszcze {count}",
     "notes": {
-      "transavia": "Air France zakończyło własne loty Paryż–Tbilisi wiosną 2026 roku."
+      "transavia": "Linie Air France zakończyły własne loty Paryż–Tbilisi wiosną 2026 roku."
     }
   },
   "legend": "Indeks górny oznacza lotnisko: **TBS** Tbilisi · **KUT** Kutaisi.",
-  "hint": "Najedź na nazwę lub ją dotknij, aby zobaczyć przykładowe trasy.",
+  "hint": "Po najechaniu kursorem na nazwę lub jej dotknięciu pojawią się przykładowe trasy.",
   "boards": "Zobacz tablice odlotów"
 }

@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Gli host che amiamo",
   "title": "Le persone di cui i vostri viaggiatori *parleranno al ritorno.*",
-  "intro": "I nostri itinerari passano dai cancelli di famiglie che conosciamo per nome. Inserirle nel vostro programma fa restare il denaro del turismo dove deve stare: nei villaggi, con le persone che cucinano, ospitano e raccontano le storie.",
+  "intro": "I nostri itinerari passano dai cancelli di famiglie che conosciamo per nome. Inserendole nel vostro programma, il denaro del turismo resta dove deve restare: nei villaggi, tra le persone che cucinano, ospitano e raccontano storie.",
   "running": "Comunità locali",
   "photo": {
     "label": "Foto del luogo",
@@ -47,7 +47,7 @@
     },
     "samvel": {
       "name": "Samvel e famiglia",
-      "quote": "Samvel e la sua famiglia, con la loro ospitalità calorosissima, vi fanno ridere tutto il tempo mentre servono deliziosi piatti dell’orto di casa.",
+      "quote": "Samvel e la sua famiglia, con la loro ospitalità calorosissima, vi fanno ridere senza sosta mentre servono piatti deliziosi con i prodotti del loro orto.",
       "alt": "Un lago calmo in cui si specchiano colline boscose sotto un cielo azzurro"
     },
     "aluda": {
@@ -66,6 +66,6 @@
     "title": "Porte a cui *torniamo sempre.*",
     "quote": "In Georgia ci sono innumerevoli persone e famiglie che regalano un livello impareggiabile di emozioni positive — emozioni che non si possono mai comprare. La nostra missione è sostenerle."
   },
-  "cta": "Pianifica una visita dagli host",
+  "cta": "Pianifica una visita dai nostri host",
   "policyLink": "Leggi la Politica di sostenibilità"
 }

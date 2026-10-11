@@ -1,12 +1,12 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Smistamento richieste",
-  "title": "Smista la posta *prima del caffè.*",
-  "intro": "Incolla l’email di un partner: Claude la legge in qualsiasi lingua, la indirizza al reparto giusto, estrae i dati del viaggio, elenca ciò che manca e prepara una bozza di risposta nella lingua del mittente, che il nostro team verifica.",
+  "title": "Smistate la posta *prima del caffè.*",
+  "intro": "Incollate l’email di un partner: Claude la legge in qualsiasi lingua, la indirizza al reparto giusto, estrae i dati del viaggio, elenca ciò che manca e prepara una bozza di risposta nella lingua del mittente, che il nostro team verifica.",
   "staffLabel": "Strumento interno — demo",
   "staffNote": "Creato per il team di Local Host. Le email vere contengono dati personali, quindi la versione live richiede una chiave di accesso.",
   "inbox": {
-    "title": "Prova un’email di esempio",
+    "title": "Provate un’email di esempio",
     "samples": {
       "it-wine-group": "Agenzia italiana — tour del vino di 9 giorni, 30 ospiti",
       "pl-family-hiking": "Famiglia polacca — trekking in Georgia e Armenia",
@@ -23,15 +23,15 @@
   },
   "key": {
     "label": "Chiave di accesso dello staff",
-    "prompt": "Inserisci la chiave di accesso dello staff per smistare le tue email.",
+    "prompt": "Inserite la chiave di accesso dello staff per smistare le vostre email.",
     "remember": "Ricorda su questo dispositivo",
-    "wrong": "Questa chiave non funziona. Controllala e riprova.",
+    "wrong": "Questa chiave non funziona. Controllatela e riprovate.",
     "submit": "Sblocca e smista",
     "forget": "Dimentica la chiave"
   },
   "empty": {
     "title": "Scheda di smistamento",
-    "text": "Scegli un’email di esempio o incollane una — il risultato appare qui."
+    "text": "Scegliete un’email di esempio o incollatene una — il risultato apparirà qui."
   },
   "working": "Stiamo leggendo l’email…",
   "card": {
@@ -41,7 +41,7 @@
     "language": "Lingua",
     "market": "Mercato",
     "sender": "Mittente",
-    "intent": "Intento",
+    "intent": "Tipo di richiesta",
     "summary": "Sintesi",
     "extracted": "Dati estratti",
     "missing": "Informazioni mancanti",
@@ -50,10 +50,10 @@
     "replyIn": "in {language}",
     "subject": "Oggetto",
     "copy": "Copia la risposta",
-    "open": "Apri nell’email",
+    "open": "Apri nel programma di posta",
     "fields": {
       "travelDates": "Date",
-      "groupSize": "Dimensione del gruppo",
+      "groupSize": "Numero di partecipanti",
       "countries": "Paesi",
       "interests": "Interessi",
       "budgetHints": "Budget",
@@ -69,7 +69,7 @@
   },
   "intents": {
     "new-request": "Nuova richiesta",
-    "quote-follow-up": "Seguito preventivo",
+    "quote-follow-up": "Seguito di un preventivo",
     "booking-change": "Modifica prenotazione",
     "complaint": "Reclamo",
     "partnership": "Collaborazione",
@@ -93,7 +93,7 @@
   },
   "sample": {
     "exact": "Email di esempio — risultato preparato.",
-    "other": "Demo — questo è il risultato preparato di un esempio simile (“{label}”). Con l’AI collegata, Claude smista proprio la tua email.",
+    "other": "Demo — questo è il risultato preparato di un esempio simile («{label}»). Con l’AI collegata, Claude smista proprio la vostra email.",
     "englishNote": "Le note demo sono in inglese."
   }
 }

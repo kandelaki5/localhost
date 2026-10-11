@@ -485,11 +485,48 @@ const tel = t.contact.phone.replace(/\s+/g, '');
     }
   }
 
+  /* Phones and small tablets: every footer link is a ≥ 44 px tap target
+     (ARCHITECTURE §11). List gaps shrink so the rhythm stays about the same. */
+  @media (max-width: 47.99em) {
+    .site-footer__links a,
+    .site-footer__docs a,
+    .site-footer__bar a,
+    .site-footer__web,
+    .site-footer__big,
+    .stand__link,
+    .site-footer :global(.site-footer__langs .langs__link) {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+    }
+
+    .site-footer__docs a {
+      display: flex;
+    }
+
+    .site-footer__links,
+    .site-footer__docs,
+    .site-footer__contact {
+      gap: 0;
+    }
+
+    .stand__link {
+      margin-top: var(--space-2xs);
+    }
+
+    .site-footer :global(.site-footer__langs .langs__list) {
+      row-gap: 0;
+    }
+
+    .site-footer__bar {
+      row-gap: 0;
+    }
+  }
+
   @media (max-width: 39.99em) {
     .site-footer__grid {
       grid-template-columns: 1fr;
     }
-
 
     .site-footer__bar {
       flex-direction: column;

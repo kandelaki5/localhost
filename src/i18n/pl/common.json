@@ -1,16 +1,16 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "meta": {
     "siteName": "Local Host",
-    "title": "Local Host · Touroperator przyjazdowy: Gruzja, Armenia, Azerbejdżan",
-    "description": "Local Host to touroperator przyjazdowy i DMC z siedzibą w Tbilisi, założony w 2015 roku. Projektujemy wycieczki grupowe i podróże szyte na miarę po Gruzji, Armenii i Azerbejdżanie dla biur podróży i touroperatorów.",
+    "title": "Local Host · Touroperator incomingowy w Gruzji, Armenii i Azerbejdżanie",
+    "description": "Local Host to touroperator incomingowy i DMC z siedzibą w Tbilisi, założony w 2015 roku. Dla biur podróży i touroperatorów tworzymy wycieczki grupowe i podróże szyte na miarę po Gruzji, Armenii i Azerbejdżanie.",
     "titleTemplate": "{page} · Local Host",
-    "ogImageAlt": "Local Host — Gdzie każdy gość jest darem. Cerkiew Świętej Trójcy w Gergeti u stóp masywu Kazbegi, Gruzja."
+    "ogImageAlt": "Local Host — Gdzie każdy gość jest darem. Cerkiew Świętej Trójcy w Gergeti pod masywem Kazbeku, Gruzja."
   },
   "skipLink": "Przejdź do treści",
   "nav": {
     "caucasus": "Kaukaz",
-    "experiences": "Doświadczenia",
+    "experiences": "Tematy",
     "hosts": "Gospodarze",
     "gettingHere": "Dojazd",
     "meetUs": "Spotkajmy się",
@@ -44,7 +44,7 @@
     }
   },
   "aria": {
-    "mainNav": "Główna",
+    "mainNav": "Menu główne",
     "footerNav": "Stopka",
     "languageNav": "Wybierz język",
     "newTab": "otwiera się w nowej karcie",
@@ -63,11 +63,11 @@
   },
   "footer": {
     "passport": "Paszport na Kaukaz Południowy",
-    "tagline": "Touroperator przyjazdowy i DMC dla Gruzji, Armenii i Azerbejdżanu. Programy dla biur podróży i touroperatorów od 2015 roku.",
+    "tagline": "Touroperator incomingowy i DMC w Gruzji, Armenii i Azerbejdżanie. Programy dla biur podróży i touroperatorów od 2015 roku.",
     "greeting": "მოგესალმებით",
     "greetingGloss": "„Witamy” — do zobaczenia w Tbilisi.",
     "standLabel": "Spotkajmy się na stoisku",
-    "standText": "Znajdziesz nas na targach, na których spotykamy naszych partnerów.",
+    "standText": "Można nas spotkać na targach, na których rozmawiamy z naszymi partnerami.",
     "standLink": "Umów spotkanie",
     "contactTitle": "Kontakt",
     "exploreTitle": "Odkryj",
@@ -84,8 +84,8 @@
   "policies": {
     "sustainability": "Polityka zrównoważonego rozwoju",
     "report": "Raport zrównoważonego rozwoju",
-    "excursions": "Polityka wycieczek",
-    "accommodations": "Polityka zakwaterowania",
+    "excursions": "Polityka dotycząca wycieczek",
+    "accommodations": "Polityka dotycząca zakwaterowania",
     "inbound": "Polityka wobec agencji partnerskich"
   },
   "countries": {
@@ -101,7 +101,7 @@
     "title": "Nie znaleziono strony",
     "kicker": "Błąd 404",
     "heading": "Ta droga kończy się *w górach.*",
-    "text": "Strona, której szukasz, została przeniesiona albo nigdy nie istniała. Zabierzemy Cię z powrotem na początek podróży.",
+    "text": "Strona, której Państwo szukają, została przeniesiona albo nigdy nie istniała. Zapraszamy z powrotem na początek podróży.",
     "home": "Wróć na stronę główną"
   }
 }

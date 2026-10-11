@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Connettore AI (MCP)",
-  "title": "Collega il tuo *assistente AI.*",
-  "intro": "Sempre più agenti pianificano viaggi con un assistente AI come Claude. Collegagli il catalogo di Local Host e ottieni risposte dai nostri dati — non da pagine web qualsiasi.",
+  "title": "Collegate il vostro *assistente AI.*",
+  "intro": "Sempre più agenti di viaggio pianificano con un assistente AI come Claude. Collegategli il catalogo di Local Host e otterrete risposte basate sui nostri dati — non su pagine web qualsiasi.",
   "why": [
     {
       "title": "Risposte dalla fonte",
@@ -10,11 +10,11 @@
     },
     {
       "title": "Richieste più ordinate, più veloci",
-      "text": "Chiedi una richiesta di viaggio e ottieni un’email pronta per il nostro team: paesi, interessi, durata, mese e dimensione del gruppo."
+      "text": "Chiedete di preparare una richiesta di viaggio e otterrete un’email pronta da inviare al nostro team: paesi, interessi, durata, mese e numero di partecipanti."
     },
     {
       "title": "Sostenibilità in pochi secondi",
-      "text": "La nostra dichiarazione approvata Travelife Partner e i link a tutte e cinque le politiche sono sempre a una domanda di distanza."
+      "text": "La nostra dichiarazione Travelife Partner approvata e i link a tutte e cinque le politiche sono sempre a una domanda di distanza."
     }
   ],
   "endpoint": {
@@ -23,29 +23,29 @@
     "copy": "Copia URL"
   },
   "steps": {
-    "title": "Aggiungilo a Claude",
+    "title": "Aggiungetelo a Claude",
     "items": [
-      "Apri Claude (claude.ai o l’app desktop) e vai su **Settings → Connectors**.",
-      "Scegli **Add custom connector**.",
-      "Chiamalo **Local Host** e incolla l’URL qui sopra. Lascia vuoti i campi di accesso (OAuth).",
-      "Clicca **Add**, attiva il connettore Local Host in una chat — e chiedi pure."
+      "Aprite Claude (claude.ai o l’app desktop) e andate su **Settings → Connectors**.",
+      "Scegliete **Add custom connector**.",
+      "Chiamatelo **Local Host** e incollate l’URL qui sopra. Lasciate vuoti i campi di accesso (OAuth).",
+      "Cliccate su **Add**, attivate il connettore Local Host in una chat — e chiedete pure."
     ],
     "teams": "Con i piani Claude Team ed Enterprise, il proprietario o un amministratore potrebbe dover aggiungere prima il connettore per l’organizzazione.",
-    "other": "Usi Claude Code o un altro client MCP?",
-    "otherText": "Qualsiasi client che supporta server MCP remoti via Streamable HTTP può usare lo stesso URL.",
+    "other": "Usate Claude Code o un altro client MCP?",
+    "otherText": "Qualsiasi client che supporti server MCP remoti via Streamable HTTP può usare lo stesso URL.",
     "copyCommand": "Copia il comando"
   },
   "tools": {
-    "title": "Che cosa può consultare il tuo assistente",
+    "title": "Che cosa può consultare il vostro assistente",
     "count": "{n} strumenti di sola lettura",
     "readOnly": "Sola lettura",
     "descriptions": {
-      "list_experiences": "Le sei esperienze: cultura, vino, trekking, gastronomia, pellegrinaggio e relax.",
+      "list_experiences": "Le sei esperienze: cultura, vino, trekking, gastronomia, pellegrinaggi e relax.",
       "get_experience": "Un’esperienza nel dettaglio: punti salienti, luoghi migliori, stagioni e a chi si adatta.",
       "list_places": "Luoghi in Georgia, Armenia e Azerbaigian, per paese o esperienza.",
       "get_place": "Un luogo: regione, coordinate approssimative, cosa c’è nei dintorni e tempi di viaggio indicativi.",
       "list_flight_connections": "Voli diretti per Tbilisi (TBS) e Kutaisi (KUT) e le compagnie che li operano.",
-      "get_trade_fairs": "Le fiere dove puoi incontrarci, con le prossime date note.",
+      "get_trade_fairs": "Le fiere dove potete incontrarci, con le prossime date note.",
       "get_sustainability_commitments": "Il nostro status Travelife Partner, gli impegni e i cinque PDF delle politiche.",
       "get_contact": "Indirizzo, telefono ed email — e cosa includere in una richiesta di preventivo.",
       "draft_trip_request": "Prepara un’email di richiesta pronta da inviare al nostro team. Niente prezzi, nessuna prenotazione."
@@ -54,17 +54,17 @@
     "noParams": "Nessun parametro"
   },
   "examples": {
-    "title": "Prova a chiedere",
+    "title": "Provate a chiedere",
     "items": [
       "Da quali città ci sono voli diretti per Kutaisi?",
       "Che cosa può vedere un gruppo di pellegrini in Armenia?",
       "Prepara una richiesta per un tour del vino di 9 giorni per 20 persone a settembre."
     ]
   },
-  "limits": "Non prenota, non blocca, non quota e non invia nulla, e non raccoglie dati personali. Inviare l’email di richiesta è sempre un tuo clic.",
+  "limits": "Non prenota, non blocca, non fa preventivi e non invia nulla, e non raccoglie dati personali. L’invio dell’email di richiesta richiede sempre un vostro clic.",
   "diagram": {
     "label": "Come funziona il connettore",
-    "assistant": "Il tuo assistente AI",
+    "assistant": "Il vostro assistente AI",
     "connector": "Connettore Local Host",
     "catalogue": "Il nostro catalogo"
   }

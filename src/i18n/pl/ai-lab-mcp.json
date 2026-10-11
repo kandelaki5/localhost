@@ -1,20 +1,20 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Konektor AI (MCP)",
   "title": "Podłącz swojego *asystenta AI.*",
-  "intro": "Coraz więcej agentów planuje podróże z asystentem AI, takim jak Claude. Podłącz do niego katalog Local Host i otrzymuj odpowiedzi z naszych danych — a nie z przypadkowych stron.",
+  "intro": "Coraz więcej agentów turystycznych planuje podróże z pomocą asystenta AI, takiego jak Claude. Po podłączeniu do niego katalogu Local Host odpowiedzi pochodzą z naszych danych — a nie z przypadkowych stron internetowych.",
   "why": [
     {
-      "title": "Odpowiedzi u źródła",
-      "text": "Doświadczenia, miejsca, loty bezpośrednie, terminy targów i fakty o zrównoważonym rozwoju — z tymi samymi zasadami rzetelności co ta strona."
+      "title": "Odpowiedzi prosto ze źródła",
+      "text": "Tematy, miejsca, loty bezpośrednie, terminy targów i fakty o zrównoważonym rozwoju — z tymi samymi zasadami rzetelności co ta strona."
     },
     {
-      "title": "Porządniejsze zapytania, szybciej",
-      "text": "Poproś o zapytanie ofertowe i otrzymaj gotowy e-mail do naszego zespołu: kraje, zainteresowania, długość, miesiąc i wielkość grupy."
+      "title": "Lepsze zapytania, szybciej",
+      "text": "Wystarczy poprosić o zapytanie, by otrzymać gotowy e-mail do naszego zespołu: kraje, zainteresowania, czas trwania, miesiąc i wielkość grupy."
     },
     {
       "title": "Zrównoważony rozwój w kilka sekund",
-      "text": "Nasze zatwierdzone oświadczenie Travelife Partner i linki do wszystkich pięciu polityk są zawsze o jedno pytanie stąd."
+      "text": "Nasze zatwierdzone oświadczenie Travelife Partner i linki do wszystkich pięciu polityk są zawsze pod ręką — wystarczy jedno pytanie."
     }
   ],
   "endpoint": {
@@ -25,27 +25,27 @@
   "steps": {
     "title": "Dodaj do Claude",
     "items": [
-      "Otwórz Claude (claude.ai lub aplikację desktopową) i przejdź do **Settings → Connectors**.",
-      "Wybierz **Add custom connector**.",
-      "Nazwij go **Local Host** i wklej powyższy adres. Pola logowania (OAuth) zostaw puste.",
-      "Kliknij **Add**, włącz konektor Local Host w czacie — i pytaj śmiało."
+      "Otworzyć Claude (claude.ai lub aplikację desktopową) i przejść do **Settings → Connectors**.",
+      "Wybrać **Add custom connector**.",
+      "Nadać nazwę **Local Host** i wkleić powyższy adres. Pola logowania (OAuth) pozostawić puste.",
+      "Kliknąć **Add**, włączyć konektor Local Host w czacie — i zadawać pytania."
     ],
-    "teams": "W planach Claude Team i Enterprise właściciel lub administrator może najpierw musieć dodać konektor dla organizacji.",
-    "other": "Korzystasz z Claude Code lub innego klienta MCP?",
+    "teams": "W planach Claude Team i Enterprise może być konieczne, by właściciel lub administrator najpierw dodał konektor dla organizacji.",
+    "other": "Korzystają Państwo z Claude Code lub innego klienta MCP?",
     "otherText": "Każdy klient obsługujący zdalne serwery MCP przez Streamable HTTP może użyć tego samego adresu.",
     "copyCommand": "Kopiuj polecenie"
   },
   "tools": {
-    "title": "Co Twój asystent może sprawdzić",
+    "title": "Co może sprawdzić asystent AI",
     "count": "{n} narzędzi tylko do odczytu",
     "readOnly": "Tylko odczyt",
     "descriptions": {
-      "list_experiences": "Sześć doświadczeń: kultura, wino, trekking, gastronomia, pielgrzymki i wypoczynek.",
-      "get_experience": "Jedno doświadczenie w szczegółach: atrakcje, najlepsze miejsca, pory roku i dla kogo.",
-      "list_places": "Miejsca w Gruzji, Armenii i Azerbejdżanie — według kraju lub doświadczenia.",
+      "list_experiences": "Sześć tematów: kultura, wino, trekking, gastronomia, pielgrzymki i wypoczynek.",
+      "get_experience": "Jeden temat w szczegółach: najważniejsze atrakcje, najlepsze miejsca, pory roku i dla kogo jest przeznaczony.",
+      "list_places": "Miejsca w Gruzji, Armenii i Azerbejdżanie — według kraju lub tematu.",
       "get_place": "Jedno miejsce: region, przybliżone współrzędne, co jest w pobliżu i orientacyjne czasy przejazdu.",
       "list_flight_connections": "Loty bezpośrednie do Tbilisi (TBS) i Kutaisi (KUT) oraz linie, które je obsługują.",
-      "get_trade_fairs": "Targi, na których możesz nas spotkać, z najbliższymi znanymi terminami.",
+      "get_trade_fairs": "Targi, na których można nas spotkać, wraz z najbliższymi znanymi terminami.",
       "get_sustainability_commitments": "Nasz status Travelife Partner, zobowiązania i pięć polityk w PDF.",
       "get_contact": "Nasz adres, telefon i e-mail — oraz co zawrzeć w zapytaniu ofertowym.",
       "draft_trip_request": "Przygotowuje gotowy e-mail z zapytaniem do naszego zespołu. Bez cen, bez rezerwacji."
@@ -61,10 +61,10 @@
       "Przygotuj zapytanie o 9-dniową wycieczkę winiarską dla 20 osób we wrześniu."
     ]
   },
-  "limits": "Niczego nie rezerwuje, nie blokuje, nie wycenia ani nie wysyła i nie zbiera danych osobowych. Wysłanie e-maila z zapytaniem to zawsze Twoje kliknięcie.",
+  "limits": "Konektor niczego nie rezerwuje, nie blokuje, nie wycenia ani nie wysyła i nie zbiera danych osobowych. Wysłanie e-maila z zapytaniem zawsze wymaga Państwa kliknięcia.",
   "diagram": {
     "label": "Jak działa konektor",
-    "assistant": "Twój asystent AI",
+    "assistant": "Asystent AI",
     "connector": "Konektor Local Host",
     "catalogue": "Nasz katalog"
   }

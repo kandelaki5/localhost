@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Kontakt",
-  "title": "Przyjmijmy razem *Twoją kolejną grupę*.",
-  "intro": "Napisz nam, kto przyjeżdża, kiedy i co lubi. Odpowiemy pierwszym szkicem programu.",
+  "title": "Przyjmijmy razem *Państwa kolejną grupę*.",
+  "intro": "Wystarczy napisać nam, kto przyjeżdża, kiedy i co lubi — odpowiemy pierwszym szkicem programu.",
   "running": "Biuro w Tbilisi",
   "office": "Biuro",
   "write": "Napisz lub zadzwoń",
@@ -16,15 +16,15 @@
   "b2b": {
     "kicker": "Dla biur podróży i touroperatorów",
     "title": "*Współpracujmy*.",
-    "text": "Opowiedz nam o swoim biurze i rynkach, na których sprzedajesz, a odezwiemy się w sprawie współpracy.",
+    "text": "Prosimy opowiedzieć nam o swoim biurze i rynkach, na których Państwo sprzedają — odezwiemy się w sprawie współpracy.",
     "cta": "Napisz do nas jako biuro",
     "subject": "Zapytanie o współpracę",
-    "body": "Dzień dobry, zespole Local Host,\n\njesteśmy biurem podróży / touroperatorem i chcielibyśmy porozmawiać o współpracy.\n\nBiuro:\nKraj i rynki:\nStrona internetowa:\n\nDziękujemy!"
+    "body": "Szanowni Państwo,\n\nJesteśmy biurem podróży / touroperatorem i chcielibyśmy porozmawiać o współpracy.\n\nBiuro:\nKraj i rynki:\nStrona internetowa:\n\nDziękujemy!"
   },
   "plan": {
-    "kicker": "Projektant podróży AI",
-    "title": "Wolisz najpierw naszkicować podróż?",
-    "text": "Nasz projektant podróży AI w minutę przygotuje szkic planu dzień po dniu — wyślij go nam, a resztą zajmiemy się my.",
+    "kicker": "Planer podróży AI",
+    "title": "Woleliby Państwo najpierw naszkicować podróż?",
+    "text": "Nasz planer podróży AI w minutę przygotuje szkic programu dzień po dniu — wystarczy go nam wysłać, a resztą zajmiemy się my.",
     "cta": "Zaplanuj z AI"
   },
   "envelope": {
@@ -32,7 +32,7 @@
     "airmail": "Par avion",
     "airmailSub": "Poczta lotnicza",
     "from": "Nadawca",
-    "fromText": "Twoje biuro podróży",
+    "fromText": "Państwa biuro podróży",
     "to": "Adresat",
     "company": "Local Host LLC",
     "country": "Gruzja",

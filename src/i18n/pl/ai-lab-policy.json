@@ -1,16 +1,16 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Pytania o polityki",
-  "title": "Zapytaj nasze polityki — *zobacz źródło.*",
-  "intro": "Pytaj o zrównoważony rozwój, wycieczki, hotele czy zasady dla partnerów. Claude odpowiada wyłącznie na podstawie naszych pięciu dokumentów i przytacza dokładny fragment przy każdym stwierdzeniu.",
+  "title": "Zapytaj o nasze polityki — *z podaniem źródła.*",
+  "intro": "Można pytać o zrównoważony rozwój, wycieczki, hotele czy zasady dla partnerów. Claude odpowiada wyłącznie na podstawie naszych pięciu polityk i przy każdym stwierdzeniu przytacza dokładny fragment.",
   "library": {
     "title": "Biblioteka",
-    "text": "Pięć dokumentów, które czyta AI. Otwórz dowolny.",
+    "text": "Pięć dokumentów, które czyta AI. Każdy z nich można otworzyć.",
     "pdf": "PDF",
     "lang": "po angielsku"
   },
   "suggested": {
-    "title": "Wypróbuj pytanie",
+    "title": "Przykładowe pytania",
     "questions": {
       "footprint": "Jak ograniczacie swój wpływ na środowisko?",
       "animals": "Czy w programach są atrakcje ze zwierzętami?",
@@ -19,25 +19,25 @@
     }
   },
   "composer": {
-    "label": "Twoje pytanie",
+    "label": "Państwa pytanie",
     "placeholder": "np. Czy współpracujecie z lokalnymi przewodnikami?",
     "submit": "Zapytaj",
     "count": "{n} / {max}",
     "newChat": "Nowa rozmowa",
-    "memory": "Pytania uzupełniające pamiętają trzy ostatnie wymiany."
+    "memory": "Przy pytaniach uzupełniających AI pamięta trzy ostatnie wymiany zdań."
   },
   "chat": {
     "label": "Rozmowa",
-    "you": "Ty",
+    "you": "Pytanie",
     "ai": "Polityki Local Host",
     "working": "Czytamy polityki…",
-    "empty": "Tu pojawi się rozmowa. Każda odpowiedź ma swoje źródła.",
+    "empty": "Tu pojawi się rozmowa. Każda odpowiedź zawiera źródła.",
     "sources": "Źródła",
     "source": "Źródło {n}",
     "noSources": "Brak cytatu — być może nasze polityki nie obejmują tego pytania. Nasz zespół chętnie odpowie: info@localhost.ge.",
     "englishNote": "Odpowiedzi demo są przygotowane po angielsku.",
     "otherQuestion": "Zapytano o coś innego — to przygotowana odpowiedź na: „{q}”",
-    "generic": "Ta przygotowana odpowiedź demo jest ogólna. Po podłączeniu AI Claude odpowie dokładnie na Twoje pytanie.",
+    "generic": "Ta przygotowana odpowiedź demo jest ogólna. Po podłączeniu AI Claude odpowie dokładnie na zadane pytanie.",
     "showAll": "Pokaż wszystkie źródła ({n})"
   }
 }

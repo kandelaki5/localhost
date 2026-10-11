@@ -1,9 +1,9 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "meta": {
     "siteName": "Local Host",
     "title": "Local Host · Tour operator incoming per Georgia, Armenia e Azerbaigian",
-    "description": "Local Host è un tour operator incoming e DMC con sede a Tbilisi, fondato nel 2015. Progettiamo tour di gruppo e viaggi su misura in Georgia, Armenia e Azerbaigian per agenzie di viaggio e tour operator.",
+    "description": "Local Host è un tour operator incoming e DMC con sede a Tbilisi, fondato nel 2015. Progettiamo tour di gruppo e viaggi su misura in Georgia, Armenia e Azerbaigian per agenzie di viaggi e tour operator.",
     "titleTemplate": "{page} · Local Host",
     "ogImageAlt": "Local Host — Dove ogni ospite è un dono. La chiesa della Trinità di Gergeti sotto il massiccio del Kazbegi, Georgia."
   },
@@ -22,7 +22,7 @@
   "cta": {
     "planWithAi": "Pianifica con l’AI",
     "groupRequest": "Invia una richiesta di gruppo",
-    "draftTrip": "Abbozza un viaggio con l’AI",
+    "draftTrip": "Prepara una bozza con l’AI",
     "writeToUs": "Scrivici",
     "backHome": "Torna alla home"
   },
@@ -44,7 +44,7 @@
     }
   },
   "aria": {
-    "mainNav": "Principale",
+    "mainNav": "Navigazione principale",
     "footerNav": "Piè di pagina",
     "languageNav": "Scegli la lingua",
     "newTab": "si apre in una nuova scheda",
@@ -63,11 +63,11 @@
   },
   "footer": {
     "passport": "Passaporto per il Caucaso meridionale",
-    "tagline": "Tour operator incoming e DMC per Georgia, Armenia e Azerbaigian. Programmi per agenzie di viaggio e tour operator dal 2015.",
+    "tagline": "Tour operator incoming e DMC per Georgia, Armenia e Azerbaigian. Programmi per agenzie di viaggi e tour operator dal 2015.",
     "greeting": "მოგესალმებით",
     "greetingGloss": "«Vi salutiamo» — a presto a Tbilisi.",
     "standLabel": "Incontriamoci allo stand",
-    "standText": "Ci trovi alle fiere dove incontriamo i nostri partner.",
+    "standText": "Ci trovate alle fiere in cui incontriamo i nostri partner.",
     "standLink": "Fissa un appuntamento",
     "contactTitle": "Contatti",
     "exploreTitle": "Esplora",
@@ -101,7 +101,7 @@
     "title": "Pagina non trovata",
     "kicker": "Errore 404",
     "heading": "Questa strada finisce *tra le montagne.*",
-    "text": "La pagina che cercavi è stata spostata o non è mai esistita. Ti riportiamo all’inizio del viaggio.",
+    "text": "La pagina che cercavate è stata spostata o non è mai esistita. Vi riportiamo all’inizio del viaggio.",
     "home": "Torna alla home"
   }
 }

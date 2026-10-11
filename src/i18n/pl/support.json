@@ -1,14 +1,14 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md).",
   "kicker": "Wspieramy",
-  "title": "Za czym *stoimy.*",
+  "title": "Za czym się *opowiadamy.*",
   "intro": "Pięć zobowiązań z naszych własnych polityk: ludzie, miejsca i zasady, od których zależy każda nasza podróż.",
   "running": "Z naszych polityk",
   "listLabel": "Pięć zobowiązań",
   "items": [
     {
       "title": "Lokalne rodziny i gospodarze",
-      "text": "Budujemy programy wokół rodzin, które przyjmują naszych gości, i wybieramy lokalną żywność, towary i usługi.",
+      "text": "Budujemy programy wokół rodzin, które przyjmują naszych gości, i dajemy pierwszeństwo lokalnej żywności, produktom i usługom.",
       "ring": "ZRÓWNOWAŻONY ROZWÓJ • SPOŁECZNOŚCI LOKALNE •"
     },
     {
@@ -23,7 +23,7 @@
     },
     {
       "title": "Uczciwa praca",
-      "text": "Umowy na piśmie i wynagrodzenia powyżej oficjalnej średniej dla naszego zespołu. Każdy partner musi płacić co najmniej płacę godziwą lub krajową płacę minimalną.",
+      "text": "Pisemne umowy i wynagrodzenia powyżej oficjalnej średniej dla naszego zespołu. Każdy partner musi płacić co najmniej płacę godziwą lub krajową płacę minimalną.",
       "ring": "ZRÓWNOWAŻONY ROZWÓJ • PRAWA CZŁOWIEKA •"
     },
     {

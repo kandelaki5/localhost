@@ -72,6 +72,7 @@ const mrz = [
         <span class="kicker">{t.form.countries}</span>
       </legend>
       <p class="doc__note" id="plan-countries-hint">{t.form.countriesHint}</p>
+      <div class="doc__stamps-box">
       <div class="doc__stamps">
         {
           COUNTRY_CODES.map((code, i) => (
@@ -90,6 +91,7 @@ const mrz = [
           ))
         }
       </div>
+      </div>
       <p class="doc__error" id="plan-countries-error" data-countries-error role="alert" hidden>
         {t.form.countriesError}
       </p>
@@ -102,6 +104,7 @@ const mrz = [
         <span class="kicker">{t.form.experiences}</span>
       </legend>
       <p class="doc__note" id="plan-experiences-hint">{t.form.experiencesHint}</p>
+      <div class="doc__stamps-box doc__stamps-box--six">
       <div class="doc__stamps doc__stamps--six">
         {
           EXPERIENCE_IDS.map((id, i) => (
@@ -117,6 +120,7 @@ const mrz = [
             />
           ))
         }
+      </div>
       </div>
     </fieldset>
 
@@ -433,6 +437,38 @@ const mrz = [
     gap: var(--space-m) var(--space-s);
     margin-top: var(--space-s);
     padding-right: var(--space-xs);
+  }
+
+  /* The country row is a size container: below 34rem its stamps turn
+     horizontal, one per row (rules in StampToggle.astro). */
+  .doc__stamps-box {
+    container: plan-countries / inline-size;
+  }
+
+  @container plan-countries (max-width: 34rem) {
+    .doc__stamps {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xs);
+    }
+  }
+
+  /* Experiences: three per row, two below 30rem (phones and the 64–80em
+     layout), one horizontal stamp per row below 17.5rem (320 px phones). */
+  .doc__stamps-box--six {
+    container-name: plan-experiences;
+  }
+
+  @container plan-experiences (max-width: 30rem) {
+    .doc__stamps--six {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @container plan-experiences (max-width: 17.5rem) {
+    .doc__stamps--six {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xs);
+    }
   }
 
   /* ── length + month ── */
@@ -895,20 +931,8 @@ const mrz = [
       max-width: none;
     }
 
-    .doc__stamps--six {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
     .doc__stamps:not(.doc__stamps--six) {
       gap: var(--space-s) var(--space-xs);
-    }
-  }
-
-  @media (max-width: 29.99em) {
-    /* one horizontal country stamp per row (see StampToggle.astro) */
-    .doc__stamps:not(.doc__stamps--six) {
-      grid-template-columns: minmax(0, 1fr);
-      gap: var(--space-xs);
     }
 
     .doc__summary {

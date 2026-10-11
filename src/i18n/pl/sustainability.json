@@ -1,9 +1,9 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Państwo in running text, imperative on buttons), terminology and Polish typography. Still needs a final check by a native Polish speaker (docs/CONTENT-TODO.md). The two policy quotes are shown verbatim in English (src/components/sections/sustainability/data.ts); these files only carry their marked translations.",
   "kicker": "Zrównoważony rozwój",
   "title": "Dobry gospodarz *dba o swój dom.*",
-  "intro": "Pracujemy według kryteriów Travelife dla touroperatorów i biur podróży, a w naszym zespole działa przeszkolony koordynator ds. zrównoważonego rozwoju. Tych samych standardów oczekujemy od każdego partnera.",
-  "running": "Partner Travelife",
+  "intro": "Pracujemy według kryteriów Travelife dla touroperatorów i biur podróży, a w naszym zespole działa przeszkolony koordynator ds. zrównoważonego rozwoju. Każdego partnera prosimy o przestrzeganie tych samych standardów.",
+  "running": "Travelife Partner",
   "recognition": {
     "kicker": "Niezależna ocena",
     "badgeLabel": "Travelife Partner: sprawdź nasz wpis w publicznym rejestrze Travelife",
@@ -18,7 +18,7 @@
     "holder": "Local Host LLC, Gruzja",
     "levelLabel": "Poziom",
     "level": "Travelife Partner",
-    "firstLabel": "Pierwsze zatwierdzenie",
+    "firstLabel": "Pierwsze przyznanie",
     "validLabel": "Ważny do",
     "pending": "Skan certyfikatu wkrótce",
     "imageAlt": "Certyfikat Travelife Partner wystawiony dla Local Host LLC",
@@ -50,7 +50,7 @@
   },
   "practice": {
     "kicker": "W praktyce",
-    "title": "Czego *wymagamy od siebie*",
+    "title": "Czego nasza polityka *od nas wymaga*",
     "items": [
       {
         "title": "Podróże służbowe z kompensacją",
@@ -64,13 +64,13 @@
       },
       {
         "title": "Noclegi i restauracje: najpierw certyfikaty",
-        "text": "Wybieramy przede wszystkim obiekty noclegowe i restauracje z uznanymi certyfikatami zrównoważonego rozwoju. Nasz cel na 2026 r.: co najmniej połowa partnerskich obiektów noclegowych spełnia przynajmniej jedno z kryteriów środowiskowych lub społecznych naszej Polityki zakwaterowania.",
-        "source": "Polityka zakwaterowania"
+        "text": "Wybieramy przede wszystkim obiekty noclegowe i restauracje z uznanymi certyfikatami zrównoważonego rozwoju. Nasz cel na 2026 r.: co najmniej połowa partnerskich obiektów noclegowych spełnia przynajmniej jedno z kryteriów środowiskowych lub społecznych naszej Polityki dotyczącej zakwaterowania.",
+        "source": "Polityka dotycząca zakwaterowania"
       },
       {
         "title": "Żadnych szkodliwych wycieczek",
         "text": "Żadnych wycieczek szkodzących ludziom, zwierzętom czy przyrodzie i żadnych, które obejmują handel zwierzętami, ich spożywanie, bliski kontakt z nimi lub pokazy z ich udziałem.",
-        "source": "Polityka wycieczek"
+        "source": "Polityka dotycząca wycieczek i destynacji"
       },
       {
         "title": "Zero tolerancji dla wykorzystywania dzieci",
@@ -87,8 +87,8 @@
     "note": "PDF · po angielsku",
     "effective": "Obowiązuje od {date}",
     "published": "Opublikowano {date}",
-    "pages": "{n} s.",
-    "size": "{n} KB",
+    "pages": "{n} s.",
+    "size": "{n} KB",
     "items": {
       "sustainability": "Polityka zrównoważonego rozwoju",
       "report": "Raport zrównoważonego rozwoju",
@@ -100,8 +100,8 @@
   },
   "ask": {
     "kicker": "Laboratorium AI",
-    "title": "Zapytaj nasze polityki",
-    "text": "Zadaj pytanie w swoim języku. Odpowiedź cytuje te dokumenty słowo w słowo i podaje źródło.",
+    "title": "Zapytaj o nasze polityki",
+    "text": "Pytanie można zadać we własnym języku. Odpowiedź cytuje te dokumenty słowo w słowo i podaje źródło.",
     "examplesLabel": "Na przykład",
     "examples": [
       "Czy w programach są atrakcje ze zwierzętami?",

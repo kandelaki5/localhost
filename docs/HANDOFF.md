@@ -4,7 +4,7 @@ Everything needed to take the new localhost.ge from this repository to the publi
 
 ## 1. What this is
 
-- A fast, mostly static **Astro** site: one long home page following the owner's template (Caucasus → Experiences → Hosts → Airlines → Connection → Meet us → Members → Awards → Sustainability → We Support → Contact) plus a hero and the **Plan with AI** section, an **AI Lab** page, a photo-credits page and a hidden `/styleguide/`.
+- A fast, mostly static **Astro** site: one long home page following the owner's template (Caucasus → Experiences → Hosts → Airlines → Connection → Meet us → Members → Awards → Sustainability → We Support → Contact) plus a hero and the **Plan with AI** section, an **AI Lab** page, a photo-credits page, and a `/styleguide/` that exists only in development (`npm run dev`, or a build with `SHOW_DEV_PAGES=1`).
 - Five languages: English (`/`), Georgian (`/ka/`), Polish (`/pl/`), Italian (`/it/`), German (`/de/`). Non-English copy is a draft that needs native review (`docs/CONTENT-TODO.md`).
 - Six AI features in `src/pages/api/` (see `docs/AI-ARCHITECTURE.md`). Without an API key they run in **demo mode** with clearly labelled sample answers, so the site can go live before the key exists.
 - Old addresses keep working: `/assets/policies/*.pdf` and `/sustainabilitypolicy`.
@@ -62,7 +62,7 @@ The **AI connector** for travel agencies works without a key: agencies add `http
 ## 6. For the owner's designer
 
 - Every colour, font, size, spacing, radius, shadow and motion value is a token in `src/styles/tokens.css`; `design/tokens/tokens.json` mirrors them in W3C/Tokens Studio format for Figma (`node scripts/export-tokens.mjs` regenerates it). Re-skinning the site is mostly editing tokens.
-- `/styleguide/` shows tokens, type scale (Latin + Georgian) and every component.
+- `/styleguide/` (run `npm run dev`) shows tokens, type scale (Latin + Georgian) and every component.
 - Components are small and presentational (`src/components/ui/`); copy lives in `src/i18n/<lang>/*.json`; data in `src/data/`.
 - Logo: the owner's chosen mark, redrawn as clean vectors in three colour options — `design/logo/chosen/` (site uses Option 2 via `src/assets/brand/`). Four alternative concepts are in `design/logo/` for reference.
 - Design direction and reasoning: `docs/DESIGN.md`; original mockups in `design/directions/`.

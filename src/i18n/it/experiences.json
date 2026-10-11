@@ -1,8 +1,8 @@
 {
-  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "kicker": "Esperienze",
   "title": "Sei modi per *entrare* nel Caucaso.",
-  "intro": "Costruisci un programma attorno a un solo tema o intrecciane diversi. Ogni itinerario è preparato dal nostro team di Tbilisi e adattato ai tuoi clienti, alla stagione e al budget.",
+  "intro": "Costruite un programma attorno a un solo tema o intrecciatene diversi. Ogni itinerario è preparato dal nostro team di Tbilisi e adattato ai vostri clienti, alla stagione e al budget.",
   "running": "Sei vie d’accesso",
   "carousel": {
     "label": "Esperienze",
@@ -19,18 +19,18 @@
   },
   "seasons": {
     "yearRound": "Tutto l’anno",
-    "best": "meglio {months}",
+    "best": "ideale {months}",
     "harvest": "vendemmia {months}",
     "harvestTable": "sapori del raccolto {months}",
     "highRoutes": "alta quota {months}",
-    "lowerRoutes": "percorsi più bassi {months}",
+    "lowerRoutes": "quote più basse {months}",
     "beach": "mare {months}",
     "ski": "sci {months}",
     "feasts": "date delle feste verificate ogni anno"
   },
   "cards": {
     "culture": {
-      "text": "Città vecchie, città rupestri e chiese affrescate, dove si incontravano imperi e fedi e le tradizioni si vivono, non si recitano.",
+      "text": "Centri storici, città rupestri e chiese affrescate: qui si sono incontrati imperi e fedi, e le tradizioni si vivono, non si mettono in scena.",
       "subject": "Narikala, Tbilisi vecchia",
       "alt": "Tbilisi vecchia all’ora d’oro: tetti rossi che salgono verso la fortezza di Narikala, con una chiesa a cupola sulla collina"
     },
@@ -55,7 +55,7 @@
       "alt": "Il complesso monastico di David Gareja: celle scavate nella roccia ed edifici in pietra su un pendio verde tra colline semidesertiche"
     },
     "leisure": {
-      "text": "Coste del Mar Nero, città termali, laghi e piste da sci: una vacanza a sé o un finale lento dopo un tour intenso.",
+      "text": "Coste del Mar Nero, città termali, laghi e piste da sci: una vacanza a sé o un finale rilassante dopo un tour intenso.",
       "subject": "Batumi all’ora blu",
       "alt": "Batumi all’ora blu: il lungomare illuminato e le torri della città sul Mar Nero"
     }
