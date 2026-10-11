@@ -1,5 +1,5 @@
 /**
- * AI Lab boot (the only script that runs on page load, < 1 KB).
+ * AI Lab boot (the only script that runs on page load; small).
  *
  * - Lazy-loads each feature's script with a dynamic import() when its section
  *   comes within ~one screen of the viewport, or as soon as the visitor
@@ -9,6 +9,7 @@
  * - Draws route maps in when they scroll into view (motion allowed only).
  */
 import type { AiMode } from '../../../lib/ai/types';
+import { drawRoute } from './map';
 
 type FeatureModule = { init: (root: HTMLElement) => void };
 
@@ -20,6 +21,9 @@ const LOADERS: Record<string, () => Promise<FeatureModule>> = {
   mcp: () => import('./mcp'),
 };
 
+/** A submit that arrived before the feature script was ready, replayed after init(). */
+const pending = new WeakMap<HTMLElement, () => void>();
+
 function load(root: HTMLElement): void {
   const name = root.dataset.labFeature ?? '';
   const loader = LOADERS[name];
@@ -29,6 +33,8 @@ function load(root: HTMLElement): void {
     .then((mod) => {
       mod.init(root);
       root.dataset.labState = 'ready';
+      pending.get(root)?.();
+      pending.delete(root);
     })
     .catch((err: unknown) => {
       root.dataset.labState = 'failed';
@@ -41,6 +47,21 @@ function bootFeatures(): void {
   const early = (event: Event) => load(event.currentTarget as HTMLElement);
   for (const root of roots) {
     for (const type of ['pointerover', 'focusin', 'touchstart']) root.addEventListener(type, early, { once: true, passive: true });
+    // A submit before the script is ready would be a native GET: a reload with the
+    // form (e.g. a pasted email) in the URL. Hold it and replay it once ready.
+    root.addEventListener(
+      'submit',
+      (event) => {
+        if (root.dataset.labState === 'ready') return;
+        event.preventDefault();
+        if (root.dataset.labState === 'failed') return;
+        const form = event.target as HTMLFormElement;
+        const submitter = (event as SubmitEvent).submitter;
+        pending.set(root, () => form.requestSubmit(submitter instanceof HTMLButtonElement && submitter.form === form ? submitter : undefined));
+        load(root);
+      },
+      true,
+    );
   }
   if (!('IntersectionObserver' in window)) {
     roots.forEach(load);
@@ -80,7 +101,7 @@ function bootDraw(): void {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         io.unobserve(entry.target);
-        entry.target.classList.add('is-drawing');
+        drawRoute(entry.target as HTMLElement);
       }
     },
     { threshold: 0.3 },

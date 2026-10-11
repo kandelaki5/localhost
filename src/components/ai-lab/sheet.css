@@ -603,4 +603,17 @@
   .lab-sheet__table thead {
     display: table-header-group;
   }
+
+  /* Printed mid-animation: show the finished route. */
+  .lab-sheet .lab-map__route,
+  .lab-sheet .lab-map__glow {
+    visibility: visible !important;
+    stroke-dasharray: none !important;
+    animation: none !important;
+  }
+
+  .lab-sheet .lab-map__stop {
+    opacity: 1 !important;
+    animation: none !important;
+  }
 }

@@ -1,0 +1,595 @@
+{
+ "W": 1440,
+ "scrollWidth": 1440,
+ "bodyScroll": 1440,
+ "sections": {
+  "top": {
+   "h": 986,
+   "pt": "24px",
+   "pb": "0px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "caucasus": {
+   "h": 2335,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "experiences": {
+   "h": 1510,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "hosts": {
+   "h": 2714,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "airlines": {
+   "h": 928,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "connection": {
+   "h": 1418,
+   "pt": "147.199px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "meet-us": {
+   "h": 1124,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "members": {
+   "h": 1256,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "awards": {
+   "h": 865,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "sustainability": {
+   "h": 3287,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "support": {
+   "h": 924,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgb(234, 225, 209)"
+  },
+  "plan": {
+   "h": 2706,
+   "pt": "147.199px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "contact": {
+   "h": 1348,
+   "pt": "103.999px",
+   "pb": "103.999px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  }
+ },
+ "wide": [],
+ "overflowText": [
+  "span.visually-hidden \"English\" sw48 cw1 ov:hidden []",
+  "span.visually-hidden \"ქართული\" sw68 cw1 ov:hidden []",
+  "span.visually-hidden \"Polski\" sw39 cw1 ov:hidden []",
+  "span.visually-hidden \"Italiano\" sw50 cw1 ov:hidden []",
+  "span.visually-hidden \"Deutsch\" sw55 cw1 ov:hidden []",
+  "span.visually-hidden \"Coordinates:\" sw83 cw1 ov:hidden [top]",
+  "span.visually-hidden \"— Georgia\" sw82 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Coordinates:\" sw83 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"— Armenia\" sw82 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Coordinates:\" sw83 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"— Azerbaijan\" sw106 cw1 ov:hidden [caucasus]",
+  "p.visually-hidden \"Georgia, Armenia and Azerbaijan between \" sw3661 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Experiences 1 to 3 of 6\" sw182 cw1 ov:hidden []",
+  "span.visually-hidden \"(Culture)\" sw76 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Wine)\" sw50 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Trekking)\" sw84 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Gastronomy)\" sw113 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Pilgrim)\" sw72 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Leisure)\" sw71 cw1 ov:hidden [experiences]",
+  "caption.visually-hidden \"Direct flights from Tbilisi Internationa\" sw412 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Warsaw\" sw63 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"WAW\" sw43 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Berlin\" sw45 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"BER\" sw31 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Munich\" sw59 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"MUC\" sw39 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Milan\" sw42 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"MIL\" sw28 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Rome\" sw46 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"FCO\" sw36 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Vienna\" sw55 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"VIE\" sw26 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Paris\" sw39 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"PAR\" sw31 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Amsterdam\" sw94 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"AMS\" sw37 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw304 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw304 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw304 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw304 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw304 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw304 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"GNTA —\" sw60 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw331 cw1 ov:hidden [members]",
+  "span.visually-hidden \"GTA —\" sw49 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw331 cw1 ov:hidden [members]",
+  "span.visually-hidden \"CEBG —\" sw60 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw331 cw1 ov:hidden [members]",
+  "span.visually-hidden \"PIT —\" sw42 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw331 cw1 ov:hidden [members]",
+  "span.visually-hidden \"ŚIT —\" sw41 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw331 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw347 cw1 ov:hidden [awards]",
+  "span.visually-hidden \"(opens in a new tab)\" sw164 cw1 ov:hidden []",
+  "span.visually-hidden \"(opens in a new tab)\" sw164 cw1 ov:hidden []",
+  "p.visually-hidden \"Energy use: index 89.9 in 2025, against \" sw412 cw1 ov:hidden []",
+  "p.visually-hidden \"Gas use: index 63.7 in 2025, against 100\" sw387 cw1 ov:hidden []",
+  "span.visually-hidden \"— Your letter to Local Host (optional)\" sw321 cw1 ov:hidden [plan]",
+  "span.visually-hidden \"(opens in a new tab)\" sw164 cw1 ov:hidden []",
+  "span.visually-hidden \"(opens in a new tab)\" sw164 cw1 ov:hidden []"
+ ],
+ "headings": [
+  {
+   "tag": "h1",
+   "sec": "top",
+   "fs": 132,
+   "lines": [
+    "Where every guest",
+    "is a gift."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "caucasus",
+   "fs": 84,
+   "lines": [
+    "Three countries.",
+    "One local host."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 42,
+   "lines": [
+    "Georgia"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 42,
+   "lines": [
+    "Armenia"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 42,
+   "lines": [
+    "Azerbaijan"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 42,
+   "lines": [
+    "Between two",
+    "seas, three capitals."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "experiences",
+   "fs": 84,
+   "lines": [
+    "Six ways into",
+    "the Caucasus."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 42,
+   "lines": [
+    "Culture"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 42,
+   "lines": [
+    "Wine"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 42,
+   "lines": [
+    "Trekking"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 42,
+   "lines": [
+    "Gastronomy"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 42,
+   "lines": [
+    "Pilgrim"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 42,
+   "lines": [
+    "Leisure"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "hosts",
+   "fs": 84,
+   "lines": [
+    "The people your travellers",
+    "write home about."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 56,
+   "lines": [
+    "Sisatura"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 56,
+   "lines": [
+    "Leila"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 56,
+   "lines": [
+    "Doors we keep",
+    "coming back to."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "airlines",
+   "fs": 84,
+   "lines": [
+    "Twelve airlines,",
+    "one short hop."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "connection",
+   "fs": 84,
+   "lines": [
+    "Europe is only",
+    "a few hours away."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "meet-us",
+   "fs": 84,
+   "lines": [
+    "Six fairs, two seasons."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "meet-us",
+   "fs": 12,
+   "lines": [
+    "Spring season",
+    "February – March"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "meet-us",
+   "fs": 12,
+   "lines": [
+    "Autumn season",
+    "October"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "members",
+   "fs": 84,
+   "lines": [
+    "In good company."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "members",
+   "fs": 20,
+   "lines": [
+    "Georgia",
+    "საქართველო",
+    "GEO"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "members",
+   "fs": 20,
+   "lines": [
+    "Poland",
+    "Polska",
+    "POL"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "awards",
+   "fs": 84,
+   "lines": [
+    "Noticed at home."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "awards",
+   "fs": 30,
+   "lines": [
+    "The Fastest Growing",
+    "Company of the Year"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "awards",
+   "fs": 30,
+   "lines": [
+    "Inbound Tour",
+    "Company of the Year"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "sustainability",
+   "fs": 84,
+   "lines": [
+    "Good hosts look",
+    "after the house."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 12,
+   "lines": [
+    "Independent recognition"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 42,
+   "lines": [
+    "Less energy,",
+    "far less gas."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 42,
+   "lines": [
+    "What our policy asks of us"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 30,
+   "lines": [
+    "Read the policies"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "sustainability",
+   "fs": 42,
+   "lines": [
+    "Ask our policies"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "support",
+   "fs": 84,
+   "lines": [
+    "What we stand behind."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 24,
+   "lines": [
+    "Local families",
+    "and hosts"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 24,
+   "lines": [
+    "Nature and",
+    "protected areas"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 24,
+   "lines": [
+    "Heritage",
+    "and customs"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 24,
+   "lines": [
+    "Fair work"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 24,
+   "lines": [
+    "Protecting children"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "plan",
+   "fs": 84,
+   "lines": [
+    "Draft a journey in a minute."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "plan",
+   "fs": 42,
+   "lines": [
+    "Your trip, in a few stamps."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "plan",
+   "fs": 12,
+   "lines": [
+    "How it works"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "contact",
+   "fs": 84,
+   "lines": [
+    "Let’s host your next",
+    "group together."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 12,
+   "lines": [
+    "Office"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 12,
+   "lines": [
+    "Write & call"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "contact",
+   "fs": 42,
+   "lines": [
+    "Let's work together ."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "contact",
+   "fs": 42,
+   "lines": [
+    "Rather sketch a trip first?"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 12,
+   "lines": [
+    "Contact"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 12,
+   "lines": [
+    "Explore"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 12,
+   "lines": [
+    "Policies"
+   ]
+  }
+ ],
+ "brokenImgs": [],
+ "errors": []
+}

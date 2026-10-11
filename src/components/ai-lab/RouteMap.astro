@@ -42,8 +42,8 @@ const points = stopsAll.map((s) => `${s.x},${s.y}`).join(' ');
     {
       stopsAll.length > 1 && (
         <>
-          <polyline class="lab-map__glow" points={points} vector-effect="non-scaling-stroke" pathLength="1" />
-          <polyline class="lab-map__route" points={points} vector-effect="non-scaling-stroke" pathLength="1" />
+          <polyline class="lab-map__glow" points={points} vector-effect="non-scaling-stroke" />
+          <polyline class="lab-map__route" points={points} vector-effect="non-scaling-stroke" />
         </>
       )
     }

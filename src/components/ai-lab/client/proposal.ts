@@ -6,7 +6,7 @@
  */
 import { requestProposal, type ProposalInput, type ProposalOutcome, type ProposalRequest, type ProposalResponse } from '../../../lib/ai/client/proposal';
 import type { CountryCode, ExperienceId, Locale } from '../../../lib/ai/types';
-import { buildMap } from './map';
+import { buildMap, drawRoute } from './map';
 import {
   el,
   fill,
@@ -230,9 +230,9 @@ export function init(root: HTMLElement): void {
       mapSlot.append(map);
       if (!prefersReducedMotion()) {
         map.querySelectorAll<HTMLElement>('.lab-map__stop').forEach((stop, i) => stop.style.setProperty('--i', String(i)));
-        map.querySelectorAll('polyline').forEach((line) => line.setAttribute('pathLength', '1'));
         map.classList.add('lab-map--armed');
-        requestAnimationFrame(() => requestAnimationFrame(() => map.classList.add('is-drawing')));
+        // Measured once the sheet is on the page and laid out.
+        requestAnimationFrame(() => requestAnimationFrame(() => drawRoute(map)));
       }
     } else if (mapSlot) {
       mapSlot.closest('section')?.setAttribute('hidden', '');

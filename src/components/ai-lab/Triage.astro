@@ -69,7 +69,8 @@ const clientStrings = {
     <p class="lab-nojs">{lab.ui.noScript}</p>
 
     <div class="lab-triage__grid">
-      <form class="lab-panel lab-triage__inbox" data-form novalidate aria-labelledby="triage-inbox-title">
+      {/* method="post": without JS a native submit must never put a pasted email into the URL. */}
+      <form class="lab-panel lab-triage__inbox" method="post" data-form novalidate aria-labelledby="triage-inbox-title">
         <div class="lab-panel__bar">
           <h3 class="lab-mono lab-mono--green" id="triage-inbox-title">{t.inbox.title}</h3>
           <span class="lab-mono" aria-hidden="true">{samples.length} · INBOX</span>

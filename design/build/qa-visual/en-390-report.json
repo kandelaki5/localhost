@@ -1,0 +1,590 @@
+{
+ "W": 390,
+ "scrollWidth": 390,
+ "bodyScroll": 390,
+ "sections": {
+  "top": {
+   "h": 1652,
+   "pt": "12px",
+   "pb": "0px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "caucasus": {
+   "h": 3636,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "experiences": {
+   "h": 1274,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "hosts": {
+   "h": 3749,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "airlines": {
+   "h": 1189,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "connection": {
+   "h": 1776,
+   "pt": "81.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "meet-us": {
+   "h": 1598,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "members": {
+   "h": 1727,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "awards": {
+   "h": 1400,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "sustainability": {
+   "h": 5076,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "support": {
+   "h": 1413,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgb(234, 225, 209)"
+  },
+  "plan": {
+   "h": 3677,
+   "pt": "81.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "contact": {
+   "h": 2065,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  }
+ },
+ "wide": [],
+ "overflowText": [
+  "span.site-header__cta-label \"Plan with AI\" sw71 cw1 ov:hidden []",
+  "span.visually-hidden \"Open menu\" sw87 cw1 ov:hidden []",
+  "span.visually-hidden \"Coordinates:\" sw79 cw1 ov:hidden [top]",
+  "span.visually-hidden \"— Georgia\" sw79 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Coordinates:\" sw79 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"— Armenia\" sw79 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Coordinates:\" sw79 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"— Azerbaijan\" sw101 cw1 ov:hidden [caucasus]",
+  "p.visually-hidden \"Georgia, Armenia and Azerbaijan between \" sw3355 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Experience 1 of 6\" sw125 cw1 ov:hidden []",
+  "span.visually-hidden \"(Culture)\" sw72 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Wine)\" sw48 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Trekking)\" sw81 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Gastronomy)\" sw108 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Pilgrim)\" sw68 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Leisure)\" sw68 cw1 ov:hidden [experiences]",
+  "caption.visually-hidden \"Direct flights from Tbilisi Internationa\" sw377 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Warsaw\" sw58 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"WAW\" sw39 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Berlin\" sw41 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"BER\" sw28 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Munich\" sw54 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"MUC\" sw36 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Milan\" sw39 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"MIL\" sw26 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Rome\" sw42 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"FCO\" sw33 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Vienna\" sw51 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"VIE\" sw24 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Paris\" sw35 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"PAR\" sw28 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Amsterdam\" sw86 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"AMS\" sw33 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw291 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw291 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw291 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw291 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw291 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw291 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"GNTA —\" sw56 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw307 cw1 ov:hidden [members]",
+  "p.permit__mrz \"GEO<GNTA<<GEORGIAN<NATIONAL<TOURISM<ADMI\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"GTA —\" sw45 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw307 cw1 ov:hidden [members]",
+  "p.permit__mrz \"GEO<GTA<<GEORGIAN<TOURISM<ASSOCIATION<<<\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"CEBG —\" sw56 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw307 cw1 ov:hidden [members]",
+  "p.permit__mrz \"GEO<CEBG<<CONVENTION<EXHIBITION<BUREAU<O\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"PIT —\" sw39 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw307 cw1 ov:hidden [members]",
+  "p.permit__mrz \"POL<PIT<<POLISH<CHAMBER<OF<TOURISM<<<<<<\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"ŚIT —\" sw38 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw307 cw1 ov:hidden [members]",
+  "p.permit__mrz \"POL<SIT<<SILESIAN<CHAMBER<OF<TOURISM<<<<\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw322 cw1 ov:hidden [awards]",
+  "span.visually-hidden \"(opens in a new tab)\" sw157 cw1 ov:hidden []",
+  "span.visually-hidden \"(opens in a new tab)\" sw157 cw1 ov:hidden []",
+  "p.visually-hidden \"Energy use: index 89.9 in 2025, against \" sw377 cw1 ov:hidden []",
+  "p.visually-hidden \"Gas use: index 63.7 in 2025, against 100\" sw354 cw1 ov:hidden []",
+  "span.visually-hidden \"— Your letter to Local Host (optional)\" sw307 cw1 ov:hidden [plan]",
+  "span.visually-hidden \"(opens in a new tab)\" sw157 cw1 ov:hidden []",
+  "span.visually-hidden \"(opens in a new tab)\" sw157 cw1 ov:hidden []"
+ ],
+ "headings": [
+  {
+   "tag": "h1",
+   "sec": "top",
+   "fs": 60,
+   "lines": [
+    "Where",
+    "every guest",
+    "is a gift."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "caucasus",
+   "fs": 41,
+   "lines": [
+    "Three countries.",
+    "One local host."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 27,
+   "lines": [
+    "Georgia"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 27,
+   "lines": [
+    "Armenia"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 27,
+   "lines": [
+    "Azerbaijan"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 27,
+   "lines": [
+    "Between two seas, three capitals."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "experiences",
+   "fs": 41,
+   "lines": [
+    "Six ways into",
+    "the Caucasus."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 27,
+   "lines": [
+    "Culture"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 27,
+   "lines": [
+    "Wine"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 27,
+   "lines": [
+    "Trekking"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 27,
+   "lines": [
+    "Gastronomy"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 27,
+   "lines": [
+    "Pilgrim"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 27,
+   "lines": [
+    "Leisure"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "hosts",
+   "fs": 41,
+   "lines": [
+    "The people your",
+    "travellers write",
+    "home about."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 33,
+   "lines": [
+    "Sisatura"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 33,
+   "lines": [
+    "Leila"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 33,
+   "lines": [
+    "Doors we keep coming back to."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "airlines",
+   "fs": 41,
+   "lines": [
+    "Twelve airlines,",
+    "one short hop."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "connection",
+   "fs": 41,
+   "lines": [
+    "Europe is only",
+    "a few hours away."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "meet-us",
+   "fs": 41,
+   "lines": [
+    "Six fairs, two seasons."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "meet-us",
+   "fs": 11,
+   "lines": [
+    "Spring season February – March"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "meet-us",
+   "fs": 11,
+   "lines": [
+    "Autumn season October"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "members",
+   "fs": 41,
+   "lines": [
+    "In good company."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "members",
+   "fs": 19,
+   "lines": [
+    "Georgia",
+    "საქართველო GEO"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "members",
+   "fs": 19,
+   "lines": [
+    "Poland",
+    "Polska POL"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "awards",
+   "fs": 41,
+   "lines": [
+    "Noticed at home."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "awards",
+   "fs": 22,
+   "lines": [
+    "The Fastest Growing",
+    "Company of the Year"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "awards",
+   "fs": 22,
+   "lines": [
+    "Inbound Tour",
+    "Company of the Year"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "sustainability",
+   "fs": 41,
+   "lines": [
+    "Good hosts look",
+    "after the house."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Independent recognition"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 27,
+   "lines": [
+    "Less energy, far less gas."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 27,
+   "lines": [
+    "What our policy asks of us"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 22,
+   "lines": [
+    "Read the policies"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "sustainability",
+   "fs": 27,
+   "lines": [
+    "Ask our policies"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "support",
+   "fs": 41,
+   "lines": [
+    "What we stand behind."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 19,
+   "lines": [
+    "Local families and hosts"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 19,
+   "lines": [
+    "Nature and protected areas"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 19,
+   "lines": [
+    "Heritage and customs"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 19,
+   "lines": [
+    "Fair work"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 19,
+   "lines": [
+    "Protecting children"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "plan",
+   "fs": 41,
+   "lines": [
+    "Draft a journey",
+    "in a minute."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "plan",
+   "fs": 27,
+   "lines": [
+    "Your trip, in a few stamps."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "plan",
+   "fs": 11,
+   "lines": [
+    "How it works"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "contact",
+   "fs": 41,
+   "lines": [
+    "Let’s host your next",
+    "group together."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Office"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Write & call"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "contact",
+   "fs": 27,
+   "lines": [
+    "Let's work together ."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "contact",
+   "fs": 27,
+   "lines": [
+    "Rather sketch a trip first?"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Contact"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Explore"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Policies"
+   ]
+  }
+ ],
+ "brokenImgs": [],
+ "errors": []
+}

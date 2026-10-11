@@ -150,14 +150,17 @@ function formatWait(seconds: number, lang: string): string {
   const s = Math.max(0, Math.ceil(seconds));
   const m = Math.floor(s / 60);
   const rest = s % 60;
+  const clock = `${m}:${String(rest).padStart(2, '0')}`;
   try {
+    // Without locale data (e.g. Georgian in Chrome) Intl silently answers in English: use a neutral m:ss.
+    if (!Intl.NumberFormat.supportedLocalesOf([lang]).length) return clock;
     if (m >= 1) {
       const minutes = new Intl.NumberFormat(lang, { style: 'unit', unit: 'minute', unitDisplay: 'long' }).format(m);
       return rest ? `${minutes} ${new Intl.NumberFormat(lang, { style: 'unit', unit: 'second', unitDisplay: 'short' }).format(rest)}` : minutes;
     }
     return new Intl.NumberFormat(lang, { style: 'unit', unit: 'second', unitDisplay: 'long' }).format(s);
   } catch {
-    return m ? `${m}:${String(rest).padStart(2, '0')}` : `${s} s`;
+    return clock;
   }
 }
 

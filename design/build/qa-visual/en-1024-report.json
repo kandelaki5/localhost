@@ -1,0 +1,594 @@
+{
+ "W": 1024,
+ "scrollWidth": 1024,
+ "bodyScroll": 1024,
+ "sections": {
+  "top": {
+   "h": 1072,
+   "pt": "20.48px",
+   "pb": "0px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "caucasus": {
+   "h": 2243,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "experiences": {
+   "h": 1402,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "hosts": {
+   "h": 2550,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "airlines": {
+   "h": 761,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "connection": {
+   "h": 1278,
+   "pt": "116.231px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "meet-us": {
+   "h": 1330,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "members": {
+   "h": 1190,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "awards": {
+   "h": 751,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "sustainability": {
+   "h": 3003,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "support": {
+   "h": 941,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgb(234, 225, 209)"
+  },
+  "plan": {
+   "h": 2836,
+   "pt": "116.231px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "contact": {
+   "h": 1309,
+   "pt": "85.5107px",
+   "pb": "85.5107px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  }
+ },
+ "wide": [],
+ "overflowText": [
+  "span.visually-hidden \"Open menu\" sw92 cw1 ov:hidden []",
+  "span.visually-hidden \"Coordinates:\" sw82 cw1 ov:hidden [top]",
+  "span.visually-hidden \"— Georgia\" sw81 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Coordinates:\" sw82 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"— Armenia\" sw81 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Coordinates:\" sw82 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"— Azerbaijan\" sw104 cw1 ov:hidden [caucasus]",
+  "p.visually-hidden \"Georgia, Armenia and Azerbaijan between \" sw3537 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"Experiences 1 to 3 of 6\" sw176 cw1 ov:hidden []",
+  "span.visually-hidden \"(Culture)\" sw74 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Wine)\" sw50 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Trekking)\" sw83 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Gastronomy)\" sw111 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Pilgrim)\" sw70 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(Leisure)\" sw70 cw1 ov:hidden [experiences]",
+  "caption.visually-hidden \"Direct flights from Tbilisi Internationa\" sw398 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Warsaw\" sw61 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"WAW\" sw42 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Berlin\" sw44 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"BER\" sw30 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Munich\" sw57 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"MUC\" sw37 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Milan\" sw41 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"MIL\" sw27 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Rome\" sw44 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"FCO\" sw34 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Vienna\" sw54 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"VIE\" sw25 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Paris\" sw37 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"PAR\" sw30 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"Amsterdam\" sw91 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"AMS\" sw35 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw299 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw299 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw299 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw299 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw299 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw299 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"GNTA —\" sw58 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw321 cw1 ov:hidden [members]",
+  "span.visually-hidden \"GTA —\" sw48 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw321 cw1 ov:hidden [members]",
+  "span.visually-hidden \"CEBG —\" sw58 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw321 cw1 ov:hidden [members]",
+  "span.visually-hidden \"PIT —\" sw40 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw321 cw1 ov:hidden [members]",
+  "span.visually-hidden \"ŚIT —\" sw40 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw321 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— official website (opens in a new tab)\" sw337 cw1 ov:hidden [awards]",
+  "span.visually-hidden \"(opens in a new tab)\" sw161 cw1 ov:hidden []",
+  "span.visually-hidden \"(opens in a new tab)\" sw161 cw1 ov:hidden []",
+  "p.visually-hidden \"Energy use: index 89.9 in 2025, against \" sw398 cw1 ov:hidden []",
+  "p.visually-hidden \"Gas use: index 63.7 in 2025, against 100\" sw373 cw1 ov:hidden []",
+  "span.visually-hidden \"— Your letter to Local Host (optional)\" sw315 cw1 ov:hidden [plan]",
+  "span.visually-hidden \"(opens in a new tab)\" sw161 cw1 ov:hidden []",
+  "span.visually-hidden \"(opens in a new tab)\" sw161 cw1 ov:hidden []"
+ ],
+ "headings": [
+  {
+   "tag": "h1",
+   "sec": "top",
+   "fs": 99,
+   "lines": [
+    "Where",
+    "every guest",
+    "is a gift."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "caucasus",
+   "fs": 67,
+   "lines": [
+    "Three countries.",
+    "One local host."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 36,
+   "lines": [
+    "Georgia"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 36,
+   "lines": [
+    "Armenia"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 36,
+   "lines": [
+    "Azerbaijan"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 36,
+   "lines": [
+    "Between two",
+    "seas, three capitals."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "experiences",
+   "fs": 67,
+   "lines": [
+    "Six ways into",
+    "the Caucasus."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 36,
+   "lines": [
+    "Culture"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 36,
+   "lines": [
+    "Wine"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 36,
+   "lines": [
+    "Trekking"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 36,
+   "lines": [
+    "Gastronomy"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 36,
+   "lines": [
+    "Pilgrim"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 36,
+   "lines": [
+    "Leisure"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "hosts",
+   "fs": 67,
+   "lines": [
+    "The people your",
+    "travellers write",
+    "home about."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 47,
+   "lines": [
+    "Sisatura"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 47,
+   "lines": [
+    "Leila"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 47,
+   "lines": [
+    "Doors we keep",
+    "coming back to."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "airlines",
+   "fs": 67,
+   "lines": [
+    "Twelve airlines,",
+    "one short hop."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "connection",
+   "fs": 67,
+   "lines": [
+    "Europe is only",
+    "a few hours away."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "meet-us",
+   "fs": 67,
+   "lines": [
+    "Six fairs, two seasons."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "meet-us",
+   "fs": 11,
+   "lines": [
+    "Spring season February – March"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "meet-us",
+   "fs": 11,
+   "lines": [
+    "Autumn season October"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "members",
+   "fs": 67,
+   "lines": [
+    "In good company."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "members",
+   "fs": 20,
+   "lines": [
+    "Georgia",
+    "საქართველო GEO"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "members",
+   "fs": 20,
+   "lines": [
+    "Poland",
+    "Polska POL"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "awards",
+   "fs": 67,
+   "lines": [
+    "Noticed at home."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "awards",
+   "fs": 27,
+   "lines": [
+    "The Fastest Growing",
+    "Company of the Year"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "awards",
+   "fs": 27,
+   "lines": [
+    "Inbound Tour",
+    "Company of the Year"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "sustainability",
+   "fs": 67,
+   "lines": [
+    "Good hosts look",
+    "after the house."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Independent recognition"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 36,
+   "lines": [
+    "Less energy,",
+    "far less gas."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 36,
+   "lines": [
+    "What our policy asks of us"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 27,
+   "lines": [
+    "Read the policies"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "sustainability",
+   "fs": 36,
+   "lines": [
+    "Ask our policies"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "support",
+   "fs": 67,
+   "lines": [
+    "What we stand behind."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 22,
+   "lines": [
+    "Local families",
+    "and hosts"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 22,
+   "lines": [
+    "Nature and",
+    "protected areas"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 22,
+   "lines": [
+    "Heritage",
+    "and customs"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 22,
+   "lines": [
+    "Fair work"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 22,
+   "lines": [
+    "Protecting",
+    "children"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "plan",
+   "fs": 67,
+   "lines": [
+    "Draft a journey",
+    "in a minute."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "plan",
+   "fs": 36,
+   "lines": [
+    "Your trip, in a few stamps."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "plan",
+   "fs": 11,
+   "lines": [
+    "How it works"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "contact",
+   "fs": 67,
+   "lines": [
+    "Let’s host your next",
+    "group together."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Office"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Write & call"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "contact",
+   "fs": 36,
+   "lines": [
+    "Let's work together ."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "contact",
+   "fs": 36,
+   "lines": [
+    "Rather sketch a trip first?"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Contact"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Explore"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 11,
+   "lines": [
+    "Policies"
+   ]
+  }
+ ],
+ "brokenImgs": [
+  "LOWRES 327px drawn at 377px: kazbegi-gergeti.BAX8Nwwa_Z1GqD95.avif [top]",
+  "LOWRES 327px drawn at 377px: kvevri-1.BO9HZ3Qb_oU96n.avif [hosts]"
+ ],
+ "errors": []
+}

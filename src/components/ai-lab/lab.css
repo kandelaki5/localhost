@@ -736,10 +736,10 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .lab-map--armed .lab-map__route,
-  .lab-map--armed .lab-map__glow {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
+  /* Hidden until drawRoute() (client/map.ts) has measured the line in screen px (--len). */
+  .lab-map--armed:not(.is-drawing) .lab-map__route,
+  .lab-map--armed:not(.is-drawing) .lab-map__glow {
+    visibility: hidden;
   }
 
   .lab-map--armed .lab-map__stop {
@@ -748,6 +748,8 @@
 
   .lab-map--armed.is-drawing .lab-map__route,
   .lab-map--armed.is-drawing .lab-map__glow {
+    stroke-dasharray: var(--len, none);
+    stroke-dashoffset: var(--len, 0);
     animation: lab-draw var(--dur-draw) var(--ease-film) forwards;
   }
 

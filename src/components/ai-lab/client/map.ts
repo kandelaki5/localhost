@@ -64,11 +64,19 @@ export interface PlacedStop extends MapStop {
 export function placeStops(stops: readonly MapStop[], vb: ViewBox): PlacedStop[] {
   const [vx, vy, vw, vh] = vb;
   const placed: PlacedStop[] = [];
+  // A label runs about LABEL % of the width to the right of its pin (to the left when flipped).
+  const LABEL = 24;
+  const span = (left: number, flip: boolean): [number, number] => (flip ? [left - LABEL, left + 2] : [left - 2, left + LABEL]);
   for (const s of stops) {
     const left = ((s.x - vx) / vw) * 100;
     const top = ((s.y - vy) / vh) * 100;
     const flip = left > 68;
-    const clash = placed.some((p) => p.labelled && Math.abs(p.top - top) < 7 && Math.abs(p.left - left) < 22);
+    const [a, b] = span(left, flip);
+    const clash = placed.some((p) => {
+      if (!p.labelled || Math.abs(p.top - top) >= 7) return false;
+      const [c, d] = span(p.left, p.flip);
+      return a < d && c < b;
+    });
     placed.push({ ...s, left: round2(left), top: round2(top), labelled: !clash, flip });
   }
   return placed;
@@ -153,4 +161,28 @@ export function buildMap(route: readonly MapStop[], options: BuildMapOptions): H
   });
   box.append(list);
   return box;
+}
+
+/**
+ * Starts the route-draw animation of an armed map (`.lab-map--armed`, see
+ * lab.css). The route has `vector-effect: non-scaling-stroke`, so browsers
+ * dash it in screen pixels: `pathLength="1"` would make the dash shorter than
+ * the line whenever the map is zoomed in (the route stopped half-way). The
+ * dash length is therefore measured in screen pixels here, and removed when
+ * the animation ends so a later resize or print shows the whole line.
+ */
+export function drawRoute(map: HTMLElement): void {
+  const canvas = map.querySelector<SVGSVGElement>('.lab-map__svg');
+  const scale = Math.abs(canvas?.getScreenCTM()?.a ?? 1) || 1;
+  const lines = [...map.querySelectorAll<SVGPolylineElement>('.lab-map__route, .lab-map__glow')];
+  for (const line of lines) {
+    line.removeAttribute('pathLength');
+    line.style.setProperty('--len', String(Math.ceil(line.getTotalLength() * scale) + 8));
+  }
+  lines[0]?.addEventListener(
+    'animationend',
+    () => lines.forEach((line) => (line.style.strokeDasharray = 'none')),
+    { once: true },
+  );
+  map.classList.add('is-drawing');
 }

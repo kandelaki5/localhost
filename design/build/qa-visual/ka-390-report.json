@@ -1,0 +1,608 @@
+{
+ "W": 390,
+ "scrollWidth": 390,
+ "bodyScroll": 390,
+ "sections": {
+  "top": {
+   "h": 1763,
+   "pt": "12px",
+   "pb": "0px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "caucasus": {
+   "h": 3856,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "experiences": {
+   "h": 1398,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "hosts": {
+   "h": 4092,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "airlines": {
+   "h": 1357,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "connection": {
+   "h": 1915,
+   "pt": "81.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "meet-us": {
+   "h": 1708,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "members": {
+   "h": 1775,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "awards": {
+   "h": 1522,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "sustainability": {
+   "h": 6274,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "support": {
+   "h": 1946,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgb(234, 225, 209)"
+  },
+  "plan": {
+   "h": 3998,
+   "pt": "81.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "contact": {
+   "h": 2276,
+   "pt": "57.3332px",
+   "pb": "57.3332px",
+   "mt": "0px",
+   "bg": "rgba(0, 0, 0, 0)"
+  }
+ },
+ "wide": [],
+ "overflowText": [
+  "span.site-header__cta-label \"დაგეგმე AI-ით\" sw97 cw1 ov:hidden []",
+  "span.visually-hidden \"მენიუს გახსნა\" sw117 cw1 ov:hidden []",
+  "span.visually-hidden \"კოორდინატები:\" sw86 cw1 ov:hidden [top]",
+  "span.visually-hidden \"— საქართველო\" sw108 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"კოორდინატები:\" sw86 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"— სომხეთი\" sw76 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"კოორდინატები:\" sw86 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"— აზერბაიჯანი\" sw102 cw1 ov:hidden [caucasus]",
+  "p.visually-hidden \"საქართველო, სომხეთი და აზერბაიჯანი დასავ\" sw4775 cw1 ov:hidden [caucasus]",
+  "span.visually-hidden \"შთაბეჭდილება 1, სულ 6\" sw196 cw1 ov:hidden []",
+  "span.visually-hidden \"(კულტურა)\" sw77 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(ღვინო)\" sw55 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(ლაშქრობა)\" sw84 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(გასტრონომია)\" sw107 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(მომლოცველობა)\" sw127 cw1 ov:hidden [experiences]",
+  "span.visually-hidden \"(დასვენება)\" sw83 cw1 ov:hidden [experiences]",
+  "caption.visually-hidden \"პირდაპირი რეისები თბილისის საერთაშორისო \" sw577 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"ვარშავა\" sw67 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"WAW\" sw39 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"ბერლინი\" sw77 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"BER\" sw28 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"მიუნხენი\" sw76 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"MUC\" sw36 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"მილანი\" sw64 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"MIL\" sw26 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"რომი\" sw45 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"FCO\" sw33 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"ვენა\" sw37 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"VIE\" sw24 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"პარიზი\" sw59 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"PAR\" sw28 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"ამსტერდამი\" sw105 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"AMS\" sw33 cw1 ov:hidden [connection]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw403 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw403 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw403 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw403 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw403 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw403 cw1 ov:hidden [meet-us]",
+  "span.visually-hidden \"GNTA —\" sw51 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw397 cw1 ov:hidden [members]",
+  "p.permit__mrz \"GEO<GNTA<<GEORGIAN<NATIONAL<TOURISM<ADMI\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"GTA —\" sw42 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw397 cw1 ov:hidden [members]",
+  "p.permit__mrz \"GEO<GTA<<GEORGIAN<TOURISM<ASSOCIATION<<<\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"CEBG —\" sw52 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw397 cw1 ov:hidden [members]",
+  "p.permit__mrz \"GEO<CEBG<<CONVENTION<EXHIBITION<BUREAU<O\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"PIT —\" sw34 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw397 cw1 ov:hidden [members]",
+  "p.permit__mrz \"POL<PIT<<POLISH<CHAMBER<OF<TOURISM<<<<<<\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"ŚIT —\" sw34 cw1 ov:hidden [members]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw397 cw1 ov:hidden [members]",
+  "p.permit__mrz \"POL<SIT<<SILESIAN<CHAMBER<OF<TOURISM<<<<\" sw326 cw281 ov:hidden [members]",
+  "span.visually-hidden \"— ოფიციალური ვებგვერდი (იხსნება ახალ ჩან\" sw381 cw1 ov:hidden [awards]",
+  "span.visually-hidden \"(იხსნება ახალ ჩანართში)\" sw177 cw1 ov:hidden []",
+  "span.visually-hidden \"(იხსნება ახალ ჩანართში)\" sw177 cw1 ov:hidden []",
+  "p.visually-hidden \"ენერგიის მოხმარება: ინდექსი 2025 წელს — \" sw546 cw1 ov:hidden []",
+  "p.visually-hidden \"გაზის მოხმარება: ინდექსი 2025 წელს — 63,\" sw512 cw1 ov:hidden []",
+  "span.visually-hidden \"— თქვენი წერილი Local Host-ს (არასავალდე\" sw347 cw1 ov:hidden [plan]",
+  "span.visually-hidden \"(იხსნება ახალ ჩანართში)\" sw156 cw1 ov:hidden []",
+  "span.visually-hidden \"(იხსნება ახალ ჩანართში)\" sw156 cw1 ov:hidden []"
+ ],
+ "headings": [
+  {
+   "tag": "h1",
+   "sec": "top",
+   "fs": 46,
+   "lines": [
+    "სადაც ყოველი",
+    "სტუმარი",
+    "საჩუქარია."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "caucasus",
+   "fs": 31,
+   "lines": [
+    "სამი ქვეყანა.",
+    "ერთი მასპინძელი."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 21,
+   "lines": [
+    "საქართველო"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 21,
+   "lines": [
+    "სომხეთი"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 21,
+   "lines": [
+    "აზერბაიჯანი"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "caucasus",
+   "fs": 21,
+   "lines": [
+    "ორ ზღვას შორის —",
+    "სამი დედაქალაქი."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "experiences",
+   "fs": 31,
+   "lines": [
+    "ექვსი გზა",
+    "კავკასიისკენ."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 21,
+   "lines": [
+    "კულტურა"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 21,
+   "lines": [
+    "ღვინო"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 21,
+   "lines": [
+    "ლაშქრობა"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 21,
+   "lines": [
+    "გასტრონომია"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 21,
+   "lines": [
+    "მომლოცველობა"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "experiences",
+   "fs": 21,
+   "lines": [
+    "დასვენება"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "hosts",
+   "fs": 31,
+   "lines": [
+    "ადამიანები,",
+    "რომლებსაც",
+    "თქვენი მოგზაურები",
+    "დიდხანს გაიხსენებენ."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 25,
+   "lines": [
+    "სისატურა"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 25,
+   "lines": [
+    "ლეილა"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "hosts",
+   "fs": 25,
+   "lines": [
+    "კარები, რომლებთანაც",
+    "ისევ და ისევ ვბრუნდებით."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "airlines",
+   "fs": 31,
+   "lines": [
+    "თორმეტი",
+    "ავიაკომპანია, ერთი",
+    "პირდაპირი რეისი."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "connection",
+   "fs": 31,
+   "lines": [
+    "ევროპა სულ",
+    "რამდენიმე საათის",
+    "სავალზეა."
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "meet-us",
+   "fs": 31,
+   "lines": [
+    "ექვსი გამოფენა,",
+    "ორი სეზონი."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "meet-us",
+   "fs": 13,
+   "lines": [
+    "გაზაფხულის სეზონი თებერვალი – მარტი"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "meet-us",
+   "fs": 13,
+   "lines": [
+    "შემოდგომის სეზონი ოქტომბერი"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "members",
+   "fs": 31,
+   "lines": [
+    "კარგ საზოგადოებაში."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "members",
+   "fs": 19,
+   "lines": [
+    "საქართველო",
+    "GEO"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "members",
+   "fs": 19,
+   "lines": [
+    "პოლონეთი Polska",
+    "POL"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "awards",
+   "fs": 31,
+   "lines": [
+    "აღიარება საკუთარ",
+    "ქვეყანაში."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "awards",
+   "fs": 19,
+   "lines": [
+    "წლის ყველაზე სწრაფად",
+    "მზარდი კომპანია"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "awards",
+   "fs": 19,
+   "lines": [
+    "წლის შემომყვანი",
+    "ტურისტული კომპანია"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "sustainability",
+   "fs": 31,
+   "lines": [
+    "კარგი მასპინძელი",
+    "სახლს",
+    "უფრთხილდება."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 13,
+   "lines": [
+    "დამოუკიდებელი აღიარება"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 21,
+   "lines": [
+    "ნაკლები ენერგია,",
+    "გაცილებით",
+    "ნაკლები გაზი."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 21,
+   "lines": [
+    "რას გვავალებს ჩვენი პოლიტიკა"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 17,
+   "lines": [
+    "გაეცანით პოლიტიკებს"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "sustainability",
+   "fs": 21,
+   "lines": [
+    "ჰკითხეთ ჩვენს",
+    "პოლიტიკებს"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "support",
+   "fs": 31,
+   "lines": [
+    "რის ერთგულნი ვართ."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 17,
+   "lines": [
+    "ადგილობრივი ოჯახები",
+    "და მასპინძლები"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 17,
+   "lines": [
+    "ბუნება და",
+    "დაცული ტერიტორიები"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 17,
+   "lines": [
+    "მემკვიდრეობა",
+    "და ტრადიციები"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 17,
+   "lines": [
+    "სამართლიანი შრომა"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "support",
+   "fs": 17,
+   "lines": [
+    "ბავშვების დაცვა"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "plan",
+   "fs": 31,
+   "lines": [
+    "მოგზაურობის",
+    "მონახაზი ერთ წუთში."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "plan",
+   "fs": 21,
+   "lines": [
+    "თქვენი მოგზაურობა",
+    "რამდენიმე მარკით."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "plan",
+   "fs": 13,
+   "lines": [
+    "როგორ მუშაობს"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "contact",
+   "fs": 31,
+   "lines": [
+    "მოდით, თქვენს",
+    "შემდეგ ჯგუფს ერთად",
+    "ვუმასპინძლოთ."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 13,
+   "lines": [
+    "ოფისი"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "",
+   "fs": 13,
+   "lines": [
+    "მოგვწერეთ ან დაგვირეკეთ"
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "contact",
+   "fs": 21,
+   "lines": [
+    "მოდით, ერთად ვიმუშაოთ ."
+   ]
+  },
+  {
+   "tag": "h3",
+   "sec": "contact",
+   "fs": 22,
+   "lines": [
+    "გირჩევნიათ, ჯერ",
+    "მოგზაურობის",
+    "მონახაზი შექმნათ?"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 13,
+   "lines": [
+    "კონტაქტი"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 13,
+   "lines": [
+    "გაეცანით"
+   ]
+  },
+  {
+   "tag": "h2",
+   "sec": "",
+   "fs": 13,
+   "lines": [
+    "პოლიტიკები"
+   ]
+  }
+ ],
+ "brokenImgs": [],
+ "errors": []
+}

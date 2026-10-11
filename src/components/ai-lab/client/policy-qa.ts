@@ -123,7 +123,9 @@ export function init(root: HTMLElement): void {
     }
 
     const notesText: string[] = [];
-    if (!notes.length) notesText.push(t.chat.noSources ?? '');
+    // The generic demo answer explains itself; "not covered by our policies" would be misleading there.
+    const generic = data.mode === 'demo' && data.sample?.id === 'generic';
+    if (!notes.length && !generic) notesText.push(t.chat.noSources ?? '');
     if (data.mode === 'demo' && data.sample) {
       if (data.sample.id === 'generic') notesText.push(t.chat.generic ?? '');
       else if (!data.sample.exact) {
