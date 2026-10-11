@@ -22,7 +22,17 @@ Rule of thumb: swipeable cards for rich, visual items you browse one by one (des
 | Policy commitments | 5 | swipe cards | see §3.1 (merge with We support) | duplicates We support |
 | We support | 5 | swipe cards | keep swipe until §3.1 is decided | short text with a seal icon |
 
-**Previewable:** open any page with `?proposal=compact` (for example `https://localhost-ge.vercel.app/?proposal=compact` on a phone). The setting is kept while you switch language; `?proposal=off` turns it off. Without the parameter the site is unchanged.
+**Previewable:** open any page with `?proposal=compact` (for example `https://localhost-ge.vercel.app/?proposal=compact` on a phone). The setting is kept while you switch language; `?proposal=off` turns it off. Without the parameter the site is unchanged (checked pixel for pixel at 320–1280 px).
+
+What the preview shows (390 px, English; Georgian 320 px in brackets):
+
+| Group | Carousel now | Compact preview | What you see |
+|---|---|---|---|
+| Trade fairs | 1,171 px (1,525) | 1,130 px (1,399) | one 64 px row per fair: a mini ink stamp, city and fair name, dates in a right-hand column, NEXT / ON NOW kept |
+| Memberships | 1,148 px (1,333) | 1,080 px (1,411) | mini permits: GNTA across the page, GTA and CEBG side by side, PIT and ŚIT on the Polish page; one column below 360 px so long names fit |
+| Award nominations | 1,070 px (1,207) | 880 px (1,033) | both seals side by side with year, category and segment |
+
+All six fairs, five memberships and both nominations are visible without swiping. Experiences, destinations and hosts stay as swipe cards.
 
 ## 2. Enquiry form ("Request a programme")
 
@@ -74,6 +84,17 @@ Supporting sections (Airlines, Connection, Meet us, Members, Awards, Sustainabil
 | 3.9 | Smaller award seals; drop the repeated "Doors we keep" quote in Hosts; hide "Partner projects will be announced here" until projects exist. | about −245 px | |
 
 All of 3.1–3.9 together bring the desktop page to about 18,300 px at 1440 (from 22,018 before this round).
+
+## 3b. Smaller layout questions found by the audits
+
+| # | Proposal | Why | Trade-off |
+|---|---|---|---|
+| 3.10 | **Hero on large screens (≥ 1280 px): offer and buttons across 8 columns, the Georgian proverb under them** (the layout already used at 1024–1279 px) | the two buttons wrap onto two rows in it, ka and at 1280 in en/de/pl; this keeps them on one row everywhere | moves the proverb below the offer |
+| 3.11 | **"How it works" (planner) as a stacked list** with the number on the left, or one line per step | three narrow columns give up to 12 lines of ~15 characters in Georgian, and the sticky map column is taller than the screen in ka at 1280 | layout change in the planner sidebar |
+| 3.12 | **We support on desktop as 3 + 2 columns** with the seal beside the title (or merged with Sustainability, §3.1) | five 200 px columns give 5–6 lines in English and 8–12 in Georgian | |
+| 3.13 | **Experience photos 4:3 on phones** (instead of 4:5) | cards are 670–810 px tall, taller than the visible screen in Georgian at 320 px; 4:3 brings them to 570–680 px | smaller photos in a section the brief wants prominent |
+| 3.14 | **Sustainability on phones**: the five commitments as a numbered list with expandable text, recognition + certificate in one card, the energy/gas figures as one row of stats, the policy documents collapsible | the longest section on phones (4,300 px in English, about 6,000 px in Georgian at 320) | combines with §3.1 |
+| 3.15 | **Section pill on phones inside the header** (current section + chevron next to the menu button) instead of floating | removes any overlap with text for good | the pill now already hides while scrolling down and 3 s after scrolling stops |
 
 ## 4. More prominence for destinations, experiences, hosts and the enquiry
 
