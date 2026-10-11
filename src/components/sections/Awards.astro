@@ -279,4 +279,57 @@ const textLang = contentLang(lang, 'awards') === lang ? undefined : 'en';
       grid-template-columns: minmax(0, 1fr);
     }
   }
+
+  /* ── proposal · compact (phones, ?proposal=compact) ──
+     Both nominations side by side instead of a two-card carousel: smaller
+     seals, the text under each, a hairline between them. PhoneSlides drops the
+     carousel from this list (data-m-compact) in this mode; these rules wait for
+     that (:not(.m-slides)). Without the proposal, and from 40em up, nothing
+     here applies. */
+  @media (max-width: 39.99em) {
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 0;
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) .award {
+      padding-inline: calc(var(--layout-gap) / 2);
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) .award:first-child {
+      padding-inline-start: 0;
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) .award:last-child {
+      padding-inline-end: 0;
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) .award + .award {
+      border-inline-start: var(--border-hair) solid var(--color-rule);
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) :global(.award__seal) {
+      /* ≈ 80% of a column: 112px at 320, 138px at 390, 152px at 430 */
+      --lseal-size: clamp(6.75rem, 36vw - 0.35rem, 9.5rem);
+      margin-bottom: var(--space-xs);
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) .award__meta {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) .award__category {
+      max-width: none;
+      font-size: var(--fs-lg);
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) .award__category:lang(ka) {
+      font-size: var(--fs-md);
+    }
+
+    :global(html[data-proposal~='compact']) .awards__list:not(.m-slides) .award__detail {
+      font-size: var(--fs-xs);
+    }
+  }
 </style>
