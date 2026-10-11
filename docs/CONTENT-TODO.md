@@ -15,7 +15,7 @@ _Merged on 11 Oct 2026 from the section requests (`docs/requests/*.md`), the res
 5. **Hosts: details, spelling and consent.** Where the Vacheishvili Family, Aluda and Maia are and what guests do there; the spelling "Enry"; every host's consent to be named, and real portraits with permission. *Why:* three host cards carry warm copy with no facts, and every card uses a landscape photo. *From:* owner, then each host.
 6. **Partner kit: does one exist?** The Contact block now says "Let's work together" (no kit promised). If a partner kit or rate sheet exists, send it and the block can offer it again (`contact.json` → `b2b`). *From:* owner.
 7. **Trade fairs 2026–27: which ones, and with a stand?** Which fairs you will attend, whether you exhibit (own stand, or on the Georgia national stand) and whether partners can book meetings by email. *Why:* the site says "Meet us at the stand" and "Book a meeting at the stand". *From:* owner.
-8. **Contact basics.** Office hours, the languages your team speaks, and official social media links. *Why:* the structured data (JSON-LD) currently claims English, Georgian, Polish, Italian and German, and the footer has no social links. *From:* owner.
+8. **Contact basics.** Office hours, the languages your team speaks, and official social media links. *Why:* the site makes no claim about the team's languages yet (the earlier unverified claim was removed), and the footer has no social links. *From:* owner.
 9. **Logo option.** Confirm Option 2 "Balanced & Versatile" (the site's default) or choose Option 1 / 3, and gradient or flat for the header. *Why:* the redraw is based on an AI raster mock-up and needs a final sign-off. *From:* owner and the designer.
 10. **Native review of every ka / pl / it / de string.** *Why:* all four languages are drafts written by us. *From:* native reviewers (see Translations).
 
@@ -145,7 +145,7 @@ _Merged on 11 Oct 2026 from the section requests (`docs/requests/*.md`), the res
 
 ## Translations (drafts — need native review)
 
-All copy was written in English first (canonical) and drafted by us in Georgian, Polish, Italian and German. **Every non-English file is a draft and needs a native speaker's review before launch.** Each draft file starts with `"_note": "Draft translation — needs native review"`. All sections and AI Lab pages now exist in all five languages.
+All copy was written in English first (canonical) and drafted by us in Georgian, Polish, Italian and German. **Every non-English file is a draft and needs a native speaker's review before launch.** Each non-English file has a `_note` saying it was drafted and then reviewed by an AI editor (11 Oct 2026) and still needs a final check by a native speaker. All sections and AI Lab pages now exist in all five languages.
 
 | Language | Files | Reviewer |
 |---|---|---|
@@ -161,7 +161,7 @@ Points to check in particular:
 - **Hero** — the Georgian headline „სადაც ყოველი სტუმარი საჩუქარია.“ and the gloss of the proverb „სტუმარი ღვთის საჩუქარია“ in each language.
 - **Legal name** — „შპს „Local Host““ in the Georgian footer.
 - The Georgian ring text on the hero postmark (`hero.seal.ring`).
-- **Formal or informal address.** ka mixes „დაგეგმე“ (informal, nav and the Experiences CTA) with „დაგეგმეთ“ (formal); pl uses the informal „Zaplanuj“ / „zapytaj nas“. Pick one register per language for a B2B site.
+- **Formal or informal address (now standardised, please confirm).** ka uses the polite თქვენ form throughout; pl uses „Państwo“ in running text with neutral imperatives on buttons; it uses „voi“ in running text and the „tu“ imperative on buttons; de uses „Sie“. Polish "Experiences" is rendered as „Tematy“ — a judgement call for the native reviewer.
 - **Caucasus** (`caucasus.json`):
   - ka: „ალის კოშკები“ for Baku's Flame Towers; „მეზობლად“ as the "next door" tag; „ჩ“ as the north-arrow letter.
   - pl: "Płonące Wieże" (Flame Towers); the "Po sąsiedzku" tag; the title "Jeden gospodarz.".

@@ -3,7 +3,7 @@
   "meta": {
     "siteName": "Local Host",
     "title": "Local Host · Touroperator incomingowy w Gruzji, Armenii i Azerbejdżanie",
-    "description": "Local Host to touroperator incomingowy i DMC z siedzibą w Tbilisi, założony w 2015 roku. Dla biur podróży i touroperatorów tworzymy wycieczki grupowe i podróże szyte na miarę po Gruzji, Armenii i Azerbejdżanie.",
+    "description": "Touroperator incomingowy i DMC w Tbilisi od 2015 roku: wycieczki grupowe i podróże szyte na miarę po Gruzji, Armenii i Azerbejdżanie dla biur podróży.",
     "titleTemplate": "{page} · Local Host",
     "ogImageAlt": "Local Host — Gdzie każdy gość jest darem. Cerkiew Świętej Trójcy w Gergeti pod masywem Kazbeku, Gruzja."
   },
@@ -56,7 +56,10 @@
     "label": "Ryc."
   },
   "contact": {
-    "addressLines": ["A. Bakradze 7", "0159 Tbilisi, Gruzja"],
+    "addressLines": [
+      "A. Bakradze 7",
+      "0159 Tbilisi, Gruzja"
+    ],
     "phone": "+995 514 37 44 33",
     "email": "info@localhost.ge",
     "web": "www.localhost.ge"

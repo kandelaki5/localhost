@@ -2,7 +2,7 @@
   "_note": "Georgian reviewed and edited by an AI editor (2026-10-11); still needs a final check by a native speaker at Local Host (docs/CONTENT-TODO.md).",
   "meta": {
     "title": "ფოტოების ავტორები",
-    "description": "localhost.ge-ზე გამოყენებული ფოტოების ავტორები და ლიცენზიები."
+    "description": "localhost.ge-ის ფოტოების ავტორები, ლიცენზიები და წყაროები: სომხეთისა და აზერბაიჯანის ღია ლიცენზიის ფოტოები და AI-ის დემოში გამოყენებული სურათები."
   },
   "kicker": "კოლოფონი",
   "title": "ფოტოების *ავტორები*",
@@ -17,7 +17,8 @@
     "author": "ავტორი",
     "licence": "ლიცენზია",
     "source": "წყარო",
-    "changes": "ცვლილებები"
+    "changes": "ცვლილებები",
+    "file": "ფაილი"
   },
   "back": "მთავარ გვერდზე დაბრუნება"
 }

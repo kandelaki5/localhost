@@ -3,7 +3,7 @@
   "meta": {
     "siteName": "Local Host",
     "title": "Local Host · Tour operator incoming per Georgia, Armenia e Azerbaigian",
-    "description": "Local Host è un tour operator incoming e DMC con sede a Tbilisi, fondato nel 2015. Progettiamo tour di gruppo e viaggi su misura in Georgia, Armenia e Azerbaigian per agenzie di viaggi e tour operator.",
+    "description": "Tour operator incoming e DMC a Tbilisi dal 2015: tour di gruppo e viaggi su misura in Georgia, Armenia e Azerbaigian per agenzie di viaggi e tour operator.",
     "titleTemplate": "{page} · Local Host",
     "ogImageAlt": "Local Host — Dove ogni ospite è un dono. La chiesa della Trinità di Gergeti sotto il massiccio del Kazbegi, Georgia."
   },
@@ -56,7 +56,10 @@
     "label": "Fig."
   },
   "contact": {
-    "addressLines": ["A. Bakradze 7", "0159 Tbilisi, Georgia"],
+    "addressLines": [
+      "A. Bakradze 7",
+      "0159 Tbilisi, Georgia"
+    ],
     "phone": "+995 514 37 44 33",
     "email": "info@localhost.ge",
     "web": "www.localhost.ge"

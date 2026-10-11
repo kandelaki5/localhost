@@ -2,8 +2,8 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (Sie), terminology and German typography. Still needs a final check by a native German speaker (docs/CONTENT-TODO.md).",
   "meta": {
     "siteName": "Local Host",
-    "title": "Local Host · Incoming-Reiseveranstalter für Georgien, Armenien & Aserbaidschan",
-    "description": "Local Host ist ein Incoming-Reiseveranstalter und DMC mit Sitz in Tiflis, gegründet 2015. Für Reisebüros und Reiseveranstalter konzipieren wir Gruppenreisen und maßgeschneiderte Rundreisen durch Georgien, Armenien und Aserbaidschan.",
+    "title": "Local Host · Incoming-Reiseveranstalter im Südkaukasus",
+    "description": "Incoming-Reiseveranstalter und DMC in Tiflis seit 2015: Gruppenreisen und Rundreisen nach Maß durch Georgien, Armenien und Aserbaidschan für Reisebüros.",
     "titleTemplate": "{page} · Local Host",
     "ogImageAlt": "Local Host – Wo jeder Gast ein Geschenk ist. Die Dreifaltigkeitskirche von Gergeti unter dem Kasbek-Massiv, Georgien."
   },
@@ -56,7 +56,10 @@
     "label": "Abb."
   },
   "contact": {
-    "addressLines": ["A. Bakradze 7", "0159 Tiflis, Georgien"],
+    "addressLines": [
+      "A. Bakradze 7",
+      "0159 Tiflis, Georgien"
+    ],
     "phone": "+995 514 37 44 33",
     "email": "info@localhost.ge",
     "web": "www.localhost.ge"

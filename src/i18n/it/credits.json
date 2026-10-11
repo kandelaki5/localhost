@@ -2,7 +2,7 @@
   "_note": "Reviewed by an AI copy editor (Claude, 11 Oct 2026): grammar, register (voi in running text, imperative on buttons), terminology and Italian typography. Still needs a final check by a native Italian speaker (docs/CONTENT-TODO.md).",
   "meta": {
     "title": "Crediti fotografici",
-    "description": "Autori e licenze delle fotografie usate su localhost.ge."
+    "description": "Autori, licenze e fonti delle foto di localhost.ge: immagini di Armenia e Azerbaigian con licenza libera e immagini usate nelle demo AI."
   },
   "kicker": "Colophon",
   "title": "Crediti *fotografici*",
@@ -17,7 +17,8 @@
     "author": "Autore",
     "licence": "Licenza",
     "source": "Fonte",
-    "changes": "Modifiche"
+    "changes": "Modifiche",
+    "file": "File"
   },
   "back": "Torna alla home"
 }
