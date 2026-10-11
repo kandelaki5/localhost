@@ -12,8 +12,8 @@
  * top, Armenia and Azerbaijan below. Phone: one column.
  *
  * "Plan a trip here" links go to #plan; with JS they also announce the
- * country (event `localhost:plan-preselect`, detail { countries: ['GE'] })
- * so the AI planner can preselect it — see docs/requests/caucasus.md.
+ * country (window event `lh:plan-preset`, detail { countries: ['GE'] })
+ * so the AI planner (Plan.astro) preselects its stamp.
  */
 import SectionHead from '../ui/SectionHead.astro';
 import Button from '../ui/Button.astro';
@@ -339,6 +339,6 @@ const hours = (h: number | [number, number]) =>
     const link = (event.target as Element | null)?.closest<HTMLElement>('[data-plan-country]');
     const codes = link?.dataset.planCountry?.split(' ').filter(Boolean);
     if (!codes?.length) return;
-    document.dispatchEvent(new CustomEvent('localhost:plan-preselect', { detail: { countries: codes, source: 'caucasus' } }));
+    window.dispatchEvent(new CustomEvent('lh:plan-preset', { detail: { countries: codes } }));
   });
 </script>

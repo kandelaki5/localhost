@@ -545,7 +545,7 @@ function renderResearchOrgs(data: unknown): string[] {
   }
   if (isObj(data.awardProgramme) && str(data.awardProgramme.name)) {
     lines.push(
-      `About the awards: ${str(data.awardProgramme.name)} — Georgia's national tourism awards since ${String(data.awardProgramme.since ?? '2015')}, co-organised with the Georgian National Tourism Administration (GNTA).`,
+      `About the awards: ${str(data.awardProgramme.name)} — Georgia's national tourism awards, first held in ${String(data.awardProgramme.since ?? '2015')}.`,
     );
   }
 

@@ -1,0 +1,135 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Pianifica con l’AI",
+  "title": "Abbozza un viaggio *in un minuto.*",
+  "intro": "Scegli paesi e interessi, scrivici due righe e il nostro progettista di viaggi AI abbozza un programma giorno per giorno. Poi il nostro team a Tbilisi lo trasforma in realtà.",
+  "running": "Progettista di viaggi AI",
+  "form": {
+    "label": "Documento di viaggio",
+    "serial": "Modulo LH · 11",
+    "title": "Il tuo viaggio, *in pochi francobolli.*",
+    "hint": "Tocca i francobolli adatti al tuo viaggio, poi scrivici due righe. Nessuna prenotazione: ricevi una bozza da inviarci.",
+    "countries": "Paesi",
+    "countriesHint": "Uno, due o tutti e tre.",
+    "countriesError": "Scegli almeno un paese.",
+    "experiences": "Esperienze",
+    "experiencesHint": "Nessuna scelta? Ti proponiamo un mix equilibrato.",
+    "length": "Durata",
+    "daysUnit": "giorni",
+    "daysValue": "{n} giorni",
+    "fewer": "Un giorno in meno",
+    "more": "Un giorno in più",
+    "month": "Quando",
+    "monthLabel": "Mese del viaggio",
+    "monthAny": "In qualsiasi periodo (flessibile)",
+    "travellers": "Chi viaggia",
+    "optional": "facoltativo",
+    "pace": "Ritmo",
+    "letter": "La tua lettera",
+    "salutation": "Caro Local Host,",
+    "letterLabel": "La tua lettera a Local Host (facoltativa)",
+    "letterPlaceholder": "siamo dodici amici di Verona, amiamo il vino, i pranzi lunghi e le passeggiate tranquille…",
+    "letterHint": "Chi viaggia, cosa ama, cosa evitare. Per favore, non inserire dati personali.",
+    "dictate": "Detta",
+    "dictateStop": "Interrompi la dettatura",
+    "listening": "Ti ascolto… parla pure.",
+    "micPrivacy": "L’input vocale usa il servizio di riconoscimento vocale del tuo browser: la tua voce viene elaborata dall’azienda che lo fornisce (ad esempio Google o Apple), non da Local Host.",
+    "submit": "Progetta il mio viaggio",
+    "privacy": "Per preparare la bozza, le tue scelte e la tua lettera vengono elaborate da un modello AI (Claude, di Anthropic).",
+    "disclaimer": "Una bozza AI è un punto di partenza, non un’offerta: prezzi, disponibilità e ogni dettaglio vengono confermati dal team di Local Host.",
+    "summaryLabel": "Le tue scelte",
+    "edit": "Modifica le scelte"
+  },
+  "countries": {
+    "GE": "Georgia",
+    "AM": "Armenia",
+    "AZ": "Azerbaigian"
+  },
+  "experiences": {
+    "culture": "Cultura",
+    "wine": "Vino",
+    "trekking": "Trekking",
+    "gastronomy": "Gastronomia",
+    "pilgrim": "Pellegrinaggi",
+    "leisure": "Relax"
+  },
+  "travellers": {
+    "solo": "In solitaria",
+    "couple": "Coppia",
+    "family": "Famiglia",
+    "friends": "Amici",
+    "group": "Gruppo",
+    "agency": "Agenzia di viaggi"
+  },
+  "pace": {
+    "relaxed": "Rilassato",
+    "balanced": "Equilibrato",
+    "active": "Attivo"
+  },
+  "output": {
+    "title": "Bozza di itinerario",
+    "draft": "Bozza {n}",
+    "connecting": "Connessione al progettista di viaggi…",
+    "designing": "Stiamo progettando il tuo viaggio…",
+    "writingDay": "Scrivo il giorno {day} di {days}…",
+    "done": "Bozza pronta: {days} giorni, {stops} tappe sulla mappa.",
+    "doneDemo": "Esempio pronto: {days} giorni, {stops} tappe sulla mappa.",
+    "stopped": "Interrotto. Qui sotto trovi la bozza scritta finora.",
+    "failed": "Non è stato possibile completare questa bozza.",
+    "stop": "Interrompi",
+    "retry": "Riprova",
+    "demoBadge": "Demo",
+    "demoStampTop": "Itinerario di esempio",
+    "demoStampMain": "Demo",
+    "demoStampLabel": "Itinerario di esempio — demo",
+    "demoNotice": "Modalità demo: il progettista AI non è ancora collegato, quindi vedi un esempio già pronto, non un piano scritto per te. Puoi comunque inviare le tue scelte al nostro team.",
+    "rateLimited": "Attendi circa {minutes} min prima di riprovare."
+  },
+  "actions": {
+    "refineLabel": "Perfeziona questa bozza",
+    "refinePlaceholder": "es. Rendi il giorno 3 più rilassato",
+    "refine": "Perfeziona",
+    "refineEmpty": "Scrivi cosa vorresti cambiare, poi premi «Perfeziona».",
+    "send": "Invia il piano a Local Host",
+    "sendHint": "Si apre la tua app di posta con il piano già inserito. Non parte nulla finché non premi «Invia».",
+    "copy": "Copia il piano",
+    "copied": "Copiato negli appunti.",
+    "copyFailed": "Impossibile copiare. Seleziona il testo a mano.",
+    "read": "Leggi ad alta voce",
+    "readStop": "Interrompi la lettura",
+    "restart": "Ricomincia"
+  },
+  "map": {
+    "label": "Mappa del percorso",
+    "title": "Mappa di Georgia, Armenia e Azerbaigian",
+    "routeTitle": "Mappa del percorso previsto: {route}",
+    "idle": "Qui verrà tracciato il tuo percorso",
+    "drawing": "Sto tracciando il percorso",
+    "office": "Local Host · Tbilisi",
+    "routeLabel": "Percorso, in ordine di visita",
+    "credit": "Dati cartografici: Natural Earth"
+  },
+  "nojs": {
+    "title": "Il progettista di viaggi richiede JavaScript",
+    "text": "Funziona nel tuo browser. Puoi anche semplicemente scriverci: indicaci paesi, interessi, date e dimensioni del gruppo, e ti risponderemo con una prima bozza.",
+    "cta": "Scrivi a Local Host",
+    "subject": "Richiesta di viaggio"
+  },
+  "how": {
+    "title": "Come funziona",
+    "steps": [
+      {
+        "title": "Scegli i francobolli",
+        "text": "Paesi, esperienze, durata e ritmo — e due righe su chi viaggia."
+      },
+      {
+        "title": "Guarda nascere la bozza",
+        "text": "Il nostro progettista di viaggi AI scrive un piano giorno per giorno e traccia il percorso, con i luoghi e le esperienze con cui lavoriamo."
+      },
+      {
+        "title": "Inviala a Tbilisi",
+        "text": "Il nostro team controlla ogni dettaglio e trasforma la tua bozza in un programma su misura."
+      }
+    ]
+  }
+}

@@ -378,11 +378,16 @@ export function mount(planner: HTMLElement): PlannerApi {
     actions.hidden = false;
     readButton.hidden = true;
     mapPanel.dataset.mapState = 'done';
-    await map.finish();
-    view.annotate(map.numbers());
+    // The map keeps drawing and zooming for a few seconds; the day chips get
+    // their stop numbers once it is done (unless a new run has started).
+    const run = draft;
+    const current = () => run === draft && phase === 'done' && last === result;
+    void map.finish().then(() => {
+      if (current()) view.annotate(map.numbers());
+    });
     // Read aloud only when this device has a voice for the plan's language
     // (Georgian voices are rare; a demo sample may be in English).
-    if (isVoiceSupported('speak') && (await hasVoiceFor(view.planLang))) readButton.hidden = false;
+    if (isVoiceSupported('speak') && (await hasVoiceFor(view.planLang)) && current()) readButton.hidden = false;
   }
 
   function fail(error: PlanError): void {

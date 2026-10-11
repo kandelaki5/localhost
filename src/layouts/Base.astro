@@ -78,7 +78,6 @@ const organization = {
     { '@type': 'Country', name: 'Armenia' },
     { '@type': 'Country', name: 'Azerbaijan' },
   ],
-  knowsLanguage: LOCALES.map((l) => l.bcp47),
 };
 const ld = jsonLd.length
   ? { '@context': 'https://schema.org', '@graph': [organization, ...jsonLd] }

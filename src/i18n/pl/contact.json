@@ -1,0 +1,41 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Kontakt",
+  "title": "Przyjmijmy razem *Twoją kolejną grupę*.",
+  "intro": "Napisz nam, kto przyjeżdża, kiedy i co lubi. Odpowiemy pierwszym szkicem programu.",
+  "running": "Biuro w Tbilisi",
+  "office": "Biuro",
+  "write": "Napisz lub zadzwoń",
+  "emailLabel": "E-mail",
+  "phoneLabel": "Telefon",
+  "webLabel": "Strona",
+  "maps": {
+    "google": "Otwórz w Mapach Google",
+    "osm": "OpenStreetMap"
+  },
+  "b2b": {
+    "kicker": "Dla biur podróży i touroperatorów",
+    "title": "Poproś o nasz *pakiet partnerski*.",
+    "text": "Opowiedz nam o swoim biurze i rynkach, na których sprzedajesz, a wyślemy Ci nasz pakiet partnerski.",
+    "cta": "Poproś o pakiet partnerski",
+    "subject": "Prośba o pakiet partnerski",
+    "body": "Dzień dobry, zespole Local Host,\n\njesteśmy biurem podróży / touroperatorem i chcielibyśmy otrzymać Wasz pakiet partnerski.\n\nBiuro:\nKraj i rynki:\nStrona internetowa:\n\nDziękujemy!"
+  },
+  "plan": {
+    "kicker": "Projektant podróży AI",
+    "title": "Wolisz najpierw naszkicować podróż?",
+    "text": "Nasz projektant podróży AI w minutę przygotuje szkic planu dzień po dniu — wyślij go nam, a resztą zajmiemy się my.",
+    "cta": "Zaplanuj z AI"
+  },
+  "envelope": {
+    "label": "Koperta lotnicza zaadresowana do Local Host, A. Bakradze 7, 0159 Tbilisi, Gruzja",
+    "airmail": "Par avion",
+    "airmailSub": "Poczta lotnicza",
+    "from": "Nadawca",
+    "fromText": "Twoje biuro podróży",
+    "to": "Adresat",
+    "company": "Local Host LLC",
+    "country": "Gruzja",
+    "caption": "Local Host LLC, A. Bakradze 7, 0159 Tbilisi"
+  }
+}

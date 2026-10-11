@@ -356,12 +356,17 @@ const ringLength = (2 * Math.PI * 30.5).toFixed(1);
     .pstamp--country .pstamp__text {
       display: grid;
       gap: 0.15rem;
+      min-width: 0;
     }
 
+    /* Long names ("AZERBAIJAN", "ASERBAIDSCHAN") must stay inside the stamp's
+       frame on a 320–390 px phone: hyphenate where the browser can, else wrap. */
     .pstamp--country .pstamp__label {
       font-size: var(--fs-3xs);
-      letter-spacing: 0.05em;
+      letter-spacing: 0;
+      -webkit-hyphens: auto;
       hyphens: auto;
+      overflow-wrap: anywhere;
     }
 
     .pstamp__outline {

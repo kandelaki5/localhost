@@ -53,6 +53,8 @@ export class RouteMap {
   private drawn: PlaceInfo[] = [];
   /** segments[i] = the line into drawn[i] (null for the first stop or a zero-length hop). */
   private segments: (SVGPathElement | null)[] = [];
+  /** How many of `drawn` are fully on the map (segment + stop); the rest are queued. */
+  private rendered = 0;
   private stops = new Map<string, Stop>();
   private queue: Promise<void> = Promise.resolve();
   private generation = 0;
@@ -93,6 +95,7 @@ export class RouteMap {
     this.queue = Promise.resolve();
     this.drawn = [];
     this.segments = [];
+    this.rendered = 0;
     this.stops.clear();
     this.segLayer.replaceChildren();
     this.stopLayer.replaceChildren();
@@ -110,11 +113,15 @@ export class RouteMap {
     while (prefix < this.drawn.length && prefix < next.length && this.drawn[prefix]?.id === next[prefix]?.id) prefix++;
 
     if (prefix < this.drawn.length) {
-      // The route changed behind the drawn part: cut it back.
+      // The route changed behind the drawn part: cut it back. Queued work of
+      // the old generation is dropped, so stops of the kept prefix that were
+      // still waiting in the queue are cut too and re-queued below.
       this.generation++;
       this.queue = Promise.resolve();
-      this.segments.splice(prefix).forEach((s) => s?.remove());
-      this.drawn = this.drawn.slice(0, prefix);
+      const keepCount = Math.min(prefix, this.rendered);
+      this.segments.splice(keepCount).forEach((s) => s?.remove());
+      this.drawn = this.drawn.slice(0, keepCount);
+      this.rendered = keepCount;
       const keep = new Set<string>(this.drawn.map((p) => p.id));
       for (const [id, stop] of this.stops) {
         if (!keep.has(id)) {
@@ -123,6 +130,7 @@ export class RouteMap {
         }
       }
       this.renumber();
+      prefix = keepCount;
     }
 
     const added = next.slice(prefix);
@@ -139,6 +147,7 @@ export class RouteMap {
         if (from && (from.x !== place.x || from.y !== place.y)) await this.addSegment(from, place, per, slot);
         if (generation !== this.generation) return;
         this.addStop(place);
+        this.rendered = slot + 1;
       });
     }
   }

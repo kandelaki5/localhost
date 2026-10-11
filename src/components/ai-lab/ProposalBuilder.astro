@@ -38,7 +38,8 @@ const bcp47 = localeInfo(lang).bcp47;
 const monthFormat = new Intl.DateTimeFormat(bcp47, { month: 'long' });
 const months = Array.from({ length: 12 }, (_, i) => {
   const name = monthFormat.format(new Date(Date.UTC(2026, i, 15)));
-  return { value: `m-${i + 1}`, label: name.charAt(0).toLocaleUpperCase(bcp47) + name.slice(1) };
+  // Georgian has no capitals in running text (upper-casing gives Mtavruli).
+  return { value: `m-${i + 1}`, label: lang === 'ka' ? name : name.charAt(0).toLocaleUpperCase(bcp47) + name.slice(1) };
 });
 const countries = COUNTRY_CODES.map((code) => ({ code, name: common.countries[code.toLowerCase() as 'ge' | 'am' | 'az'] }));
 const interests = EXPERIENCE_IDS.map((id) => ({ id, name: experienceName(id, lang as Locale) }));

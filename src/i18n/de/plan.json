@@ -1,0 +1,135 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Mit KI planen",
+  "title": "Ihr Reiseentwurf *in einer Minute.*",
+  "intro": "Wählen Sie Länder und Interessen, schreiben Sie uns ein paar Zeilen, und unser KI-Reise-Designer skizziert einen Entwurf Tag für Tag. Danach macht unser Team in Tiflis eine echte Reise daraus.",
+  "running": "KI-Reise-Designer",
+  "form": {
+    "label": "Reisedokument",
+    "serial": "Formular LH · 11",
+    "title": "Ihre Reise, *Marke für Marke.*",
+    "hint": "Tippen Sie auf die Marken, die zu Ihrer Reise passen, und schreiben Sie uns ein paar Zeilen. Gebucht wird nichts: Sie erhalten einen Entwurf, den Sie uns schicken können.",
+    "countries": "Länder",
+    "countriesHint": "Eines, zwei oder alle drei.",
+    "countriesError": "Bitte wählen Sie mindestens ein Land.",
+    "experiences": "Erlebnisse",
+    "experiencesHint": "Nichts gewählt? Dann gibt es eine ausgewogene Mischung.",
+    "length": "Dauer",
+    "daysUnit": "Tage",
+    "daysValue": "{n} Tage",
+    "fewer": "Einen Tag weniger",
+    "more": "Einen Tag mehr",
+    "month": "Wann",
+    "monthLabel": "Reisemonat",
+    "monthAny": "Jederzeit (flexibel)",
+    "travellers": "Wer reist",
+    "optional": "optional",
+    "pace": "Tempo",
+    "letter": "Ihr Brief",
+    "salutation": "Liebes Local-Host-Team,",
+    "letterLabel": "Ihr Brief an Local Host (optional)",
+    "letterPlaceholder": "wir sind zwölf Freunde aus München und lieben Wein, lange Mittagessen und gemütliche Spaziergänge…",
+    "letterHint": "Wer reist, was gefällt, was besser nicht. Bitte geben Sie keine persönlichen Daten an.",
+    "dictate": "Diktieren",
+    "dictateStop": "Diktat beenden",
+    "listening": "Ich höre zu… Bitte sprechen Sie.",
+    "micPrivacy": "Die Spracheingabe nutzt den Sprachdienst Ihres Browsers: Ihre Stimme verarbeitet der Anbieter Ihres Browsers (zum Beispiel Google oder Apple), nicht Local Host.",
+    "submit": "Meine Reise entwerfen",
+    "privacy": "Für Ihren Entwurf werden Ihre Auswahl und Ihr Brief von einem KI-Modell verarbeitet (Claude von Anthropic).",
+    "disclaimer": "Ein KI-Entwurf ist ein Ausgangspunkt, kein Angebot: Preise, Verfügbarkeit und jedes Detail bestätigt das Team von Local Host.",
+    "summaryLabel": "Ihre Auswahl",
+    "edit": "Auswahl ändern"
+  },
+  "countries": {
+    "GE": "Georgien",
+    "AM": "Armenien",
+    "AZ": "Aserbaidschan"
+  },
+  "experiences": {
+    "culture": "Kultur",
+    "wine": "Wein",
+    "trekking": "Trekking",
+    "gastronomy": "Gastronomie",
+    "pilgrim": "Pilgerreisen",
+    "leisure": "Erholung"
+  },
+  "travellers": {
+    "solo": "Allein",
+    "couple": "Paar",
+    "family": "Familie",
+    "friends": "Freunde",
+    "group": "Gruppe",
+    "agency": "Reisebüro"
+  },
+  "pace": {
+    "relaxed": "Entspannt",
+    "balanced": "Ausgewogen",
+    "active": "Aktiv"
+  },
+  "output": {
+    "title": "Reiseentwurf",
+    "draft": "Entwurf {n}",
+    "connecting": "Verbindung zum Reise-Designer…",
+    "designing": "Ihre Reise wird entworfen…",
+    "writingDay": "Tag {day} von {days} entsteht…",
+    "done": "Entwurf fertig: {days} Tage, {stops} Stationen auf der Karte.",
+    "doneDemo": "Beispiel fertig: {days} Tage, {stops} Stationen auf der Karte.",
+    "stopped": "Angehalten. Der bisherige Entwurf steht unten.",
+    "failed": "Dieser Entwurf konnte nicht fertiggestellt werden.",
+    "stop": "Stopp",
+    "retry": "Erneut versuchen",
+    "demoBadge": "Demo",
+    "demoStampTop": "Beispielreise",
+    "demoStampMain": "Demo",
+    "demoStampLabel": "Beispielreise — Demo",
+    "demoNotice": "Demo-Modus: Der KI-Planer ist noch nicht verbunden. Sie sehen deshalb ein fertiges Beispiel, keinen eigens für Sie geschriebenen Plan. Ihre Auswahl können Sie trotzdem an unser Team senden.",
+    "rateLimited": "Bitte warten Sie etwa {minutes} Min. bis zum nächsten Versuch."
+  },
+  "actions": {
+    "refineLabel": "Entwurf verfeinern",
+    "refinePlaceholder": "z. B. Tag 3 entspannter gestalten",
+    "refine": "Verfeinern",
+    "refineEmpty": "Schreiben Sie, was Sie ändern möchten, und klicken Sie dann auf „Verfeinern“.",
+    "send": "Plan an Local Host senden",
+    "sendHint": "Öffnet Ihr E-Mail-Programm mit dem fertigen Plan. Gesendet wird erst, wenn Sie selbst auf „Senden“ klicken.",
+    "copy": "Plan kopieren",
+    "copied": "In die Zwischenablage kopiert.",
+    "copyFailed": "Kopieren nicht möglich. Bitte markieren Sie den Text.",
+    "read": "Vorlesen",
+    "readStop": "Vorlesen beenden",
+    "restart": "Neu beginnen"
+  },
+  "map": {
+    "label": "Routenkarte",
+    "title": "Karte von Georgien, Armenien und Aserbaidschan",
+    "routeTitle": "Karte der geplanten Route: {route}",
+    "idle": "Hier entsteht Ihre Route",
+    "drawing": "Route wird gezeichnet",
+    "office": "Local Host · Tiflis",
+    "routeLabel": "Route in Reihenfolge der Besuche",
+    "credit": "Kartendaten: Natural Earth"
+  },
+  "nojs": {
+    "title": "Der Reise-Designer braucht JavaScript",
+    "text": "Er läuft in Ihrem Browser. Sie können uns aber auch einfach schreiben: Nennen Sie uns Länder, Interessen, Reisedaten und Gruppengröße, und wir melden uns mit einem ersten Entwurf.",
+    "cta": "An Local Host schreiben",
+    "subject": "Reiseanfrage"
+  },
+  "how": {
+    "title": "So funktioniert es",
+    "steps": [
+      {
+        "title": "Marken wählen",
+        "text": "Länder, Erlebnisse, Dauer und Tempo — und ein paar Zeilen dazu, wer reist."
+      },
+      {
+        "title": "Den Entwurf entstehen sehen",
+        "text": "Unser KI-Reise-Designer schreibt einen Plan Tag für Tag und zeichnet die Route — mit den Orten und Erlebnissen, mit denen wir arbeiten."
+      },
+      {
+        "title": "Nach Tiflis schicken",
+        "text": "Unser Team prüft jedes Detail und macht aus Ihrem Entwurf ein maßgeschneidertes Programm."
+      }
+    ]
+  }
+}

@@ -30,7 +30,9 @@ const { lang, t, arcId } = Astro.props;
 const bcp47 = localeInfo(lang).bcp47;
 const DEFAULT_DAYS = 7;
 const DEFAULT_PACE = 'balanced';
-const capitalise = (s: string) => s.charAt(0).toLocaleUpperCase(bcp47) + s.slice(1);
+// Month names start lower-case in pl/it; Georgian has no capitals in running
+// text (upper-casing would turn Mkhedruli into Mtavruli: "Მაისი"), so leave it.
+const capitalise = (s: string) => (lang === 'ka' ? s : s.charAt(0).toLocaleUpperCase(bcp47) + s.slice(1));
 const months = Array.from({ length: 12 }, (_, i) => ({
   value: String(i + 1),
   name: capitalise(new Intl.DateTimeFormat(bcp47, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, i, 15)))),

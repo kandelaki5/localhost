@@ -1,0 +1,135 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Zaplanuj z AI",
+  "title": "Szkic podróży *w minutę.*",
+  "intro": "Wybierz kraje i zainteresowania, napisz nam kilka słów, a nasz projektant podróży AI naszkicuje plan dzień po dniu. Potem nasz zespół w Tbilisi zamieni go w prawdziwą podróż.",
+  "running": "Projektant podróży AI",
+  "form": {
+    "label": "Dokument podróży",
+    "serial": "Formularz LH · 11",
+    "title": "Twoja podróż, *znaczek po znaczku.*",
+    "hint": "Zaznacz znaczki, które pasują do Twojej podróży, i napisz nam kilka słów. Niczego nie rezerwujemy: dostajesz szkic, który możesz nam wysłać.",
+    "countries": "Kraje",
+    "countriesHint": "Jeden, dwa albo wszystkie trzy.",
+    "countriesError": "Wybierz co najmniej jeden kraj.",
+    "experiences": "Doświadczenia",
+    "experiencesHint": "Nic nie zaznaczysz? Dostaniesz wyważoną mieszankę.",
+    "length": "Czas trwania",
+    "daysUnit": "dni",
+    "daysValue": "{n} dni",
+    "fewer": "O jeden dzień mniej",
+    "more": "O jeden dzień więcej",
+    "month": "Kiedy",
+    "monthLabel": "Miesiąc podróży",
+    "monthAny": "Dowolny termin (elastycznie)",
+    "travellers": "Kto podróżuje",
+    "optional": "opcjonalnie",
+    "pace": "Tempo",
+    "letter": "Twój list",
+    "salutation": "Drogi zespole Local Host,",
+    "letterLabel": "Twój list do Local Host (opcjonalnie)",
+    "letterPlaceholder": "jesteśmy grupą dwunastu przyjaciół z Krakowa, kochamy wino, długie obiady i niespieszne spacery…",
+    "letterHint": "Kto jedzie, co lubi, czego unikać. Prosimy, nie podawaj danych osobowych.",
+    "dictate": "Dyktuj",
+    "dictateStop": "Zatrzymaj dyktowanie",
+    "listening": "Słucham… mów teraz.",
+    "micPrivacy": "Wprowadzanie głosowe korzysta z usługi mowy Twojej przeglądarki: głos przetwarza firma, która ją dostarcza (np. Google lub Apple), a nie Local Host.",
+    "submit": "Zaprojektuj moją podróż",
+    "privacy": "Aby przygotować szkic, Twoje wybory i list przetwarza model AI (Claude od Anthropic).",
+    "disclaimer": "Szkic AI to punkt wyjścia, a nie oferta: ceny, dostępność i wszystkie szczegóły potwierdza zespół Local Host.",
+    "summaryLabel": "Twoje wybory",
+    "edit": "Zmień wybory"
+  },
+  "countries": {
+    "GE": "Gruzja",
+    "AM": "Armenia",
+    "AZ": "Azerbejdżan"
+  },
+  "experiences": {
+    "culture": "Kultura",
+    "wine": "Wino",
+    "trekking": "Trekking",
+    "gastronomy": "Gastronomia",
+    "pilgrim": "Pielgrzymki",
+    "leisure": "Wypoczynek"
+  },
+  "travellers": {
+    "solo": "Solo",
+    "couple": "Para",
+    "family": "Rodzina",
+    "friends": "Przyjaciele",
+    "group": "Grupa",
+    "agency": "Biuro podróży"
+  },
+  "pace": {
+    "relaxed": "Spokojne",
+    "balanced": "Wyważone",
+    "active": "Aktywne"
+  },
+  "output": {
+    "title": "Szkic planu",
+    "draft": "Szkic {n}",
+    "connecting": "Łączę z projektantem podróży…",
+    "designing": "Projektuję Twoją podróż…",
+    "writingDay": "Piszę dzień {day} z {days}…",
+    "done": "Szkic gotowy: {days} dni, przystanki na mapie: {stops}.",
+    "doneDemo": "Przykład gotowy: {days} dni, przystanki na mapie: {stops}.",
+    "stopped": "Zatrzymano. Dotychczasowy szkic znajdziesz poniżej.",
+    "failed": "Nie udało się dokończyć tego szkicu.",
+    "stop": "Zatrzymaj",
+    "retry": "Spróbuj ponownie",
+    "demoBadge": "Demo",
+    "demoStampTop": "Przykładowy plan",
+    "demoStampMain": "Demo",
+    "demoStampLabel": "Przykładowy plan — demo",
+    "demoNotice": "Tryb demo: planer AI nie jest jeszcze podłączony, więc widzisz gotowy przykład, a nie plan napisany dla Ciebie. Nadal możesz wysłać swoje wybory naszemu zespołowi.",
+    "rateLimited": "Odczekaj około {minutes} min przed kolejną próbą."
+  },
+  "actions": {
+    "refineLabel": "Dopracuj ten szkic",
+    "refinePlaceholder": "np. Niech dzień 3 będzie spokojniejszy",
+    "refine": "Dopracuj",
+    "refineEmpty": "Napisz, co chcesz zmienić, i kliknij „Dopracuj”.",
+    "send": "Wyślij plan do Local Host",
+    "sendHint": "Otworzy się Twój program pocztowy z gotowym planem. Nic nie zostanie wysłane, dopóki nie klikniesz „Wyślij”.",
+    "copy": "Kopiuj plan",
+    "copied": "Skopiowano do schowka.",
+    "copyFailed": "Nie udało się skopiować. Zaznacz tekst ręcznie.",
+    "read": "Czytaj na głos",
+    "readStop": "Zatrzymaj czytanie",
+    "restart": "Zacznij od nowa"
+  },
+  "map": {
+    "label": "Mapa trasy",
+    "title": "Mapa Gruzji, Armenii i Azerbejdżanu",
+    "routeTitle": "Mapa zaplanowanej trasy: {route}",
+    "idle": "Tu pojawi się Twoja trasa",
+    "drawing": "Rysuję trasę",
+    "office": "Local Host · Tbilisi",
+    "routeLabel": "Trasa w kolejności zwiedzania",
+    "credit": "Dane mapy: Natural Earth"
+  },
+  "nojs": {
+    "title": "Projektant podróży potrzebuje JavaScriptu",
+    "text": "Działa w Twojej przeglądarce. Możesz też po prostu do nas napisać: podaj kraje, zainteresowania, terminy i wielkość grupy, a odezwiemy się z pierwszym szkicem.",
+    "cta": "Napisz do Local Host",
+    "subject": "Zapytanie o podróż"
+  },
+  "how": {
+    "title": "Jak to działa",
+    "steps": [
+      {
+        "title": "Wybierz znaczki",
+        "text": "Kraje, doświadczenia, czas trwania i tempo — oraz kilka słów o tym, kto jedzie."
+      },
+      {
+        "title": "Zobacz, jak powstaje szkic",
+        "text": "Nasz projektant podróży AI pisze plan dzień po dniu i rysuje trasę, korzystając z miejsc i doświadczeń, z którymi pracujemy."
+      },
+      {
+        "title": "Wyślij go do Tbilisi",
+        "text": "Nasz zespół sprawdza każdy szczegół i zamienia Twój szkic w program szyty na miarę."
+      }
+    ]
+  }
+}

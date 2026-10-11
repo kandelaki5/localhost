@@ -1,0 +1,41 @@
+{
+  "_note": "Draft translation — needs native review (docs/CONTENT-TODO.md).",
+  "kicker": "Kontakt",
+  "title": "Gemeinsam Gastgeber für Ihre *nächste Gruppe*.",
+  "intro": "Sagen Sie uns, wer kommt, wann und was Ihre Gäste lieben. Wir melden uns mit einem ersten Programmentwurf.",
+  "running": "Büro in Tiflis",
+  "office": "Büro",
+  "write": "Schreiben & anrufen",
+  "emailLabel": "E-Mail",
+  "phoneLabel": "Telefon",
+  "webLabel": "Web",
+  "maps": {
+    "google": "In Google Maps öffnen",
+    "osm": "OpenStreetMap"
+  },
+  "b2b": {
+    "kicker": "Für Reisebüros & Reiseveranstalter",
+    "title": "Fordern Sie unser *Partner-Kit* an.",
+    "text": "Erzählen Sie uns von Ihrer Agentur und den Märkten, in denen Sie verkaufen — wir schicken Ihnen unser Partner-Kit.",
+    "cta": "Partner-Kit anfordern",
+    "subject": "Anfrage Partner-Kit",
+    "body": "Hallo Local-Host-Team,\n\nwir sind ein Reisebüro / Reiseveranstalter und würden gern Ihr Partner-Kit erhalten.\n\nAgentur:\nLand und Märkte:\nWebsite:\n\nVielen Dank!"
+  },
+  "plan": {
+    "kicker": "KI-Reise-Designer",
+    "title": "Lieber erst eine Reise skizzieren?",
+    "text": "Unser KI-Reise-Designer entwirft in einer Minute einen Plan Tag für Tag — schicken Sie ihn uns, den Rest übernehmen wir.",
+    "cta": "Mit KI planen"
+  },
+  "envelope": {
+    "label": "Ein Luftpostumschlag, adressiert an Local Host, A. Bakradze 7, 0159 Tbilisi, Georgien",
+    "airmail": "Par avion",
+    "airmailSub": "Mit Luftpost",
+    "from": "Absender",
+    "fromText": "Ihre Agentur",
+    "to": "Empfänger",
+    "company": "Local Host LLC",
+    "country": "Georgien",
+    "caption": "Local Host LLC, A. Bakradze 7, 0159 Tbilisi"
+  }
+}
