@@ -11,7 +11,8 @@
       "it-wine-group": "Agenzia italiana — tour del vino di 9 giorni, 30 ospiti",
       "pl-family-hiking": "Famiglia polacca — trekking in Georgia e Armenia",
       "de-transfer-complaint": "Agenzia tedesca — reclamo per un transfer in ritardo"
-    }
+    },
+    "tray": "{n} · Posta in arrivo"
   },
   "form": {
     "label": "Incolla un’email",

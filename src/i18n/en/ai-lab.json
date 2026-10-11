@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "AI Lab",
-    "description": "Try Local Host's AI experiments, built with Claude by Anthropic: a trip designer with voice, photo matching, agency proposals, answers from our policies, inbox triage for our team and a connector for your own AI assistant."
+    "description": "Try Local Host’s AI experiments, built with Claude by Anthropic: a trip designer with voice, photo matching, agency proposals, answers from our policies, inbox triage for our team and a connector for your own AI assistant."
   },
   "hero": {
     "kicker": "Local Host · AI Lab",
@@ -36,7 +36,7 @@
   },
   "teaser": {
     "kicker": "Trip Designer & Voice",
-    "title": "Draft a journey *out loud.*",
+    "title": "Draft a journey *out loud.*",
     "intro": "Our flagship lives on the home page. Pick countries and interests, write — or say — a line, and watch a day-by-day draft appear on the map.",
     "points": [
       "A day-by-day draft, streamed in your language",
@@ -45,7 +45,7 @@
     ],
     "cta": "Open the Trip Designer",
     "mapCaption": "A sample route — Tbilisi, Mtskheta, Ananuri, Kazbegi, Sighnaghi and Telavi.",
-    "voiceNote": "Voice works in browsers with speech support; your browser's speech service processes it.",
+    "voiceNote": "Voice works in browsers with speech support; your browser’s speech service processes it.",
     "days": [
       "Day 1 — Tbilisi",
       "Day 2 — Mtskheta & Ananuri",
@@ -56,11 +56,11 @@
   },
   "how": {
     "kicker": "How it works",
-    "title": "Clever drafts, *human answers.*",
+    "title": "Clever drafts, *human answers.*",
     "items": [
       {
         "title": "Claude by Anthropic",
-        "text": "Every experiment runs on Claude, Anthropic's AI model, grounded in Local Host's own experiences, places and policies."
+        "text": "Every experiment runs on Claude, Anthropic’s AI model, grounded in Local Host’s own experiences, places and policies."
       },
       {
         "title": "What is sent",
@@ -85,20 +85,20 @@
     "elapsed": "{s} s",
     "noScript": "Turn on JavaScript to try this experiment.",
     "copied": "Copied",
-    "copyFailed": "Couldn't copy — select the text instead.",
+    "copyFailed": "Couldn’t copy — select the text instead.",
     "newTab": "opens in a new tab"
   },
   "errors": {
-    "network": "We couldn't reach the AI service. Check your connection and try again.",
+    "network": "We couldn’t reach the AI service. Check your connection and try again.",
     "rateLimited": "That was a lot of requests in a short time. You can try again in {time}.",
     "rateLimitedNow": "You can try again now.",
-    "dailyCap": "The AI Lab has reached today's limit. Please try again tomorrow — or write to info@localhost.ge.",
-    "refusal": "The AI couldn't help with this one. Try rephrasing it, or write to our team at info@localhost.ge.",
+    "dailyCap": "The AI Lab has reached today’s limit. Please try again tomorrow — or write to info@localhost.ge.",
+    "refusal": "The AI couldn’t help with this one. Try rephrasing it, or write to our team at info@localhost.ge.",
     "truncated": "The answer grew too long and was cut short. Try a simpler request.",
     "timeout": "This took too long. Please try a shorter request.",
     "busy": "The AI service is busy right now. Please try again in a moment.",
     "tooLarge": "That is too large to send. Try something shorter or smaller.",
-    "badRequest": "Something in the request isn't right. Please check the form.",
+    "badRequest": "Something in the request isn’t right. Please check the form.",
     "unauthorized": "This tool needs the staff access key.",
     "generic": "Something went wrong on our side. Please try again in a moment."
   }

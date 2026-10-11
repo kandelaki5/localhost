@@ -447,6 +447,16 @@ const clientStrings = {
     margin-inline: auto;
   }
 
+  /* Desktop: while the sheet is still empty, it stays in view beside the long
+     brief instead of leaving a tall dark gap under it. Only the empty state
+     sticks; a growing proposal scrolls normally. */
+  @media (min-width: 64em) {
+    .lab-prop__grid:not([data-layout='result']) .lab-prop__output:has(> [data-empty]:not([hidden])) {
+      position: sticky;
+      top: calc(var(--layout-header-h) + var(--space-m));
+    }
+  }
+
   /* ── form ── */
   .lab-prop__fields {
     display: grid;

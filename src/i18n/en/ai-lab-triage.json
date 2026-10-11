@@ -1,11 +1,12 @@
 {
   "kicker": "Inquiry Triage",
-  "title": "Sort the inbox *before coffee.*",
-  "intro": "Paste a partner's email: Claude reads it in any language, routes it to the right desk, pulls out the trip facts, lists what's missing and drafts a reply in the sender's language for our team to check.",
+  "title": "Sort the inbox *before coffee.*",
+  "intro": "Paste a partner’s email: Claude reads it in any language, routes it to the right desk, pulls out the trip facts, lists what’s missing and drafts a reply in the sender’s language for our team to check.",
   "staffLabel": "Staff tool — demo",
   "staffNote": "Built for the Local Host team. Real emails contain personal data, so the live tool asks for a staff access key.",
   "inbox": {
     "title": "Try a sample email",
+    "tray": "{n} · Inbox",
     "samples": {
       "it-wine-group": "Italian agency — 9-day wine tour, 30 guests",
       "pl-family-hiking": "Polish family — hiking in Georgia and Armenia",
@@ -18,13 +19,13 @@
     "count": "{n} / {max}",
     "submit": "Triage this email",
     "clear": "Clear",
-    "notesLanguage": "Staff notes in your page language; the draft reply is always in the sender's language."
+    "notesLanguage": "Staff notes in your page language; the draft reply is always in the sender’s language."
   },
   "key": {
     "label": "Staff access key",
     "prompt": "Enter the staff access key to triage your own emails.",
     "remember": "Remember on this device",
-    "wrong": "That key didn't work. Check it and try again.",
+    "wrong": "That key didn’t work. Check it and try again.",
     "submit": "Unlock and triage",
     "forget": "Forget the key"
   },

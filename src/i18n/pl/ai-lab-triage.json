@@ -11,7 +11,8 @@
       "it-wine-group": "Włoskie biuro podróży — 9-dniowa wycieczka winiarska, 30 osób",
       "pl-family-hiking": "Polska rodzina — wędrówki po Gruzji i Armenii",
       "de-transfer-complaint": "Niemieckie biuro podróży — reklamacja spóźnionego transferu"
-    }
+    },
+    "tray": "{n} · Skrzynka odbiorcza"
   },
   "form": {
     "label": "Wklej e-mail",

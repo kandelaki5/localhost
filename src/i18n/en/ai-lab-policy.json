@@ -1,6 +1,6 @@
 {
   "kicker": "Policy Q&A",
-  "title": "Ask our policies — *get the source.*",
+  "title": "Ask our policies — *get the source.*",
   "intro": "Ask about sustainability, excursions, hotels or partner rules. Claude answers only from our five policy documents and quotes the exact passage behind every claim.",
   "library": {
     "title": "The library",
@@ -14,7 +14,7 @@
       "footprint": "How do you reduce your environmental footprint?",
       "animals": "Do you include animal attractions in tours?",
       "hotels": "How do you choose hotels?",
-      "rights": "How do you protect children and workers' rights?"
+      "rights": "How do you protect children and workers’ rights?"
     }
   },
   "composer": {

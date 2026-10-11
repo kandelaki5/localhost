@@ -1,12 +1,12 @@
 {
   "kicker": "Plan with AI",
-  "title": "Draft a journey *in a minute.*",
+  "title": "Draft a journey *in a minute.*",
   "intro": "Choose countries and interests, write us a line, and our AI trip designer sketches a day-by-day draft. Then our team in Tbilisi makes it real.",
   "running": "AI trip designer",
   "form": {
     "label": "Travel document",
     "serial": "Form LH · 11",
-    "title": "Your trip, *in a few stamps.*",
+    "title": "Your trip, *in a few stamps.*",
     "hint": "Tap the stamps that fit your trip, then write us a line. Nothing is booked: you get a draft to send us.",
     "countries": "Countries",
     "countriesHint": "One, two or all three.",

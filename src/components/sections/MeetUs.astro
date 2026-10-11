@@ -173,7 +173,7 @@ const mailto = `mailto:${common.contact.email}?subject=${encodeURIComponent(t.ma
           {
             MONTHS.map((m) => (
               <span class="fairs__month" style={`--days:${m.days}`}>
-                {monthName(m.index, 'short').replace('.', '')}
+                {monthName(m.index, 'short').replace('.', '').replace(/^(sep)t$/i, '$1')}
               </span>
             ))
           }

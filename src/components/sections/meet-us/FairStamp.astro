@@ -570,4 +570,33 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
       transform: translate(0, -55%);
     }
   }
+
+  /* ≤ 360 px: a date column beside the city leaves too little room for
+     "Warschau" or "Poznań" next to a long German date, so the date moves
+     under the city and city names never break mid-word. */
+  @media (max-width: 22.49em) {
+    .fair__stamp,
+    .fair[data-shape] .fair__stamp {
+      grid-template-areas:
+        'cc cc'
+        'city city'
+        'when when'
+        'name domain'
+        'tba tba';
+    }
+
+    .fair__city {
+      overflow-wrap: normal;
+    }
+
+    .fair__when {
+      justify-self: stretch;
+      align-self: auto;
+      max-width: none;
+      margin-top: var(--space-2xs);
+      padding: var(--space-2xs) 0 0;
+      border-left: 0;
+      border-top: var(--border-hair) solid color-mix(in srgb, currentColor 45%, transparent);
+    }
+  }
 </style>

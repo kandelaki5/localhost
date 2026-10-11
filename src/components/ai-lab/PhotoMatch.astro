@@ -394,6 +394,10 @@ const clientStrings = {
     line-height: 1.25;
     color: var(--color-text-on-photo);
     text-shadow: 0 1px 8px var(--color-scrim);
+    /* place names wrap between words only ("Kappadokien", "დოლომიტებში") */
+    overflow-wrap: normal;
+    -webkit-hyphens: manual;
+    hyphens: manual;
   }
 
   .lab-sample__credit {
@@ -744,7 +748,33 @@ const clientStrings = {
     }
 
     .lab-sample__label {
+      left: var(--space-3xs);
+      right: var(--space-3xs);
+      bottom: var(--space-3xs);
       font-size: var(--fs-3xs);
+    }
+  }
+
+  /* ≤ 360 px: a third of the row is narrower than one long place name
+     ("დოლომიტებში"), so two portrait cards and a wide third one. */
+  @media (max-width: 22.49em) {
+    .lab-photo__samples {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .lab-sample:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .lab-sample:last-child .lab-sample__btn {
+      aspect-ratio: 2 / 1;
+    }
+
+    .lab-sample__label {
+      left: var(--space-2xs);
+      right: var(--space-2xs);
+      bottom: var(--space-2xs);
+      font-size: var(--fs-2xs);
     }
   }
 </style>

@@ -11,7 +11,8 @@
       "it-wine-group": "Italienische Agentur – 9-tägige Weinreise, 30 Gäste",
       "pl-family-hiking": "Polnische Familie – Wandern in Georgien und Armenien",
       "de-transfer-complaint": "Deutsche Agentur – Beschwerde über einen verspäteten Transfer"
-    }
+    },
+    "tray": "{n} · Posteingang"
   },
   "form": {
     "label": "E-Mail einfügen",

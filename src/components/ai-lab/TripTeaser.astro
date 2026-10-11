@@ -113,6 +113,17 @@ const s = labSection('trip-designer');
     margin-top: var(--space-xl);
   }
 
+  /* phones: a full-width button whose label may wrap, never overflow */
+  @media (max-width: 29.99em) {
+    .lab-teaser__cta :global(.btn) {
+      width: 100%;
+      justify-content: center;
+      white-space: normal;
+      text-align: center;
+      text-wrap: balance;
+    }
+  }
+
   .lab-teaser__voice {
     display: flex;
     align-items: flex-start;

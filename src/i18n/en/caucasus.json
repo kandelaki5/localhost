@@ -1,6 +1,6 @@
 {
   "kicker": "Caucasus",
-  "title": "Three countries. *One local host.*",
+  "title": "Three countries. *One local host.*",
   "intro": "Georgia is home; Armenia and Azerbaijan are next door. One team in Tbilisi designs and runs programmes in all three — one country at a time, or combined in a single journey with the border crossings arranged by us.",
   "running": "Georgia · Armenia · Azerbaijan",
   "countries": [
@@ -75,7 +75,7 @@
   },
   "aside": {
     "kicker": "From Tbilisi",
-    "title": "Between two seas, *three capitals.*",
+    "title": "Between two seas, *three capitals.*",
     "text": "Tbilisi sits between the Black Sea and the Caspian, with Yerevan to the south and Baku to the east. When a programme combines two or three countries, our team arranges the transfers, the timings and the border crossings — so your group travels on one plan, with one team behind it.",
     "timesLabel": "Approximate drive times",
     "hours": "about {h} h",

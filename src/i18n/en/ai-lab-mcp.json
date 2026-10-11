@@ -1,7 +1,7 @@
 {
   "kicker": "AI connector (MCP)",
-  "title": "Connect your *AI assistant.*",
-  "intro": "More and more agents plan trips with an AI assistant such as Claude. Plug Local Host's own catalogue into it, and get answers from our data — not from random web pages.",
+  "title": "Connect your *AI assistant.*",
+  "intro": "More and more agents plan trips with an AI assistant such as Claude. Plug Local Host’s own catalogue into it, and get answers from our data — not from random web pages.",
   "why": [
     {
       "title": "Answers from the source",
@@ -42,7 +42,7 @@
       "list_experiences": "The six experiences: Culture, Wine, Trekking, Gastronomy, Pilgrim and Leisure.",
       "get_experience": "One experience in depth: highlights, best places, seasons and who it suits.",
       "list_places": "Places in Georgia, Armenia and Azerbaijan, by country or experience.",
-      "get_place": "One place: region, approximate coordinates, what's nearby and rough travel times.",
+      "get_place": "One place: region, approximate coordinates, what’s nearby and rough travel times.",
       "list_flight_connections": "Direct flights to Tbilisi (TBS) and Kutaisi (KUT), and which airlines fly them.",
       "get_trade_fairs": "The trade fairs where you can meet us, with their next known dates.",
       "get_sustainability_commitments": "Our Travelife Partner status, commitments and the five policy PDFs.",
@@ -60,7 +60,7 @@
       "Draft a 9-day wine trip request for 20 people in September."
     ]
   },
-  "limits": "It doesn't book, hold, price or send anything, and it collects no personal data. Sending a request email is always your own click.",
+  "limits": "It doesn’t book, hold, price or send anything, and it collects no personal data. Sending a request email is always your own click.",
   "diagram": {
     "label": "How the connector works",
     "assistant": "Your AI assistant",

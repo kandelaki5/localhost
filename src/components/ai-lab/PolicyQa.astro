@@ -10,7 +10,7 @@ import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import { POLICY_DOCUMENTS, POLICY_QUESTION_MAX, SUGGESTED_POLICY_QUESTIONS } from '../../lib/ai/client/policy';
 import { fmt } from '../../lib/markup';
-import { getLang, useStrings } from '../../i18n';
+import { getLang, localeInfo, useStrings } from '../../i18n';
 import { blockLang, labSection, labStrings, policyStrings, scriptJson } from './data';
 
 const lang = getLang(Astro);
@@ -26,10 +26,28 @@ const NAME_KEY = {
   accomodations: 'accommodations',
   inbound: 'inbound',
 } as const;
+// The document titles carry an English month ("Sustainability Policy (Aug 2025)").
+// Re-set it in the page language: short month names where Intl has good ones,
+// a numeric month for Georgian (the short Georgian month forms read oddly).
+const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+const monthFmt = new Intl.DateTimeFormat(
+  localeInfo(lang).bcp47,
+  lang === 'ka' ? { month: '2-digit', year: 'numeric', timeZone: 'UTC' } : { month: 'short', year: 'numeric', timeZone: 'UTC' },
+);
+function docDate(title: string) {
+  const m = title.match(/\((\w{3})\w*\.?\s+(\d{4})\)/);
+  const month = m ? MONTHS.indexOf(m[1].toLowerCase()) : -1;
+  if (!m || month < 0) return null;
+  const year = Number(m[2]);
+  return {
+    iso: `${year}-${String(month + 1).padStart(2, '0')}`,
+    text: monthFmt.format(new Date(Date.UTC(year, month, 1))),
+  };
+}
 const docs = POLICY_DOCUMENTS.map((d) => ({
   ...d,
   name: common.policies[NAME_KEY[d.id]],
-  date: d.title.match(/\(([^)]+)\)/)?.[1] ?? null,
+  date: docDate(d.title),
 }));
 const questions = SUGGESTED_POLICY_QUESTIONS.map((q) => ({
   id: q.id,
@@ -80,7 +98,7 @@ const clientStrings = {
                         {d.name}
                         <span class="lab-policy__doc-meta lab-mono">
                           {t.library.pdf} · {t.library.lang}
-                          {d.date && <> · <span lang="en">{d.date}</span></>}
+                          {d.date && <> · <time datetime={d.date.iso}>{d.date.text}</time></>}
                         </span>
                       </span>
                       <Icon name="pdf" size={20} />

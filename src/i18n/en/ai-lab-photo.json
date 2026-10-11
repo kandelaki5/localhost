@@ -1,7 +1,7 @@
 {
   "kicker": "Photo Match",
-  "title": "Show us a place *you love.*",
-  "intro": "A vineyard in Tuscany, a valley in the Dolomites, a coast you can't forget — share a photo and Claude finds where in the South Caucasus feels the same.",
+  "title": "Show us a place *you love.*",
+  "intro": "A vineyard in Tuscany, a valley in the Dolomites, a coast you can’t forget — share a photo and Claude finds where in the South Caucasus feels the same.",
   "upload": {
     "title": "Your photo",
     "drop": "Drop a photo here",
@@ -40,10 +40,10 @@
     "notTravel": "No landscape in this one"
   },
   "errors": {
-    "not_an_image": "That file isn't an image. Please choose a JPEG, PNG or WebP photo.",
+    "not_an_image": "That file isn’t an image. Please choose a JPEG, PNG or WebP photo.",
     "file_too_large": "That photo is too large. Please choose a smaller one.",
-    "decode_failed": "We couldn't open that photo. Try another one, or save it as a JPEG first.",
-    "encode_failed": "Your browser couldn't prepare the photo. Try another one.",
-    "refusal": "We can't match this photo. Try a landscape or a travel scene instead."
+    "decode_failed": "We couldn’t open that photo. Try another one, or save it as a JPEG first.",
+    "encode_failed": "Your browser couldn’t prepare the photo. Try another one.",
+    "refusal": "We can’t match this photo. Try a landscape or a travel scene instead."
   }
 }

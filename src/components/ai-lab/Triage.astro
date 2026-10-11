@@ -73,7 +73,7 @@ const clientStrings = {
       <form class="lab-panel lab-triage__inbox" method="post" data-form novalidate aria-labelledby="triage-inbox-title">
         <div class="lab-panel__bar">
           <h3 class="lab-mono lab-mono--green" id="triage-inbox-title">{t.inbox.title}</h3>
-          <span class="lab-mono" aria-hidden="true">{samples.length} · INBOX</span>
+          <span class="lab-mono" aria-hidden="true">{fmt(t.inbox.tray, { n: samples.length })}</span>
         </div>
         <ul class="lab-triage__samples" role="list">
           {
