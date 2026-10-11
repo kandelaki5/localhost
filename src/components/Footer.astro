@@ -16,8 +16,6 @@ const lang = getLang(Astro);
 const t = useStrings(lang, 'common');
 const home = localizePath('/', lang);
 const year = new Date().getFullYear();
-// "Powered by {name}": the studio name is set apart in the bar.
-const [madeBefore = '', madeAfter = ''] = t.footer.poweredBy.split('{name}');
 
 // The six fairs from the owner's template. Dates come from the researched
 // src/data/fairs.json when it is present (glob, so its absence never breaks).
@@ -172,7 +170,8 @@ const tel = t.contact.phone.replace(/\s+/g, '');
         {t.footer.backToTop}
         <Icon name="arrow-up" size={14} />
       </a>
-      <p class="site-footer__made">{madeBefore}<span class="site-footer__maker">AguliGames</span>{madeAfter}</p>
+      {/* Studio credit: English in every language, by request. */}
+      <p class="site-footer__made" lang="en">Powered by <span class="site-footer__maker">AguliGames</span></p>
     </div>
   </div>
 </footer>
