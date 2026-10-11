@@ -71,6 +71,39 @@ function redirectTrailingSlash() {
   };
 }
 
+/**
+ * @astrojs/vercel 11.0.13: the server entrypoint imports constants from the
+ * adapter's index.js, which imports the build-time bundler `rolldown`. Tree-shaking
+ * keeps a bare `import "rolldown"` in the function, and the traced bundle lacks
+ * rolldown's native binary, so every on-demand route (the AI APIs) crashes on
+ * Vercel with "Cannot find native binding". Nothing in the server needs rolldown
+ * at runtime: resolve it to an empty module in production builds.
+ * @returns {import('astro').AstroIntegration}
+ */
+function dropRolldownFromServer() {
+  const STUB = '\0localhost:rolldown-stub';
+  return {
+    name: 'localhost:drop-rolldown-from-server',
+    hooks: {
+      'astro:config:setup': ({ command, updateConfig }) => {
+        if (command !== 'build') return;
+        updateConfig({
+          vite: {
+            plugins: [
+              {
+                name: 'localhost:rolldown-stub',
+                enforce: 'pre',
+                resolveId: (id) => (id === 'rolldown' ? STUB : null),
+                load: (id) => (id === STUB ? 'export {};' : null),
+              },
+            ],
+          },
+        });
+      },
+    },
+  };
+}
+
 export default defineConfig({
   site: 'https://www.localhost.ge',
   trailingSlash: 'ignore',
@@ -86,6 +119,7 @@ export default defineConfig({
   integrations: [
     devPages(),
     redirectTrailingSlash(),
+    dropRolldownFromServer(),
     sitemap({
       // hreflang: language-only codes (same as <link rel="alternate"> in Base.astro),
       // so e.g. German speakers in Austria/Switzerland match the /de/ pages.
