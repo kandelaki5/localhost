@@ -39,8 +39,10 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, noindex = false, ogImage = '/og/og-default.png', ogImageAlt, surface = 'paper', jsonLd = [] } =
+const { title, description, noindex: pageNoindex = false, ogImage = '/og/og-default.png', ogImageAlt, surface = 'paper', jsonLd = [] } =
   Astro.props;
+// PUBLIC_NOINDEX=1 keeps a whole preview build (e.g. on *.vercel.app) out of search engines.
+const noindex = pageNoindex || import.meta.env.PUBLIC_NOINDEX === '1';
 
 const lang = getLang(Astro);
 const locale = localeInfo(lang);
