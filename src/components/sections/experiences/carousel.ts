@@ -154,7 +154,20 @@ export function initExperiences(root: HTMLElement): void {
   // card) brings it fully into view.
   track.addEventListener('focusin', (event) => {
     const index = items.findIndex((item) => item.contains(event.target as Node));
-    if (index >= 0) reveal(index);
+    if (index < 0) return;
+    reveal(index);
+    // A focused card can be taller than the space under the sticky header; the
+    // browser then leaves its top (and the top of the focus ring) under the
+    // header, or most of the card below the fold. Line its top up just below
+    // the header, after the browser's own scroll.
+    if (event.target !== cards[index]) return;
+    requestAnimationFrame(() => {
+      const header = (document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0) + 12;
+      const { top, bottom } = cards[index].getBoundingClientRect();
+      if (top < header || bottom > window.innerHeight) {
+        window.scrollBy({ top: top - header, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+      }
+    });
   });
 
   // ── "Plan this with AI": preset the planner, then follow the #plan link ─
