@@ -77,7 +77,7 @@ function redirectTrailingSlash() {
  * keeps a bare `import "rolldown"` in the function, and the traced bundle lacks
  * rolldown's native binary, so every on-demand route (the AI APIs) crashes on
  * Vercel with "Cannot find native binding". Nothing in the server needs rolldown
- * at runtime: resolve it to an empty module in production builds.
+ * at runtime: resolve it to a stub module in production builds.
  * @returns {import('astro').AstroIntegration}
  */
 function dropRolldownFromServer() {
@@ -94,7 +94,10 @@ function dropRolldownFromServer() {
                 name: 'localhost:rolldown-stub',
                 enforce: 'pre',
                 resolveId: (id) => (id === 'rolldown' ? STUB : null),
-                load: (id) => (id === STUB ? 'export {};' : null),
+                load: (id) =>
+                  id === STUB
+                    ? 'export function rolldown() { throw new Error("rolldown is not available at runtime"); }'
+                    : null,
               },
             ],
           },
