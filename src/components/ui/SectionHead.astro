@@ -140,9 +140,11 @@ const hasExtra = Astro.slots.has('default');
 
   /* Georgian words are long: an eighth column keeps titles from breaking into
      lonely words (column 8 is empty otherwise; the intro still starts at 9). */
-  .shead__title:lang(ka),
-  :global(#contact) .shead__title {
-    grid-column: 1 / span 8;
+  @media (min-width: 64em) {
+    .shead__title:lang(ka),
+    :global(#contact) .shead__title {
+      grid-column: 1 / span 8;
+    }
   }
 
   .shead__aside {

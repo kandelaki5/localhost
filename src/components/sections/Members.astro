@@ -335,6 +335,7 @@ const guilloche = Array.from({ length: 16 }, (_, i) => {
 
     .passport__page--pl .passport__permits {
       padding-bottom: 5.5rem;
+      --m-pad-bottom: 5.5rem; /* the same room when the permits are a slide track */
     }
 
     .passport__postmark {
@@ -343,7 +344,7 @@ const guilloche = Array.from({ length: 16 }, (_, i) => {
     }
 
     .passport__postmark :global(.seal) {
-      --seal-size: 6.5rem;
+      --seal-size: 6.5rem !important; /* beats the Seal's inline size */
     }
   }
 

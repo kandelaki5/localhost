@@ -321,8 +321,24 @@ const showNative = org.native && org.native.lang !== lang;
       padding-inline: var(--space-s);
     }
 
+    /* Photo box above the fields: long names (Tourismusbehörde …) get the
+       card's full width instead of running past the frame. */
     .permit__body {
+      grid-template-columns: minmax(0, 1fr);
       gap: var(--space-s);
+    }
+
+    .permit__photo {
+      width: 3.5rem;
+    }
+
+    .permit__title {
+      hyphens: auto;
+    }
+
+    .permit__head {
+      flex-wrap: wrap;
+      row-gap: 0.15rem;
     }
   }
 

@@ -89,8 +89,17 @@ table {
   border-collapse: collapse;
 }
 
-:target {
-  scroll-margin-top: calc(var(--layout-header-h) + var(--space-s));
+/* In-page jumps: html's scroll-padding clears the sticky header (one offset
+   only — no extra :target margin), and a negative margin skips each section's
+   top padding, so the numbered running head lands just below the header. */
+.section[id] {
+  scroll-margin-top: calc(-1 * var(--space-section));
+}
+
+@media (max-width: 39.99em) {
+  html {
+    scroll-padding-top: calc(var(--layout-header-h-sm) + var(--space-xs));
+  }
 }
 
 [hidden] {

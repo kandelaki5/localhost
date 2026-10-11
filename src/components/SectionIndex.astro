@@ -401,10 +401,11 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => {
   }
 
   /* Out of the way, but still reachable: while the visitor scrolls down to
-     read (data-down) or where the pill would cover a link, button, field or
-     flight-board row (data-covering), it fades out and ignores taps. Keyboard
+     read (data-down), a few seconds after scrolling stops (data-idle), or
+     where it would cover a link, button, field or flight-board row
+     (data-covering), it fades out and ignores taps. Keyboard
      focus brings it back, so Tab can always reach it. */
-  .toc:is([data-down], [data-covering]):not([data-hidden], [data-typing]) .toc-pill:not(:focus-visible) {
+  .toc:is([data-down], [data-covering], [data-idle]):not([data-hidden], [data-typing]) .toc-pill:not(:focus-visible, :hover) {
     opacity: 0;
     pointer-events: none;
     translate: -50% 1.25rem;
@@ -661,23 +662,24 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => {
       'a[href], button, input, select, textarea, summary, label, [role="button"], [role="tab"], [tabindex]:not([tabindex="-1"]), .bd__row';
     const coversSomething = () => {
       if (!pill || getComputedStyle(pill).display === 'none') return false;
-      // Where the pill sits when shown (independent of its hidden translate).
+      // Where the pill sits when shown (independent of its hidden translate),
+      // grown by 8px so it never settles on the edge of a control either.
       const w = pill.offsetWidth;
       const h = pill.offsetHeight;
       const bottom = innerHeight - parseFloat(getComputedStyle(pill).bottom);
-      const top = bottom - h;
-      const left = (innerWidth - w) / 2;
-      for (const y of [top + 4, top + h / 2, bottom - 4]) {
-        for (const x of [left + 6, left + w * 0.25, left + w / 2, left + w * 0.75, left + w - 6]) {
-          const under = document.elementsFromPoint(x, y).find((el) => !root.contains(el));
-          if (under?.closest(COVERABLE)) return true;
-        }
+      const box = { l: (innerWidth - w) / 2 - 8, r: (innerWidth + w) / 2 + 8, t: bottom - h - 8, b: bottom + 8 };
+      for (const el of document.querySelectorAll<HTMLElement>(COVERABLE)) {
+        if (root.contains(el)) continue;
+        const r = el.getBoundingClientRect();
+        if (r.bottom < box.t || r.top > box.b) continue;
+        if (r.width > 1 && r.height > 1 && r.right > box.l && r.left < box.r) return true;
       }
       return false;
     };
     let ticking = false;
     let lastY = scrollY;
     let settle = 0;
+    let idle = 0;
     const onFrame = () => {
       ticking = false;
       updateProgress();
@@ -688,6 +690,11 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => {
       }
       clearTimeout(settle);
       settle = window.setTimeout(() => root.toggleAttribute('data-covering', coversSomething()), 140);
+      // Shown again on scroll-up, it slips away once the visitor has been still
+      // for a few seconds, so it doesn't sit over the text they are reading.
+      clearTimeout(idle);
+      root.removeAttribute('data-idle');
+      idle = window.setTimeout(() => root.toggleAttribute('data-idle', true), 3000);
     };
     addEventListener(
       'scroll',
@@ -704,6 +711,8 @@ const items = SECTIONS.filter((s) => s.number > 0).map((s) => {
     const recheck = () => {
       clearTimeout(settle);
       settle = window.setTimeout(() => root.toggleAttribute('data-covering', coversSomething()), 400);
+      clearTimeout(idle);
+      idle = window.setTimeout(() => root.toggleAttribute('data-idle', true), 3000);
     };
     addEventListener('load', recheck);
     addEventListener('hashchange', recheck);

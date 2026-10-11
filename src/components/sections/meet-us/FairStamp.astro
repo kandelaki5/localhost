@@ -498,7 +498,8 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     .fair__stamp,
     .fair[data-shape] .fair__stamp {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      /* the date column wraps before a city name breaks (Warschau, Poznań) */
+      grid-template-columns: minmax(min-content, 1fr) auto;
       grid-template-areas:
         'cc when'
         'city when'
@@ -529,6 +530,7 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     }
 
     .fair__city {
+      overflow-wrap: normal;
       grid-area: city;
       margin-top: 0.3rem;
     }

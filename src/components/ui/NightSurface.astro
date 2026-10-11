@@ -122,6 +122,15 @@ const {
     padding-top: calc(var(--space-section) + clamp(1.5rem, 3vw, 3rem));
   }
 
+  /* In-page jumps land on the running head, below the ridge (see global.css). */
+  .night--padded[id] {
+    scroll-margin-top: calc(-1 * var(--space-section));
+  }
+
+  .night--padded[id]:has(> :global(.night__ridge)) {
+    scroll-margin-top: calc(-1 * (var(--space-section) + clamp(1.5rem, 3vw, 3rem)));
+  }
+
   .night__content {
     position: relative;
   }
