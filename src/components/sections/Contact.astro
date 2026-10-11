@@ -430,5 +430,11 @@ const planText = isLive() ? t.plan.text : t.plan.textDemo;
     .contact__request {
       justify-items: stretch;
     }
+
+    /* "Request a programme by email" wraps instead of widening the page at 320 px. */
+    .contact__request :global(.btn) {
+      white-space: normal;
+      text-wrap: balance;
+    }
   }
 </style>
