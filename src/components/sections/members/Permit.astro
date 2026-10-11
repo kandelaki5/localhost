@@ -325,4 +325,98 @@ const showNative = org.native && org.native.lang !== lang;
       gap: var(--space-s);
     }
   }
+
+  /* ── Proposal preview (?proposal=compact), phones: a mini permit ──
+     PhoneSlides drops the carousel and Members.astro sets the permits in a
+     2-column grid. Each permit keeps its stamp frame (lighter), the hatched
+     photo box with the acronym, the name in the page language (the link), the
+     domain and the MRZ line; the type line, serial and native name are left
+     out (the full permit keeps them).
+     The permit lays itself out by its own width: a tall stamp in a grid cell,
+     a wide one (photo box beside the name) when it runs across the page. */
+  @media (max-width: 39.99em) {
+    :global(html[data-proposal~='compact']) .permit {
+      display: grid;
+      container: permit / inline-size;
+    }
+
+    :global(html[data-proposal~='compact']) .permit__card {
+      grid-template-rows: 1fr auto;
+      gap: var(--space-2xs);
+      padding: var(--space-xs) var(--space-xs) var(--space-2xs);
+    }
+
+    :global(html[data-proposal~='compact']) .permit__frame {
+      border-width: var(--border-thin);
+    }
+
+    :global(html[data-proposal~='compact']) .permit__frame::after {
+      inset: 3px;
+    }
+
+    :global(html[data-proposal~='compact']) .permit__head,
+    :global(html[data-proposal~='compact']) .permit__native {
+      display: none;
+    }
+
+    :global(html[data-proposal~='compact']) .permit__body {
+      grid-template-columns: minmax(0, 1fr);
+      align-content: start;
+      align-items: start;
+      gap: var(--space-2xs);
+    }
+
+    :global(html[data-proposal~='compact']) .permit__photo {
+      width: auto;
+      aspect-ratio: auto;
+      padding-block: var(--space-2xs);
+    }
+
+    :global(html[data-proposal~='compact']) .permit__acr {
+      font-size: var(--fs-xl);
+    }
+
+    :global(html[data-proposal~='compact']) .permit__fields {
+      gap: var(--space-3xs);
+    }
+
+    :global(html[data-proposal~='compact']) .permit__title {
+      font-size: var(--fs-xs);
+      font-weight: var(--fw-semibold);
+      letter-spacing: 0;
+      text-transform: none;
+      text-wrap: pretty;
+    }
+
+    /* A long domain wraps at its hyphen; the arrow follows the last word. */
+    :global(html[data-proposal~='compact']) .permit__site {
+      display: block;
+    }
+
+    :global(html[data-proposal~='compact']) .permit__site :global(svg) {
+      display: inline;
+      margin-inline-start: 0.2rem;
+      vertical-align: -0.1em;
+    }
+
+    :global(html[data-proposal~='compact']) .permit__mrz {
+      padding-top: var(--space-3xs);
+    }
+
+    /* Wide enough for the photo box beside the name. */
+    @container permit (min-width: 15rem) {
+      :global(html[data-proposal~='compact']) .permit__body {
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: var(--space-xs);
+      }
+
+      /* One width for every acronym, so stacked permits line their names up. */
+      :global(html[data-proposal~='compact']) .permit__photo {
+        width: 5.25rem;
+        aspect-ratio: 4 / 3;
+        padding-block: 0;
+      }
+    }
+  }
 </style>
