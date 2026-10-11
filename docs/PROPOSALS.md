@@ -96,6 +96,8 @@ All of 3.1–3.9 together bring the desktop page to about 18,300 px at 1440 (fro
 | 3.14 | **Sustainability on phones**: the five commitments as a numbered list with expandable text, recognition + certificate in one card, the energy/gas figures as one row of stats, the policy documents collapsible | the longest section on phones (4,300 px in English, about 6,000 px in Georgian at 320) | combines with §3.1 |
 | 3.15 | **Section pill on phones inside the header** (current section + chevron next to the menu button) instead of floating | removes any overlap with text for good | the pill now already hides while scrolling down and 3 s after scrolling stops |
 | 3.16 | **Contact on phones: "Write & call" before "Office"** | the email and phone sit below the address and two map links (about 470 px at 390, more in ka at 320); the new "Request a programme by email" button is already first | address moves below |
+| 3.17 | **Flight board: 6 cities before "All 20 cities"** (now 8), and on phones city tiles sized to the longest city name in each language (10 slots in en/pl/de, 11 in ka, 12 in it) | 6 rows save about 240 px on phones and 124 px on desktop (the first six still cover Warsaw, Berlin, Munich, Milan, Rome, Vienna); 10 slots make the city letters 17 % larger at 320 px | Paris and Amsterdam move behind the button; larger tiles add about 22 px |
+| 3.18 | **Desktop flight board without a DIRECT lamp on every row** (one shared note, as on phones) | the hovered navigator label at 1280–1440 px can sit over the lamp column for a moment | changes the desktop board look |
 
 ## 4. More prominence for destinations, experiences, hosts and the enquiry
 

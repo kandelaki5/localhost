@@ -177,7 +177,7 @@ Points to check in particular:
 - **New strings of the October 2026 refinement** (drafted by us in ka / pl / it / de):
   - `hero.lead` (now one sentence), `hero.more` (the longer story under the buttons), `hero.ctaPrimary` „Request a programme“ and `common.cta.groupRequest`
   - `common.slides.*` (carousel button names and the spoken "card n of total" status) and `common.toc.*`
-  - `connection.board.allDirect` (the shared "every flight listed is direct" note on phones)
+  - `connection.board.allDirect` (the shared "every flight listed is direct" note on phones); Georgian shortened to „ყველა რეისი პირდაპირია“ so it fits one line, and the TBS footnote now says the second airport codes are listed *with* the airlines (all languages)
   - `plan.demoBefore` (demo notice before the planner form) and `plan.output.sampleTitle`
   - the demo-mode enquiry email intro in `src/lib/ai/client/plan.ts` (`MAIL_TEXT[…].demo`)
   - planner demo wording: `plan.demo.*` (intro, hint, submit „Show a sample itinerary“, privacy and disclaimer lines, the three "How it works" steps), `plan.output.sampleKicker`, `loadingSample`, `showingSampleDay`, `compareRequest`, `compareSample`, `sampleLang`, `plan.actions.sendDemo`, `sendDemoHint`

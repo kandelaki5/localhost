@@ -10,7 +10,7 @@
       "tab": "Tbilisi",
       "name": "Port lotniczy Tbilisi",
       "caption": "Loty bezpośrednie z międzynarodowego portu lotniczego Tbilisi (TBS)",
-      "footnote": "Jeśli miasto ma dwa lotniska, pod nazwami linii podajemy oba kody."
+      "footnote": "Jeśli miasto ma dwa lotniska, przy nazwach linii podajemy oba kody."
     },
     "KUT": {
       "tab": "Kutaisi",

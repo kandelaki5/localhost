@@ -60,6 +60,10 @@ const rows = ap.destinations.map((d, i) => {
 });
 
 const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
+// The last word of the airport name stays with its code ("…Airport · TBS" never breaks apart).
+const apCut = strings.name.lastIndexOf(' ');
+const apHead = apCut > 0 ? strings.name.slice(0, apCut) : '';
+const apTail = apCut > 0 ? strings.name.slice(apCut + 1) : strings.name;
 ---
 
 <div
@@ -75,7 +79,9 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
         <span class="bd__dep">{t.board.title}</span>
         <span class="bd__flourish" lang={t.board.flourishLang}>{t.board.flourish}</span>
       </p>
-      <p class="bd__ap">{strings.name} · <span class="bd__ap-code">{code}</span></p>
+      <p class="bd__ap">
+        {apHead}{apHead && ' '}<span class="bd__ap-tail">{apTail} · <span class="bd__ap-code">{code}</span></span>
+      </p>
       <p class="bd__clock" data-clock>
         <span class="bd__clock-label">{t.board.clock}</span>
         <span class="bd__flaps bd__flaps--clock" aria-hidden="true">
@@ -85,12 +91,11 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
         </span>
         <span class="visually-hidden">{t.board.clockLabel} <time data-clock-text></time></span>
       </p>
+      <p class="bd__legend" aria-hidden="true">
+        <span class="bd__lamp bd__lamp--legend">{t.board.direct}</span>
+        <span class="bd__legend-text">{t.board.allDirect}</span>
+      </p>
     </div>
-
-    <p class="bd__legend" aria-hidden="true">
-      <span class="bd__lamp bd__lamp--legend">{t.board.direct}</span>
-      <span class="bd__legend-text">{t.board.allDirect}</span>
-    </p>
 
     <table class="bd__table" role="table">
       <caption class="visually-hidden">{strings.caption}</caption>
@@ -321,6 +326,10 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
   .bd__ap-code {
     font-family: var(--font-mono);
     color: var(--color-text);
+  }
+
+  .bd__ap-tail {
+    white-space: nowrap;
   }
 
   .bd__clock {
@@ -663,30 +672,6 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
     display: none;
   }
 
-  @container board (max-width: 29.99rem) {
-    .bd__legend {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-2xs) var(--space-xs);
-      margin: 0 0 var(--space-2xs);
-      padding-bottom: var(--space-xs);
-      border-bottom: var(--border-hair) solid var(--board-rule);
-    }
-
-    .bd__legend-text {
-      font-size: var(--fs-2xs);
-      color: var(--color-text-muted);
-    }
-
-    .bd__body .bd__lamp {
-      display: none;
-    }
-
-    .bd__status {
-      align-self: start;
-    }
-  }
 
   /* collapsed board (JS only — without JS every row shows) */
   :global(.js [data-cn-root]:not([data-expanded])) .bd__row[data-extra] {
@@ -782,6 +767,133 @@ const checked = fmt(t.board.checked, { date: formatUpdated(bcp47) });
 
     .bd__carriers {
       font-size: var(--fs-sm);
+    }
+  }
+
+  /* ── narrow and medium boards (below the one-line layout): one shared
+     DIRECT note in the board head instead of a lamp on every row (rows keep
+     "direct" in their accessible labels; seasonal tags stay), and the airline
+     line runs the full row width and wraps between carriers ── */
+  @container board (max-width: 51.99rem) {
+    .bd__legend {
+      grid-area: legend;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-3xs) var(--space-2xs);
+      margin-top: var(--space-3xs);
+    }
+
+    .bd__legend .bd__lamp {
+      font-size: var(--fs-2xs);
+      padding: 0.35em 0.6em 0.35em 0.5em;
+    }
+
+    .bd__legend-text {
+      font-size: var(--fs-2xs);
+      color: var(--color-text-muted);
+    }
+
+    .bd__body .bd__lamp {
+      display: none;
+    }
+
+    .bd__status {
+      align-self: start;
+    }
+
+    .bd__air {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      column-gap: var(--space-xs);
+      row-gap: 0.1rem;
+    }
+
+    /* a seasonal tag keeps its own cell */
+    .bd__row:has(.bd__tag) .bd__air {
+      grid-column: 1;
+    }
+
+    .bd__carriers {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    /* a wrapped line ends with the dot instead of starting with it */
+    .bd__carrier + .bd__carrier::before {
+      content: none;
+    }
+
+    .bd__carrier:not(:last-child)::after {
+      content: '·' / '';
+      margin-inline: 0.55em;
+      color: var(--color-amber-dim);
+    }
+
+    .bd__ports,
+    .bd__checked {
+      font-size: var(--fs-2xs);
+    }
+  }
+
+  @container board (max-width: 39.99rem) {
+    .bd__top {
+      grid-template-areas:
+        'title clock'
+        'ap ap'
+        'legend legend';
+    }
+  }
+
+  @container board (min-width: 40rem) and (max-width: 51.99rem) {
+    .bd__top {
+      grid-template-areas:
+        'title ap clock'
+        'legend legend legend';
+    }
+  }
+
+  /* phones: tighter rows and foot (tiles unchanged) */
+  @container board (max-width: 29.99rem) {
+    .bd__top {
+      padding-bottom: var(--space-xs);
+      margin-bottom: var(--space-3xs);
+    }
+
+    .bd__row {
+      row-gap: 0.2rem;
+      padding-block: 0.4rem;
+    }
+
+    /* the button already says "All 20 cities" */
+    .bd__count > [data-count] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .bd__foot {
+      margin-top: var(--space-3xs);
+      padding-top: var(--space-xs);
+      row-gap: var(--space-2xs);
+    }
+  }
+
+  /* medium boards (wide phones in landscape, tablets): smaller tiles, tighter rows */
+  @container board (min-width: 30rem) and (max-width: 51.99rem) {
+    .bd__row {
+      row-gap: var(--space-3xs);
+      padding-block: var(--space-xs);
+    }
+
+    .bd__table,
+    .bd__flaps--code {
+      --fw: min(1.75rem, calc((100cqi - var(--space-m) - 14 * var(--g)) / 15));
     }
   }
 
