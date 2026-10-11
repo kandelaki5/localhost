@@ -31,21 +31,25 @@ npx astro check        # type check
 | `AI_DAILY_CAP` | Max live AI requests per day, site-wide | `300` (default) |
 | `AI_RATE_LIMIT_PER_HOUR` | Max AI requests per visitor per hour | `20` (default) |
 | `ANTHROPIC_MODEL` | Model override | leave empty (`claude-opus-5-5`) |
+| `PUBLIC_NOINDEX` | `1` hides every page from search engines (for a demo copy on `*.vercel.app`) | **delete it** before pointing localhost.ge at the project, then redeploy |
 
 4. Every push to the branch creates a preview URL — use it to show the owner before touching the domain.
+
+**Current demo:** https://localhost-ge.vercel.app (Vercel project `localhost-ge`, deploys automatically from this repository's default branch; `PUBLIC_NOINDEX=1` is set, AI runs in demo mode).
 
 ## 4. Point localhost.ge to the new site (DNS at ProService)
 
 Today the domain's DNS is hosted by **ProService** (`ns1/ns2.proservice.ge`), the old site runs on their shared server (`195.54.178.42`), and **email runs on Microsoft 365**.
 
-1. In Vercel: Project → Settings → **Domains** → add `localhost.ge` and `www.localhost.ge` (choose which one redirects to the other; `www.localhost.ge` is the site's canonical URL).
-2. Vercel shows the exact records to create. Typically:
+1. If the project has `PUBLIC_NOINDEX=1` (the demo setup), delete that variable and redeploy first — otherwise Google will not index the real site.
+2. In Vercel: Project → Settings → **Domains** → add `localhost.ge` and `www.localhost.ge` (choose which one redirects to the other; `www.localhost.ge` is the site's canonical URL).
+3. Vercel shows the exact records to create. Typically:
    - `localhost.ge` (`@`) → **A** record to Vercel's IP (commonly `76.76.21.21`)
    - `www` → **CNAME** to the target Vercel shows (e.g. `cname.vercel-dns-0.com`)
-3. In the **ProService DNS panel**, change **only** those two records (replace the old `A 195.54.178.42`).
-4. **Do not touch** the email records: `MX → localhost-ge.mail.protection.outlook.com`, the `autodiscover` CNAME and any Microsoft verification/DKIM records. Changing them would stop company email.
-5. HTTPS is issued automatically by Vercel within minutes — this also fixes today's certificate warning (the old server presents a certificate for `www42.proservice.ge`).
-6. Keep the old hosting account for a few weeks as a fallback, then cancel it.
+4. In the **ProService DNS panel**, change **only** those two records (replace the old `A 195.54.178.42`).
+5. **Do not touch** the email records: `MX → localhost-ge.mail.protection.outlook.com`, the `autodiscover` CNAME and any Microsoft verification/DKIM records. Changing them would stop company email.
+6. HTTPS is issued automatically by Vercel within minutes — this also fixes today's certificate warning (the old server presents a certificate for `www42.proservice.ge`).
+7. Keep the old hosting account for a few weeks as a fallback, then cancel it.
 
 **Email recommendation (separate from the website, check with whoever manages Microsoft 365):** the current SPF record is `v=spf1 a mx ip4:195.54.178.42 ~all`. It does not include Microsoft 365's sending servers, so outgoing company mail may be flagged as spam. The usual record for Microsoft 365 is `v=spf1 include:spf.protection.outlook.com -all` (add any other services that send mail as @localhost.ge).
 
