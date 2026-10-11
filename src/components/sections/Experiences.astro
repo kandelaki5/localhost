@@ -175,6 +175,31 @@ const total = String(EXPERIENCE_CARDS.length).padStart(2, '0');
     transform-origin: 0 50%;
   }
 
+  /* Phones: count, bar, then the buttons on the right, like every other
+     carousel's row (DOM and tab order unchanged: previous, next). */
+  @media (max-width: 39.99em) {
+    .exp-ctrl {
+      gap: var(--space-2xs);
+    }
+
+    .exp-ctrl__count {
+      order: 1;
+      min-width: 0;
+      margin-left: 0;
+    }
+
+    .exp-ctrl__bar {
+      order: 2;
+      margin-inline: var(--space-2xs);
+    }
+
+    .exp-ctrl__btn {
+      order: 3;
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
   /* ── the track ── */
   .exp-track {
     /* Lines the first card up with .container; percentages resolve against the section width. */

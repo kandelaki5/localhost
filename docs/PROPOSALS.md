@@ -19,8 +19,8 @@ Rule of thumb: swipeable cards for rich, visual items you browse one by one (des
 | Trade fairs | 2 × 3 | swipe stamps | **compact dated list** — previewable | name + city + dates fit one row; scan by date |
 | Memberships | 3 + 2 | swipe permits | **2-column mini permits** — previewable | acronym + name is all a visitor needs |
 | Award nominations | 2 | swipe seals | **2-up grid** — previewable | two items; both visible at once |
-| Policy commitments | 5 | swipe cards | see §3.1 (merge with We support) | duplicates We support |
-| We support | 5 | swipe cards | keep swipe until §3.1 is decided | short text with a seal icon |
+| Policy commitments | 5 | swipe cards | **numbered fold-out list** (five titles visible, text opens on tap), or merge with We support (§3.1) | text-only cards: the track is as tall as the longest card, leaving 130–260 px blank under short ones; titles-only list 279 px vs 356 px today (en 390), 374 vs 566 (ka 320) |
+| We support | 5 | swipe cards | keep swipe until §3.1 is decided (seal now sits beside the title on phones) | short text with a seal icon |
 
 **Previewable:** open any page with `?proposal=compact` (for example `https://localhost-ge.vercel.app/?proposal=compact` on a phone). The setting is kept while you switch language; `?proposal=off` turns it off. Without the parameter the site is unchanged (checked pixel for pixel at 320–1280 px).
 

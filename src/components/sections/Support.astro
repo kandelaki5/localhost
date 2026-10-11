@@ -264,10 +264,26 @@ const items = t.items.map((item, i) => ({ ...item, ...COMMITMENTS[i], n: i + 1 }
       row-gap: var(--space-l);
     }
 
+    /* Seal beside the title like a stamp mark; the text runs the full card
+       width, so no blank column under the seal (Georgian at 320 most of all). */
     .sup__item,
     .sup__item:first-child {
-      --seal-size: 4.5rem;
+      --seal-size: 3.25rem;
+      grid-template-columns: var(--seal-size) minmax(0, 1fr);
+      align-items: center;
       column-gap: var(--space-s);
+      row-gap: var(--space-xs);
+    }
+
+    .sup__body {
+      display: contents;
+    }
+
+    .sup__text,
+    .sup__item:last-child .sup__text {
+      grid-column: 1 / -1;
+      max-width: none;
+      margin-top: 0;
     }
 
     .sup__projects {
