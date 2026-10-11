@@ -19,6 +19,12 @@ _Merged on 11 Oct 2026 from the section requests (`docs/requests/*.md`), the res
 9. **Logo option.** Confirm Option 2 "Balanced & Versatile" (the site's default) or choose Option 1 / 3, and gradient or flat for the header. *Why:* the redraw is based on an AI raster mock-up and needs a final sign-off. *From:* owner and the designer.
 10. **Native review of every ka / pl / it / de string.** *Why:* all four languages are drafts written by us. *From:* native reviewers (see Translations).
 
+### Decisions this round (October 2026 refinement)
+
+- **Enquiry form: how should enquiries reach you?** A short enquiry form (agency/name, email, destinations, dates, group size, requirements) is proposed for the Contact section. Before it can go live we need the delivery route: e.g. a small server function sending to info@localhost.ge through an email service (Resend / Postmark / SendGrid, needs an account and an API key), Microsoft 365 via an app registration, or a form service (Formspree / Basin). Until then "Request a programme" leads to the contact details. *From:* owner (choice and account). See `docs/PROPOSALS.md`.
+- **Switch on the live AI planner?** It runs in demo mode (ready-made samples, clearly labelled, with a notice before the form). Adding `ANTHROPIC_API_KEY` on Vercel and redeploying makes it live and removes the demo notice; costs and limits in `docs/HANDOFF.md` §5. *From:* owner.
+- **Design proposals awaiting review** (compact phone formats for fairs, memberships and awards; desktop compaction of supporting sections; enquiry form placement): see `docs/PROPOSALS.md`. *From:* owner.
+
 ---
 
 ## Company and contact (Hero · Contact · footer)
@@ -168,6 +174,12 @@ Points to check in particular:
   - it: the title "Un solo padrone di casa."; the "Qui accanto" tag.
   - de: the title "Ein Gastgeber."; the "Nachbarland" tag.
 - **Experiences** (`experiences.json`): ka title „ექვსი გზა კავკასიისკენ.“. Experience names in pl/it/de come from the AI knowledge base (`src/lib/ai/knowledge.ts`), e.g. it „Relax“ and de „Erholung“ for Leisure; change them there so the planner stays consistent.
+- **New strings of the October 2026 refinement** (drafted by us in ka / pl / it / de):
+  - `hero.lead` (now one sentence), `hero.more` (the longer story under the buttons), `hero.ctaPrimary` „Request a programme“ and `common.cta.groupRequest`
+  - `common.slides.*` (carousel button names and the spoken "card n of total" status) and `common.toc.*`
+  - `connection.board.allDirect` (the shared "every flight listed is direct" note on phones)
+  - `plan.demoBefore` (demo notice before the planner form) and `plan.output.sampleTitle`
+  - the demo-mode enquiry email intro in `src/lib/ai/client/plan.ts` (`MAIL_TEXT[…].demo`)
 - **Fact-check edits of 11 Oct 2026.** These strings were re-drafted in all four languages and need a native check:
   - `awards.programme.text`
   - `common.meta.description`
