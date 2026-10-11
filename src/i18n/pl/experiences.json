@@ -9,7 +9,7 @@
     "prev": "Poprzednie tematy",
     "next": "Następne tematy",
     "status": "Tematy od {from} do {to} z {total}",
-    "statusOne": "Temat {from} z {total}"
+    "statusOne": "Tematy: {title}, {from} z {total}"
   },
   "card": {
     "number": "Nº",

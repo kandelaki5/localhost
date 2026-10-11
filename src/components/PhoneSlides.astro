@@ -235,6 +235,8 @@ const t = useStrings(getLang(Astro), 'common');
     if (group && !track.hasAttribute('aria-label') && !track.hasAttribute('aria-labelledby')) {
       track.setAttribute('aria-label', group);
     }
+    // A <div> track needs a role for its name to count (lists already have one).
+    if (!track.hasAttribute('role') && !/^(UL|OL)$/.test(track.tagName)) track.setAttribute('role', 'group');
     const prev = ctrl.querySelector<HTMLButtonElement>('[data-m-prev]')!;
     const next = ctrl.querySelector<HTMLButtonElement>('[data-m-next]')!;
     const nEl = ctrl.querySelector<HTMLElement>('[data-m-n]')!;
@@ -312,10 +314,15 @@ const t = useStrings(getLang(Astro), 'common');
       const i = currentIndex();
       nEl.textContent = pad2(i + 1);
       thumb.style.setProperty('--m-x', `${i * 100}%`);
-      prev.disabled = track.scrollLeft <= 2;
+      const atStart = track.scrollLeft <= 2;
       // At the end when scrolled out, or when the last card is in place and fully in view
       // (overflowing text inside a card can make scrollWidth a few px longer).
-      next.disabled = track.scrollLeft >= max - 2 || (i === items.length - 1 && lastInView());
+      const atEnd = track.scrollLeft >= max - 2 || (i === items.length - 1 && lastInView());
+      // Keyboard focus never falls to <body>: hand it to the other arrow first.
+      if (atEnd && document.activeElement === next && !atStart) prev.focus({ preventScroll: true });
+      if (atStart && document.activeElement === prev && !atEnd) next.focus({ preventScroll: true });
+      prev.disabled = atStart;
+      next.disabled = atEnd;
       if (interacted && i !== announced) {
         announced = i;
         status.textContent = fill(ctrl.dataset.status ?? '', {
@@ -341,6 +348,17 @@ const t = useStrings(getLang(Astro), 'common');
     };
     prev.addEventListener('click', () => go(-1));
     next.addEventListener('click', () => go(1));
+
+    // Tabbing into a card brings that card to the start edge (scroll-snap would
+    // otherwise pull the track back and leave the focused card off-screen).
+    track.addEventListener('focusin', (e) => {
+      if (!MQ.matches || e.target === track) return;
+      const card = items.find((it) => it.contains(e.target as Node));
+      if (!card) return;
+      interacted = true;
+      const delta = card.getBoundingClientRect().left - startEdge();
+      if (Math.abs(delta) > 2) track.scrollBy({ left: delta, behavior: reduced.matches ? 'auto' : 'smooth' });
+    });
 
     let ticking = false;
     track.addEventListener(

@@ -48,13 +48,13 @@ const showNative = org.native && org.native.lang !== lang;
 
       <div class="permit__fields">
         <h4 class="permit__title">
-          <a class="permit__link" href={org.url} target="_blank" rel="noopener">
+          <a class="permit__link" href={org.url} target="_blank" rel="noopener" aria-describedby={`permit-desc-${org.id}`} data-m-title>
             {org.logo && <span class="permit__acr-inline">{org.acronym}</span>}
             {!org.logo && <span class="visually-hidden">{org.acronym} — </span>}
             <span class="permit__name">{name}</span>
-            <span class="visually-hidden"> — {official} ({newTab})</span>
           </a>
         </h4>
+        <span id={`permit-desc-${org.id}`} hidden>{official} ({newTab})</span>
         {
           showNative && org.native && (
             <p class="permit__native" lang={org.native.lang}>
@@ -292,7 +292,7 @@ const showNative = org.native && org.native.lang !== lang;
     letter-spacing: 0.14em;
     line-height: 1;
     white-space: nowrap;
-    opacity: 0.8;
+    opacity: 0.88; /* decorative (aria-hidden), still ≥ 4.5:1 */
   }
 
   /* ── entrance: pressed onto the page once scrolled into view (see meet-us/reveal.ts) ── */

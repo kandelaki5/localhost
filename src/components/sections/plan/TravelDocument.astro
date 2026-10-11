@@ -789,6 +789,8 @@ const mrz = [
     min-height: calc(var(--line) * 4);
     padding: 0;
     border: 0;
+    /* a visible boundary for the field (the ruled lines alone are too faint) */
+    border-bottom: var(--border-hair) solid var(--color-rule-strong);
     background: repeating-linear-gradient(180deg, transparent 0, transparent calc(var(--line) - 1px), var(--color-rule) calc(var(--line) - 1px), var(--color-rule) var(--line));
     font-family: var(--font-display);
     font-size: var(--fs-md);

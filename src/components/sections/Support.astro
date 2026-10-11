@@ -15,6 +15,7 @@ import { georgianNumeral } from '../../lib/sections';
 
 const lang = getLang(Astro);
 const t = useStrings(lang, 'support');
+const common = useStrings(lang, 'common');
 // English fallback text keeps English typography until this section is translated.
 const textLang = contentLang(lang, 'support') === lang ? undefined : 'en';
 const items = t.items.map((item, i) => ({ ...item, ...COMMITMENTS[i], n: i + 1 }));
@@ -24,7 +25,7 @@ const items = t.items.map((item, i) => ({ ...item, ...COMMITMENTS[i], n: i + 1 }
   <div class="container">
     <SectionHead number={10} id="support-title" kicker={t.kicker} title={t.title} intro={t.intro} running={t.running} />
 
-    <ol class="sup__list m-slides" aria-label={t.listLabel} data-m-slides>
+    <ol class="sup__list m-slides" aria-label={t.listLabel} data-m-slides data-m-label={common.toc.sections.support}>
       {
         items.map((item, i) => (
           <li class="sup__item" style={`--i:${i}`}>

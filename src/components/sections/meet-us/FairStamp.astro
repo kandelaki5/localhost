@@ -62,10 +62,11 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     <span class="fair__tag" data-role="tag" hidden={!tag}>{tag}</span>
 
     <h4 class="fair__name">
-      <a class="fair__link" href={fair.url} target="_blank" rel="noopener">
-        {fair.name}<span class="visually-hidden"> — {official} ({newTab})</span>
+      <a class="fair__link" href={fair.url} target="_blank" rel="noopener" aria-describedby={`fair-desc-${fair.id}`} data-m-title>
+        {fair.name}
       </a>
     </h4>
+    <span id={`fair-desc-${fair.id}`} hidden>{official} ({newTab})</span>
     <p class="fair__city">{city}</p>
     <p class="fair__cc" aria-hidden="true">
       <Icon name="plane" size={11} class="fair__plane" />
@@ -316,7 +317,6 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     font-family: var(--font-mono);
     font-size: var(--fs-3xs);
     letter-spacing: 0.02em;
-    opacity: 0.78;
   }
 
   .fair:hover .fair__domain {
@@ -399,9 +399,6 @@ const { fair, city, state, when, whenIso, labels, tag, tba, official, newTab, in
     border-radius: calc(var(--radius-md) - 6px);
   }
 
-  .fair[data-state='next'] .fair__domain {
-    opacity: 0.85;
-  }
 
   /* held: dates are past and the next ones aren't out yet — cancelled */
   .fair__cancel {

@@ -9,7 +9,7 @@
     "prev": "წინა შთაბეჭდილებები",
     "next": "შემდეგი შთაბეჭდილებები",
     "status": "შთაბეჭდილებები {from}–{to}, სულ {total}",
-    "statusOne": "შთაბეჭდილება {from}, სულ {total}"
+    "statusOne": "შთაბეჭდილებები: {title} ({from}, სულ {total})"
   },
   "card": {
     "number": "№",

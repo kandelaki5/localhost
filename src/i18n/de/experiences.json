@@ -9,7 +9,7 @@
     "prev": "Vorherige Erlebnisse",
     "next": "Nächste Erlebnisse",
     "status": "Erlebnisse {from} bis {to} von {total}",
-    "statusOne": "Erlebnis {from} von {total}"
+    "statusOne": "Erlebnisse: {title}, {from} von {total}"
   },
   "card": {
     "number": "Nº",

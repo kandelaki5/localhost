@@ -281,7 +281,7 @@
   --color-link: var(--palette-mint); /* links on night */
   --color-link-hover: var(--palette-cream-100); /* links on night, hover */
   --color-rule: rgb(239 231 216 / 0.13); /* hairlines on night */
-  --color-rule-strong: rgb(239 231 216 / 0.3); /* strong hairlines on night */
+  --color-rule-strong: rgb(239 231 216 / 0.45); /* strong hairlines on night (control outlines ≥ 3:1) */
   --color-rule-section: var(--palette-green-meadow); /* section rule glows green on night */
   --color-red-ink: var(--brand-sun-light); /* small warm text on night (6:1) */
   --color-green-ink: var(--palette-mint); /* small green text on night */

@@ -38,7 +38,7 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
 
     <div class="contact__grid">
       <div class="contact__details">
-        <section class="cblock" aria-labelledby="contact-office">
+        <div class="cblock">
           <h3 class="cblock__title kicker" id="contact-office">{t.office}</h3>
           <address class="cblock__address">
             <Icon name="pin" size={22} class="cblock__pin" />
@@ -58,9 +58,9 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
               <span class="visually-hidden">({common.aria.newTab})</span>
             </a>
           </p>
-        </section>
+        </div>
 
-        <section class="cblock" aria-labelledby="contact-write">
+        <div class="cblock">
           <h3 class="cblock__title kicker" id="contact-write">{t.write}</h3>
           <ul class="cblock__lines" role="list">
             <li>
@@ -76,7 +76,7 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
               <a class="cblock__web" href="https://www.localhost.ge">{web}</a>
             </li>
           </ul>
-        </section>
+        </div>
       </div>
 
       <figure class="contact__figure">
@@ -87,12 +87,12 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
         </figcaption>
       </figure>
 
-      <aside class="kit" aria-labelledby="contact-kit">
+      <div class="kit">
         <p class="kicker kit__kicker">{t.b2b.kicker}</p>
         <h3 class="kit__title display" id="contact-kit" set:html={inline(t.b2b.title)} />
         <p class="kit__text">{t.b2b.text}</p>
         <Button href={kit} variant="secondary" icon="mail">{t.b2b.cta}</Button>
-      </aside>
+      </div>
 
       <div class="handoff">
         <NightSurface padded={false} glow="bottom" class="handoff__night">
@@ -241,6 +241,7 @@ const kit = `mailto:${email}?subject=${encodeURIComponent(t.b2b.subject)}&body=$
     margin-top: var(--space-m);
     display: flex;
     gap: var(--space-2xs);
+    color: var(--color-text-body); /* 4.4:1 on the envelope band otherwise */
   }
 
   .contact__fig {

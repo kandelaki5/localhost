@@ -47,7 +47,7 @@ const q = t.quote;
 
     <div class="sus__grid">
       <!-- 1 · recognition -->
-      <section class="sus__recognition" aria-labelledby="sus-recognition-title">
+      <section class="sus__recognition">
         <h3 id="sus-recognition-title" class="sus__kicker kicker">{r.kicker}</h3>
         <Badge label={r.badgeLabel} newTab={common.aria.newTab} class="sus__badge" />
         <p class="sus__statement" set:html={inline(r.statement)} />
@@ -94,7 +94,7 @@ const q = t.quote;
       </figure>
 
       <!-- 4 · in practice -->
-      <section class="sus__practice" aria-labelledby="sus-practice-title">
+      <section class="sus__practice">
         <p class="sus__kicker kicker">{p.kicker}</p>
         <h3 id="sus-practice-title" class="sus__practice-title display display--s" set:html={inline(p.title)} />
         <ol class="sus__ledger m-slides" data-m-slides data-m-label={common.slides.groups.policy}>

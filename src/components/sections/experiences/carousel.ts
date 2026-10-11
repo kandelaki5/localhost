@@ -73,7 +73,9 @@ export function initExperiences(root: HTMLElement): void {
   const announce = () => {
     const { perView, first } = measure();
     const last = Math.min(total, first + perView);
+    const title = items[first]?.querySelector('h3')?.textContent?.replace(/\s+/g, ' ').trim() ?? '';
     const text = (perView === 1 ? statusOne : statusMany)
+      .replace('{title}', title)
       .replace('{from}', String(first + 1))
       .replace('{to}', String(last))
       .replace('{total}', String(total));
